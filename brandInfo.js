@@ -32,12 +32,14 @@ router.post("/api/brand-info", async (req, res) => {
       description: brand.description,
       slogan: brand.slogan,
       logo: brand.logos?.[0]?.url || null,
-      colors: brand.colors?.map((c) => c.hex) || [],
-      fonts: brand.fonts?.reduce((acc, font) => {
-        acc[font.usage] = font.name;
-        return acc;
-      }, {}),
-      socials: brand.socials?.map((s) => s.url) || [],
+      logos: brand.logos || [],
+      colors: brand.colors || [],
+      backdrops: brand.backdrops || [],
+      fonts: brand.fonts || [],
+      socials: brand.socials || [],
+      address: brand.address || {},
+      phone: brand.phone || null,
+      email: brand.email || null,
       tone: brand.description?.includes("mission") ? "purpose-driven" : "bold",
     };
 
