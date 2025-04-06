@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+ <head>
+<!--[if gte mso 9]><xml> <o:OfficeDocumentSettings> <o:AllowPNG/> <o:PixelsPerInch>96</o:PixelsPerInch> </o:OfficeDocumentSettings> </xml><![endif]-->
+   <title>Fender</title>
+   <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+   <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+   <meta content="width=device-width, initial-scale=1.0 " name="viewport" />
+   <meta content="telephone=no" name="format-detection" />
+<!--[if !mso]>
+<!-->
+<!--<![endif]-->
+<!-- Start Gmail Promo Tab annotations code -->
+   <script type="application/ld+json">
+     [{
+       "@context": "http://schema.org/",
+       "@type": "Organization",
+       "logo": "https://stuff.fendergarage.com/images/n/Z/G/Circular-F_icon-Gmail-144x144@2x.jpg"
+     }, {
+       "@context": "http://schema.org/",
+       "@type": "PromotionCard",
+       "image": ""
+     }]
+   </script>
+<!-- End Gmail Promo Tab annotations code -->
+   <style type="text/css">
+     body {
+       margin: 0 auto;
+       padding: 0;
+       -webkit-text-size-adjust: 100% !important;
+       -ms-text-size-adjust: 100% !important;
+       -webkit-font-smoothing: antialiased !important
+     }
+     img {
+       border: 0 !important;
+       outline: none !important
+     }
+     p {
+       Margin: 0 !important;
+       Padding: 0 !important
+     }
+     table {
+       border-collapse: collapse;
+       mso-table-lspace: 0;
+       mso-table-rspace: 0
+     }
+     td,
+     a,
+     span {
+       border-collapse: collapse;
+       mso-line-height-rule: exactly
+     }
+     .ExternalClass * {
+       line-height: 100%
+     }
+     .em_defaultlink a {
+       color: inherit;
+       text-decoration: none
+     }
+     .em_g_img+div {
+       display: none
+     }
+     a[x-apple-data-detectors],
+     u+.em_body a,
+     #MessageViewBody a {
+       color: inherit;
+       text-decoration: none;
+       font-size: inherit;
+       font-family: inherit;
+       font-weight: inherit;
+       line-height: inherit
+     }
+     @media only screen and (max-width:639px) {
+       .em_main_table {
+         width: 100% !important
+       }
+       .em_wrapper {
+         width: 100% !important
+       }
+       .em_hide {
+         display: none !important
+       }
+       .em_full_img img {
+         width: 100% !important;
+         height: auto !important
+       }
+       .em_full_img {
+         width: 100% !important;
+         height: auto !important
+       }
+       .em_center {
+         text-align: center !important
+       }
+       .em_side10 {
+         width: 10px !important
+       }
+       .em_aside10 {
+         padding: 0 10px !important
+       }
+       .em_side15 {
+         width: 15px !important
+       }
+       .em_aside15 {
+         padding: 0 15px !important
+       }
+       .em_ptop {
+         padding-top: 30px !important
+       }
+       .em_pbottom {
+         padding-bottom: 30px !important
+       }
+       .em_pbottom1 {
+         padding-bottom: 20px !important
+       }
+       .em_h20 {
+         height: 20px !important;
+         font-size: 1px !important;
+         line-height: 1px !important
+       }
+       .em_h30 {
+         height: 30px !important
+       }
+       .em_mob_block {
+         display: block !important
+       }
+       .em_hauto {
+         height: auto !important
+       }
+       .em_clear {
+         clear: both !important;
+         width: 100% !important;
+         display: block !important
+       }
+       u+.em_body .em_full_wrap {
+         width: 100% !important;
+         width: 100vw !important
+       }
+       .em_ptblr15 {
+         padding: 30px 15px 0 15px !important
+       }
+       .em_ptblr15a {
+         padding: 30px 0 30px 0 !important
+       }
+       .em_ptlr15 {
+         padding: 30px 15px 0 15px !important
+       }
+       .em_pblr15 {
+         padding: 0 15px 30px 15px !important
+       }
+       .em_ptlr10 {
+         padding: 20px 15px 0 15px !important
+       }
+       .em_f20 {
+         font-size: 18px !important
+       }
+       .em_f24 {
+         font-size: 20px !important;
+         line-height: 24px !important
+       }
+       .em_f30 {
+         font-size: 24px !important;
+         line-height: 28px !important
+       }
+       .em_f58 {
+         font-size: 36px !important;
+         line-height: 42px !important;
+         letter-spacing: 2px !important
+       }
+       .em_full_img1 {
+         width: 33% !important
+       }
+       .stats {
+         font-size: 10px !important
+       }
+       .statsimg {
+         width: 60px !important
+       }
+     }
+     @media screen and (max-width:480px) {
+       .em_f20 {
+         font-size: 18px !important
+       }
+       .em_f24 {
+         font-size: 20px !important;
+         line-height: 24px !important
+       }
+       .em_f30 {
+         font-size: 24px !important;
+         line-height: 28px !important
+       }
+       .em_f58 {
+         font-size: 32px !important;
+         line-height: 38px !important;
+         letter-spacing: 2px !important
+       }
+       .stats {
+         font-size: 8px !important
+       }
+       .statsimg {
+         width: 40px !important
+       }
+       .stats1 {
+         letter-spacing: 1px !important
+       }
+       .pencilbanner {
+         font-size: 4.25vw !important;
+         line-height: 1.25 !important
+       }
+     }
+     @media screen and (max-width:374px) {
+       .em_f20 {
+         font-size: 18px !important
+       }
+       .em_f24 {
+         font-size: 20px !important;
+         line-height: 24px !important
+       }
+       .em_f30 {
+         font-size: 24px !important;
+         line-height: 28px !important
+       }
+       .em_f58 {
+         font-size: 32px !important;
+         line-height: 38px !important;
+         letter-spacing: 2px !important
+       }
+       .stats {
+         font-size: 6px !important
+       }
+       .pencilbanner {
+         font-size: 4.00vw !important;
+         line-height: 1.25 !important
+       }
+     }
+   </style>
+   <style type="text/css">
+     @media {
+       @font-face {
+         font-family: 'Source Sans Pro';
+         font-style: normal;
+         font-weight: 700;
+         src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu3cOWxw.woff2) format('woff2');
+         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+       }
+       @font-face {
+         font-family: 'Source Sans Pro';
+         font-style: normal;
+         font-weight: 400;
+         src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7lujVj9w.woff2) format('woff2');
+         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+       }
+       @font-face {
+         font-family: 'Futura PT';
+         font-style: normal;
+         font-weight: 700;
+         src: local('Futura PT Heavy'), local('FuturaPT-Heavy'), url(https://www.fmicassets.com/demandware/assets/tuner-app-page/font/ParaType-FuturaPTHeavy.otf) format('truetype');
+         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+       }
+       @font-face {
+         font-family: 'Futura PT';
+         font-style: normal;
+         font-weight: 300;
+         src: local('Futura PT Book'), local('FuturaPT-Book'), url(https://stuff.fendergarage.com/fonts/P/a/r/ParaType-FuturaPTBook.woff2) format('woff2');
+         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+       }
+     }
+   </style>
+ </head>
+ <body bgcolor="#e0e0e0" class="em_body" style="margin:0px auto; padding:0px;">
+   <div style="color:transparent;visibility:hidden;opacity:0;font-size:0px;border:0;max-height:1px;width:1px;margin:0px;padding:0px;border-width:0px!important;display:none!important;line-height:0px!important;"><img alt="" border="0" height="1" src="https://post.spmailtechnol.com/q/p6Zh6NywqFxuW2JX-FlrKQ~~/AAPf9RA~/oHoCwoB-ZWJzN9vp3z6IBn-HWbFUuXbe24tmAOA7UNwry2fZEZty8LBqT3iqCxJpojsVMxmaUvXIwbFar1wXDg~~" width="1" /></div>
+   <span style="color:transparent;visibility:hidden;display:none;opacity:0;height:0;width:0;font-size:0;">Only a few hours left to upgrade to a Chambered Ash body or 4-Ply Black Pearl pickguard for free. </span><img height="1" src="https://links.iterable.com/s/eo/h7hV0dfx1VYnlXUURM-hZ1d4Aof2W_sLQEt_A9aYwYEtFQ8rdqhj9jWmZBVWpY8lh5jDuZ7kTg8P67xIBRP00hvmDcR9kERM5fvwOkU72Dms5sAs1k8tImKR4aEBBSfM9g2nTBuUAjHP9n3x2QPTh8XRt-yda7q_JDu3katoVNivGNwzm586Dt1LkJcUZSK_6HlfLEsDJFM/UquEp1v_hQu1I2uMAX1fx168994zzchq/6" style="border:0;width:1px;height:1px;border-width:0px!important;display:none!important;line-height:0!important;" width="1" />
+<!-- == Header-Body Section== -->
+   <table bgcolor="#e0e0e0" border="0" cellpadding="0" cellspacing="0" class="em_full_wrap" style="table-layout:fixed;" width="100%">
+     <tr>
+       <td align="center" valign="top">
+         <table align="center" border="0" cellpadding="0" cellspacing="0" class="em_main_table" style="width:640px; table-layout:fixed;" width="640">
+           <tr>
+             <td align="center" valign="top">
+               <table align="center" border="0" cellpadding="0" cellspacing="0" class="em_wrapper" style="width:640px;" width="640">
+<!--Online View-->
+                 <tr>
+                   <td align="center" style="text-align: center;padding: 8px 0;" valign="top"><a href="https://fender.com" style="text-decoration: none; color: #666666; font-family: SourceSansPro-Regular, Helvetica, Arial, sans-serif; font-size: 14px; letter-spacing: 0px;" target="_blank">View on web</a></td>
+                 </tr>
+<!-- end of Online View -->
+                 <tr>
+                   <td align="center" bgcolor="#ffffff" style="background-color:#fffff;" valign="top">
+                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"> </table>
+                   </td>
+                 </tr>
+               </table>
+             </td>
+           </tr>
+         </table>
+       </td>
+     </tr>
+   </table>
+<!-- == //Header-Body Section== -->
+<!-- == Header-Body Section== -->
+   <table bgcolor="#e0e0e0" border="0" cellpadding="0" cellspacing="0" class="em_full_wrap" style="table-layout:fixed;" width="100%">
+     <tr>
+       <td align="center" valign="top">
+         <table align="center" border="0" cellpadding="0" cellspacing="0" class="em_main_table" style="width:640px; table-layout:fixed;" width="640">
+           <tr>
+             <td align="center" valign="top">
+               <table align="center" border="0" cellpadding="0" cellspacing="0" class="em_wrapper" style="width:640px;" width="640">
+                 <tr>
+                   <td align="center" bgcolor="#ffffff" style="background-color:#fffff;" valign="top">
+                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--Single Image-->
+                       <tr>
+                         <td align="center" class="" style="background-color: #ffffff;" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_full_img" valign="top"><a href="https://fender.com" target="_blank"><img alt="Fender Mod Shop" border="0" class="fwimg" src="https://stuff.fendergarage.com/images/o/x/7/Fender_Ecomm_03062025_Week10_US_ModShopFreeUpgrades_Email_01@2x.jpg" style="display: block; height: auto; text-align: center; font-size: 20px;" width="640" /></a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+<!--Single Image-->
+                       <tr>
+                         <td align="center" class="" style="background-color: #ffffff;" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_full_img" valign="top"><a href="https://fender.com" target="_blank"><img alt="Free Upgrades" border="0" class="fwimg" src="https://stuff.fendergarage.com/images/k/3/4/Fender_Ecomm_03062025_Week10_US_ModShopFreeUpgrades_Email_FinalHours_02a@2x.jpg" style="display: block; height: auto; text-align: center; font-size: 20px;" width="640" /></a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+<!--Single Image-->
+<!--Single Image-->
+                       <tr>
+                         <td align="center" class="" style="background-color: #ffffff;" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_full_img" valign="top"><a href="https://fender.com" target="_blank"><img alt="Shop Now" border="0" class="fwimg" src="https://stuff.fendergarage.com/images/m/D/p/Fender_Ecomm_03062025_Week10_US_ModShopFreeUpgrades_Email_03@2x.jpg" style="display: block; height: auto; text-align: center; font-size: 20px;" width="640" /></a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+<!--Single Image-->
+<!--Single Image-->
+                       <tr>
+                         <td align="center" class="" style="background-color: #ffffff;" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_full_img" valign="top"><a href="https://fender.com" target="_blank"><img alt="Up to 20% Off" border="0" class="fwimg" src="https://stuff.fendergarage.com/images/t/z/v/Fender_Ecomm_02242025_Week09_US_PresidentsDaySale_Evergreen_MomentumBanner@2x.jpg" style="display: block; height: auto; text-align: center; font-size: 20px;" width="640" /></a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+<!--Single Image-->
+                     </table>
+                   </td>
+                 </tr>
+               </table>
+             </td>
+           </tr>
+         </table>
+<!-- == //Header-Body Section== -->
+       </td>
+     </tr>
+   </table>
+<!-- == //Header-Body Section== -->
+   <table bgcolor="#e0e0e0" border="0" cellpadding="0" cellspacing="0" class="em_full_wrap" style="table-layout:fixed;" width="100%">
+     <tr>
+       <td align="center" valign="top">
+         <table align="center" border="0" cellpadding="0" cellspacing="0" class="em_main_table" style="width:640px; table-layout:fixed; padding-top: 0px; margin: 0 auto !important;" width="640">
+           <tr>
+             <td align="center" style="background-color: #000000;" valign="top">
+               <table align="center" border="0" cellpadding="0" cellspacing="0" class="em_wrapper" style="width:640px; padding: 0px; margin: 0 auto !important;" width="640">
+<!-- Full Width CTA Section-->
+                 <tr>
+                   <td align="center" class="em_pblr15" style="padding:0px 40px 59px 40px;" valign="top">
+                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                       <tr>
+                         <td class="em_h20" height="30" style="height:60px; font-size:0px; line-height:0px;"><img alt="" height="1" src="https://stuff.fendergarage.com/images/j/6/3/trans.png" style="display:block; border:0px;" width="1" /></td>
+                       </tr>
+                       <tr>
+                         <td align="center" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_defaultlink" height="60" style="height:60px; border-top:1px solid #FFFFFF; color:#FFFFFF; color:#FFFFFF; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-weight: 700; font-size:16px;text-align:center;text-decoration:none; text-transform:uppercase;" valign="middle"><a href="https://fender.com" style="text-decoration:none; color:#FFFFFF; font-weight:bold; line-height:60px; display:inline-block;" target="_blank">Shop Guitars</a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td align="center" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_defaultlink" height="60" style="height:60px; border-top:1px solid #FFFFFF; color:#FFFFFF; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-weight: 700; font-size:16px;text-align:center;text-decoration:none; text-transform:uppercase;" valign="middle"><a href="https://fender.com" style="text-decoration:none; color:#FFFFFF; line-height:60px; display:inline-block;" target="_blank">Shop Basses</a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td align="center" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_defaultlink" height="60" style="height:60px; border-top:1px solid #FFFFFF; color:#FFFFFF; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-weight: 700; font-size:16px;text-align:center;text-decoration:none; text-transform:uppercase;" valign="middle"><a href="https://fender.com" style="text-decoration:none; color:#FFFFFF; line-height:60px; display:inline-block;" target="_blank">Shop Amps</a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td align="center" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_defaultlink" height="60" style="height:60px; border-top:1px solid #FFFFFF; color:#FFFFFF; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-weight: 700; font-size:16px;text-align:center;text-decoration:none; text-transform:uppercase;" valign="middle"><a href="https://fender.com" style="text-decoration:none; color:#FFFFFF; line-height:60px; display:inline-block;" target="_blank">Shop Accessories</a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td align="center" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                             <tr>
+                               <td align="center" class="em_defaultlink" height="60" style="height:60px; border-top:1px solid #FFFFFF; color:#FFFFFF; border-bottom:1px solid #FFFFFF; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-weight: 700; font-size:16px;text-align:center;text-decoration:none; text-transform:uppercase;" valign="middle"><a href="https://fender.com" style="text-decoration:none; color:#FFFFFF; line-height:60px; display:inline-block;" target="_blank">Shop Apparel</a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+                     </table>
+                   </td>
+                 </tr>
+<!-- Full Width CTA Section-->
+<!-- Klarna Apple Pay And Dealer Section-->
+                 <tr>
+                   <td align="center" style="padding:0px 0px 0px 0px;" valign="top">
+                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                       <tr>
+                         <td align="left" class="em_full_img1" valign="top"><a href="https://fender.com" target="_blank"> <img alt="Klarna" border="0" class="em_full_img" src="https://stuff.fendergarage.com/images/x/U/w/Ecomm-Footer-Email-Klarna_ApplePay_FindDealer_USUK_01@2x.jpg" style="display: block; outline: none; border:0px; max-width:213px; text-align: center; font-size: 20px; font-family: Source Sans Pro, Helvetica, Arial, sans-serif; color: #FFFFFF;" width="213" /></a></td>
+                         <td align="left" class="em_full_img1" style="font-size:0px; line-height:0px;" valign="top"><a href="https://fender.com" target="_blank"> <img alt="Apple Pay" border="0" class="em_full_img" src="https://stuff.fendergarage.com/images/J/G/W/Ecomm-Footer-Email-Klarna_ApplePay_FindDealer_USUK_02@2x.jpg" style="display: block; outline: none; border:0px; max-width:213px; text-align: center; font-size: 20px; font-family: Source Sans Pro, Helvetica, Arial, sans-serif; color: #FFFFFF;" width="213" /></a></td>
+                         <td align="left" class="em_full_img1" style="font-size:0px; line-height:0px;" valign="top"><a href="https://fender.com" target="_blank"> <img alt="Find A Dealer" border="0" class="em_full_img" src="https://stuff.fendergarage.com/images/T/l/d/Ecomm-Footer-Email-Klarna_ApplePay_FindDealer_USUK_03@2x.jpg" style="display: block; outline: none; border:0px; max-width:214px; text-align: center; font-size: 20px; font-family: Source Sans Pro, Helvetica, Arial, sans-serif; color: #FFFFFF;" width="214" /></a></td>
+                       </tr>
+                     </table>
+                   </td>
+                 </tr>
+<!-- Klarna Apple Pay And Dealer Section-->
+<!-- Social Menu And Address Section-->
+                 <tr>
+                   <td align="center" class="em_aside15" valign="top">
+                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                       <tr>
+                         <td align="center" class="em_pbottom" style="padding-top:28px; padding-bottom:28px;" valign="top">
+                           <table align="center" border="0" cellpadding="0" cellspacing="0">
+                             <tr>
+                               <td align="center" valign="middle"><a href="https://fender.com" style="text-decoration:none;" target="_blank"><img alt="fb" border="0" src="https://stuff.fendergarage.com/images/K/u/c/Ecomm-Footer-Email-Socials_01@2x.jpg" style="display:block; max-width:67px; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-size:17px; line-height:21px; color:#FFFFFF;" width="67" /></a></td>
+                               <td align="center" valign="middle"><a href="https://fender.com" style="text-decoration:none;" target="_blank"><img alt="x" border="0" src="https://stuff.fendergarage.com/images/d/3/W/Ecomm-Footer-Email-Socials_02@2x.jpg" style="display:block; max-width:66px; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-size:17px; line-height:21px; color:#FFFFFF;" width="66" /></a></td>
+                               <td align="center" valign="middle"><a href="https://fender.com" style="text-decoration:none;" target="_blank"><img alt="insta" border="0" src="https://stuff.fendergarage.com/images/N/b/l/Ecomm-Footer-Email-Socials_03@2x.jpg" style="display:block; max-width:66px; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-size:17px; line-height:21px; color:#FFFFFF;" width="66" /></a></td>
+                               <td align="center" valign="middle"><a href="https://fender.com" style="text-decoration:none;" target="_blank"><img alt="yt" border="0" src="https://stuff.fendergarage.com/images/t/l/t/Ecomm-Footer-Email-Socials_04@2x.jpg" style="display:block; max-width:77px; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-size:17px; line-height:21px; color:#FFFFFF;" width="77" /></a></td>
+                             </tr>
+                           </table>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td align="center" style="padding-bottom:19px;" valign="top"><a href="https://fender.com" style="text-decoration:none;" target="_blank"><img alt="Fender" border="0" src="https://stuff.fendergarage.com/images/y/y/E/Ecomm-Footer-Email-Fender_logo@2x.jpg" style="display:block; max-width: 123px; font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-size:17px; line-height:21px; color:#FFFFFF;" width="123" /></a></td>
+                       </tr>
+                       <tr>
+                         <td align="center" class="em_defaultlink em_pbottom em_f24" style="font-family: 'Futura PT', Helvetica, Arial, sans-serif; font-size:18px; line-height:24px; color:#FFFFFF; font-weight:700; padding-bottom:35px;" valign="top"><span class="em_font_14" style="letter-spacing:2px; text-transform:uppercase;">Fender Musical Instruments Corporation</span><br /> <span class="em_font_14" style="font-family:'Source Sans Pro', Helvetica, Arial, sans-serif; font-size:18px; line-height:24px; color:#FFFFFF; font-weight:300;">17600 N. Perimeter Dr. Suite 100, Scottsdale, AZ 85255<br /> <span style="white-space:nowrap;">© 2025. All rights reserved.</span></span></td>
+                       </tr>
+                       <tr>
+                         <td align="center" class="em_blk_u em_pbottom" style="font-family:'Source Sans Pro', Helvetica, Arial, sans-serif; font-size:14px; line-height:14px; color:#FFFFFF; padding-left:20px; padding-right:20px; padding-bottom:35px; font-weight:300;" valign="top">Get free upgrades on bodies, pickups, pickguards and tuners on Mod Shop on <a href="https://fender.com" style="color:#FFFFFF">Fender.com</a>, excluding Custom Shop guitars, basses and amps. Promotion open to US residents only, and is valid only during the date range indicated in the associated advertisement or product listing. Promotion is only available on select products and styles, as determined by Fender in its sole discretion, and is valid only on marked merchandise, subject to availability. Promotion has no cash value and may only be used in connection with online purchases on <a href="https://fender.com" style="color:#FFFFFF">Fender.com</a>. Promotion may not be combined with any other sale, promotion, discount, code, coupon, or other offer, and may only be used once per order. In instances where a promotion applies to one product with the purchase of other or similar products, the promotion will be applied to the product with the lowest full retail price as stated on <a href="https://fender.com" style="color:#FFFFFF">Fender.com</a> on the date of order. Promotion not valid on prior purchases, taxes, or shipping and processing charges. Promotion void where prohibited, taxed, or otherwise restricted. Other restrictions and exclusions may apply. Fender may modify or discontinue this promotion at any time in its sole discretion. Offer valid 6:30:01am PST on March 6th, 2025 until 6:29:59am PST on March 10th, 2025. </td>
+                       </tr>
+                       <tr>
+                         <td align="center" class="em_blk_u em_pbottom" style="font-family:'Source Sans Pro', Helvetica, Arial, sans-serif; font-size:14px; line-height:14px; color:#FFFFFF; padding-left:20px; padding-right:20px; padding-bottom:35px; font-weight:300;" valign="top">*Receive up to 20% off your purchase on deals on <a href="https://fender.com" style="color:#FFFFFF">Fender.com</a>, excluding Fender Mod Shop, Custom Shop guitars, basses and amps. Promotion open to US residents only, and is valid only during the date range indicated in the associated advertisement or product listing. Promotion is only available on select products and styles, as determined by Fender in its sole discretion, and is valid only on marked merchandise, subject to availability. Promotion has no cash value and may only be used in connection with online purchases on <a href="https://fender.com" style="color:#FFFFFF">Fender.com</a>. Promotion may not be combined with any other sale, promotion, discount, code, coupon, or other offer, and may only be used once per order. In instances where a promotion applies to one product with the purchase of other or similar products, the promotion will be applied to the product with the lowest full retail price as stated on <a href="https://fender.com" style="color:#FFFFFF">Fender.com</a> on the date of order. Promotion not valid on prior purchases, taxes, or shipping and processing charges. Promotion void where prohibited, taxed, or otherwise restricted. Other restrictions and exclusions may apply. Fender may modify or discontinue this promotion at any time in its sole discretion. Offer valid 12:00:01am PST on February 24th, 2025 until 11:59:59pm PST on March 11th, 2025. </td>
+                       </tr>
+                       <tr>
+                         <td align="center" class="em_blk_u em_pbottom" style="font-family:'Source Sans Pro', Helvetica, Arial, sans-serif; font-size:14px; line-height:18px; color:#FFFFFF; padding-bottom:35px; font-weight:300;" valign="top"><a href="https://fender.com" style="color:#FFFFFF; text-decoration:underline;" target="_blank">Contact Us</a> | <a href="https://fender.com" style="color:#FFFFFF; text-decoration:underline;" target="_blank">Unsubscribe</a> | <a href="https://fender.com" style="color:#FFFFFF; text-decoration:underline;" target="_blank">Privacy Policy</a></td>
+                       </tr>
+                     </table>
+                   </td>
+                 </tr>
+<!--end Social Menu And Address Section-->
+               </table>
+             </td>
+           </tr>
+           <tr>
+             <td class="em_hide" style="line-height:1px;min-width:640px;background-color:#e6e6e6;"><img alt="" border="0" height="1" src="https://stuff.fendergarage.com/images/j/6/3/trans.png" style="max-height:1px; min-height:1px; display:block; width:640px; min-width:640px;" width="640" /> </td>
+           </tr>
+         </table>
+       </td>
+     </tr>
+   </table>
+<!-- start 250ok Pixel -->
+   <style>
+     @media print {
+       #_two50 {
+         background-image: url('http://analytics.fender.com/ea/S2gNChFEb4/?t=p&e=hello@example.com')
+       }
+     }
+     blockquote #_two50,
+     #mailContainerBody #_two50,
+     div.OutlookMessageHeader,
+     table.moz-email-headers-table {
+       background-image: url('http://analytics.fender.com/ea/S2gNChFEb4/?t=f&e=hello@example.com')
+     }
+   </style>
+   <div id="_two50"></div> <img alt="" height="1" id="_two50_img" src="http://analytics.fender.com/ea/S2gNChFEb4/?e=sam@campaignbuzz.io" style="margin:0 !important; padding:0 !important; border:0 !important; height:1px !important; width:1px !important;" width="1" />
+<!-- end 250ok Pixel-->
+<!-- == //Footer Section== -->
+   <img alt="" border="0" height="1" src="https://post.spmailtechnol.com/q/Lw2vJJvqeu62hgj11UhhHg~~/AAPf9RA~/pN9zRvPjKmoCDXMVK3kNbfN6JA-oHI3ZvZ-FH6jtVtvOK9fpkfZjfu2Wqhy90s7DcI2DR1djALCHUyDBd9i6jA~~" width="1" />
+ </body>
+</html>
