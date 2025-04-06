@@ -8,6 +8,8 @@ import axios from "axios";
 dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+const brandDomain = "patagonia.com"; // ✅ Change this to test a different brand
+
 const uploadFiles = async () => {
   const filesDir = "./templates";
   const filenames = fs.readdirSync(filesDir);
@@ -28,39 +30,54 @@ const uploadFiles = async () => {
 };
 
 const run = async () => {
-  const assistantId = "asst_PDHD4TvZbW5urGdwLKVKO2Rt"; // ✅ Replace with your assistant ID
+  const assistantId = "asst_PDHD4TvZbW5urGdwLKVKO2Rt";
   const uploadedFileIds = await uploadFiles();
 
   const userPrompt = `
-You are a world-class email copywriter and creative director. You’ve been given a complete branding dataset for a business, including their name, voice, visual identity, colors, fonts, logos, social links, and product positioning.
+You are a world-class email copywriter and creative director.
 
-Create **five unique, fully fleshed-out HTML marketing emails**, each with a distinct tone, layout, and objective. These emails must feel premium, emotionally resonant, and conversion-focused.
+You’ve been given:
+- A complete branding dataset (from brand.dev)
+- 4 real-world HTML examples (uploaded as reference files)
 
-Each email should:
+These examples — "Olukai Example Email", "Visual Electric Example Email", "New York Example Email", and "Fender Example Email" — each demonstrate unique layouts and email design features such as:
 
-- Be 150–250 words long, with personality, emotion, and rich storytelling
-- Start with a strong subject line and optional preheader
-- Use persuasive, emotionally engaging copy — not robotic or generic
-- Follow a high-conversion structure: eye-catching headline, value-driven body, strong CTA
-- Reflect Fender’s bold tone, legacy, and craftsmanship
-- Use the brand's colors, font stack, and logo
-- Visually stand apart from each other (different layout patterns, sections, image usage)
-- Include optional elements: image grids, testimonial quotes, content blocks, visual background sections
-- Use the template files to get inspiration for the design and structure
+- Product grids and 2–3 column layouts
+- Hero sections with backdrop images
+- Split visual blocks (text + image)
+- Interactive-feeling CTAs or carousels
+- Testimonials, quotes, or community spotlights
 
-Each email should serve a different goal:
+You must reference these examples structurally. Treat them as layout templates and inspiration for your final HTML output.
+
+The JSON retrieved from brand.dev includes:
+- Primary logo(s): use for header or intro
+- Brand colors: use for body, header, CTA backgrounds, and accents
+- Backdrop images: use as full-width banners or visual breaks
+- Font(s): apply consistently across heading/body/CTA
+- Slogan and tone: infuse copy with the brand’s emotional signature
+- Social links: include in the footer
+
+🎯 Create **five visually distinct, fully fleshed-out HTML marketing emails**, each with a specific goal:
 
 1. Welcome email + founder story
 2. Product launch announcement
 3. Educational value (music tips, tutorials)
 4. Community/social proof + lifestyle branding
-5. Urgency email with countdown/promo (e.g., limited sale, final hours)
+5. Urgency email with countdown/promo
 
-Output: Valid, responsive HTML. Use inline styles. Structure should be **production-ready** for direct use in email clients. Design should be mobile-friendly, spaced, and clean.
+Each email must:
+- Be 200–300 words long with strong storytelling
+- Begin with a subject line and preheader (in comments)
+- Use the brand’s visual identity throughout: logo, colors, fonts, backdrop images
+- Be structurally and visually different from one another
+- Incorporate features like: product showcases, image grids, background sections, lifestyle storytelling, or testimonial quotes
+- Include brand.dev social links in the footer
+- Be styled with **inline CSS**, **mobile responsive**, and **production-ready**
 
-Fender domain: fender.com
+📦 Output ONLY 5 valid HTML blocks in code blocks. Do NOT include any text or explanations outside the HTML.
 
-Write these like they came from Fender’s internal creative team. Capture their history, spirit, tone, and excellence.
+${brandDomain} domain: ${brandDomain}
 `;
 
   const thread = await openai.beta.threads.create();
@@ -70,7 +87,7 @@ Write these like they came from Fender’s internal creative team. Capture their
     content: userPrompt,
     attachments: uploadedFileIds.map((id) => ({
       file_id: id,
-      tools: [{ type: "file_search" }], // ✅ FIXED tool type
+      tools: [{ type: "file_search" }],
     })),
   });
 
@@ -78,7 +95,6 @@ Write these like they came from Fender’s internal creative team. Capture their
     assistant_id: assistantId,
   });
 
-  // ⏳ Poll for status + handle brand info function call
   let runStatus;
   while (true) {
     runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
@@ -96,11 +112,17 @@ Write these like they came from Fender’s internal creative team. Capture their
         { domain }
       );
 
+      const brandDataWithHint = {
+        ...response.data,
+        _debug_note:
+          "Use all logos, backdrop images, colors, and fonts from this brand.dev payload for layout + design.",
+      };
+
       await openai.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
         tool_outputs: [
           {
             tool_call_id: toolCall.id,
-            output: JSON.stringify(response.data),
+            output: JSON.stringify(brandDataWithHint),
           },
         ],
       });
@@ -109,20 +131,29 @@ Write these like they came from Fender’s internal creative team. Capture their
     await new Promise((r) => setTimeout(r, 1500));
   }
 
-  // 📨 Show final assistant response
   const messages = await openai.beta.threads.messages.list(thread.id);
   const latest = messages.data[0];
+  const fullOutput = latest.content[0].text.value;
 
-  console.log("\n💬 Assistant says:\n\n", latest.content[0].text.value);
+  console.log("\n💬 Assistant says:\n\n", fullOutput);
 
-  if (latest.content[0].text.annotations?.length) {
-    console.log("\n📎 Cited files:");
-    latest.content[0].text.annotations.forEach((ann, i) => {
-      console.log(`  ${i + 1}. File ID: ${ann.file_citation.file_id}`);
-      console.log(`     Snippet: "${ann.text.slice(0, 100)}..."`);
-    });
+  // 🧠 Save entire text blob
+  fs.writeFileSync("all-emails.html", fullOutput);
+  console.log("📄 Saved full output → all-emails.html");
+
+  // ✂️ Extract and save each HTML email
+  const regex = /```html\n([\s\S]*?)```/g;
+  let match;
+  let count = 0;
+
+  while ((match = regex.exec(fullOutput)) !== null) {
+    const html = match[1];
+    const fileName = `email${++count}.html`;
+    fs.writeFileSync(fileName, html);
+    console.log(`✅ Saved: ${fileName}`);
   }
 
+  // 📊 Usage
   const runMeta = await openai.beta.threads.runs.retrieve(thread.id, run.id);
   if (runMeta.usage) {
     console.log(
