@@ -8,7 +8,7 @@ import axios from "axios";
 dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const brandDomain = "patagonia.com"; // ✅ Change this to test a different brand
+const brandDomain = "puma.com"; // ✅ Change this to test a different brand
 
 const uploadFiles = async () => {
   const filesDir = "./templates";
@@ -30,52 +30,54 @@ const uploadFiles = async () => {
 };
 
 const run = async () => {
-  const assistantId = "asst_PDHD4TvZbW5urGdwLKVKO2Rt";
+  const assistantId = "asst_BGTGdYxL9H0DUFnaObBzZlmN";
   const uploadedFileIds = await uploadFiles();
 
   const userPrompt = `
-You are a world-class email copywriter and creative director.
+You are a world-class HTML email designer and storytelling copywriter.
 
-You’ve been given:
-- A complete branding dataset (from brand.dev)
-- 4 real-world HTML examples (uploaded as reference files)
+You've been given:
+- A complete branding dataset from brand.dev
+  (includes: logos[], productImages[], lifestyleImages[], backdrops[], colors, fonts[], tone, slogan, socials)
 
-These examples — "Olukai Example Email", "Visual Electric Example Email", "New York Example Email", and "Fender Example Email" — each demonstrate unique layouts and email design features such as:
+🎯 Your task:
+Design **ONE** fully fleshed-out, premium-quality marketing email that could be sent by the brand today. BE CREATIVE WITH DESIGN!
+Layout Should be unique and visually appealing. Use the brand's colors, fonts, and logo.
 
-- Product grids and 2–3 column layouts
-- Hero sections with backdrop images
-- Split visual blocks (text + image)
-- Interactive-feeling CTAs or carousels
-- Testimonials, quotes, or community spotlights
+🧱 Layout Requirements (must include all):
+1. Subject line and preheader (in HTML comments)
+2. Logo header
+3. Full-width hero image (from backdrops[] or lifestyleImages[])
+4. Founder intro or brand mission block (story-driven)
+5. Product showcase using a 2–3 column grid (from productImages[])
+6. Lifestyle storytelling section (image + ambient text)
+7. A testimonial, review, or quote from a happy customer
+8. Strong CTA block with button and contrasting color
+9. Footer with social icons and brand logo
 
-You must reference these examples structurally. Treat them as layout templates and inspiration for your final HTML output.
+📸 Images:
+- Use **at least 5 real image URLs** from the branding dataset
+- Do **not** use placeholders like "{heroImage}" or "/images/logo.png"
+- Only use URLs from logos[], productImages[], lifestyleImages[], backdrops[]
 
-The JSON retrieved from brand.dev includes:
-- Primary logo(s): use for header or intro
-- Brand colors: use for body, header, CTA backgrounds, and accents
-- Backdrop images: use as full-width banners or visual breaks
-- Font(s): apply consistently across heading/body/CTA
-- Slogan and tone: infuse copy with the brand’s emotional signature
-- Social links: include in the footer
+🎨 Typography:
+Use the brand’s primary font 
+Fallback: Helvetica, Arial, sans-serif  
+Apply fonts using inline CSS only
 
-🎯 Create **five visually distinct, fully fleshed-out HTML marketing emails**, each with a specific goal:
+💬 Copywriting Style:
+- Write between **500–700 words** of original, branded copy
+- Match the brand’s emotional tone (bold, premium, earthy, etc.)
+- Use clear hierarchy: h1, h2, paragraphs, CTA buttons
 
-1. Welcome email + founder story
-2. Product launch announcement
-3. Educational value (music tips, tutorials)
-4. Community/social proof + lifestyle branding
-5. Urgency email with countdown/promo
+💻 Technical Rules:
+- Use semantic, responsive HTML
+- All styles must be inline (no <style> tags)
+- Ensure mobile readability with smart layout
+- Include ALT text for all images
 
-Each email must:
-- Be 200–300 words long with strong storytelling
-- Begin with a subject line and preheader (in comments)
-- Use the brand’s visual identity throughout: logo, colors, fonts, backdrop images
-- Be structurally and visually different from one another
-- Incorporate features like: product showcases, image grids, background sections, lifestyle storytelling, or testimonial quotes
-- Include brand.dev social links in the footer
-- Be styled with **inline CSS**, **mobile responsive**, and **production-ready**
-
-📦 Output ONLY 5 valid HTML blocks in code blocks. Do NOT include any text or explanations outside the HTML.
+📦 Output format:
+Return ONLY one markdown code block with the complete email
 
 ${brandDomain} domain: ${brandDomain}
 `;
@@ -113,11 +115,15 @@ ${brandDomain} domain: ${brandDomain}
       );
 
       const brandDataWithHint = {
-        ...response.data,
-        _debug_note:
-          "Use all logos, backdrop images, colors, and fonts from this brand.dev payload for layout + design.",
-      };
-
+            ...response.data,
+            _debug_note: `
+Use real image URLs from brand.dev. 
+Do not use placeholder paths like "path/to/logo.png".
+Use at least 4 images in the layout.
+Use logos[], backdrops[], productImages[], and lifestyleImages[].
+Return clean HTML only — no broken tags or corrupt content.
+            `.trim(),
+          };
       await openai.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
         tool_outputs: [
           {

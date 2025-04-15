@@ -1,4 +1,4 @@
-// File: brandInfo.js
+// ✅ Updated brandInfo.js to extract multiple real image URLs cleanly
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
@@ -32,9 +32,15 @@ router.post("/api/brand-info", async (req, res) => {
       description: brand.description,
       slogan: brand.slogan,
       logo: brand.logos?.[0]?.url || null,
-      logos: brand.logos || [],
+      logos: (brand.logos || []).map(l => l.url).filter(Boolean),
+      backdrops: (brand.backdrops || []).map(b => b.url).filter(Boolean),
+      lifestyleImages: (brand.images || [])
+        .filter(img => img.url && (img.type?.includes("lifestyle") || img.alt?.toLowerCase().includes("hero")))
+        .map(img => img.url),
+      productImages: (brand.images || [])
+        .filter(img => img.url && (img.type?.includes("product") || img.alt?.toLowerCase().includes("product")))
+        .map(img => img.url),
       colors: brand.colors || [],
-      backdrops: brand.backdrops || [],
       fonts: brand.fonts || [],
       socials: brand.socials || [],
       address: brand.address || {},

@@ -7,7 +7,7 @@ dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const assistant = await openai.beta.assistants.create({
-  name: "Springbot Email Generator",
+  name: "Springbot Email Generator-Aaron",
   instructions: `
   You are a branding-savvy email generator. Use the getBrandInfo function to retrieve structured brand identity from a domain, then generate 5 distinct, high-conversion HTML emails.`,
   model: "gpt-4o",
