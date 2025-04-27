@@ -1,0 +1,60 @@
+<mjml>
+  <mj-body background-color="#ffffff" font-family="Arial, sans-serif">
+    
+    <!-- Grid-Based Product Feature Layout -->
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="28px" color="#098648" align="center" font-weight="bold">
+          Enhance Your Office Experience
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column width="33.33%">
+        <mj-image src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Modern Desk" width="180px"></mj-image>
+        <mj-text align="center" color="#000000">Modern Desk</mj-text>
+        <mj-button background-color="#0c7c4c" color="#ffffff" padding="10px 20px" font-size="14px">
+          Learn More
+        </mj-button>
+      </mj-column>
+      <mj-column width="33.33%">
+        <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Stylish Chair" width="180px"></mj-image>
+        <mj-text align="center" color="#000000">Stylish Chair</mj-text>
+        <mj-button background-color="#0c7c4c" color="#ffffff" padding="10px 20px" font-size="14px">
+          Learn More
+        </mj-button>
+      </mj-column>
+      <mj-column width="33.33%">
+        <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Elegant Sofa" width="180px"></mj-image>
+        <mj-text align="center" color="#000000">Elegant Sofa</mj-text>
+        <mj-button background-color="#0c7c4c" color="#ffffff" padding="10px 20px" font-size="14px">
+          Learn More
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="16px" color="#000000" align="center" font-style="italic">
+          "The best investment we've made for our office. Our team is happier and more productive than ever!"
+        </mj-text>
+        <mj-text align="center" color="#0c7c4c" font-weight="600">- Lisa M., Business Owner</mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section background-color="#bcddcc">
+      <mj-column>
+        <mj-social mode="horizontal" font-size="15px" icon-size="30px" align="center" color="#ffffff">
+          <mj-social-element src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" name="facebook" href="https://facebook.com/furnituresolutionsnow">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" name="linkedin" href="https://linkedin.com/company/3752259">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" name="youtube" href="https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda">
+          </mj-social-element>
+        </mj-social>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>

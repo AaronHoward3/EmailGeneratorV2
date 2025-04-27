@@ -1,237 +1,193 @@
 ```mjml
 <mjml>
-  <mj-head>
-    <mj-title>Office Furniture Plus - Discover Comfort</mj-title>
-  </mj-head>
-  <mj-body>
+  <mj-body background-color="#ffffff" font-family="Arial, sans-serif">
+    
     <!-- Hero-Heavy Lifestyle Layout -->
-    <!-- Subject Line and Preheader -->
-    <mj-raw>
-      <!-- Subject: Elevate Your Workspace with Elegance | Preheader: Dive into comfort and creativity with our handpicked selection -->
-    </mj-raw>
-
-    <!-- Logo Header -->
-    <mj-section background-color="#d3e6dd" padding="15px 0">
+    <mj-section>
       <mj-column>
-        <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Office Furniture Plus Logo" width="150px" />
+        <mj-image width="600px" src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Office Furniture Plus Logo" padding="0"></mj-image>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#e4f3ed">
+      <mj-column>
+        <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Lifestyle Environment" width="600px"></mj-image>
+        <mj-text font-size="20px" color="#000000" align="center" font-weight="bold" padding-top="20px">
+          Transform Your Workspace
+        </mj-text>
+        <mj-text font-size="16px" color="#000000" align="center">
+          Discover the perfect balance of style and functionality at Office Furniture Plus, where your workspace dreams come to life.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column width="50%">
+        <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Desk" width="300px"></mj-image>
+        <mj-text align="center" color="#0c7c4c">Ergonomic Desk</mj-text>
+      </mj-column>
+      <mj-column width="50%">
+        <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Chair" width="300px"></mj-image>
+        <mj-text align="center" color="#0c7c4c">Comfort Chair</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#d3e6dd">
+      <mj-column>
+        <mj-text font-size="16px" color="#000000" align="center" font-style="italic">
+          "I've transformed my entire office setup with their incredible range. The quality and comfort are unmatched!"
+        </mj-text>
+        <mj-text align="center" color="#0c7c4c" font-weight="600">- Alex T., Satisfied Customer</mj-text>
       </mj-column>
     </mj-section>
     
-    <!-- Full-width hero image -->
     <mj-section>
       <mj-column>
-        <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Elegant Office Setup" full-width="true" />
-      </mj-column>
-    </mj-section>
-
-    <!-- Soft Intro Text -->
-    <mj-section padding="20px">
-      <mj-column>
-        <mj-text font-size="20px" color="#098648" font-family="Helvetica, Arial, sans-serif">
-          Discover beautiful office environments that inspire productivity and comfort.
-        </mj-text>
-      </mj-column>
-    </mj-section>
-
-    <!-- 2-Column Product Section -->
-    <mj-section background-color="#e4f3ed" padding="20px 0">
-      <mj-column width="50%">
-        <mj-image src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Premium Desk" />
-        <mj-text font-size="16px" font-family="Helvetica, Arial, sans-serif" color="#040404">
-          Premium Wooden Desk - Elevate your workspace with style.
-        </mj-text>
-      </mj-column>
-      <mj-column width="50%">
-        <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Ergonomic Chair" />
-        <mj-text font-size="16px" font-family="Helvetica, Arial, sans-serif" color="#040404">
-          Ergonomic Comfort Chair - Designed for all-day comfort.
-        </mj-text>
-      </mj-column>
-    </mj-section>
-
-    <!-- Social Proof -->
-    <mj-section padding="20px">
-      <mj-column>
-        <mj-text font-size="16px" font-family="Helvetica, Arial, sans-serif" color="#098648">
-          Loved by thousands of customers worldwide for our blend of quality and affordability.
-        </mj-text>
-      </mj-column>
-    </mj-section>
-
-    <!-- CTA -->
-    <mj-section padding="20px">
-      <mj-column>
-        <mj-button background-color="#098648" color="#ffffff" font-family="Helvetica, Arial, sans-serif" href="https://officefurnitureplus.com/shop">
-          Explore Our Collections
+        <mj-button background-color="#098648" color="#ffffff" padding="15px 30px" font-size="16px">
+          Shop Now
         </mj-button>
       </mj-column>
     </mj-section>
 
-    <!-- Footer with Socials -->
-    <mj-section background-color="#d3e6dd" padding="15px 0">
+    <mj-section background-color="#bcddcc">
       <mj-column>
-        <mj-social font-size="15px" icon-size="30px" mode="horizontal">
-          <mj-social-element name="facebook" href="https://facebook.com/furnituresolutionsnow"/>
-          <mj-social-element name="linkedin" href="https://linkedin.com/company/3752259"/>
-          <mj-social-element name="youtube" href="https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda"/>
+        <mj-social mode="horizontal" font-size="15px" icon-size="30px" align="center" color="#ffffff">
+          <mj-social-element src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" name="facebook" href="https://facebook.com/furnituresolutionsnow">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" name="linkedin" href="https://linkedin.com/company/3752259">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" name="youtube" href="https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda">
+          </mj-social-element>
         </mj-social>
-        <mj-text font-size="12px" color="#098648" font-family="Helvetica, Arial, sans-serif">
-          ©2023 Office Furniture Plus. All rights reserved.
-        </mj-text>
       </mj-column>
     </mj-section>
+    
   </mj-body>
 </mjml>
 ```
 
 ```mjml
 <mjml>
-  <mj-head>
-    <mj-title>Office Furniture Plus - Explore Finest Selections</mj-title>
-  </mj-head>
-  <mj-body>
+  <mj-body background-color="#ffffff" font-family="Arial, sans-serif">
+    
     <!-- Grid-Based Product Feature Layout -->
-    <!-- Subject Line and Preheader -->
-    <mj-raw>
-      <!-- Subject: Office Furniture Evolution | Preheader: Discover our sleek, modern solutions for a better workspace -->
-    </mj-raw>
-
-    <!-- Bold Headline -->
-    <mj-section background-color="#e4f3ed" padding="20px 0">
+    <mj-section>
       <mj-column>
-        <mj-text font-size="24px" font-weight="bold" color="#040404" font-family="Helvetica, Arial, sans-serif" align="center">
-          Transform Your Office Space with Our Trendsetting Furniture
+        <mj-text font-size="28px" color="#098648" align="center" font-weight="bold">
+          Enhance Your Office Experience
         </mj-text>
       </mj-column>
     </mj-section>
 
-    <!-- 3-Column Product Grid -->
-    <mj-section background-color="#bcddcc" padding="20px">
-      <mj-group>
-        <mj-column width="33%">
-          <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Modern Desk" />
-          <mj-text font-size="14px" font-family="Helvetica, Arial, sans-serif" color="#040404" align="center">
-            Modern Desk
-          </mj-text>
-          <mj-button background-color="#098648" color="#ffffff" font-family="Helvetica, Arial, sans-serif" href="https://officefurnitureplus.com/productX">
-            View Details
-          </mj-button>
-        </mj-column>
-        <mj-column width="33%">
-          <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Ergonomic Chair" />
-          <mj-text font-size="14px" font-family="Helvetica, Arial, sans-serif" color="#040404" align="center">
-            Ergonomic Chair
-          </mj-text>
-          <mj-button background-color="#098648" color="#ffffff" font-family="Helvetica, Arial, sans-serif" href="https://officefurnitureplus.com/productY">
-            View Details
-          </mj-button>
-        </mj-column>
-        <mj-column width="33%">
-          <mj-image src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Adjustable Table" />
-          <mj-text font-size="14px" font-family="Helvetica, Arial, sans-serif" color="#040404" align="center">
-            Adjustable Table
-          </mj-text>
-          <mj-button background-color="#098648" color="#ffffff" font-family="Helvetica, Arial, sans-serif" href="https://officefurnitureplus.com/productZ">
-            View Details
-          </mj-button>
-        </mj-column>
-      </mj-group>
-    </mj-section>
-
-    <!-- Testimonial -->
-    <mj-section padding="20px">
-      <mj-column>
-        <mj-text font-size="16px" color="#098648" font-family="Helvetica, Arial, sans-serif" align="center">
-          "Absolutely love the new office desk and chair! They are sleek, modern, and exactly what I needed for my home office. Thank you, Office Furniture Plus!"<br>- Happy Customer
-        </mj-text>
+    <mj-section>
+      <mj-column width="33.33%">
+        <mj-image src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Modern Desk" width="180px"></mj-image>
+        <mj-text align="center" color="#000000">Modern Desk</mj-text>
+        <mj-button background-color="#0c7c4c" color="#ffffff" padding="10px 20px" font-size="14px">
+          Learn More
+        </mj-button>
+      </mj-column>
+      <mj-column width="33.33%">
+        <mj-image src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" alt="Stylish Chair" width="180px"></mj-image>
+        <mj-text align="center" color="#000000">Stylish Chair</mj-text>
+        <mj-button background-color="#0c7c4c" color="#ffffff" padding="10px 20px" font-size="14px">
+          Learn More
+        </mj-button>
+      </mj-column>
+      <mj-column width="33.33%">
+        <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Elegant Sofa" width="180px"></mj-image>
+        <mj-text align="center" color="#000000">Elegant Sofa</mj-text>
+        <mj-button background-color="#0c7c4c" color="#ffffff" padding="10px 20px" font-size="14px">
+          Learn More
+        </mj-button>
       </mj-column>
     </mj-section>
 
-    <!-- Simple Footer -->
-    <mj-section background-color="#d3e6dd" padding="15px 0">
+    <mj-section>
       <mj-column>
-        <mj-text font-size="12px" font-family="Helvetica, Arial, sans-serif" color="#098648" align="center">
-          ©2023 Office Furniture Plus | info@officefurnitureplus.com | 800.668.3752
+        <mj-text font-size="16px" color="#000000" align="center" font-style="italic">
+          "The best investment we've made for our office. Our team is happier and more productive than ever!"
         </mj-text>
-        <mj-social font-size="15px" icon-size="20px" mode="horizontal" color="#098648">
-          <mj-social-element name="facebook" href="https://facebook.com/furnituresolutionsnow"/>
-          <mj-social-element name="linkedin" href="https://linkedin.com/company/3752259"/>
+        <mj-text align="center" color="#0c7c4c" font-weight="600">- Lisa M., Business Owner</mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section background-color="#bcddcc">
+      <mj-column>
+        <mj-social mode="horizontal" font-size="15px" icon-size="30px" align="center" color="#ffffff">
+          <mj-social-element src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" name="facebook" href="https://facebook.com/furnituresolutionsnow">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" name="linkedin" href="https://linkedin.com/company/3752259">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" name="youtube" href="https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda">
+          </mj-social-element>
         </mj-social>
       </mj-column>
     </mj-section>
+
   </mj-body>
 </mjml>
 ```
 
 ```mjml
 <mjml>
-  <mj-head>
-    <mj-title>Office Furniture Plus - The Story Behind</mj-title>
-  </mj-head>
-  <mj-body>
-    <!-- Storytelling/Founder-Focused Layout -->
-    <!-- Subject Line and Preheader -->
-    <mj-raw>
-      <!-- Subject: Office Innovation Starts Here | Preheader: Our founder’s mission to reinvent office spaces -->
-    </mj-raw>
+  <mj-body background-color="#ffffff" font-family="Arial, sans-serif">
     
-    <!-- Logo + Headline -->
-    <mj-section background-color="#e4f3ed" padding="20px 0">
-      <mj-column>
-        <mj-image src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Office Furniture Plus Logo" width="100px" />
-        <mj-text font-size="22px" color="#040404" font-family="Helvetica, Arial, sans-serif" align="center">
-          Redefining Workspaces with Passion
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    
-    <!-- Founder Story Block -->
-    <mj-section padding="20px">
-      <mj-column>
-        <mj-text font-size="16px" font-family="Helvetica, Arial, sans-serif" color="#098648">
-          At Office Furniture Plus, our journey began with a simple yet powerful vision - to design workspaces that inspire and elevate productivity without compromising on comfort and style. Founded by a team passionate about furniture and innovation, we are committed to crafting solutions that reflect your professional needs and personal style.
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    
-    <!-- Lifestyle Image -->
+    <!-- Newsletter Style -->
     <mj-section>
       <mj-column>
-        <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Founder Vision" full-width="true" />
-      </mj-column>
-    </mj-section>
-    
-    <!-- Emotional Copy + Mission -->
-    <mj-section padding="20px">
-      <mj-column>
-        <mj-text font-size="16px" font-family="Helvetica, Arial, sans-serif" color="#040404">
-          Our mission is to create mindful and motivating environments where brilliant ideas flourish. With every piece, we aim to balance aesthetics, sustainability, and functionality, ensuring you have not just a workspace, but a place where you love to be.
+        <mj-image width="100px" src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" alt="Office Furniture Plus Logo" padding="10px 0"></mj-image>
+        <mj-text font-size="24px" align="center" font-weight="bold" color="#0c7c4c">
+          Welcome to Office Innovations
         </mj-text>
       </mj-column>
     </mj-section>
     
-    <!-- CTA -->
-    <mj-section padding="20px">
+    <mj-section background-color="#e4f3ed">
       <mj-column>
-        <mj-button background-color="#098648" color="#ffffff" font-family="Helvetica, Arial, sans-serif" href="https://officefurnitureplus.com/about">
-          Discover Our Journey
-        </mj-button>
+        <mj-text font-size="18px" color="#000000" align="left">
+          Hello,
+          <br/><br/>
+          I'm Chris, the founder of Office Furniture Plus. With years of experience in providing quality office solutions, my mission is to help you create a workspace that not only looks great but also enhances productivity. Our collections are designed with you in mind, balancing affordability with luxury.
+        </mj-text>
       </mj-column>
     </mj-section>
 
-    <!-- Simple Footer with Social Icons -->
-    <mj-section background-color="#d3e6dd" padding="15px 0">
+    <mj-section>
       <mj-column>
-        <mj-social font-size="15px" icon-size="20px" mode="horizontal" color="#098648">
-          <mj-social-element name="facebook" href="https://facebook.com/furnituresolutionsnow"/>
-          <mj-social-element name="linkedin" href="https://linkedin.com/company/3752259"/>
-          <mj-social-element name="youtube" href="https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda"/>
-        </mj-social>
-        <mj-text font-size="12px" font-family="Helvetica, Arial, sans-serif" color="#098648" align="center">
-          ©2023 Office Furniture Plus | info@officefurnitureplus.com | 800.668.3752
+        <mj-image src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" alt="Elegant Workspace" width="600px"></mj-image>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="16px" color="#000000" align="center">
+          Imagine walking into your office every day, greeted by furniture that inspires you to do your best work. From ergonomic desks to elegant chairs, we make office furniture that's as ambitious as you are.
         </mj-text>
       </mj-column>
     </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-button background-color="#098648" color="#ffffff" padding="15px 30px" font-size="16px">
+          Discover Our Range
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section background-color="#bcddcc">
+      <mj-column>
+        <mj-social mode="horizontal" font-size="15px" icon-size="30px" align="center" color="#ffffff">
+          <mj-social-element src="https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg" name="facebook" href="https://facebook.com/furnituresolutionsnow">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/7b58f98a-26fb-437a-8652-db9b75fb5602.jpg" name="linkedin" href="https://linkedin.com/company/3752259">
+          </mj-social-element>
+          <mj-social-element src="https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg" name="youtube" href="https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda">
+          </mj-social-element>
+        </mj-social>
+      </mj-column>
+    </mj-section>
+
   </mj-body>
 </mjml>
 ```
