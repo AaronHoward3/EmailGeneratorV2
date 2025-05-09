@@ -1,0 +1,19 @@
+<mj-section
+  background-url="https://images.unsplash.com/photo-1506744038136-46273834b3fb?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFuZHNjYXBlfGVufDB8fDB8fHww"
+  background-size="cover"
+  background-repeat="no-repeat"
+  padding="60px 20px"
+  text-align="center"
+>
+  <mj-column>
+    <mj-text font-size="24px" font-weight="bold" color="#ffffff" padding-bottom="10px">
+      The New Spring Lookbook Has Arrived
+    </mj-text>
+    <mj-text font-size="16px" color="#f0f0f0" padding-bottom="20px">
+      Discover what’s trending this season and explore pieces that elevate your everyday.
+    </mj-text>
+    <mj-button background-color="#ffffff" color="#000000" href="https://example.com/spring">
+      Browse the Collection
+    </mj-button>
+  </mj-column>
+</mj-section>

@@ -1,0 +1,11 @@
+<mj-section background-color="#ffffff" padding="40px 20px">
+  <mj-column>
+    <mj-image src="[[cta_image]]" alt="Call to Action" />
+    <mj-text align="center" font-size="18px" font-weight="bold" padding-top="20px">
+      [[cta_heading]]
+    </mj-text>
+    <mj-button align="center" href="[[cta_url]]" background-color="#000000" color="#ffffff" font-size="16px" padding-top="10px">
+      [[cta_text]]
+    </mj-button>
+  </mj-column>
+</mj-section>

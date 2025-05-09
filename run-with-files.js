@@ -117,49 +117,54 @@ Return valid MJML in 3 markdown code blocks.
     return;
   }
 
-  const specializedThread = await openai.beta.threads.create();
-  await openai.beta.threads.messages.create(specializedThread.id, {
-    role: "user",
-    content: `
+  for (let i = 1; i <= 3; i++) {
+    console.log(`\n🎯 Generating Email ${i}...`);
+
+    const specializedThread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(specializedThread.id, {
+      role: "user",
+      content: `
 You are a ${payload.email_type} email assistant.
-Use the following branding data to generate 3 unique MJML emails. Use your prompt as references for layouts and content.
-ONLY return valid MJML markdown code blocks — NO extra commentary.
+Use the following branding data to generate exactly ONE unique MJML email.
+Follow the uploaded inspiration structure rules.
+ONLY return valid MJML markdown code — NO extra commentary.
 
 ${JSON.stringify(brandDataWithHint)}
 `
-  });
+    });
 
-  const specializedRun = await openai.beta.threads.runs.create(specializedThread.id, {
-    assistant_id: selectedAssistantId
-  });
+    const specializedRun = await openai.beta.threads.runs.create(specializedThread.id, {
+      assistant_id: selectedAssistantId
+    });
 
-  const specializedSpinner = ora(" Running Specialized Assistant...").start();
+    const specializedSpinner = ora(` Running Specialized Assistant for Email ${i}...`).start();
 
-  while (true) {
-    const runStatus = await openai.beta.threads.runs.retrieve(specializedThread.id, specializedRun.id);
+    while (true) {
+      const runStatus = await openai.beta.threads.runs.retrieve(specializedThread.id, specializedRun.id);
 
-    if (runStatus.status === "completed") {
-      specializedSpinner.succeed("✅ Specialized assistant run completed.");
-      await logTokenUsage({ id: specializedRun.id, thread_id: specializedThread.id }, "Specialized Assistant");
-      break;
+      if (runStatus.status === "completed") {
+        specializedSpinner.succeed(`✅ Specialized assistant run completed for Email ${i}.`);
+        await logTokenUsage({ id: specializedRun.id, thread_id: specializedThread.id }, `Specialized Assistant Email ${i}`);
+        break;
+      }
+
+      if (runStatus.status === "failed") {
+        specializedSpinner.fail(`❌ Specialized assistant run failed for Email ${i}.`);
+        console.error("Error info:", runStatus.last_error || "No error detail available.");
+        return;
+      }
+
+      await new Promise((r) => setTimeout(r, 1500));
     }
 
-    if (runStatus.status === "failed") {
-      specializedSpinner.fail("❌ Specialized assistant run failed.");
-      console.error("Error info:", runStatus.last_error || "No error detail available.");
-      return;
-    }
+    const messages = await openai.beta.threads.messages.list(specializedThread.id);
+    const output = messages.data[0].content[0].text.value;
 
-    await new Promise((r) => setTimeout(r, 1500));
+    console.log(`\n💬 Specialized Assistant Output for Email ${i}:\n\n`, output);
+
+    fs.writeFileSync(`email-${i}.mjml`, output);
+    console.log(`📄 Final MJML email saved as email-${i}.mjml`);
   }
-
-  const messages = await openai.beta.threads.messages.list(specializedThread.id);
-  const output = messages.data[0].content[0].text.value;
-
-  console.log("\n💬 Specialized Assistant Output:\n\n", output);
-
-  fs.writeFileSync("email.mjml", output);
-  console.log("📄 Final MJML email saved as email.mjml");
 };
 
 run();

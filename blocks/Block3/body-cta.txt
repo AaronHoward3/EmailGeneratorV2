@@ -1,0 +1,10 @@
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column>
+    <mj-text font-size="16px" color="#333333" align="center" padding-bottom="20px">
+      [[cta_body_text]]
+    </mj-text>
+    <mj-button align="center" href="[[cta_url]]" background-color="#000000" color="#ffffff" font-size="16px">
+      [[cta_text]]
+    </mj-button>
+  </mj-column>
+</mj-section>

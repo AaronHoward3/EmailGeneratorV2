@@ -1,0 +1,38 @@
+<!-- Product 1 (Image Left, Text Right) -->
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column width="50%">
+    <mj-image src="[[product1_image]]" alt="[[product1_title]]" />
+  </mj-column>
+  <mj-column width="50%">
+    <mj-text font-size="18px" font-weight="bold">[[product1_title]]</mj-text>
+    <mj-text font-size="14px" color="#555555">[[product1_description]]</mj-text>
+    <mj-text font-size="14px" color="#888888" padding-bottom="10px">[[product1_price]]</mj-text>
+    <mj-button href="[[product1_url]]" background-color="#000000" color="#ffffff">View Product</mj-button>
+  </mj-column>
+</mj-section>
+
+<!-- Product 2 (Text Left, Image Right) -->
+<mj-section background-color="#f8f8f8" padding="30px 20px">
+  <mj-column width="50%">
+    <mj-text font-size="18px" font-weight="bold">[[product2_title]]</mj-text>
+    <mj-text font-size="14px" color="#555555">[[product2_description]]</mj-text>
+    <mj-text font-size="14px" color="#888888" padding-bottom="10px">[[product2_price]]</mj-text>
+    <mj-button href="[[product2_url]]" background-color="#000000" color="#ffffff">View Product</mj-button>
+  </mj-column>
+  <mj-column width="50%">
+    <mj-image src="[[product2_image]]" alt="[[product2_title]]" />
+  </mj-column>
+</mj-section>
+
+<!-- Product 3 (Image Left, Text Right) -->
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column width="50%">
+    <mj-image src="[[product3_image]]" alt="[[product3_title]]" />
+  </mj-column>
+  <mj-column width="50%">
+    <mj-text font-size="18px" font-weight="bold">[[product3_title]]</mj-text>
+    <mj-text font-size="14px" color="#555555">[[product3_description]]</mj-text>
+    <mj-text font-size="14px" color="#888888" padding-bottom="10px">[[product3_price]]</mj-text>
+    <mj-button href="[[product3_url]]" background-color="#000000" color="#ffffff">View Product</mj-button>
+  </mj-column>
+</mj-section>

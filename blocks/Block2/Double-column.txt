@@ -1,0 +1,12 @@
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column width="50%">
+    <mj-text font-size="16px" color="#333333" line-height="1.6">
+      [[left_column_text]]
+    </mj-text>
+  </mj-column>
+  <mj-column width="50%">
+    <mj-text font-size="16px" color="#333333" line-height="1.6">
+      [[right_column_text]]
+    </mj-text>
+  </mj-column>
+</mj-section>

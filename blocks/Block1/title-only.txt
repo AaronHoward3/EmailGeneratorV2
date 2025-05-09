@@ -1,0 +1,7 @@
+<mj-section background-color="#ffffff" padding="40px 20px">
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" align="center">
+      [[title_text]]
+    </mj-text>
+  </mj-column>
+</mj-section>

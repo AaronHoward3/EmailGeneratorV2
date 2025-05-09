@@ -1,0 +1,19 @@
+<mj-section background-color="#f0f0f0" padding="0">
+  <mj-column>
+    <mj-image
+      src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFuZHNjYXBlfGVufDB8fDB8fHww"
+      alt="Hero Image"
+      width="600px"
+      padding="0"
+    />
+    <mj-text align="center" font-size="24px" font-weight="bold" padding-top="10px">
+      Introducing Our New Spring Line
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#666">
+      Fresh looks, inspired by nature. Designed for your lifestyle.
+    </mj-text>
+    <mj-button background-color="#111111" color="#ffffff" href="https://example.com/spring" padding-top="10px">
+      Shop Now
+    </mj-button>
+  </mj-column>
+</mj-section>
