@@ -1,0 +1,13 @@
+<mj-section background-color="#f9f9f9" padding="30px">
+  <mj-column>
+    <mj-text font-size="20px" font-weight="bold" padding="0 0 10px">
+      A Note From Our Founder
+    </mj-text>
+    <mj-text color="#555555">
+      When we started this company, we knew we wanted to do things differently. Every month, we reflect, adapt, and grow — all thanks to your feedback and support.
+    </mj-text>
+    <mj-text color="#999999" font-size="14px" padding="10px 0 0">
+      — Alex Rivera, CEO
+    </mj-text>
+  </mj-column>
+</mj-section>

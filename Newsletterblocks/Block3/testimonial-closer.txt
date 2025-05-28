@@ -1,0 +1,10 @@
+<mj-section background-color="#ffffff" padding="40px">
+  <mj-column>
+    <mj-text align="center" font-size="18px" font-style="italic" color="#333333">
+      "This platform turned my team into a well-oiled machine. Can’t imagine working without it!"
+    </mj-text>
+    <mj-text align="center" font-size="14px" color="#999999" padding="10px 0 0">
+      — Jamie L., Ops Director
+    </mj-text>
+  </mj-column>
+</mj-section>

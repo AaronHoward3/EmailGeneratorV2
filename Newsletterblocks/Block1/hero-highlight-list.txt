@@ -1,0 +1,13 @@
+<mj-section background-color="#ffffff" padding="30px">
+  <mj-column>
+    <mj-text align="center" font-size="22px" font-weight="bold" padding="0 0 10px">
+      What’s New This Month
+    </mj-text>
+    <mj-text color="#555555">
+      New feature rollout<br/>
+      Major performance improvements<br/>
+      Team spotlight: Meet our new engineer!<br/>
+      Surprise gift for top subscribers
+    </mj-text>
+  </mj-column>
+</mj-section>

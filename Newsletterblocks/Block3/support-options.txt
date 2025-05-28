@@ -1,0 +1,9 @@
+<mj-section background-color="#ffffff" padding="30px">
+  <mj-column>
+    <mj-text align="center" font-size="18px" font-weight="bold">Need a hand?</mj-text>
+    <mj-text align="center" color="#555555">
+      Reach out to our support team anytime or browse our help center for instant answers.
+    </mj-text>
+    <mj-button href="https://example.com/support" align="center" padding="10px 0 0">Contact Support</mj-button>
+  </mj-column>
+</mj-section>

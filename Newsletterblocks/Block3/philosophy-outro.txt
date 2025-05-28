@@ -1,0 +1,8 @@
+<mj-section background-color="#fafafa" padding="30px">
+  <mj-column>
+    <mj-text font-size="18px" font-weight="bold" align="center">We’re Here for the Long Run</mj-text>
+    <mj-text color="#555555" align="center">
+      Everything we build is with your growth in mind. Thank you for trusting us — let’s keep building together.
+    </mj-text>
+  </mj-column>
+</mj-section>

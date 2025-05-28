@@ -1,4 +1,3 @@
-// server.js
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -16,8 +15,66 @@ app.use(express.json());
 const specializedAssistants = {
   Newsletter: "asst_So4cxsaziuSI6hZYAT330j1u",
   Productgrid: "asst_wpEAG1SSFXym8BLxqyzTPaVe",
+  AbandonedCart: "asst_IGjM9fcv8XZlf9z3l8nUM7l5",
   Promotion: "asst_Kr6Sc01OP5oJgwIXQgV7qb2k"
 };
+
+// Define blocks
+const BLOCKS = {
+  intro: [
+    "hero-fullwidth.txt",
+    "hero-founder-note.txt",
+    "hero-quote.txt",
+    "hero-highlight-list.txt",
+    "hero-split.txt"
+  ],
+  content1: [
+    "feature-deep-dive.txt",
+    "brand-story.txt",
+    "photo-overlay.txt",
+    "triplecontent.txt"
+  ],
+  content2: [
+    "content-text-grid.txt",
+    "brand-story.txt",
+    "company-direction.txt",
+    "educational-insight.txt"
+  ],
+  cta: [
+    "cta-wrapup.txt",
+    "bonus-tip.txt",
+    "testimonial-closer.txt",
+    "philosophy-outro.txt",
+    "support-options.txt",
+    "recap-summary.txt"
+  ]
+};
+
+// Helper functions
+function pickRandom(arr, exclude = []) {
+  const filtered = arr.filter(item => !exclude.includes(item));
+  if (filtered.length === 0) return arr[Math.floor(Math.random() * arr.length)];
+  return filtered[Math.floor(Math.random() * filtered.length)];
+}
+
+const layoutHistory = [];
+
+function getUniqueLayout() {
+  let attempts = 0;
+  while (attempts < 10) {
+    const intro = pickRandom(BLOCKS.intro);
+    const content1 = pickRandom(BLOCKS.content1);
+    const content2 = pickRandom(BLOCKS.content2);
+    const cta = pickRandom(BLOCKS.cta);
+    const layoutId = `${intro}|${content1}|${content2}|${cta}`;
+    if (!layoutHistory.includes(layoutId)) {
+      layoutHistory.push(layoutId);
+      return { intro, content1, content2, cta, layoutId };
+    }
+    attempts++;
+  }
+  return null;
+}
 
 app.post("/generate-emails", async (req, res) => {
   const { brandData, emailType } = req.body;
@@ -27,6 +84,8 @@ app.post("/generate-emails", async (req, res) => {
   }
 
   const assistantId = specializedAssistants[emailType];
+  console.log(`🧠 Using assistant for ${emailType}: ${assistantId}`); // ✅ Injected log line
+
   if (!assistantId) {
     return res.status(400).json({ error: `No assistant configured for: ${emailType}` });
   }
@@ -35,67 +94,87 @@ app.post("/generate-emails", async (req, res) => {
   let totalTokens = 0;
 
   for (let i = 1; i <= 3; i++) {
-    const spinner = ora(`Generating ${emailType} email ${i}...`).start();
+    const layout = getUniqueLayout();
+    if (!layout) {
+      responses.push({ index: i, error: "No unique layout could be selected." });
+      continue;
+    }
+
+    const layoutInstruction = `
+Use the following layout:
+- Block 1 (Intro): ${layout.intro}
+- Block 2 (Content): ${layout.content1}
+- Block 3 (Content): ${layout.content2}
+- Block 4 (CTA): ${layout.cta}
+You may insert 1–3 utility blocks for spacing or visual design.
+    `.trim();
+
+    const spinner = ora(`Generating ${emailType} email ${i} using layout: ${layout.layoutId}`).start();
     const thread = await openai.beta.threads.create();
 
-    await openai.beta.threads.messages.create(thread.id, {
-      role: "user",
-      content: `
+    const userPrompt = `
+Ignore any previous context. You are starting from scratch for this email.
+
 You are an expert ${emailType} email assistant.
 
 Your job:
 Generate one MJML email using uploaded block templates.
 
+Must use at least one color block using brand colors.
+
+Make sure to use at least one block with an image field.
+
 Only return MJML inside a single \`\`\`mjml\`\`\` block.
 
 Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml>.
 
-Do NOT repeat the same structure as the previous 2 emails.
+📌 IMPORTANT: Above every content section, include a comment like:
+<!-- Blockfile: hero-quote.txt -->
+
+${layoutInstruction}
 
 ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
-      `.trim()
+    `.trim();
+
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "user",
+      content: userPrompt
     });
 
     const run = await openai.beta.threads.runs.create(thread.id, {
       assistant_id: assistantId
     });
 
+    let runStatus;
     while (true) {
-      const runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-
-      if (runStatus.status === "completed") {
-        spinner.succeed(`✅ Completed email ${i}`);
-        if (runStatus.usage?.total_tokens) {
-          totalTokens += runStatus.usage.total_tokens;
-        }
-        break;
-      }
-
+      runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+      if (runStatus.status === "completed") break;
       if (runStatus.status === "failed") {
-        spinner.fail(`❌ Failed on email ${i}`);
+        spinner.fail(`❌ Assistant failed on email ${i}`);
         return res.status(500).json({ error: `Assistant failed on email ${i}`, detail: runStatus.last_error });
       }
+      await new Promise((r) => setTimeout(r, 1500));
+    }
 
-      await new Promise((res) => setTimeout(res, 1500));
+    if (runStatus.usage?.total_tokens) {
+      totalTokens += runStatus.usage.total_tokens;
     }
 
     const messages = await openai.beta.threads.messages.list(thread.id);
     const rawContent = messages.data[0].content[0].text.value;
 
-    // Strip markdown-style code block if present
     const cleanedMjml = rawContent
       .replace(/^\s*```mjml/i, "")
       .replace(/```$/, "")
       .trim();
 
-    // Validate MJML wrapper
     if (cleanedMjml.includes("<mjml") && cleanedMjml.includes("</mjml>")) {
       fs.writeFileSync(`email-${i}.mjml`, cleanedMjml);
-      console.log(`✅ Saved email-${i}.mjml`);
       responses.push({ index: i, content: cleanedMjml });
+      spinner.succeed(`✅ Email ${i} generated successfully`);
     } else {
-      console.warn(`⚠️ Skipped saving email ${i} – MJML wrapper missing`);
-      responses.push({ index: i, content: cleanedMjml, warning: "MJML wrapper missing, file not saved." });
+      responses.push({ index: i, warning: "MJML formatting invalid", content: cleanedMjml });
+      spinner.fail(`⚠️ Email ${i} generated but MJML wrapper may be invalid`);
     }
   }
 

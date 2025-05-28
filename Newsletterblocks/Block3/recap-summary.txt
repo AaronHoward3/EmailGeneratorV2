@@ -1,0 +1,11 @@
+<mj-section background-color="#f0f0f0" padding="30px">
+  <mj-column>
+    <mj-text font-size="18px" font-weight="bold" align="center">This Month at a Glance</mj-text>
+    <mj-text color="#555555" align="center">
+      New feature launched<br/>
+      Ava’s 4X growth story<br/>
+      3 workflow tips from the pros
+    </mj-text>
+    <mj-button href="https://example.com/news" align="center" padding="20px 0 0">Catch Up Now</mj-button>
+  </mj-column>
+</mj-section>

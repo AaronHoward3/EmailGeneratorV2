@@ -1,0 +1,11 @@
+<mj-section background-color="#f9f9f9" padding="40px">
+  <mj-column>
+    <mj-text font-size="20px" font-weight="bold" padding="0 0 10px">Why We Created This Tool</mj-text>
+    <mj-text color="#555555">
+      Three years ago, we were drowning in complexity. Tools that didn’t talk to each other. Metrics no one understood. So we built something better — for you, and for ourselves.
+    </mj-text>
+    <mj-text color="#999999" font-size="14px" padding="10px 0 0">
+      — The Team at BetterStack
+    </mj-text>
+  </mj-column>
+</mj-section>

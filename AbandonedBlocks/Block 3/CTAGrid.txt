@@ -1,0 +1,16 @@
+<mj-section background-color="#ffffff" padding="30px">
+  <mj-column>
+    <mj-button
+      href="https://example.com/cart"
+      background-color="#ffffff"
+      color="#222222"
+      border="2px solid #222222"
+      font-size="16px"
+      font-weight="bold"
+      border-radius="4px"
+      padding="15px 30px"
+    >
+      Finish My Checkout
+    </mj-button>
+  </mj-column>
+</mj-section>

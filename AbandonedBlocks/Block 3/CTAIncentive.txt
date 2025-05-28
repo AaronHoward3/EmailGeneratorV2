@@ -1,0 +1,13 @@
+<mj-section background-color="#e9f6f0" padding="30px">
+  <mj-column>
+    <mj-text font-size="18px" font-weight="bold" color="#098648" align="center">
+      Complete Your Order Today and Get Free Shipping!
+    </mj-text>
+    <mj-text align="center" font-size="14px" color="#555555" padding-bottom="20px">
+      We're sweetening the deal — just for you.
+    </mj-text>
+    <mj-button href="https://example.com/cart" background-color="#098648" color="#ffffff" font-size="16px" padding="10px 25px">
+      Return to My Cart
+    </mj-button>
+  </mj-column>
+</mj-section>
