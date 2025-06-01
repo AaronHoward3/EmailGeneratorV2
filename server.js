@@ -19,38 +19,34 @@ const specializedAssistants = {
   Promotion: "asst_Kr6Sc01OP5oJgwIXQgV7qb2k"
 };
 
-// Define blocks
-const BLOCKS = {
-  intro: [
-    "hero-fullwidth.txt",
-    "hero-founder-note.txt",
-    "hero-quote.txt",
-    "hero-highlight-list.txt",
-    "hero-split.txt"
-  ],
-  content1: [
-    "feature-deep-dive.txt",
-    "brand-story.txt",
-    "photo-overlay.txt",
-    "triplecontent.txt"
-  ],
-  content2: [
-    "content-text-grid.txt",
-    "brand-story.txt",
-    "company-direction.txt",
-    "educational-insight.txt"
-  ],
-  cta: [
-    "cta-wrapup.txt",
-    "bonus-tip.txt",
-    "testimonial-closer.txt",
-    "philosophy-outro.txt",
-    "support-options.txt",
-    "recap-summary.txt"
-  ]
+const BLOCK_DEFINITIONS = {
+  Newsletter: {
+    sections: ["intro", "content1", "content2", "cta"],
+    blocks: {
+      intro: ["hero-fullwidth.txt", "hero-founder-note.txt", "hero-quote.txt", "hero-highlight-list.txt", "hero-split.txt"],
+      content1: ["feature-deep-dive.txt", "brand-story.txt", "photo-overlay.txt", "triplecontent.txt"],
+      content2: ["content-text-grid.txt", "brand-story.txt", "company-direction.txt", "educational-insight.txt"],
+      cta: ["cta-wrapup.txt", "bonus-tip.txt", "testimonial-closer.txt", "philosophy-outro.txt", "support-options.txt", "recap-summary.txt"]
+    }
+  },
+  Productgrid: {
+    sections: ["intro", "content1", "cta"],
+    blocks: {
+      intro: ["hero-overlay.txt", "hero-title.txt", "title-body.txt", "title-only.txt"],
+      content1: ["alternating-grid.txt", "product-grid.txt", "single-product.txt"],
+      cta: ["body-cta.txt", "cta-only.txt", "image-cta.txt"]
+    }
+  },
+  AbandonedCart: {
+    sections: ["intro", "content", "cta"],
+    blocks: {
+      intro: ["CenteredHero.txt", "TextHero.txt"],
+      content: ["Centered.txt", "Grid.txt", "product-grid.txt", "ProductHIGH.txt"],
+      cta: ["CTAGrid.txt", "CTAIncentive.txt", "CTAReminder.txt"]
+    }
+  }
 };
 
-// Helper functions
 function pickRandom(arr, exclude = []) {
   const filtered = arr.filter(item => !exclude.includes(item));
   if (filtered.length === 0) return arr[Math.floor(Math.random() * arr.length)];
@@ -59,17 +55,26 @@ function pickRandom(arr, exclude = []) {
 
 const layoutHistory = [];
 
-function getUniqueLayout() {
+function getUniqueLayout(emailType) {
+  const config = BLOCK_DEFINITIONS[emailType];
+  if (!config) return null;
+
   let attempts = 0;
   while (attempts < 10) {
-    const intro = pickRandom(BLOCKS.intro);
-    const content1 = pickRandom(BLOCKS.content1);
-    const content2 = pickRandom(BLOCKS.content2);
-    const cta = pickRandom(BLOCKS.cta);
-    const layoutId = `${intro}|${content1}|${content2}|${cta}`;
+    const layout = {};
+    const layoutIdParts = [];
+
+    for (const section of config.sections) {
+      const choice = pickRandom(config.blocks[section]);
+      layout[section] = choice;
+      layoutIdParts.push(choice);
+    }
+
+    const layoutId = layoutIdParts.join("|");
+
     if (!layoutHistory.includes(layoutId)) {
       layoutHistory.push(layoutId);
-      return { intro, content1, content2, cta, layoutId };
+      return { ...layout, layoutId };
     }
     attempts++;
   }
@@ -77,14 +82,14 @@ function getUniqueLayout() {
 }
 
 app.post("/generate-emails", async (req, res) => {
-  const { brandData, emailType } = req.body;
+  const { brandData, emailType, userContext } = req.body;
 
   if (!brandData || !emailType) {
     return res.status(400).json({ error: "Missing brandData or emailType in request body." });
   }
 
   const assistantId = specializedAssistants[emailType];
-  console.log(`🧠 Using assistant for ${emailType}: ${assistantId}`); // ✅ Injected log line
+  console.log(`🧠 Using assistant for ${emailType}: ${assistantId}`);
 
   if (!assistantId) {
     return res.status(400).json({ error: `No assistant configured for: ${emailType}` });
@@ -94,23 +99,31 @@ app.post("/generate-emails", async (req, res) => {
   let totalTokens = 0;
 
   for (let i = 1; i <= 3; i++) {
-    const layout = getUniqueLayout();
+    const layout = getUniqueLayout(emailType);
     if (!layout) {
       responses.push({ index: i, error: "No unique layout could be selected." });
       continue;
     }
 
+    const sectionDescriptions = Object.entries(layout)
+      .filter(([key]) => key !== "layoutId")
+      .map(([key, val]) => `- Block (${key}): ${val}`)
+      .join("\n");
+
     const layoutInstruction = `
 Use the following layout:
-- Block 1 (Intro): ${layout.intro}
-- Block 2 (Content): ${layout.content1}
-- Block 3 (Content): ${layout.content2}
-- Block 4 (CTA): ${layout.cta}
+${sectionDescriptions}
 You may insert 1–3 utility blocks for spacing or visual design.
     `.trim();
 
     const spinner = ora(`Generating ${emailType} email ${i} using layout: ${layout.layoutId}`).start();
     const thread = await openai.beta.threads.create();
+
+    const safeUserContext = userContext?.trim().substring(0, 500) || '';
+
+    const userInstructions = safeUserContext
+      ? `\n📢 User Special Instructions:\n${safeUserContext}\n`
+      : '';
 
     const userPrompt = `
 Ignore any previous context. You are starting from scratch for this email.
@@ -121,17 +134,19 @@ Your job:
 Generate one MJML email using uploaded block templates.
 
 Must use at least one color block using brand colors.
-
 Make sure to use at least one block with an image field.
-
-Only return MJML inside a single \`\`\`mjml\`\`\` block.
-
-Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml>.
+Only return MJML inside a single \`\`\`mjml\`\`\` block, no other text.
+Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> do not include text outside of those.
+Do not use vibe images for products. Use real product images from provided brand data.
+You may also insert 1–2 utility blocks to add spacing or design elements:
+- divider-line.txt, divider-dotted.txt, divider-accent.txt, spacer-md.txt, labeled-divider.txt
 
 📌 IMPORTANT: Above every content section, include a comment like:
-<!-- Blockfile: hero-quote.txt -->
+<!-- Blockfile: block-name.txt -->
 
 ${layoutInstruction}
+
+${userInstructions}
 
 ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
     `.trim();
@@ -163,7 +178,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
     const messages = await openai.beta.threads.messages.list(thread.id);
     const rawContent = messages.data[0].content[0].text.value;
 
-    const cleanedMjml = rawContent
+    let cleanedMjml = rawContent
       .replace(/^\s*```mjml/i, "")
       .replace(/```$/, "")
       .trim();

@@ -1,0 +1,47 @@
+<mj-section background-color="#ffffff" padding="10px 20px">
+  <mj-group>
+    <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
+      <mj-image src="" alt="" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">
+        <!-- Product Title -->
+      </mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">
+        <!-- Product Price -->
+      </mj-text>
+    </mj-column>
+
+    <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
+      <mj-image src="" alt="" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">
+        <!-- Product Title -->
+      </mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">
+        <!-- Product Price -->
+      </mj-text>
+    </mj-column>
+  </mj-group>
+</mj-section>
+
+<mj-section background-color="#ffffff" padding="10px 20px">
+  <mj-group>
+    <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
+      <mj-image src="" alt="" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">
+        <!-- Product Title -->
+      </mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">
+        <!-- Product Price -->
+      </mj-text>
+    </mj-column>
+
+    <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
+      <mj-image src="" alt="" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">
+        <!-- Product Title -->
+      </mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">
+        <!-- Product Price -->
+      </mj-text>
+    </mj-column>
+  </mj-group>
+</mj-section>

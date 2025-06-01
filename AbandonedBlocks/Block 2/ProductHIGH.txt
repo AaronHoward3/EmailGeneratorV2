@@ -1,10 +1,10 @@
 <mj-section background-color="#f9f9f9" padding="20px">
   <mj-column width="30%">
-    <mj-image src="https://via.placeholder.com/150x150" alt="Cart Item" />
+    <mj-image src="{{product.image}}" alt="{{product.name}}" />
   </mj-column>
   <mj-column width="70%">
-    <mj-text font-size="16px" font-weight="bold" color="#333333">Your Aeron Chair is still available</mj-text>
-    <mj-text font-size="14px" color="#777777">Ergonomic, iconic, and now 50% off. Complete your checkout before it's gone.</mj-text>
-    <mj-text font-size="14px" color="#098648" font-weight="bold">$560.00</mj-text>
+    <mj-text font-size="16px" font-weight="bold" color="#333333">{{product.name}}</mj-text>
+    <mj-text font-size="14px" color="#777777">{{product.description}}</mj-text>
+    <mj-text font-size="14px" color="{{brand.colors.primary}}" font-weight="bold">{{product.price}}</mj-text>
   </mj-column>
 </mj-section>

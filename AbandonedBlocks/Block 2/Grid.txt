@@ -1,15 +1,15 @@
 <mj-section background-color="#ffffff" padding="10px 20px">
   <mj-group>
     <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/300x300" alt="Item 1" padding="0 0 10px" />
-      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">Item Name 1</mj-text>
-      <mj-text align="center" font-size="13px" color="#777777">$199.00</mj-text>
+      <mj-image src="{{product1.image}}" alt="{{product1.name}}" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">{{product1.name}}</mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">{{product1.price}}</mj-text>
     </mj-column>
 
     <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/300x300" alt="Item 2" padding="0 0 10px" />
-      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">Item Name 2</mj-text>
-      <mj-text align="center" font-size="13px" color="#777777">$249.00</mj-text>
+      <mj-image src="{{product2.image}}" alt="{{product2.name}}" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">{{product2.name}}</mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">{{product2.price}}</mj-text>
     </mj-column>
   </mj-group>
 </mj-section>
@@ -17,15 +17,15 @@
 <mj-section background-color="#ffffff" padding="10px 20px">
   <mj-group>
     <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/300x300" alt="Item 3" padding="0 0 10px" />
-      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">Item Name 3</mj-text>
-      <mj-text align="center" font-size="13px" color="#777777">$179.00</mj-text>
+      <mj-image src="{{product3.image}}" alt="{{product3.name}}" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">{{product3.name}}</mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">{{product3.price}}</mj-text>
     </mj-column>
 
     <mj-column width="50%" background-color="#f9f9f9" padding="15px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/300x300" alt="Item 4" padding="0 0 10px" />
-      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">Item Name 4</mj-text>
-      <mj-text align="center" font-size="13px" color="#777777">$299.00</mj-text>
+      <mj-image src="{{product4.image}}" alt="{{product4.name}}" padding="0 0 10px" />
+      <mj-text align="center" font-size="15px" font-weight="bold" color="#222222">{{product4.name}}</mj-text>
+      <mj-text align="center" font-size="13px" color="#777777">{{product4.price}}</mj-text>
     </mj-column>
    </mj-group>
 </mj-section>

@@ -1,0 +1,14 @@
+<mj-section background-color="#f9f9f9" padding="30px">
+  <mj-column width="100%" padding="0">
+    <mj-image src="" alt="" padding="0" width="300px" />
+    <mj-text align="center" font-size="18px" font-weight="bold" color="#222222" padding="20px 0 10px">
+      <!-- Product Title -->
+    </mj-text>
+    <mj-text align="center" font-size="15px" color="#666666" padding="0 20px">
+      <!-- Product Description -->
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#098648" font-weight="bold" padding-top="10px">
+      <!-- Product Price -->
+    </mj-text>
+  </mj-column>
+</mj-section>

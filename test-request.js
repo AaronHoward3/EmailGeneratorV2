@@ -2,8 +2,10 @@
 import fs from "fs";
 import axios from "axios";
 
-const payload = JSON.parse(fs.readFileSync("puma-payload.json", "utf-8"));
+// Load the base payload
+const payload = JSON.parse(fs.readFileSync("OFP-payload.json", "utf-8"));
 
+// Send the request
 axios.post("http://localhost:3000/generate-emails", payload, {
   headers: {
     "Content-Type": "application/json"

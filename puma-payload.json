@@ -1,54 +1,69 @@
 {
-  "brandData": {
-    "domain": "officefurnitureplus.com",
-    "name": "Office Furniture Plus",
-    "description": "Office Furniture Plus is a Texas-based company specializing in providing affordable and high-quality office furniture...",
-    "slogan": "Affordable, quality office furniture for a productive workspace.",
-    "email": "info@officefurnitureplus.com",
-    "phone": "800.668.3752",
-    "colors": {
-      "primary": "#098648",
-      "secondary": "#040404",
-      "accent": "#bcddcc"
-    },
-    "fonts": {
-      "body": "gform-icons-common!important",
-      "title": null
-    },
-    "images": {
-      "logo": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
-      "icon": "https://media.brand.dev/8a4d2792-c3d7-49b9-845f-f8d70db0fdec.jpg",
-      "banner": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
-      "hero": null,
-      "background": null,
-      "vibe1": "https://www.officefurnitureplus.com/wp-content/uploads/thumb-brand-via.jpg",
-      "vibe2": "https://www.officefurnitureplus.com/wp-content/uploads/hero-ofp-2.jpg"
-    },
-    "socials": {
-      "facebook": "https://facebook.com/furnituresolutionsnow",
-      "linkedin": "https://linkedin.com/company/3752259",
-      "youtube": "https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda"
-    }
-  },
-  "campaign": {
-    "title": "Half-Off Sale: Herman Miller Aeron Chair",
-    "description": "For a limited time only, enjoy 50% off our used Herman Miller Aeron Chairs — in excellent condition..."
-  },
-  "products": [
-    {
-      "name": "Used Herman Miller Aeron Full Function Task Chair – Size B with PostureFit",
-      "url": "https://www.officefurnitureplus.com/product/used-herman-miller-aeron-full-function-task-chair-size-b-with-posturefit/",
-      "image": "https://www.officefurnitureplus.com/wp-content/uploads/3-Aeron-Type-B-2.jpg",
-      "price": "$560.00",
-      "quantity": 117
-    },
-    {
-      "name": "Used Herman Miller Sayl Task Chair With Grey Upholstered Seat",
-      "url": "https://www.officefurnitureplus.com/product/used-herman-miller-sayl-task-chair-with-grey-upholstered-seat-3/",
-      "image": "https://www.officefurnitureplus.com/wp-content/uploads/1-Sail-Task-Chair-1.jpg",
-      "price": "$350.00",
-      "quantity": 12
-    }
-  ],
-  "emailType": "AbandonedCart"
-}
+   "brandData": {
+     "store_name": "PUMA",
+     "store_url": "https://www.puma.com/",
+     "logo_url": "https://media.brand.dev/77ce5b6d-496c-4f23-9646-62b42df91ccd.png",
+     "banner_url": "https://media.brand.dev/f6af5040-517b-4d59-be0c-6083d94429c0.jpg",
+     "backdrops": [
+       {
+         "url": "https://media.brand.dev/f6af5040-517b-4d59-be0c-6083d94429c0.jpg",
+         "colors": ["Gallant Green", "Vulcanized", "Hush"]
+       }
+     ],
+     "fonts": {
+       "title": "Helvetica",
+       "body": "Helvetica",
+       "button": "Helvetica"
+     },
+     "stock_info": null,
+     "address": null,
+     "social_links": {
+       "youtube": "https://youtube.com/puma",
+       "x": "https://x.com/puma",
+       "instagram": "https://instagram.com/puma",
+       "facebook": "https://facebook.com/puma"
+     },
+     "button_border_style": "Rounded",
+     "header_color": "#141414",
+     "body_color": "#ffffff",
+     "link_color": "#ef6228",
+     "text_color": "#141414",
+     "primary_color": "#ef6228",
+     "button_color": "#ef6228",
+     "button_text_color": "#ffffff",
+     "button_border_color": "#141414",
+     "tone": "bold and innovative",
+     "description": "Established in 1948, PUMA has built a legacy centered around speed and innovation. Their mantra, 'Forever. Faster. Since 1948,' reflects their dedication to performance and cutting-edge design.",
+     "slogan": "Forever. Faster. Since 1948.",
+     "products": [
+       {
+         "name": "PUMA Suede Classic XXI",
+         "image_url": "https://m.media-amazon.com/images/I/61yVR3GEoQL._AC_UY900_.jpg",
+         "description": "A timeless classic since 1968, the Suede Classic XXI features a premium suede upper and a comfortable padded collar.",
+         "url": "https://www.ruzeshoes.com/products/puma-suede-classic-xxi-37491504-mens-blue-suede-lifestyle-sneakers-shoes-37491504_peapumwhi_pm?variant=41230863564861"
+       },
+       {
+         "name": "PUMA Future Rider Play On",
+         "image_url": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/371320/01/sv01/fnd/PNA/fmt/png/Future-Rider-Game-On-Men's-Sneakers",
+         "description": "Inspired by the 1980 Fast Rider, the Future Rider Play On boasts a slim Federbein outsole and ultra-comfortable Rider Foam midsole.",
+         "url": "https://www.primesmartstore.com/products/puma-mens-future-rider-play-on-sneakers-porcelain-ebony-puma-black-8-d-medium?variant=50060267847896"
+       },
+       {
+         "name": "Scuderia Ferrari F1 Team Hooded Sweatshirt 2024",
+         "image_url": "https://www.cmcmotorsports.com/cdn/shop/files/701227998001_pp_01_FerrariPUMA.webp?v=1711633376",
+         "description": "The official PUMA 2024 Scuderia Ferrari Team Hoodie, featuring race suit inspired yellow piping and official team branding.",
+         "url": "https://speedgear-wholesale.com/products/scuderia-ferrari-f1-team-hooded-sweatshirt-2024?variant=46476424708336"
+       }
+     ],
+     "nav_links": [
+       { "text": "Men", "url": "https://www.puma.com/us/en/men" },
+       { "text": "Women", "url": "https://www.puma.com/us/en/women" },
+       { "text": "Kids", "url": "https://www.puma.com/us/en/kids" },
+       { "text": "Shoes", "url": "https://www.puma.com/us/en/shoes" },
+       { "text": "Clothing", "url": "https://www.puma.com/us/en/clothing" },
+       { "text": "Sale", "url": "https://www.puma.com/us/en/outlet" }
+     ]
+   },
+   "emailType": "Productgrid"
+ }
+

@@ -1,0 +1,72 @@
+{
+  "brandData": {
+    "store_name": "Office Furniture Plus",
+    "store_url": "https://www.officefurnitureplus.com/",
+    "logo_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
+    "banner_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
+    "backdrops": [
+      {
+        "url": "https://www.officefurnitureplus.com/wp-content/uploads/thumb-brand-via.jpg",
+        "colors": ["#098648", "#040404", "#098648"]
+      },
+      {
+        "url": "https://www.officefurnitureplus.com/wp-content/uploads/hero-ofp-2.jpg",
+        "colors": ["#098648", "#040404", "#098648"]
+      }
+    ],
+    "fonts": {
+      "title": "gform-icons-common!important",
+      "body": "gform-icons-common!important",
+      "button": "gform-icons-common!important"
+    },
+    "stock_info": null,
+    "address": null,
+    "social_links": {
+      "facebook": "https://facebook.com/furnituresolutionsnow",
+      "linkedin": "https://linkedin.com/company/3752259",
+      "youtube": "https://youtube.com/channel/uc1iyfmi16qkndfdai1ayzda"
+    },
+    "button_border_style": "Rounded",
+    "header_color": "#040404",
+    "body_color": "#ffffff",
+    "link_color": "#098648",
+    "text_color": "#040404",
+    "primary_color": "#098648",
+    "button_color": "#098648",
+    "button_text_color": "#ffffff",
+    "button_border_color": "#040404",
+    "tone": "professional and reliable",
+    "description": "Office Furniture Plus is a Texas-based company specializing in providing affordable and high-quality office furniture for every workspace.",
+    "slogan": "Affordable, quality office furniture for a productive workspace.",
+    "products": [
+      {
+        "name": "Herman Miller Aeron Full Function Task Chair – Size B with PostureFit",
+        "image_url": "https://www.officefurnitureplus.com/wp-content/uploads/3-Aeron-Type-B-2.jpg",
+        "description": "High-end ergonomic office chair with adjustable PostureFit support.",
+        "url": "https://www.officefurnitureplus.com/product/used-herman-miller-aeron-full-function-task-chair-size-b-with-posturefit/"
+      },
+      {
+        "name": "Keilhauer® Sguig Task Chair",
+        "image_url": "https://www.officefurnitureplus.com/wp-content/uploads/KH.-SGUIG-1-1.jpg",
+        "description": "Modern ergonomic task chair featuring a flexible frame and lumbar support.",
+        "url": "https://www.officefurnitureplus.com/product/used-herman-miller-aeron-full-function-task-chair-size-b-with-posturefit/"
+      },
+      {
+        "name": "Herman Miller Sayl Task Chair",
+        "image_url": "https://www.officefurnitureplus.com/wp-content/uploads/1-Sail-Task-Chair-1.jpg",
+        "description": "Stylish and supportive office chair designed for healthy posture and airflow.",
+        "url": "https://www.officefurnitureplus.com/product/used-herman-miller-sayl-task-chair-with-grey-upholstered-seat-3/"
+      }
+    ],
+    "nav_links": [
+      { "text": "Office Chairs", "url": "https://www.officefurnitureplus.com/office-chairs/" },
+      { "text": "Desks", "url": "https://www.officefurnitureplus.com/desks/" },
+      { "text": "Cubicles", "url": "https://www.officefurnitureplus.com/cubicles/" },
+      { "text": "Conference Tables", "url": "https://www.officefurnitureplus.com/conference-tables/" },
+      { "text": "Filing Cabinets", "url": "https://www.officefurnitureplus.com/filing-cabinets/" },
+      { "text": "Sale", "url": "https://www.officefurnitureplus.com/sale/" }
+    ]
+  },
+  "emailType": "Productgrid",
+  "userContext": "Highlight the Herman Miller Aeron chair for our Father's Day promotion. Focus on ergonomic benefits and the limited-time sale."
+}
