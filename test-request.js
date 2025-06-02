@@ -6,14 +6,15 @@ import axios from "axios";
 const payload = JSON.parse(fs.readFileSync("OFP-payload.json", "utf-8"));
 
 // Send the request
-axios.post("http://localhost:3000/generate-emails", payload, {
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
+axios
+  .post("http://localhost:3000/generate-emails", payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
   .then((res) => {
-    console.log("✅ Response:", res.data);
+    console.log("Response:", res.data);
   })
   .catch((err) => {
-    console.error("❌ Request failed:", err.response?.data || err.message);
+    console.error("Request failed:", err.response?.data || err.message);
   });
