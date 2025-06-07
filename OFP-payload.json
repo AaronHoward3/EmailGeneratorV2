@@ -59,11 +59,23 @@
       }
     ],
     "nav_links": [
-      { "text": "Office Chairs", "url": "https://www.officefurnitureplus.com/office-chairs/" },
+      {
+        "text": "Office Chairs",
+        "url": "https://www.officefurnitureplus.com/office-chairs/"
+      },
       { "text": "Desks", "url": "https://www.officefurnitureplus.com/desks/" },
-      { "text": "Cubicles", "url": "https://www.officefurnitureplus.com/cubicles/" },
-      { "text": "Conference Tables", "url": "https://www.officefurnitureplus.com/conference-tables/" },
-      { "text": "Filing Cabinets", "url": "https://www.officefurnitureplus.com/filing-cabinets/" },
+      {
+        "text": "Cubicles",
+        "url": "https://www.officefurnitureplus.com/cubicles/"
+      },
+      {
+        "text": "Conference Tables",
+        "url": "https://www.officefurnitureplus.com/conference-tables/"
+      },
+      {
+        "text": "Filing Cabinets",
+        "url": "https://www.officefurnitureplus.com/filing-cabinets/"
+      },
       { "text": "Sale", "url": "https://www.officefurnitureplus.com/sale/" }
     ]
   },
