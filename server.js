@@ -85,14 +85,18 @@ app.post("/generate-emails", async (req, res) => {
   const { brandData, emailType, userContext } = req.body;
 
   if (!brandData || !emailType) {
-    return res.status(400).json({ error: "Missing brandData or emailType in request body." });
+    return res
+      .status(400)
+      .json({ error: "Missing brandData or emailType in request body." });
   }
 
   const assistantId = specializedAssistants[emailType];
   console.log(`🧠 Using assistant for ${emailType}: ${assistantId}`);
 
   if (!assistantId) {
-    return res.status(400).json({ error: `No assistant configured for: ${emailType}` });
+    return res
+      .status(400)
+      .json({ error: `No assistant configured for: ${emailType}` });
   }
 
   const responses = [];
@@ -101,7 +105,10 @@ app.post("/generate-emails", async (req, res) => {
   for (let i = 1; i <= 3; i++) {
     const layout = getUniqueLayout(emailType);
     if (!layout) {
-      responses.push({ index: i, error: "No unique layout could be selected." });
+      responses.push({
+        index: i,
+        error: "No unique layout could be selected.",
+      });
       continue;
     }
 
@@ -116,14 +123,16 @@ ${sectionDescriptions}
 You may insert 1–3 utility blocks for spacing or visual design.
     `.trim();
 
-    const spinner = ora(`Generating ${emailType} email ${i} using layout: ${layout.layoutId}`).start();
+    const spinner = ora(
+      `Generating ${emailType} email ${i} using layout: ${layout.layoutId}`
+    ).start();
     const thread = await openai.beta.threads.create();
 
-    const safeUserContext = userContext?.trim().substring(0, 500) || '';
+    const safeUserContext = userContext?.trim().substring(0, 500) || "";
 
     const userInstructions = safeUserContext
       ? `\n📢 User Special Instructions:\n${safeUserContext}\n`
-      : '';
+      : "";
 
     const userPrompt = `
 Ignore any previous context. You are starting from scratch for this email.
@@ -153,11 +162,11 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
 
     await openai.beta.threads.messages.create(thread.id, {
       role: "user",
-      content: userPrompt
+      content: userPrompt,
     });
 
     const run = await openai.beta.threads.runs.create(thread.id, {
-      assistant_id: assistantId
+      assistant_id: assistantId,
     });
 
     let runStatus;
@@ -166,7 +175,10 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
       if (runStatus.status === "completed") break;
       if (runStatus.status === "failed") {
         spinner.fail(`❌ Assistant failed on email ${i}`);
-        return res.status(500).json({ error: `Assistant failed on email ${i}`, detail: runStatus.last_error });
+        return res.status(500).json({
+          error: `Assistant failed on email ${i}`,
+          detail: runStatus.last_error,
+        });
       }
       await new Promise((r) => setTimeout(r, 1500));
     }
@@ -188,7 +200,11 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
       responses.push({ index: i, content: cleanedMjml });
       spinner.succeed(`✅ Email ${i} generated successfully`);
     } else {
-      responses.push({ index: i, warning: "MJML formatting invalid", content: cleanedMjml });
+      responses.push({
+        index: i,
+        warning: "MJML formatting invalid",
+        content: cleanedMjml,
+      });
       spinner.fail(`⚠️ Email ${i} generated but MJML wrapper may be invalid`);
     }
   }

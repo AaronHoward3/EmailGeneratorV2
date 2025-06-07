@@ -1,6 +1,9 @@
 import fs from "fs";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import { uploadHeroImage } from "./upload-to-supabase.js";
+import path from "path";
+
 dotenv.config();
 
 const openai = new OpenAI({
@@ -14,18 +17,19 @@ const assistantId = "asst_XsNVSz53XTKTu1WDiFSMFbeL";
 async function main() {
   // Step 1: Read brand data
   const brandData = JSON.parse(fs.readFileSync(brandFile, "utf-8"));
+  const storeSlug =
+    brandData.store_name?.toLowerCase().replace(/\s+/g, "-") || "custom-brand";
 
-  // Step 2: Create a new thread and send message to Art Director Assistant
+  // Step 2: Get a prompt from Art Director Assistant
   const thread = await openai.beta.threads.create();
-  const userMessage = {
+  await openai.beta.threads.messages.create(thread.id, {
     role: "user",
     content: JSON.stringify({
       brand: brandData,
       request:
         "Generate a vivid visual concept for a promotional hero image. Return ONLY the raw prompt text, no explanation.",
     }),
-  };
-  await openai.beta.threads.messages.create(thread.id, userMessage);
+  });
 
   const run = await openai.beta.threads.runs.create(thread.id, {
     assistant_id: assistantId,
@@ -42,7 +46,7 @@ async function main() {
   const messages = await openai.beta.threads.messages.list(thread.id);
   const promptText = messages.data[0].content[0].text.value;
 
-  // Step 3: Generate image with promptText
+  // Step 3: Generate image
   const imageResponse = await openai.images.generate({
     model: "gpt-image-1",
     prompt: promptText,
@@ -54,9 +58,17 @@ async function main() {
 
   const imageBase64 = imageResponse.data[0].b64_json;
 
-  // Step 4: Save image
+  // Step 4: Save image locally
   fs.writeFileSync(outputImagePath, Buffer.from(imageBase64, "base64"));
-  console.log("✅ Image saved to", outputImagePath);
+  console.log("✅ Image saved locally:", outputImagePath);
+
+  // Step 5: Upload to Supabase
+  const timestamp = Date.now();
+  const remoteFileName = `${storeSlug}/hero-${timestamp}.png`;
+  const publicUrl = await uploadHeroImage(outputImagePath, remoteFileName);
+
+  console.log("✅ Image uploaded to Supabase:");
+  console.log(publicUrl);
 }
 
 main().catch((err) => {
