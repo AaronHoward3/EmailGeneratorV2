@@ -5,6 +5,7 @@ import express from "express";
 import OpenAI from "openai";
 import fs from "fs";
 import ora from "ora";
+import { generateCustomHeroAndEnrich } from "./generate-hero-helper.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,39 +17,76 @@ const specializedAssistants = {
   Newsletter: "asst_So4cxsaziuSI6hZYAT330j1u",
   Productgrid: "asst_wpEAG1SSFXym8BLxqyzTPaVe",
   AbandonedCart: "asst_IGjM9fcv8XZlf9z3l8nUM7l5",
-  Promotion: "asst_Kr6Sc01OP5oJgwIXQgV7qb2k"
+  Promotion: "asst_Kr6Sc01OP5oJgwIXQgV7qb2k",
 };
 
 const BLOCK_DEFINITIONS = {
   Newsletter: {
     sections: ["intro", "content1", "content2", "cta"],
     blocks: {
-      intro: ["hero-fullwidth.txt", "hero-founder-note.txt", "hero-quote.txt", "hero-highlight-list.txt", "hero-split.txt"],
-      content1: ["feature-deep-dive.txt", "brand-story.txt", "photo-overlay.txt", "triplecontent.txt"],
-      content2: ["content-text-grid.txt", "brand-story.txt", "company-direction.txt", "educational-insight.txt"],
-      cta: ["cta-wrapup.txt", "bonus-tip.txt", "testimonial-closer.txt", "philosophy-outro.txt", "support-options.txt", "recap-summary.txt"]
-    }
+      intro: [
+        "hero-fullwidth.txt",
+        "hero-founder-note.txt",
+        "hero-quote.txt",
+        "hero-highlight-list.txt",
+        "hero-split.txt",
+      ],
+      content1: [
+        "feature-deep-dive.txt",
+        "brand-story.txt",
+        "photo-overlay.txt",
+        "triplecontent.txt",
+      ],
+      content2: [
+        "content-text-grid.txt",
+        "brand-story.txt",
+        "company-direction.txt",
+        "educational-insight.txt",
+      ],
+      cta: [
+        "cta-wrapup.txt",
+        "bonus-tip.txt",
+        "testimonial-closer.txt",
+        "philosophy-outro.txt",
+        "support-options.txt",
+        "recap-summary.txt",
+      ],
+    },
   },
   Productgrid: {
     sections: ["intro", "content1", "cta"],
     blocks: {
-      intro: ["hero-overlay.txt", "hero-title.txt", "title-body.txt", "title-only.txt"],
-      content1: ["alternating-grid.txt", "product-grid.txt", "single-product.txt"],
-      cta: ["body-cta.txt", "cta-only.txt", "image-cta.txt"]
-    }
+      intro: [
+        "hero-overlay.txt",
+        "hero-title.txt",
+        "title-body.txt",
+        "title-only.txt",
+      ],
+      content1: [
+        "alternating-grid.txt",
+        "product-grid.txt",
+        "single-product.txt",
+      ],
+      cta: ["body-cta.txt", "cta-only.txt", "image-cta.txt"],
+    },
   },
   AbandonedCart: {
     sections: ["intro", "content", "cta"],
     blocks: {
       intro: ["CenteredHero.txt", "TextHero.txt"],
-      content: ["Centered.txt", "Grid.txt", "product-grid.txt", "ProductHIGH.txt"],
-      cta: ["CTAGrid.txt", "CTAIncentive.txt", "CTAReminder.txt"]
-    }
-  }
+      content: [
+        "Centered.txt",
+        "Grid.txt",
+        "product-grid.txt",
+        "ProductHIGH.txt",
+      ],
+      cta: ["CTAGrid.txt", "CTAIncentive.txt", "CTAReminder.txt"],
+    },
+  },
 };
 
 function pickRandom(arr, exclude = []) {
-  const filtered = arr.filter(item => !exclude.includes(item));
+  const filtered = arr.filter((item) => !exclude.includes(item));
   if (filtered.length === 0) return arr[Math.floor(Math.random() * arr.length)];
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
@@ -82,12 +120,22 @@ function getUniqueLayout(emailType) {
 }
 
 app.post("/generate-emails", async (req, res) => {
-  const { brandData, emailType, userContext } = req.body;
+  let { brandData, emailType, userContext } = req.body;
 
   if (!brandData || !emailType) {
     return res
       .status(400)
       .json({ error: "Missing brandData or emailType in request body." });
+  }
+
+  const wantsCustomHero =
+    brandData.customHeroImage &&
+    brandData.customHeroImage.toLowerCase() === "yes";
+
+  if (wantsCustomHero) {
+    console.log("✨ Generating custom hero image and enriching JSON...");
+    const enriched = await generateCustomHeroAndEnrich(brandData);
+    brandData = enriched;
   }
 
   const assistantId = specializedAssistants[emailType];
@@ -117,11 +165,8 @@ app.post("/generate-emails", async (req, res) => {
       .map(([key, val]) => `- Block (${key}): ${val}`)
       .join("\n");
 
-    const layoutInstruction = `
-Use the following layout:
-${sectionDescriptions}
-You may insert 1–3 utility blocks for spacing or visual design.
-    `.trim();
+    const layoutInstruction =
+      `Use the following layout:\n${sectionDescriptions}\nYou may insert 1–3 utility blocks for spacing or visual design.`.trim();
 
     const spinner = ora(
       `Generating ${emailType} email ${i} using layout: ${layout.layoutId}`
@@ -129,13 +174,12 @@ You may insert 1–3 utility blocks for spacing or visual design.
     const thread = await openai.beta.threads.create();
 
     const safeUserContext = userContext?.trim().substring(0, 500) || "";
-
     const userInstructions = safeUserContext
       ? `\n📢 User Special Instructions:\n${safeUserContext}\n`
       : "";
 
-    const userPrompt = `
-Ignore any previous context. You are starting from scratch for this email.
+    const userPrompt =
+      `Ignore any previous context. You are starting from scratch for this email.
 
 You are an expert ${emailType} email assistant.
 
@@ -157,8 +201,7 @@ ${layoutInstruction}
 
 ${userInstructions}
 
-${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}
-    `.trim();
+${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
     await openai.beta.threads.messages.create(thread.id, {
       role: "user",
