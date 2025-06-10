@@ -134,8 +134,23 @@ app.post("/generate-emails", async (req, res) => {
 
   if (wantsCustomHero) {
     console.log("✨ Generating custom hero image and enriching JSON...");
-    const enriched = await generateCustomHeroAndEnrich(brandData);
-    brandData = enriched;
+    try {
+      const enriched = await generateCustomHeroAndEnrich(brandData);
+      brandData = enriched;
+      console.log("✅ Brand data enriched with custom hero image.");
+
+      if (brandData.primary_custom_hero_image_banner) {
+        console.log(
+          "🖼️ Custom hero image is being used:",
+          brandData.primary_custom_hero_image_banner
+        );
+      } else {
+        console.log("🚫 No custom hero image present in brand data.");
+      }
+    } catch (err) {
+      console.error("❌ Failed to generate custom hero image:", err.message);
+      console.log("⚠️ Falling back to original brand data.");
+    }
   }
 
   const assistantId = specializedAssistants[emailType];
