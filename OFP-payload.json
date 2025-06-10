@@ -1,6 +1,7 @@
 {
   "brandData": {
     "store_name": "Office Furniture Plus",
+    "customHeroImage": "yes",
     "store_url": "https://www.officefurnitureplus.com/",
     "logo_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
     "banner_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
@@ -47,7 +48,7 @@
       },
       {
         "name": "Keilhauer® Sguig Task Chair",
-        "image_url": "https://www.officefurnitureplus.com/wp-content/uploads/KH.-SGUIG-1-1.jpg",
+        "image_url": "https://www.officefurnitureplus.com/wp-content/uploads/6-Office-Chair-1.JPG.png",
         "description": "Modern ergonomic task chair featuring a flexible frame and lumbar support.",
         "url": "https://www.officefurnitureplus.com/product/used-herman-miller-aeron-full-function-task-chair-size-b-with-posturefit/"
       },
@@ -59,14 +60,32 @@
       }
     ],
     "nav_links": [
-      { "text": "Office Chairs", "url": "https://www.officefurnitureplus.com/office-chairs/" },
+      {
+        "text": "Office Chairs",
+        "url": "https://www.officefurnitureplus.com/office-chairs/"
+      },
       { "text": "Desks", "url": "https://www.officefurnitureplus.com/desks/" },
-      { "text": "Cubicles", "url": "https://www.officefurnitureplus.com/cubicles/" },
-      { "text": "Conference Tables", "url": "https://www.officefurnitureplus.com/conference-tables/" },
-      { "text": "Filing Cabinets", "url": "https://www.officefurnitureplus.com/filing-cabinets/" },
+      {
+        "text": "Cubicles",
+        "url": "https://www.officefurnitureplus.com/cubicles/"
+      },
+      {
+        "text": "Conference Tables",
+        "url": "https://www.officefurnitureplus.com/conference-tables/"
+      },
+      {
+        "text": "Filing Cabinets",
+        "url": "https://www.officefurnitureplus.com/filing-cabinets/"
+      },
       { "text": "Sale", "url": "https://www.officefurnitureplus.com/sale/" }
     ]
   },
-  "emailType": "Productgrid",
-  "userContext": "Highlight the Herman Miller Aeron chair for our Father's Day promotion. Focus on ergonomic benefits and the limited-time sale."
+  "emailType": "Newsletter",
+  "userContext": "",
+  "emailFields": {
+    "product_link": "",
+    "promo_code": "",
+    "amount_off": "",
+    "valid_until": ""
+  }
 }
