@@ -3,16 +3,25 @@
     "store_name": "Office Furniture Plus",
     "customHeroImage": "yes",
     "store_url": "https://www.officefurnitureplus.com/",
+    "primary_custom_hero_image_banner": "https://trkrqklisovewtbuhfhw.supabase.co/storage/v1/object/public/image-hosting-branddev/office-furniture-plus/hero-1749583646288.png",
     "logo_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
     "banner_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
     "backdrops": [
       {
         "url": "https://www.officefurnitureplus.com/wp-content/uploads/thumb-brand-via.jpg",
-        "colors": ["#098648", "#040404", "#098648"]
+        "colors": [
+          "#098648",
+          "#040404",
+          "#098648"
+        ]
       },
       {
         "url": "https://www.officefurnitureplus.com/wp-content/uploads/hero-ofp-2.jpg",
-        "colors": ["#098648", "#040404", "#098648"]
+        "colors": [
+          "#098648",
+          "#040404",
+          "#098648"
+        ]
       }
     ],
     "fonts": {
@@ -64,7 +73,10 @@
         "text": "Office Chairs",
         "url": "https://www.officefurnitureplus.com/office-chairs/"
       },
-      { "text": "Desks", "url": "https://www.officefurnitureplus.com/desks/" },
+      {
+        "text": "Desks",
+        "url": "https://www.officefurnitureplus.com/desks/"
+      },
       {
         "text": "Cubicles",
         "url": "https://www.officefurnitureplus.com/cubicles/"
@@ -77,7 +89,10 @@
         "text": "Filing Cabinets",
         "url": "https://www.officefurnitureplus.com/filing-cabinets/"
       },
-      { "text": "Sale", "url": "https://www.officefurnitureplus.com/sale/" }
+      {
+        "text": "Sale",
+        "url": "https://www.officefurnitureplus.com/sale/"
+      }
     ]
   },
   "emailType": "Newsletter",
