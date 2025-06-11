@@ -7,7 +7,7 @@ import { uploadHeroImage } from "./upload-to-supabase.js";
 dotenv.config();
 
 const openai = new OpenAI({
-  apiKey: process.env.AIDAN_PERSONAL_OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function generateCustomHeroAndEnrich(brandData) {
@@ -22,7 +22,7 @@ export async function generateCustomHeroAndEnrich(brandData) {
   });
 
   const run = await openai.beta.threads.runs.create(thread.id, {
-    assistant_id: "asst_XsNVSz53XTKTu1WDiFSMFbeL",
+    assistant_id: "asst_UwEhWG62uCnBiFijrH2ZzVdd",
   });
 
   let runStatus;
@@ -41,7 +41,6 @@ export async function generateCustomHeroAndEnrich(brandData) {
     model: "gpt-image-1",
     prompt: promptText,
     n: 1,
-    size: "1024x1024",
     output_format: "png",
     quality: "high",
   });
@@ -64,8 +63,5 @@ export async function generateCustomHeroAndEnrich(brandData) {
     }
   }
 
-  return {
-    enrichedBrandData: reordered,
-    imageUrl: publicUrl,
-  };
+  return reordered;
 }

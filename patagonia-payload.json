@@ -1,0 +1,172 @@
+{
+  "brandData": {
+    "store_name": "Patagonia",
+    "customHeroImage": "yes",
+    "store_url": "https://www.patagonia.com/",
+    "logo_url": "https://media.brand.dev/6ceb3e85-a946-432e-9a92-f62386654d5d.png",
+    "banner_url": "https://media.brand.dev/68720198-e213-4f47-9268-ef7f42d4be59.jpg",
+    "logos": [
+      {
+        "url": "https://media.brand.dev/74831251-d4e2-439d-98ae-2a4df36ebe14.jpg",
+        "mode": "light",
+        "group": 1,
+        "type": "icon",
+        "colors": [
+          { "hex": "#829dc5", "name": "Alaskan Ice" },
+          { "hex": "#351b51", "name": "Russian Violet" }
+        ],
+        "resolution": {
+          "width": 200,
+          "height": 200,
+          "aspect_ratio": 1
+        }
+      },
+      {
+        "url": "https://media.brand.dev/6ceb3e85-a946-432e-9a92-f62386654d5d.png",
+        "mode": "light",
+        "group": 2,
+        "type": "logo",
+        "colors": [{ "hex": "#241c23", "name": "Ink Black" }],
+        "resolution": {
+          "width": 137,
+          "height": 28,
+          "aspect_ratio": 4.89
+        }
+      }
+    ],
+    "backdrops": [
+      {
+        "url": "https://media.brand.dev/68720198-e213-4f47-9268-ef7f42d4be59.jpg",
+        "colors": [
+          { "hex": "#c7ac74", "name": "Gold Tweed" },
+          { "hex": "#456b84", "name": "Eames for Blue" },
+          { "hex": "#9cb4ac", "name": "Skeptic" }
+        ],
+        "desc": "banner image; scenic mountain landscape with golden sunlight and hiking trail",
+        "resolution": {
+          "width": 1500,
+          "height": 500,
+          "aspect_ratio": 3
+        }
+      },
+      {
+        "url": "https://media.brand.dev/ad1cdb86-8216-400d-971c-c64c87926237.jpg",
+        "colors": [
+          { "hex": "#cfbd84", "name": "Independent Gold" },
+          { "hex": "#446680", "name": "Real Teal" },
+          { "hex": "#98bcc2", "name": "Bel Esprit" }
+        ],
+        "desc": "vibe image; peaceful waterside view with overcast skies and outdoor apparel in use",
+        "resolution": {
+          "width": 1128,
+          "height": 191,
+          "aspect_ratio": 5.91
+        }
+      },
+      {
+        "url": "https://media.licdn.com/dms/image/v2/D4D12AQFZUuWsFVRKCA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1693209104945?e=2147483647&v=beta&t=wCsNEHlnUUXRFNKU-Ta-sYeEMZzBTJIrRlwPZKq72Hg",
+        "colors": [
+          { "hex": "#1d2b35", "name": "Deep Stone" },
+          { "hex": "#e2b869", "name": "Sunlight Gold" },
+          { "hex": "#2f2f2f", "name": "Charcoal Rock" }
+        ],
+        "desc": "banner image; hiker in yellow jacket walking past alpine lake at sunset with logo overlay",
+        "resolution": {
+          "width": 1080,
+          "height": 720,
+          "aspect_ratio": 1.5
+        }
+      },
+      {
+        "url": "https://www.patagonia.com/dw/image/v2/bdjb_PRD/on/demandware.static/-/Sites-patagonia-storefront-na/default/dwc97fb0a4/category/routing/packs-gear-new-arrivals-routing.jpg?q=85&sw=850&",
+        "colors": [
+          { "hex": "#e7e5e2", "name": "Frost White" },
+          { "hex": "#313a3e", "name": "Slate Ash" },
+          { "hex": "#567680", "name": "Mountain Teal" }
+        ],
+        "desc": "vibe image; rugged terrain and packs displayed for outdoor use",
+        "resolution": {
+          "width": 850,
+          "height": 567,
+          "aspect_ratio": 1.5
+        }
+      },
+      {
+        "url": "https://www.patagonia.com/dw/image/v2/bdjb_PRD/on/demandware.static/-/Sites-patagonia-storefront-na/default/dw0eea850a/category/hero/shop_all_clothing_hero.jpg?q=85&sw=334&",
+        "colors": [
+          { "hex": "#cfcfcf", "name": "Dusty Cloud" },
+          { "hex": "#a0aab1", "name": "Stone Blue" },
+          { "hex": "#3e4f57", "name": "Canyon Shadow" }
+        ],
+        "desc": "banner image; Patagonia clothing shown against soft-lit natural background",
+        "resolution": {
+          "width": 334,
+          "height": 223,
+          "aspect_ratio": 1.5
+        }
+      }
+    ],
+    "fonts": [
+      { "usage": "title", "name": "Avenir Next W01" },
+      { "usage": "body", "name": "Ridgeway Sans" }
+    ],
+    "stock_info": null,
+    "address": {
+      "street": "259 W. Santa Clara Street",
+      "city": "Ventura",
+      "state": "California",
+      "state_code": "CA",
+      "postal_code": "93001",
+      "country": "UNITED STATES",
+      "country_code": "US"
+    },
+    "social_links": {
+      "facebook": "https://facebook.com/patagonia",
+      "x": "https://x.com/patagonia",
+      "linkedin": "https://linkedin.com/company/patagonia_2"
+    },
+    "email": "",
+    "phone": null,
+    "button_border_style": "Rounded",
+    "header_color": "#241c23",
+    "body_color": "#ffffff",
+    "link_color": "#241c23",
+    "text_color": "#241c23",
+    "primary_color": "#241c23",
+    "button_color": "#241c23",
+    "button_text_color": "#ffffff",
+    "button_border_color": "#241c23",
+    "tone": "minimalist and environmentally conscious",
+    "description": "Patagonia, founded in 1973 by Yvon Chouinard, is an outdoor apparel company with a mission to save our home planet. Based in Ventura, California, Patagonia is internationally recognized for its commitment to authentic product quality and environmental activism, donating 1% of sales annually towards grants and donations. Specializing in outdoor clothing and gear for climbing, surfing, skiing, snowboarding, fly fishing, and trail running, Patagonia is a certified B-Corporation that promotes a minimalist style and values rooted in the outdoor adventures of its founders. The company is constantly seeking motivated individuals who are passionate about outdoor activities to join their team, whether in retail, headquarters, service center, or overseas offices. If you love spending time in the mountains or the wild, Patagonia may be the perfect fit for you.",
+    "slogan": "Save our home planet with Patagonia's outdoor apparel and gear.",
+    "products": [
+      {
+        "name": "Men's Baggies Shorts - 5\"",
+        "image_url": "https://www.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw252639b6/images/hi-res/57022_BNLG.jpg?sw=1920&sh=1920&sfrm=png&q=90&bgcolor=f3f4ef",
+        "description": "Made from 100% recycled nylon, these classic quick-drying 5\" Baggies are built for surf, sun, or everyday wear.",
+        "url": "https://www.patagonia.com/product/mens-baggies-shorts-5-inch/57022.html?dwvar_57022_color=BNLG"
+      },
+      {
+        "name": "Men's Capilene Cool Daily Graphic Shirt - Lands",
+        "image_url": "https://www.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw8f6abf0d/images/hi-res/45385_CCLX_ALTFRONT.jpg?sw=1920&sh=1920&sfrm=png&q=90&bgcolor=f3f4ef",
+        "description": "A technical shirt designed for trail or water, this moisture-wicking graphic tee keeps you cool, dry, and protected with 50+ UPF sun protection.",
+        "url": "https://www.patagonia.com/product/mens-capilene-cool-daily-graphic-shirt-lands/45385.html?dwvar_45385_color=CCLX"
+      },
+      {
+        "name": "Men's Wavefarer Boardshorts - 19\"",
+        "image_url": "https://www.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw8ac25f8a/images/hi-res/86623_TIDB.jpg?sw=1920&sh=1920&sfrm=png&q=90&bgcolor=f3f4ef",
+        "description": "Built for performance in the water, these durable and fast-drying 19\" boardshorts are made from recycled nylon and Fair Trade Certified sewn.",
+        "url": "https://www.patagonia.com/product/mens-wavefarer-boardshorts-19-inch/86623.html?dwvar_86623_color=TIDB"
+      },
+      {
+        "name": "Black Hole Duffel Bag - 55L",
+        "image_url": "https://www.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw1a21fea9/images/hi-res/49343_TDT.jpg?sw=1920&sh=1920&sfrm=png&q=90&bgcolor=f3f4ef",
+        "description": "Extremely durable and weather-resistant, this 55-liter duffel is perfect for extended travel or hauling gear on rugged adventures.",
+        "url": "https://www.patagonia.com/product/black-hole-duffel-bag-55-liters/49343.html?dwvar_49343_color=TDT"
+      }
+    ]
+  },
+  "emailType": "Productgrid",
+  "userSubmittedContext": "We want to show off patagonia’s summer catalogue",
+  "code": 200
+}

@@ -7,13 +7,13 @@ import path from "path";
 dotenv.config();
 
 const openai = new OpenAI({
-  apiKey: process.env.AIDAN_PERSONAL_OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const inputFile = "./OFP-payload.json";
 const enrichedOutputFile = "./OFP-payload-enriched.json";
 const outputImagePath = "./hero.png";
-const assistantId = "asst_XsNVSz53XTKTu1WDiFSMFbeL";
+const assistantId = "asst_UwEhWG62uCnBiFijrH2ZzVdd";
 
 async function main() {
   // Step 1: Load brand data
@@ -65,7 +65,6 @@ async function main() {
     model: "gpt-image-1",
     prompt: promptText,
     n: 1,
-    size: "1024x1024",
     output_format: "png",
     quality: "high",
   });

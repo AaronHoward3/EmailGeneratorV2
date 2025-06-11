@@ -57,10 +57,10 @@ const BLOCK_DEFINITIONS = {
     sections: ["intro", "content1", "cta"],
     blocks: {
       intro: [
-        "hero-overlay.txt",
+        //"hero-overlay.txt",
         "hero-title.txt",
         "title-body.txt",
-        "title-only.txt",
+        //"title-only.txt",
       ],
       content1: [
         "alternating-grid.txt",

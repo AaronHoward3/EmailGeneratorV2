@@ -3,7 +3,7 @@ import fs from "fs";
 import axios from "axios";
 
 // Load the base payload
-const payload = JSON.parse(fs.readFileSync("OFP-payload.json", "utf-8"));
+const payload = JSON.parse(fs.readFileSync("patagonia-payload.json", "utf-8"));
 
 // Send the request
 axios
