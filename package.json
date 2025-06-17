@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "NODE_ENV=production node server.js"
   },
   "type": "module",
   "dependencies": {
