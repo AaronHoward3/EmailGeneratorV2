@@ -80,12 +80,8 @@
       { "text": "Sale", "url": "https://www.officefurnitureplus.com/sale/" }
     ]
   },
-  "emailType": "Newsletter",
-  "userContext": "There is a father's day sale until June 15th, the promotion is half off select chairs",
-  "emailFields": {
-    "product_link": "",
-    "promo_code": "",
-    "amount_off": "",
-    "valid_until": ""
-  }
+  "emailType": "Productgrid",
+  "userSubmittedContext": "We want to call attention to christmas sales .",
+  "userSubmittedTone": "Urgent & Promotional"
 }
+

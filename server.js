@@ -83,6 +83,19 @@ const BLOCK_DEFINITIONS = {
       cta: ["CTAGrid.txt", "CTAIncentive.txt", "CTAReminder.txt"],
     },
   },
+    Promotion: {
+    sections: ["intro", "content", "cta"],
+    blocks: {
+      intro: ["Editorial.txt", "Hero-text.txt", "LargePromo.txt", "Main.txt"],
+      content: [
+        "BoldAlternating.txt",
+        "Imagegrid.txt",
+        "promogrid.txt",
+        "Story.txt",
+      ],
+      cta: ["ctatext.txt", "LargeCta.txt", "simplebutton.txt"],
+    },
+  },
 };
 
 function pickRandom(arr, exclude = []) {
@@ -200,6 +213,7 @@ You are an expert ${emailType} email assistant.
 
 Your job:
 Generate one MJML email using uploaded block templates.
+Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
 
 Must use at least one color block using brand colors.
 Make sure to use at least one block with an image field.

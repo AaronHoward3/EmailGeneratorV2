@@ -2,13 +2,12 @@
   <mj-column width="50%">
     <mj-image src="https://via.placeholder.com/270x200" alt="New Collection" />
   </mj-column>
-  <mj-column width="50%">
-    <mj-text font-size="20px" font-weight="bold">Discover the New Collection</mj-text>
-    <mj-text color="#555555">
+  <mj-column width="50%" padding="0 25px">
+    <mj-text font-size="24px" font-weight="bold" color="#000000" align="left" padding-bottom="10px" line-height="1.6">
+      Discover the New Collection
+    </mj-text>
+    <mj-text font-size="16px" color="#555555" align="left" line-height="1.6">
       Minimal, elevated, and built for everyday movement. This season’s drop is all about flow.
     </mj-text>
-    <mj-button href="https://example.com" align="left" padding="10px 0 0">
-      Shop Now
-    </mj-button>
   </mj-column>
 </mj-section>

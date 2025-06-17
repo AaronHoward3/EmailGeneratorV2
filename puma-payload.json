@@ -76,5 +76,7 @@
       { "text": "Sale", "url": "https://www.puma.com/us/en/outlet" }
     ]
   },
-  "emailType": "Productgrid"
+  "emailType": "Productgrid",
+  "userSubmittedContext": "",
+  "userSubmittedTone": "Urgent & Promotional"
 }

@@ -1,13 +1,20 @@
 <mj-section background-color="#ffffff" padding="0">
   <mj-column>
     <mj-image src="https://via.placeholder.com/600x300" alt="Hero Banner" />
-    <mj-text align="center" font-size="24px" font-weight="bold" padding="20px 25px">
+    <mj-text align="center" font-size="30px" font-weight="bold" padding="20px 25px" color="#000000" line-height="1.6">
       Welcome to Our Monthly Drop
     </mj-text>
-    <mj-text align="center" color="#555555" padding="0 25px">
+    <mj-text align="center" color="#555555" font-size="16px" padding="0 25px" line-height="1.6">
       Here’s what’s happening, what’s coming, and what you don’t want to miss.
     </mj-text>
-    <mj-button href="https://example.com" align="center" padding="20px 0 0">
+    <mj-button
+      href="https://example.com"
+      background-color="#000000"
+      color="#ffffff"
+      font-size="16px"
+      padding="20px 0 20px"
+      align="center"
+    >
       Discover More
     </mj-button>
   </mj-column>

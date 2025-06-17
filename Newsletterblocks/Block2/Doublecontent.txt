@@ -1,0 +1,26 @@
+    <!-- Block: Team Update Highlight -->
+    <mj-section background-color="#ffffff" padding="30px">
+      <mj-column>
+        <mj-text font-size="20px" font-weight="bold" padding="0 0 10px">
+          Welcoming New Talent
+        </mj-text>
+        <mj-text color="#555555">
+          This month, we welcomed 5 new team members across engineering, design, and customer success. We’re thrilled to continue growing with such talented individuals.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Block: Founder Message -->
+    <mj-section background-color="#ffffff" padding="30px">
+      <mj-column>
+        <mj-text font-size="20px" font-weight="bold" padding="0 0 10px">
+          From the Founder
+        </mj-text>
+        <mj-text color="#555555">
+          “As we grow, staying true to our core values is more important than ever. We’re committed to transparency, progress, and impact — thank you for being on this journey with us.”
+        </mj-text>
+        <mj-text font-size="14px" color="#999999" padding-top="10px">
+          — Alex Reynolds, CEO
+        </mj-text>
+      </mj-column>
+    </mj-section>
