@@ -1,7 +1,7 @@
 import fs from "fs";
 import OpenAI from "openai";
 import dotenv from "dotenv";
-import { uploadHeroImage } from "./upload-to-supabase.js";
+import { uploadHeroImage } from "./image-upload-service.js";
 import path from "path";
 
 dotenv.config();
@@ -75,12 +75,12 @@ async function main() {
   fs.writeFileSync(outputImagePath, Buffer.from(imageBase64, "base64"));
   console.log("✅ Image saved locally:", outputImagePath);
 
-  // Step 5: Upload to Supabase
+  // Step 5: Upload using abstraction
   const timestamp = Date.now();
   const remoteFileName = `${storeSlug}/hero-${timestamp}.png`;
   const publicUrl = await uploadHeroImage(outputImagePath, remoteFileName);
 
-  console.log("✅ Image uploaded to Supabase:", publicUrl);
+  console.log("✅ Image uploaded:", publicUrl);
 
   // Step 6: Enrich brand JSON and write to new file
   const enrichedBrandData = {
