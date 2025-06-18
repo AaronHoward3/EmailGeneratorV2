@@ -7,7 +7,7 @@ const app = express();
 
 // Basic concurrency limiting (only for non-Lambda environments)
 let activeRequests = 0;
-const MAX_CONCURRENT_REQUESTS = 5;
+const MAX_CONCURRENT_REQUESTS = 20;
 
 // Only apply concurrency limiting if not in Lambda
 if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {

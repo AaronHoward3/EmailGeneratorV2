@@ -57,16 +57,17 @@ functions:
   api:
     handler: handler.handler
     events:
-      - http:
+      - httpApi:
           path: /{proxy+}
           method: ANY
           cors: true
-      - http:
+      - httpApi:
           path: /
           method: GET
           cors: true
     environment:
       FUNCTION_NAME: ${self:service}-${self:provider.stage}
+    reservedConcurrency: 50 # Allow up to 50 concurrent executions
 
 plugins:
   - serverless-domain-manager
@@ -82,4 +83,48 @@ package:
     - '!.env*'
     - '!amplify.yml'
     - '!README.md'
-    - '!.git/**' 
+    - '!.git/**'
+
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: ${self:service}-${self:provider.stage}
+        Description: API Gateway for ${self:service}
+        EndpointConfiguration:
+          Types:
+            - REGIONAL
+    ApiGatewayMethod:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        RestApiId: !Ref ApiGatewayRestApi
+        ResourceId: !GetAtt ApiGatewayRestApi.RootResourceId
+        HttpMethod: ANY
+        AuthorizationType: NONE
+        Integration:
+          Type: AWS_PROXY
+          IntegrationHttpMethod: POST
+          Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiLambdaFunction.Arn}/invocations"
+          TimeoutInMillis: 300000
+          RequestTemplates:
+            application/json: |
+              {
+                "body": $input.json('$'),
+                "headers": {
+                  #foreach($header in $input.params().header.keySet())
+                  "$header": "$util.escapeJavaScript($input.params().header.get($header))" #if($foreach.hasNext),#end
+                  #end
+                },
+                "method": "$context.httpMethod",
+                "params": {
+                  #foreach($param in $input.params().path.keySet())
+                  "$param": "$util.escapeJavaScript($param)" #if($foreach.hasNext),#end
+                  #end
+                },
+                "query": {
+                  #foreach($queryParam in $input.params().querystring.keySet())
+                  "$queryParam": "$util.escapeJavaScript($input.params().querystring.get($queryParam))" #if($foreach.hasNext),#end
+                  #end
+                }
+              } 
