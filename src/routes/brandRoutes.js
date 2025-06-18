@@ -1,12 +1,12 @@
-// ✅ Updated brandInfo.js to extract multiple real image URLs cleanly
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const router = express.Router();
 
-router.post("/api/brand-info", async (req, res) => {
+router.post("/brand-info", async (req, res) => {
   const { domain } = req.body;
 
   if (!domain) {
@@ -18,7 +18,7 @@ router.post("/api/brand-info", async (req, res) => {
       `https://api.brand.dev/v1/brand/retrieve?domain=${domain}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.BRANDDEV_API_KEY}`,
+          Authorization: `Bearer ${process.env.SB_BRANDDEV_API_KEY}`,
           "Content-Type": "application/json",
         },
       }
@@ -56,4 +56,4 @@ router.post("/api/brand-info", async (req, res) => {
   }
 });
 
-export default router;
+export default router; 
