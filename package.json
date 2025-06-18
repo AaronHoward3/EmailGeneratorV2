@@ -3,12 +3,18 @@
     "start": "node src/server.js",
     "build": "echo 'Build completed'",
     "dev": "node src/server.js",
-    "test": "node scripts/test-request.js"
+    "test": "node scripts/test-request.js",
+    "deploy": "serverless deploy",
+    "deploy:prod": "serverless deploy --stage production",
+    "remove": "serverless remove",
+    "create-domain": "serverless create_domain --stage production",
+    "remove-domain": "serverless delete_domain --stage production"
   },
   "type": "module",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.830.0",
     "@supabase/supabase-js": "^2.50.0",
+    "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.8.4",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
@@ -16,5 +22,9 @@
     "express": "^5.1.0",
     "openai": "^4.91.1",
     "ora": "^8.2.0"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0",
+    "serverless-domain-manager": "^7.0.0"
   }
 }

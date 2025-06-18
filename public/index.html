@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBEmailGenerator API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .method {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .url {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .test-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .test-btn:hover {
+            background: #218838;
+        }
+        .response {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SBEmailGenerator API</h1>
+        <p>This is a Node.js API for generating branded MJML email templates using OpenAI.</p>
+        
+        <div class="endpoint">
+            <div class="method">GET</div>
+            <div class="url">/</div>
+            <p>Root health check endpoint</p>
+            <button class="test-btn" onclick="testHealth()">Test Health Check</button>
+            <div id="health-response" class="response" style="display: none;"></div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">GET</div>
+            <div class="url">/health</div>
+            <p>Detailed health status with request metrics</p>
+            <button class="test-btn" onclick="testDetailedHealth()">Test Detailed Health</button>
+            <div id="detailed-health-response" class="response" style="display: none;"></div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">POST</div>
+            <div class="url">/api/generate-emails</div>
+            <p>Generate MJML emails (requires authentication and payload)</p>
+            <p><em>Note: This endpoint requires a proper payload with brandData and emailType</em></p>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">POST</div>
+            <div class="url">/api/brand-info</div>
+            <p>Fetch brand information from Brand.dev API</p>
+            <p><em>Note: This endpoint requires a domain parameter</em></p>
+        </div>
+    </div>
+
+    <script>
+        async function testHealth() {
+            const responseDiv = document.getElementById('health-response');
+            responseDiv.style.display = 'block';
+            responseDiv.textContent = 'Testing...';
+            
+            try {
+                const response = await fetch('/');
+                const data = await response.json();
+                responseDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                responseDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testDetailedHealth() {
+            const responseDiv = document.getElementById('detailed-health-response');
+            responseDiv.style.display = 'block';
+            responseDiv.textContent = 'Testing...';
+            
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                responseDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                responseDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html> 

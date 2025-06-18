@@ -8,14 +8,9 @@ frontend:
       commands:
         - echo "Node.js backend - no build step needed"
   artifacts:
-    baseDirectory: .
+    baseDirectory: public
     files:
-      - src/**/*
-      - lib/**/*
-      - package.json
-      - yarn.lock
-      - amplify.yml
-      - .env.example
+      - index.html
   cache:
     paths:
       - node_modules/**/* 

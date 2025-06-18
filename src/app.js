@@ -5,26 +5,29 @@ import brandRoutes from "./routes/brandRoutes.js";
 
 const app = express();
 
-// Basic concurrency limiting
+// Basic concurrency limiting (only for non-Lambda environments)
 let activeRequests = 0;
 const MAX_CONCURRENT_REQUESTS = 5;
 
-app.use((req, res, next) => {
-  if (activeRequests >= MAX_CONCURRENT_REQUESTS) {
-    return res.status(503).json({
-      error: "Server is busy. Please try again in a moment.",
-      retryAfter: 30
+// Only apply concurrency limiting if not in Lambda
+if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  app.use((req, res, next) => {
+    if (activeRequests >= MAX_CONCURRENT_REQUESTS) {
+      return res.status(503).json({
+        error: "Server is busy. Please try again in a moment.",
+        retryAfter: 30
+      });
+    }
+    
+    activeRequests++;
+    
+    res.on('finish', () => {
+      activeRequests--;
     });
-  }
-  
-  activeRequests++;
-  
-  res.on('finish', () => {
-    activeRequests--;
+    
+    next();
   });
-  
-  next();
-});
+}
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
@@ -35,8 +38,10 @@ app.get("/", (req, res) => {
     status: "healthy", 
     service: "SBEmailGenerator API",
     version: "1.0.0",
-    activeRequests,
-    maxConcurrentRequests: MAX_CONCURRENT_REQUESTS
+    environment: process.env.NODE_ENV || "development",
+    isLambda: !!process.env.AWS_LAMBDA_FUNCTION_NAME,
+    activeRequests: process.env.AWS_LAMBDA_FUNCTION_NAME ? "N/A (Lambda)" : activeRequests,
+    maxConcurrentRequests: process.env.AWS_LAMBDA_FUNCTION_NAME ? "N/A (Lambda)" : MAX_CONCURRENT_REQUESTS
   });
 });
 
