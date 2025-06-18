@@ -9,6 +9,8 @@ provider:
   region: ${opt:region, 'us-east-1'}
   memorySize: 1024
   timeout: 300 # 5 minutes for email generation
+  httpApi:
+    cors: true
   environment:
     NODE_ENV: ${self:provider.stage}
     OPENAI_API_KEY: ${env:OPENAI_API_KEY, ''}
@@ -60,11 +62,9 @@ functions:
       - httpApi:
           path: /{proxy+}
           method: ANY
-          cors: true
       - httpApi:
           path: /
           method: GET
-          cors: true
     environment:
       FUNCTION_NAME: ${self:service}-${self:provider.stage}
     reservedConcurrency: 50 # Allow up to 50 concurrent executions
