@@ -7,20 +7,29 @@ function getUploadMethod() {
   // Debug: Log available environment variables (without sensitive values)
   console.log("🔍 Checking environment variables:");
   console.log("AWS_REGION:", process.env.AWS_REGION ? "SET" : "NOT SET");
+  console.log("S3_REGION:", process.env.S3_REGION ? "SET" : "NOT SET");
   console.log("AWS_ACCESS_KEY_ID:", process.env.AWS_ACCESS_KEY_ID ? "SET" : "NOT SET");
+  console.log("S3_ACCESS_KEY_ID:", process.env.S3_ACCESS_KEY_ID ? "SET" : "NOT SET");
   console.log("AWS_SECRET_ACCESS_KEY:", process.env.AWS_SECRET_ACCESS_KEY ? "SET" : "NOT SET");
+  console.log("S3_SECRET_ACCESS_KEY:", process.env.S3_SECRET_ACCESS_KEY ? "SET" : "NOT SET");
   console.log("S3_BUCKET_NAME:", process.env.S3_BUCKET_NAME ? "SET" : "NOT SET");
   console.log("SUPABASE_URL:", process.env.SUPABASE_URL ? "SET" : "NOT SET");
   console.log("SUPABASE_SERVICE_KEY:", process.env.SUPABASE_SERVICE_KEY ? "SET" : "NOT SET");
 
+  // Get S3 configuration (check both AWS_ and S3_ prefixes)
+  const region = process.env.AWS_REGION || process.env.S3_REGION;
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID || process.env.S3_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || process.env.S3_SECRET_ACCESS_KEY;
+  const bucketName = process.env.S3_BUCKET_NAME;
+
   // Check if S3 is configured
-  if (process.env.AWS_REGION && process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.S3_BUCKET_NAME) {
+  if (region && accessKeyId && secretAccessKey && bucketName) {
     console.log("✅ S3 configuration detected");
     const s3Client = new S3Client({
-      region: process.env.AWS_REGION,
+      region: region,
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey
       }
     });
 
@@ -28,8 +37,8 @@ function getUploadMethod() {
       type: 's3',
       client: s3Client,
       config: {
-        Bucket: process.env.S3_BUCKET_NAME,
-        region: process.env.AWS_REGION
+        Bucket: bucketName,
+        region: region
       }
     };
   }
