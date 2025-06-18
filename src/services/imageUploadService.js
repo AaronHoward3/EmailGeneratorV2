@@ -1,66 +1,85 @@
-import fs from "fs";
-import dotenv from "dotenv";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
-dotenv.config();
-
-export async function uploadHeroImage(localFilePathOrBuffer, remoteFileName) {
-  // Handle both file path and buffer inputs
-  const fileBuffer = typeof localFilePathOrBuffer === 'string' 
-    ? fs.readFileSync(localFilePathOrBuffer)
-    : localFilePathOrBuffer;
-
-  if (process.env.SB_S3_REGION && process.env.SB_S3_ACCESS_KEY_ID && process.env.SB_S3_SECRET_ACCESS_KEY && process.env.SB_S3_BUCKET_NAME) {
-    // Use S3
-    const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3");
+// Choose upload method based on environment variables
+function getUploadMethod() {
+  // Check if S3 is configured
+  if (process.env.S3_REGION && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY && process.env.S3_BUCKET_NAME) {
     const s3Client = new S3Client({
-      region: process.env.SB_S3_REGION,
+      region: process.env.S3_REGION,
       credentials: {
-        accessKeyId: process.env.SB_S3_ACCESS_KEY_ID,
-        secretAccessKey: process.env.SB_S3_SECRET_ACCESS_KEY
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
       }
     });
 
-    const s3Key = `hero_images/${remoteFileName}`;
-    const command = new PutObjectCommand({
-      Bucket: process.env.SB_S3_BUCKET_NAME,
-      Key: s3Key,
-      Body: fileBuffer,
-      ContentType: "image/png"
+    return {
+      type: 's3',
+      client: s3Client,
+      config: {
+        Bucket: process.env.S3_BUCKET_NAME,
+        region: process.env.S3_REGION
+      }
+    };
+  }
+  
+  // Check if Supabase is configured
+  if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
+    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+    return {
+      type: 'supabase',
+      client: supabase
+    };
+  }
+  
+  throw new Error("Neither S3 nor Supabase is properly configured. Please set the required environment variables.");
+}
+
+export async function uploadImage(imageBuffer, filename, storeId) {
+  const uploadMethod = getUploadMethod();
+  
+  if (uploadMethod.type === 's3') {
+    return await uploadToS3(uploadMethod.client, uploadMethod.config, imageBuffer, filename, storeId);
+  } else if (uploadMethod.type === 'supabase') {
+    return await uploadToSupabase(uploadMethod.client, imageBuffer, filename, storeId);
+  }
+}
+
+async function uploadToS3(s3Client, config, imageBuffer, filename, storeId) {
+  const s3Key = `hero_images/${storeId}/${filename}`;
+  
+  const command = new PutObjectCommand({
+    Bucket: config.Bucket,
+    Key: s3Key,
+    Body: imageBuffer,
+    ContentType: 'image/png',
+    CacheControl: 'public, max-age=31536000'
+  });
+
+  await s3Client.send(command);
+  
+  const publicUrl = `https://${config.Bucket}.s3.${config.region}.amazonaws.com/${s3Key}`;
+  return publicUrl;
+}
+
+async function uploadToSupabase(supabase, imageBuffer, filename, storeId) {
+  const filePath = `${storeId}/${filename}`;
+  
+  const { data, error } = await supabase.storage
+    .from('image-hosting-braanddev')
+    .upload(filePath, imageBuffer, {
+      contentType: 'image/png',
+      cacheControl: '31536000'
     });
 
-    try {
-      await s3Client.send(command);
-      const publicUrl = `https://${process.env.SB_S3_BUCKET_NAME}.s3.${process.env.SB_S3_REGION}.amazonaws.com/${s3Key}`;
-      return publicUrl;
-    } catch (error) {
-      throw error;
-    }
-  } else if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
-    // Fallback to Supabase
-    const { createClient } = await import("@supabase/supabase-js");
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
-    );
-    const { data, error } = await supabase.storage
-      .from("image-hosting-branddev")
-      .upload(remoteFileName, fileBuffer, {
-        cacheControl: "3600",
-        upsert: true,
-        contentType: "image/png",
-      });
-
-    if (error) throw error;
-
-    const { data: publicUrlData } = supabase.storage
-      .from("image-hosting-branddev")
-      .getPublicUrl(remoteFileName);
-
-    return publicUrlData.publicUrl;
-  } else {
-    // If neither is configured, throw an error
-    throw new Error(
-      "No image upload service configured. Please set AWS S3 or Supabase environment variables."
-    );
+  if (error) {
+    throw new Error(`Failed to upload to Supabase: ${error.message}`);
   }
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('image-hosting-braanddev')
+    .getPublicUrl(filePath);
+
+  return publicUrl;
 } 
