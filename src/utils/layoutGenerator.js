@@ -32,4 +32,11 @@ export function getUniqueLayout(emailType) {
     attempts++;
   }
   return null;
+}
+
+// Simple cleanup function for session management
+export function cleanupSession(sessionId) {
+  // Currently not needed since we use a simple array for layout history
+  // This function exists to satisfy the import in emailController
+  console.log(`🧹 Session cleanup completed for: ${sessionId}`);
 } 

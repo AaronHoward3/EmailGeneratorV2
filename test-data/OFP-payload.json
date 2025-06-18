@@ -1,7 +1,7 @@
 {
   "brandData": {
     "store_name": "Office Furniture Plus",
-    "customHeroImage": "yes",
+    "customHeroImage": true,
     "store_url": "https://www.officefurnitureplus.com/",
     "logo_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",
     "banner_url": "https://media.brand.dev/978db3d6-fd0f-464b-9a25-3c80656f6546.svg",

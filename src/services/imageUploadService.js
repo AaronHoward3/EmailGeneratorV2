@@ -4,13 +4,23 @@ import crypto from "crypto";
 
 // Choose upload method based on environment variables
 function getUploadMethod() {
+  // Debug: Log available environment variables (without sensitive values)
+  console.log("🔍 Checking environment variables:");
+  console.log("AWS_REGION:", process.env.AWS_REGION ? "SET" : "NOT SET");
+  console.log("AWS_ACCESS_KEY_ID:", process.env.AWS_ACCESS_KEY_ID ? "SET" : "NOT SET");
+  console.log("AWS_SECRET_ACCESS_KEY:", process.env.AWS_SECRET_ACCESS_KEY ? "SET" : "NOT SET");
+  console.log("S3_BUCKET_NAME:", process.env.S3_BUCKET_NAME ? "SET" : "NOT SET");
+  console.log("SUPABASE_URL:", process.env.SUPABASE_URL ? "SET" : "NOT SET");
+  console.log("SUPABASE_SERVICE_KEY:", process.env.SUPABASE_SERVICE_KEY ? "SET" : "NOT SET");
+
   // Check if S3 is configured
-  if (process.env.S3_REGION && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY && process.env.S3_BUCKET_NAME) {
+  if (process.env.AWS_REGION && process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.S3_BUCKET_NAME) {
+    console.log("✅ S3 configuration detected");
     const s3Client = new S3Client({
-      region: process.env.S3_REGION,
+      region: process.env.AWS_REGION,
       credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY_ID,
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
       }
     });
 
@@ -19,13 +29,14 @@ function getUploadMethod() {
       client: s3Client,
       config: {
         Bucket: process.env.S3_BUCKET_NAME,
-        region: process.env.S3_REGION
+        region: process.env.AWS_REGION
       }
     };
   }
   
   // Check if Supabase is configured
   if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
+    console.log("✅ Supabase configuration detected");
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
     return {
       type: 'supabase',
@@ -33,6 +44,7 @@ function getUploadMethod() {
     };
   }
   
+  console.log("❌ No valid configuration found");
   throw new Error("Neither S3 nor Supabase is properly configured. Please set the required environment variables.");
 }
 

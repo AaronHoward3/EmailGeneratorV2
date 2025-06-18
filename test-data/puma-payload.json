@@ -1,7 +1,8 @@
 {
+  "storeId": "123",
   "brandData": {
     "store_name": "PUMA",
-    "customHeroImage": "yes",
+    "customHeroImage": true,
     "store_url": "https://www.puma.com/",
     "logo_url": "https://media.brand.dev/77ce5b6d-496c-4f23-9646-62b42df91ccd.png",
     "banner_url": "https://media.brand.dev/f6af5040-517b-4d59-be0c-6083d94429c0.jpg",

@@ -1,7 +1,8 @@
 {
+  "storeId": "123",
   "brandData": {
     "store_name": "Patagonia",
-    "customHeroImage": "yes",
+    "customHeroImage": true,
     "store_url": "https://www.patagonia.com/",
     "logo_url": "https://media.brand.dev/6ceb3e85-a946-432e-9a92-f62386654d5d.png",
     "banner_url": "https://media.brand.dev/68720198-e213-4f47-9268-ef7f42d4be59.jpg",

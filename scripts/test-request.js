@@ -7,7 +7,7 @@ const payload = JSON.parse(fs.readFileSync("test-data/patagonia-payload.json", "
 
 // Send the request
 axios
-  .post("http://localhost:3000/generate-emails", payload, {
+  .post("http://localhost:3000/api/generate-emails", payload, {
     headers: {
       "Content-Type": "application/json",
     },

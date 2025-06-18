@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
-import { uploadHeroImage } from "./imageUploadService.js";
+import { uploadImage } from "./imageUploadService.js";
 
 dotenv.config();
 
@@ -83,9 +83,8 @@ export async function generateCustomHeroAndEnrich(brandData, storeId) {
   
   // Use hash-based filename generation
   const filename = `hero-${randomHash}.png`;
-  const remoteFileName = `${sanitizedStoreSlug}/${filename}`;
   
-  const publicUrl = await uploadHeroImage(imageBuffer, remoteFileName);
+  const publicUrl = await uploadImage(imageBuffer, filename, sanitizedStoreSlug);
 
   // Step 5: Enrich brandData inline
   const reordered = {};
