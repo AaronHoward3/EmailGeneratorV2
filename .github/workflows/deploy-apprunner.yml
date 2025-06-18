@@ -56,39 +56,82 @@ jobs:
           if [ ! -z "$EXISTING_SERVICE" ]; then
             echo "Found existing App Runner service: $EXISTING_SERVICE"
             
-            # Wait for service to be in a stable state before updating
-            echo "Checking service status..."
-            while true; do
-              SERVICE_STATUS=$(aws apprunner describe-service --service-arn "$EXISTING_SERVICE" --query 'Service.Status' --output text)
-              echo "Current service status: $SERVICE_STATUS"
+            # Check service status
+            SERVICE_STATUS=$(aws apprunner describe-service --service-arn "$EXISTING_SERVICE" --query 'Service.Status' --output text)
+            echo "Current service status: $SERVICE_STATUS"
+            
+            if [ "$SERVICE_STATUS" = "CREATE_FAILED" ]; then
+              echo "Service creation failed. Deleting failed service and creating a new one..."
+              aws apprunner delete-service --service-arn "$EXISTING_SERVICE"
               
-              if [ "$SERVICE_STATUS" = "RUNNING" ] || [ "$SERVICE_STATUS" = "FAILED" ]; then
-                echo "Service is in stable state, proceeding with update..."
-                break
-              else
-                echo "Service is still in progress, waiting 30 seconds..."
-                sleep 30
-              fi
-            done
-            
-            echo "Updating existing App Runner service: $EXISTING_SERVICE"
-            aws apprunner update-service \
-              --service-arn "$EXISTING_SERVICE" \
-              --source-configuration '{
-                "ImageRepository": {
-                  "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
-                  "ImageConfiguration": {
-                    "Port": "3000"
+              # Wait for deletion to complete
+              echo "Waiting for service deletion to complete..."
+              while true; do
+                if aws apprunner describe-service --service-arn "$EXISTING_SERVICE" 2>/dev/null; then
+                  echo "Service still exists, waiting..."
+                  sleep 30
+                else
+                  echo "Service deleted successfully"
+                  break
+                fi
+              done
+              
+              # Create new service
+              echo "Creating new App Runner service..."
+              aws apprunner create-service \
+                --service-name ${{ env.APP_RUNNER_SERVICE }} \
+                --source-configuration '{
+                  "ImageRepository": {
+                    "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
+                    "ImageConfiguration": {
+                      "Port": "3000"
+                    },
+                    "ImageRepositoryType": "ECR"
                   },
-                  "ImageRepositoryType": "ECR"
-                },
-                "AuthenticationConfiguration": {
-                  "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
-                }
-              }'
-            
-            # Save the service ARN for future deployments
-            echo "$EXISTING_SERVICE" > service-output.json
+                  "AuthenticationConfiguration": {
+                    "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
+                  }
+                }' \
+                --instance-configuration '{
+                  "Cpu": "1024",
+                  "Memory": "2048"
+                }' \
+                --output json > service-output.json
+            else
+              # Wait for service to be in a stable state before updating
+              echo "Checking service status..."
+              while true; do
+                SERVICE_STATUS=$(aws apprunner describe-service --service-arn "$EXISTING_SERVICE" --query 'Service.Status' --output text)
+                echo "Current service status: $SERVICE_STATUS"
+                
+                if [ "$SERVICE_STATUS" = "RUNNING" ] || [ "$SERVICE_STATUS" = "FAILED" ]; then
+                  echo "Service is in stable state, proceeding with update..."
+                  break
+                else
+                  echo "Service is still in progress, waiting 30 seconds..."
+                  sleep 30
+                fi
+              done
+              
+              echo "Updating existing App Runner service: $EXISTING_SERVICE"
+              aws apprunner update-service \
+                --service-arn "$EXISTING_SERVICE" \
+                --source-configuration '{
+                  "ImageRepository": {
+                    "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
+                    "ImageConfiguration": {
+                      "Port": "3000"
+                    },
+                    "ImageRepositoryType": "ECR"
+                  },
+                  "AuthenticationConfiguration": {
+                    "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
+                  }
+                }'
+              
+              # Save the service ARN for future deployments
+              echo "$EXISTING_SERVICE" > service-output.json
+            fi
           else
             echo "Creating new App Runner service..."
             aws apprunner create-service \
