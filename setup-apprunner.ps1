@@ -32,8 +32,32 @@ try {
 
 Write-Host "`n🔐 Creating IAM role for App Runner..." -ForegroundColor Yellow
 
-# Create trust policy for App Runner
-@'
+# Check if the role already exists
+try {
+    $existingRole = aws iam get-role --role-name AppRunnerECRAccessRole --output json 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        $roleArn = ($existingRole | ConvertFrom-Json).Role.Arn
+        Write-Host "✅ IAM role already exists: $roleArn" -ForegroundColor Green
+        
+        # Check if the required policy is attached
+        $attachedPolicies = aws iam list-attached-role-policies --role-name AppRunnerECRAccessRole --output json
+        $hasPolicy = ($attachedPolicies | ConvertFrom-Json).AttachedPolicies | Where-Object { $_.PolicyArn -eq "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess" }
+        
+        if ($hasPolicy) {
+            Write-Host "✅ ECR access policy is already attached" -ForegroundColor Green
+        } else {
+            Write-Host "Attaching ECR access policy..." -ForegroundColor White
+            aws iam attach-role-policy --role-name AppRunnerECRAccessRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess
+            Write-Host "✅ ECR access policy attached" -ForegroundColor Green
+        }
+    } else {
+        throw "Role not found"
+    }
+} catch {
+    Write-Host "Creating new IAM role..." -ForegroundColor White
+    
+    # Create trust policy for App Runner
+    @'
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -48,29 +72,32 @@ Write-Host "`n🔐 Creating IAM role for App Runner..." -ForegroundColor Yellow
 }
 '@ | Set-Content -Path "trust-policy.json" -Encoding ASCII
 
-# Create the IAM role
-try {
-    aws iam create-role --role-name AppRunnerECRAccessRole --assume-role-policy-document file://trust-policy.json
-    Write-Host "✅ IAM role created successfully" -ForegroundColor Green
-} catch {
-    Write-Host "⚠️  IAM role might already exist" -ForegroundColor Yellow
+    # Create the IAM role
+    try {
+        aws iam create-role --role-name AppRunnerECRAccessRole --assume-role-policy-document file://trust-policy.json
+        Write-Host "✅ IAM role created successfully" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Failed to create IAM role" -ForegroundColor Red
+        exit 1
+    }
+
+    # Attach the required policies
+    Write-Host "Attaching ECR access policy..." -ForegroundColor White
+    try {
+        aws iam attach-role-policy --role-name AppRunnerECRAccessRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess
+        Write-Host "✅ ECR access policy attached" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Failed to attach ECR access policy" -ForegroundColor Red
+        exit 1
+    }
+
+    # Get the role ARN
+    $roleArn = aws iam get-role --role-name AppRunnerECRAccessRole --query 'Role.Arn' --output text
+    Write-Host "✅ IAM Role ARN: $roleArn" -ForegroundColor Green
+
+    # Clean up temporary file
+    Remove-Item "trust-policy.json" -ErrorAction SilentlyContinue
 }
-
-# Attach the required policies
-Write-Host "Attaching ECR access policy..." -ForegroundColor White
-try {
-    aws iam attach-role-policy --role-name AppRunnerECRAccessRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess
-    Write-Host "✅ ECR access policy attached" -ForegroundColor Green
-} catch {
-    Write-Host "⚠️  Policy might already be attached" -ForegroundColor Yellow
-}
-
-# Get the role ARN
-$roleArn = aws iam get-role --role-name AppRunnerECRAccessRole --query 'Role.Arn' --output text
-Write-Host "✅ IAM Role ARN: $roleArn" -ForegroundColor Green
-
-# Clean up temporary file
-Remove-Item "trust-policy.json" -ErrorAction SilentlyContinue
 
 Write-Host "`nRequired GitHub Secrets:" -ForegroundColor Cyan
 Write-Host "Add these secrets to your GitHub repository (Settings > Secrets and variables > Actions):" -ForegroundColor Yellow

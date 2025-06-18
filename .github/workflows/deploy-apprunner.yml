@@ -99,7 +99,23 @@ jobs:
           fi
           
           echo "Waiting for deployment to complete..."
-          aws apprunner wait service-running --service-arn $SERVICE_ARN
+          
+          # Poll the service status until it's running
+          while true; do
+            STATUS=$(aws apprunner describe-service --service-arn $SERVICE_ARN --query 'Service.Status' --output text)
+            echo "Service status: $STATUS"
+            
+            if [ "$STATUS" = "RUNNING" ]; then
+              echo "Service is now running!"
+              break
+            elif [ "$STATUS" = "FAILED" ]; then
+              echo "Service deployment failed!"
+              exit 1
+            else
+              echo "Waiting for service to be ready..."
+              sleep 30
+            fi
+          done
           
           # Get service URL
           SERVICE_URL=$(aws apprunner describe-service --service-arn $SERVICE_ARN --query 'Service.ServiceUrl' --output text)
