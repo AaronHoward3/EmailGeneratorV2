@@ -54,6 +54,23 @@ jobs:
           EXISTING_SERVICE=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='${{ env.APP_RUNNER_SERVICE }}'].ServiceArn" --output text 2>/dev/null || echo "")
           
           if [ ! -z "$EXISTING_SERVICE" ]; then
+            echo "Found existing App Runner service: $EXISTING_SERVICE"
+            
+            # Wait for service to be in a stable state before updating
+            echo "Checking service status..."
+            while true; do
+              SERVICE_STATUS=$(aws apprunner describe-service --service-arn "$EXISTING_SERVICE" --query 'Service.Status' --output text)
+              echo "Current service status: $SERVICE_STATUS"
+              
+              if [ "$SERVICE_STATUS" = "RUNNING" ] || [ "$SERVICE_STATUS" = "FAILED" ]; then
+                echo "Service is in stable state, proceeding with update..."
+                break
+              else
+                echo "Service is still in progress, waiting 30 seconds..."
+                sleep 30
+              fi
+            done
+            
             echo "Updating existing App Runner service: $EXISTING_SERVICE"
             aws apprunner update-service \
               --service-arn "$EXISTING_SERVICE" \
