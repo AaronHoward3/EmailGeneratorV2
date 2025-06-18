@@ -81,9 +81,7 @@ jobs:
                 "Cpu": "1024",
                 "Memory": "2048"
               }' \
-              --auto-scaling-configuration-arn ${{ secrets.AUTO_SCALING_CONFIG_ARN }} \
               --output json > service-output.json
-            
             # Extract service ARN for future deployments
             SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn')
             echo "Service ARN: $SERVICE_ARN"

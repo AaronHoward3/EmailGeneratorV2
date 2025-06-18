@@ -1,5 +1,7 @@
 # Setup script for AWS App Runner deployment
-Write-Host "🚀 Setting up AWS resources for App Runner deployment..." -ForegroundColor Green
+# This script creates the necessary AWS resources and provides instructions for GitHub secrets
+
+Write-Host "🚀 Setting up AWS App Runner deployment..." -ForegroundColor Green
 
 # Check if AWS CLI is installed
 try {
@@ -20,50 +22,64 @@ try {
     exit 1
 }
 
-Write-Host ""
-Write-Host "📋 Required GitHub Secrets:" -ForegroundColor Yellow
-Write-Host "Add these secrets to your GitHub repository:" -ForegroundColor White
-Write-Host ""
-Write-Host "1. AWS_ACCESS_KEY_ID" -ForegroundColor Cyan
-Write-Host "2. AWS_SECRET_ACCESS_KEY" -ForegroundColor Cyan
-Write-Host "3. OPENAI_API_KEY" -ForegroundColor Cyan
-Write-Host "4. BRANDDEV_API_KEY" -ForegroundColor Cyan
-Write-Host "5. S3_BUCKET_NAME" -ForegroundColor Cyan
-Write-Host "6. S3_REGION" -ForegroundColor Cyan
-Write-Host "7. S3_ACCESS_KEY_ID" -ForegroundColor Cyan
-Write-Host "8. S3_SECRET_ACCESS_KEY" -ForegroundColor Cyan
-Write-Host "9. SUPABASE_URL - optional" -ForegroundColor Cyan
-Write-Host "10. SUPABASE_SERVICE_KEY - optional" -ForegroundColor Cyan
-Write-Host ""
-
-Write-Host "🔧 Setting up AWS resources..." -ForegroundColor Yellow
-
-# Create ECR repository
-Write-Host "Creating ECR repository..." -ForegroundColor White
-aws ecr create-repository --repository-name sbemailgenerator --region us-east-1 2>$null
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ ECR repository created" -ForegroundColor Green
-} else {
-    Write-Host "ℹ️ ECR repository already exists" -ForegroundColor Yellow
+Write-Host "`n📦 Creating ECR repository..." -ForegroundColor Yellow
+try {
+    aws ecr create-repository --repository-name sbemailgenerator --region us-east-1
+    Write-Host "✅ ECR repository created successfully" -ForegroundColor Green
+} catch {
+    Write-Host "⚠️  ECR repository might already exist (this is OK)" -ForegroundColor Yellow
 }
 
-# Create App Runner auto-scaling configuration
-Write-Host "Creating App Runner auto-scaling configuration..." -ForegroundColor White
-$scalingConfig = aws apprunner create-auto-scaling-configuration --auto-scaling-configuration-name sbemailgenerator-scaling --max-concurrency 50 --max-size 10 --region us-east-1 2>$null
-if ($LASTEXITCODE -eq 0) {
-    $scalingArn = ($scalingConfig | ConvertFrom-Json).AutoScalingConfiguration.AutoScalingConfigurationArn
-    Write-Host "✅ Auto-scaling configuration created: $scalingArn" -ForegroundColor Green
-    Write-Host "Add this as GitHub secret: AUTO_SCALING_CONFIG_ARN" -ForegroundColor Yellow
-} else {
-    Write-Host "ℹ️ Auto-scaling configuration already exists" -ForegroundColor Yellow
+Write-Host "`n⚙️  Creating App Runner auto-scaling configuration..." -ForegroundColor Yellow
+$scalingConfigArn = ""
+try {
+    $scalingConfig = aws apprunner create-auto-scaling-configuration `
+        --auto-scaling-configuration-name sb-email-generator-scaling `
+        --max-concurrency 50 `
+        --max-size 10 `
+        --min-size 1 `
+        --region us-east-1 `
+        --output json
+    
+    $scalingConfigArn = ($scalingConfig | ConvertFrom-Json).AutoScalingConfiguration.AutoScalingConfigurationArn
+    Write-Host "✅ Auto-scaling configuration created: $scalingConfigArn" -ForegroundColor Green
+} catch {
+    Write-Host "⚠️  Auto-scaling configuration might already exist" -ForegroundColor Yellow
+    # Try to get existing configuration
+    try {
+        $scalingConfig = aws apprunner describe-auto-scaling-configuration `
+            --auto-scaling-configuration-name sb-email-generator-scaling `
+            --region us-east-1 `
+            --output json
+        $scalingConfigArn = ($scalingConfig | ConvertFrom-Json).AutoScalingConfiguration.AutoScalingConfigurationArn
+        Write-Host "✅ Found existing auto-scaling configuration: $scalingConfigArn" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Could not find auto-scaling configuration" -ForegroundColor Red
+        $scalingConfigArn = ""
+    }
 }
 
+Write-Host "`n🔑 Required GitHub Secrets:" -ForegroundColor Cyan
+Write-Host "Add these secrets to your GitHub repository (Settings > Secrets and variables > Actions):" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "🎉 Setup complete!" -ForegroundColor Green
-Write-Host ""
-Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "1. Add the GitHub secrets listed above" -ForegroundColor White
-Write-Host "2. Push your code to the main branch" -ForegroundColor White
-Write-Host "3. The GitHub Action will automatically deploy to App Runner" -ForegroundColor White
-Write-Host ""
-Write-Host "Note: After the first deployment, you will need to add APP_RUNNER_SERVICE_ARN as a GitHub secret" -ForegroundColor Cyan 
+Write-Host "AWS_ACCESS_KEY_ID" -ForegroundColor White
+Write-Host "AWS_SECRET_ACCESS_KEY" -ForegroundColor White
+Write-Host "APP_RUNNER_SERVICE_ARN" -ForegroundColor White
+Write-Host "AUTO_SCALING_CONFIG_ARN" -ForegroundColor White
+
+if ($scalingConfigArn) {
+    Write-Host "`n📋 Auto-scaling configuration ARN to add as secret:" -ForegroundColor Cyan
+    Write-Host $scalingConfigArn -ForegroundColor Green
+}
+
+Write-Host "`n📝 Instructions:" -ForegroundColor Cyan
+Write-Host "1. Go to your GitHub repository" -ForegroundColor White
+Write-Host "2. Navigate to Settings > Secrets and variables > Actions" -ForegroundColor White
+Write-Host "3. Add the following secrets:" -ForegroundColor White
+Write-Host "   - AWS_ACCESS_KEY_ID: Your AWS access key" -ForegroundColor White
+Write-Host "   - AWS_SECRET_ACCESS_KEY: Your AWS secret key" -ForegroundColor White
+Write-Host "   - APP_RUNNER_SERVICE_ARN: Leave empty for first deployment" -ForegroundColor White
+Write-Host "   - AUTO_SCALING_CONFIG_ARN: $scalingConfigArn" -ForegroundColor White
+Write-Host "4. Push your code to the main branch to trigger deployment" -ForegroundColor White
+
+Write-Host "`n✅ Setup complete! Ready for deployment." -ForegroundColor Green 
