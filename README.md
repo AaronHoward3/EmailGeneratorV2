@@ -42,10 +42,10 @@ cp .env.example .env
 #### Image Hosting (choose one):
 
 **AWS S3 (preferred):**
-- `AWS_REGION`
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `S3_BUCKET_NAME`
+- `SB_S3_REGION`
+- `SB_S3_ACCESS_KEY_ID`
+- `SB_S3_SECRET_ACCESS_KEY`
+- `SB_S3_BUCKET_NAME`
 
 **Supabase (fallback):**
 - `SUPABASE_URL`
@@ -73,16 +73,24 @@ The server will start on the port specified in your `.env` file (default: 3000).
    ```
 2. In a separate terminal, run the test request:
    ```sh
-   node test-request.js
+   yarn test
    ```
-   This will POST a sample payload (from `patagonia-payload.json`) to the `/generate-emails` endpoint.
+   or
+   ```sh
+   node scripts/test-request.js
+   ```
+   This will POST a sample payload (from `test-data/patagonia-payload.json`) to the `/generate-emails` endpoint.
 
 ---
 
 ## Endpoints
 
 ### `POST /generate-emails`
-- **Body:** `{ brandData, emailType, userContext? }`
+- **Body:** `{ brandData, emailType, userContext?, storeId? }`
+  - `brandData` — Brand information and styling data
+  - `emailType` — Type of email to generate (Newsletter, Productgrid, Promotion, AbandonedCart)
+  - `userContext` — (Optional) Additional context for email generation
+  - `storeId` — (Optional) Unique identifier for the store, used for organizing uploaded images
 - **Response:** JSON with generated MJML emails and token usage
 
 ### `POST /api/brand-info`
@@ -96,16 +104,48 @@ The server will start on the port specified in your `.env` file (default: 3000).
 - If AWS S3 environment variables are set, images are uploaded to S3.
 - If not, but Supabase variables are set, images are uploaded to Supabase.
 - If neither is configured, an error is thrown.
+- Custom hero images are organized by `storeId` in the upload directory structure.
 
 ---
 
 ## Block Templates
-- Email layouts are composed from block templates in the `Newsletterblocks/`, `Productblocks/`, and `AbandonedBlocks/` directories.
+- Email layouts are composed from block templates in the `lib/` directory.
+- Templates are organized by email type:
+  - `lib/newsletter-blocks/` — Newsletter email templates
+  - `lib/product-blocks/` — Product grid email templates  
+  - `lib/abandoned-blocks/` — Abandoned cart email templates
+- Each directory contains numbered block folders (block1, block2, block3) and design elements.
 - You can add or modify block templates to customize email layouts.
 
 ---
 
+## Project Structure
+```
+SBEmailGenerator/
+├── src/
+│   ├── config/          # Configuration constants
+│   ├── controllers/     # Request handlers
+│   ├── services/        # Business logic
+│   ├── utils/           # Utility functions
+│   ├── routes/          # API routes
+│   ├── app.js           # Express app setup
+│   └── server.js        # Server startup
+├── lib/                 # Block templates
+│   ├── newsletter-blocks/
+│   ├── product-blocks/
+│   └── abandoned-blocks/
+├── scripts/             # Utility and test scripts
+└── test-data/           # Sample payloads
+```
+
+---
+
 ## Development & Extensibility
-- Add new email types or blocks by updating `server.js` and the block directories.
+- Add new email types or blocks by updating `src/config/constants.js` and the block directories.
 - The codebase is modular and easy to extend for new features.
+
+---
+
+## License
+MIT
 

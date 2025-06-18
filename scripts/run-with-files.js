@@ -60,7 +60,11 @@ Input:
 
   let brandDataWithHint = null;
 
-  while (true) {
+  // Wait for router run completion with timeout
+  const maxWaitTime = 120000; // 2 minutes
+  const startTime = Date.now();
+  
+  while (Date.now() - startTime < maxWaitTime) {
     const runStatus = await openai.beta.threads.runs.retrieve(thread.id, routerRun.id);
 
     if (runStatus.status === "completed") {
@@ -72,6 +76,16 @@ Input:
     if (runStatus.status === "failed") {
       spinner.fail("❌ Router run failed.");
       console.error("Error info:", runStatus.last_error || "No error detail available.");
+      return;
+    }
+
+    if (runStatus.status === "expired") {
+      spinner.fail("❌ Router run expired.");
+      return;
+    }
+
+    if (runStatus.status === "cancelled") {
+      spinner.fail("❌ Router run was cancelled.");
       return;
     }
 
@@ -109,6 +123,13 @@ Return valid MJML in 3 markdown code blocks.
     await new Promise((r) => setTimeout(r, 1500));
   }
 
+  // Check if we timed out
+  const finalRunStatus = await openai.beta.threads.runs.retrieve(thread.id, routerRun.id);
+  if (finalRunStatus.status !== "completed") {
+    spinner.fail(`❌ Router run timed out after ${maxWaitTime / 1000} seconds. Status: ${finalRunStatus.status}`);
+    return;
+  }
+
   // Route brand info to specialized assistant
   const selectedAssistantId = specializedAssistants[payload.email_type];
   console.log(`➡️ Using assistant for ${payload.email_type}: ${selectedAssistantId}`);
@@ -139,7 +160,11 @@ ${JSON.stringify(brandDataWithHint)}
 
     const specializedSpinner = ora(` Running Specialized Assistant for Email ${i}...`).start();
 
-    while (true) {
+    // Wait for specialized run completion with timeout
+    const specializedMaxWaitTime = 120000; // 2 minutes
+    const specializedStartTime = Date.now();
+    
+    while (Date.now() - specializedStartTime < specializedMaxWaitTime) {
       const runStatus = await openai.beta.threads.runs.retrieve(specializedThread.id, specializedRun.id);
 
       if (runStatus.status === "completed") {
@@ -154,7 +179,24 @@ ${JSON.stringify(brandDataWithHint)}
         return;
       }
 
+      if (runStatus.status === "expired") {
+        specializedSpinner.fail(`❌ Specialized assistant run expired for Email ${i}.`);
+        return;
+      }
+
+      if (runStatus.status === "cancelled") {
+        specializedSpinner.fail(`❌ Specialized assistant run was cancelled for Email ${i}.`);
+        return;
+      }
+
       await new Promise((r) => setTimeout(r, 1500));
+    }
+
+    // Check if we timed out
+    const finalSpecializedRunStatus = await openai.beta.threads.runs.retrieve(specializedThread.id, specializedRun.id);
+    if (finalSpecializedRunStatus.status !== "completed") {
+      specializedSpinner.fail(`❌ Specialized assistant run timed out after ${specializedMaxWaitTime / 1000} seconds for Email ${i}. Status: ${finalSpecializedRunStatus.status}`);
+      return;
     }
 
     const messages = await openai.beta.threads.messages.list(specializedThread.id);
