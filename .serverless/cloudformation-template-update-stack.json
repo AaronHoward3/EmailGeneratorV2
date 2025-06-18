@@ -188,7 +188,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/sb-email-generator/production/1750257258783-2025-06-18T14:34:18.783Z/sb-email-generator.zip"
+          "S3Key": "serverless/sb-email-generator/production/1750257578099-2025-06-18T14:39:38.099Z/sb-email-generator.zip"
         },
         "Handler": "handler.handler",
         "Runtime": "nodejs18.x",

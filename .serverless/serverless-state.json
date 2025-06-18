@@ -231,7 +231,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/sb-email-generator/production/1750257258783-2025-06-18T14:34:18.783Z/sb-email-generator.zip"
+                "S3Key": "serverless/sb-email-generator/production/1750257578099-2025-06-18T14:39:38.099Z/sb-email-generator.zip"
               },
               "Handler": "handler.handler",
               "Runtime": "nodejs18.x",
@@ -714,7 +714,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/sb-email-generator/production/code-artifacts",
         "artifact": "C:\\Users\\chazf\\OneDrive\\Documents\\GitHub\\SBEmailGenerator\\.serverless\\sb-email-generator.zip",
-        "artifactDirectoryName": "serverless/sb-email-generator/production/1750257258783-2025-06-18T14:34:18.783Z"
+        "artifactDirectoryName": "serverless/sb-email-generator/production/1750257578099-2025-06-18T14:39:38.099Z"
       },
       "resources": {
         "$ref": "$[\"service\"][\"resources\"]"
@@ -725,7 +725,7 @@
     "artifact": "C:\\Users\\chazf\\OneDrive\\Documents\\GitHub\\SBEmailGenerator\\.serverless\\sb-email-generator.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/sb-email-generator/production/1750257258783-2025-06-18T14:34:18.783Z",
+    "artifactDirectoryName": "serverless/sb-email-generator/production/1750257578099-2025-06-18T14:39:38.099Z",
     "artifact": "sb-email-generator.zip"
   }
 }

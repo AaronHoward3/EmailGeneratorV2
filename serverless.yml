@@ -9,8 +9,6 @@ provider:
   region: ${opt:region, 'us-east-1'}
   memorySize: 1024
   timeout: 300 # 5 minutes for email generation
-  httpApi:
-    cors: true
   environment:
     NODE_ENV: ${self:provider.stage}
     OPENAI_API_KEY: ${env:OPENAI_API_KEY, ''}
@@ -59,15 +57,73 @@ functions:
   api:
     handler: handler.handler
     events:
-      - httpApi:
+      - http:
           path: /{proxy+}
           method: ANY
-      - httpApi:
+          integration: lambda
+          request:
+            template:
+              application/json: |
+                {
+                  "body": $input.json('$'),
+                  "headers": {
+                    #foreach($header in $input.params().header.keySet())
+                    "$header": "$util.escapeJavaScript($input.params().header.get($header))" #if($foreach.hasNext),#end
+                    #end
+                  },
+                  "method": "$context.httpMethod",
+                  "params": {
+                    #foreach($param in $input.params().path.keySet())
+                    "$param": "$util.escapeJavaScript($param)" #if($foreach.hasNext),#end
+                    #end
+                  },
+                  "query": {
+                    #foreach($queryParam in $input.params().querystring.keySet())
+                    "$queryParam": "$util.escapeJavaScript($input.params().querystring.get($queryParam))" #if($foreach.hasNext),#end
+                    #end
+                  }
+                }
+          response:
+            headers:
+              Access-Control-Allow-Origin: "'*'"
+              Access-Control-Allow-Credentials: "'true'"
+              Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS'"
+              Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      - http:
           path: /
           method: GET
+          integration: lambda
+          response:
+            headers:
+              Access-Control-Allow-Origin: "'*'"
+              Access-Control-Allow-Credentials: "'true'"
+              Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS'"
+              Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      - http:
+          path: /{proxy+}
+          method: OPTIONS
+          integration: lambda
+          response:
+            headers:
+              Access-Control-Allow-Origin: "'*'"
+              Access-Control-Allow-Credentials: "'true'"
+              Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS'"
+              Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            template: |
+              #set($origin = $input.params("header").get("Origin"))
+              #if($origin == "") #set($origin = "*") #end
+              {
+                "statusCode": 200,
+                "headers": {
+                  "Access-Control-Allow-Origin": "$origin",
+                  "Access-Control-Allow-Credentials": "true",
+                  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+                  "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              }
     environment:
       FUNCTION_NAME: ${self:service}-${self:provider.stage}
-    reservedConcurrency: 50 # Allow up to 50 concurrent executions
+    reservedConcurrency: 50
 
 plugins:
   - serverless-domain-manager
