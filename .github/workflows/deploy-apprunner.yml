@@ -50,11 +50,13 @@ jobs:
 
       - name: Deploy to App Runner
         run: |
-          # Check if App Runner service exists
-          if aws apprunner describe-service --service-arn ${{ secrets.APP_RUNNER_SERVICE_ARN }} 2>/dev/null; then
-            echo "Updating existing App Runner service..."
+          # Check if App Runner service exists by name first
+          EXISTING_SERVICE=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='${{ env.APP_RUNNER_SERVICE }}'].ServiceArn" --output text 2>/dev/null || echo "")
+          
+          if [ ! -z "$EXISTING_SERVICE" ]; then
+            echo "Updating existing App Runner service: $EXISTING_SERVICE"
             aws apprunner start-deployment \
-              --service-arn ${{ secrets.APP_RUNNER_SERVICE_ARN }} \
+              --service-arn "$EXISTING_SERVICE" \
               --source-configuration '{
                 "ImageRepository": {
                   "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
@@ -64,6 +66,9 @@ jobs:
                   "ImageRepositoryType": "ECR"
                 }
               }'
+            
+            # Save the service ARN for future deployments
+            echo "$EXISTING_SERVICE" > service-output.json
           else
             echo "Creating new App Runner service..."
             aws apprunner create-service \
@@ -85,8 +90,17 @@ jobs:
                 "Memory": "2048"
               }' \
               --output json > service-output.json
-            # Extract service ARN for future deployments
-            SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn')
+          fi
+          
+          # Extract service ARN for future deployments
+          if [ -f service-output.json ]; then
+            if [ -s service-output.json ]; then
+              # If file contains JSON, extract ARN from it
+              SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn // .' 2>/dev/null || cat service-output.json)
+            else
+              # If file is empty, use the existing service ARN
+              SERVICE_ARN="$EXISTING_SERVICE"
+            fi
             echo "Service ARN: $SERVICE_ARN"
           fi
 
