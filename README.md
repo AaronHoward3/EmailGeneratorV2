@@ -56,27 +56,35 @@ The server will start on port 3000.
 ## API Endpoints
 
 ### Generate Email
-`POST /api/generate-email`
+`POST /api/generate-emails`
 
 Generates a branded email template based on the provided parameters.
 
 **Request Body:**
 ```json
 {
-  "brandName": "Your Brand",
+  "brandData": {
+    "brandName": "Your Brand",
+    "customHeroImage": true
+  },
   "emailType": "newsletter",
-  "content": "Your email content...",
-  "heroImagePrompt": "Optional hero image description",
-  "imageHosting": "s3" // or "supabase"
+  "userContext": "Your email content...",
+  "storeId": "optional-store-id"
 }
 ```
 
 **Response:**
 ```json
 {
-  "mjml": "<mjml>...</mjml>",
-  "html": "<html>...</html>",
-  "heroImageUrl": "https://..."
+  "success": true,
+  "totalTokens": 30883,
+  "emails": [
+    {
+      "index": 1,
+      "content": "<mjml>...</mjml>",
+      "tokens": 10294
+    }
+  ]
 }
 ```
 
@@ -87,52 +95,109 @@ Returns a simple health check response.
 
 ## Deployment
 
-### AWS Lambda Deployment
+### GitHub Actions + AWS App Runner (Recommended)
 
-The application is configured for AWS Lambda deployment using the Serverless Framework.
+The application uses GitHub Actions for automated deployment to AWS App Runner, which supports long-running requests (5+ minutes) without timeout limitations.
 
 #### Prerequisites
 
-1. Install Serverless Framework:
-```bash
-npm install -g serverless
-```
+1. **AWS CLI installed and configured**:
+   ```bash
+   aws configure
+   ```
 
-2. Configure AWS credentials:
-```bash
-aws configure
-```
+2. **Run the setup script**:
+   ```bash
+   .\setup-apprunner.ps1
+   ```
 
-3. Set up GitHub secrets for CI/CD:
+3. **Add GitHub Secrets**:
+   Go to your GitHub repository → Settings → Secrets and variables → Actions, and add:
    - `AWS_ACCESS_KEY_ID`
    - `AWS_SECRET_ACCESS_KEY`
    - `OPENAI_API_KEY`
    - `BRANDDEV_API_KEY`
+   - `S3_BUCKET_NAME`
    - `S3_REGION`
    - `S3_ACCESS_KEY_ID`
    - `S3_SECRET_ACCESS_KEY`
-   - `S3_BUCKET_NAME`
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_KEY`
-
-#### Manual Deployment
-
-1. Deploy to production:
-```bash
-serverless deploy --stage production
-```
-
-2. Create custom domain:
-```bash
-serverless create_domain --stage production
-```
+   - `SUPABASE_URL` (optional)
+   - `SUPABASE_SERVICE_KEY` (optional)
+   - `AUTO_SCALING_CONFIG_ARN` (provided by setup script)
 
 #### Automated Deployment
 
-The application uses GitHub Actions for automated deployment. On every push to the `main` branch:
+1. **Push to main branch**: The GitHub Action will automatically:
+   - Build the Docker image
+   - Push to Amazon ECR
+   - Deploy to App Runner
+   - Test the deployment
 
-1. Code is checked out and dependencies installed
-2. AWS credentials are configured
-3. Custom domain is created/updated
-4. Lambda function is deployed
-5. Deployment is tested
+2. **First deployment**: After the first successful deployment, add the service ARN as a GitHub secret:
+   - `APP_RUNNER_SERVICE_ARN` (found in the GitHub Actions logs)
+
+#### Benefits of App Runner
+
+- ✅ **No timeout limitations** (supports 5+ minute requests)
+- ✅ **Automatic scaling** based on demand
+- ✅ **HTTPS and custom domains** included
+- ✅ **Cost-effective** for long-running operations
+- ✅ **Zero-downtime deployments**
+
+### Manual Deployment Options
+
+#### AWS App Runner (Manual)
+1. Build Docker image: `docker build -t sbemailgenerator .`
+2. Push to ECR: `aws ecr get-login-password | docker login --username AWS --password-stdin <account>.dkr.ecr.<region>.amazonaws.com`
+3. Create App Runner service in AWS Console
+
+#### AWS Elastic Beanstalk
+1. Run: `.\create-deployment.ps1`
+2. Upload `deployment.zip` to Elastic Beanstalk Console
+3. Configure environment variables
+
+#### Local Development
+```bash
+yarn start
+```
+
+## Development
+
+### Project Structure
+```
+src/
+├── controllers/     # Request handlers
+├── services/        # Business logic
+├── routes/          # API endpoints
+├── utils/           # Helper functions
+├── config/          # Configuration
+└── server.js        # Express server
+```
+
+### Adding New Email Types
+1. Add assistant ID to `src/config/constants.js`
+2. Create template blocks in `lib/`
+3. Update layout generator if needed
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Environment Variables Not Loading**
+   - Check variable names match exactly
+   - Ensure no extra spaces or quotes
+
+2. **S3 Upload Failures**
+   - Verify bucket exists and is accessible
+   - Check IAM permissions
+
+3. **OpenAI API Errors**
+   - Verify API key is valid
+   - Check rate limits and quotas
+
+### Support
+
+For issues with:
+- **Deployment**: Check GitHub Actions logs
+- **API**: Check App Runner service logs
+- **Local Development**: Check console output

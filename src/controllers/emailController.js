@@ -72,11 +72,7 @@ export async function generateEmails(req, res) {
     layouts.push(layout);
   }
 
-  // Set a timeout that's shorter than API Gateway's 30-second limit
-  const API_TIMEOUT = 25000; // 25 seconds to leave buffer
-  const startTime = Date.now();
-
-  // Generate emails with timeout awareness
+  // Generate emails in parallel for better concurrency
   const emailPromises = layouts.map(async (layout, index) => {
     const i = index + 1;
     const spinner = ora(
@@ -84,16 +80,6 @@ export async function generateEmails(req, res) {
     ).start();
 
     try {
-      // Check if we're approaching the timeout
-      if (Date.now() - startTime > API_TIMEOUT - 5000) {
-        spinner.warn(`⚠️ Skipping email ${i} due to approaching timeout`);
-        return {
-          index: i,
-          warning: "Skipped due to API Gateway timeout constraints",
-          timeout: true
-        };
-      }
-
       const sectionDescriptions = Object.entries(layout)
         .filter(([key]) => key !== "layoutId")
         .map(([key, val]) => `- Block (${key}): ${val}`)
@@ -145,21 +131,11 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       });
 
       // Wait for run completion with timeout
-      const maxWaitTime = Math.min(120000, API_TIMEOUT - (Date.now() - startTime) - 2000); // 2 minutes or remaining time
-      const runStartTime = Date.now();
+      const maxWaitTime = 120000; // 2 minutes
+      const startTime = Date.now();
       let runStatus;
       
-      while (Date.now() - runStartTime < maxWaitTime) {
-        // Check if we're approaching the overall API timeout
-        if (Date.now() - startTime > API_TIMEOUT - 3000) {
-          spinner.warn(`⚠️ Email ${i} timed out due to API Gateway constraints`);
-          return {
-            index: i,
-            warning: "Timed out due to API Gateway 30-second limit",
-            timeout: true
-          };
-        }
-
+      while (Date.now() - startTime < maxWaitTime) {
         runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
         
         if (runStatus.status === "completed") {
@@ -186,12 +162,8 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       }
       
       if (runStatus.status !== "completed") {
-        spinner.warn(`⚠️ Email ${i} timed out after ${maxWaitTime / 1000} seconds`);
-        return {
-          index: i,
-          warning: `Timed out after ${maxWaitTime / 1000} seconds`,
-          timeout: true
-        };
+        spinner.fail(`❌ Assistant run timed out on email ${i}`);
+        throw new Error(`Assistant run timed out after ${maxWaitTime / 1000} seconds on email ${i}`);
       }
 
       const messages = await openai.beta.threads.messages.list(thread.id);
@@ -228,7 +200,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
   });
 
   try {
-    // Wait for all emails to complete or timeout
+    // Wait for all emails to complete
     const results = await Promise.all(emailPromises);
     
     // Calculate total tokens
@@ -239,23 +211,8 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
     
     console.log(`🧹 Session cleanup completed for: ${sessionId}`);
     console.log(`🧠 Total OpenAI tokens used: ${totalTokens}`);
-
-    // Check if any emails timed out
-    const timedOutEmails = results.filter(r => r.timeout);
-    const successfulEmails = results.filter(r => r.content && !r.timeout);
     
-    if (timedOutEmails.length > 0) {
-      console.log(`⚠️ ${timedOutEmails.length} emails timed out due to API Gateway constraints`);
-      res.json({ 
-        success: true, 
-        totalTokens, 
-        emails: results,
-        warning: `Generated ${successfulEmails.length} emails. ${timedOutEmails.length} emails timed out due to API Gateway's 30-second limit. Consider generating fewer emails or using a different approach for longer operations.`,
-        partialResults: true
-      });
-    } else {
-      res.json({ success: true, totalTokens, emails: results });
-    }
+    res.json({ success: true, totalTokens, emails: results });
   } catch (error) {
     // Clean up session on error
     cleanupSession(sessionId);
