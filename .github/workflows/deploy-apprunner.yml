@@ -97,12 +97,13 @@ jobs:
           
           # Extract service ARN for future deployments
           if [ -f service-output.json ]; then
-            if [ -s service-output.json ]; then
-              # If file contains JSON, extract ARN from it
-              SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn // .' 2>/dev/null || cat service-output.json)
+            # Check if the file contains JSON or just a plain ARN
+            if grep -q '"Service"' service-output.json; then
+              # File contains JSON, extract ARN from it
+              SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn')
             else
-              # If file is empty, use the existing service ARN
-              SERVICE_ARN="$EXISTING_SERVICE"
+              # File contains just the ARN as plain text
+              SERVICE_ARN=$(cat service-output.json)
             fi
             echo "Service ARN: $SERVICE_ARN"
           fi
