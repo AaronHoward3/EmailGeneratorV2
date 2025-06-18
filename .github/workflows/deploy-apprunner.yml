@@ -55,7 +55,7 @@ jobs:
           
           if [ ! -z "$EXISTING_SERVICE" ]; then
             echo "Updating existing App Runner service: $EXISTING_SERVICE"
-            aws apprunner start-deployment \
+            aws apprunner update-service \
               --service-arn "$EXISTING_SERVICE" \
               --source-configuration '{
                 "ImageRepository": {
@@ -64,6 +64,9 @@ jobs:
                     "Port": "3000"
                   },
                   "ImageRepositoryType": "ECR"
+                },
+                "AuthenticationConfiguration": {
+                  "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
                 }
               }'
             
