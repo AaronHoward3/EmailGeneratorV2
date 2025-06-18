@@ -48,6 +48,43 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+      - name: Verify ECR image exists
+        run: |
+          echo "Verifying Docker image exists in ECR..."
+          IMAGE_URI="${{ steps.build-image.outputs.image }}"
+          
+          # Check if the image exists in ECR
+          if ! aws ecr describe-images --repository-name $ECR_REPOSITORY --image-ids imageTag=${{ github.sha }} 2>/dev/null; then
+            echo "❌ Image with tag ${{ github.sha }} not found in ECR repository $ECR_REPOSITORY"
+            exit 1
+          fi
+          
+          if ! aws ecr describe-images --repository-name $ECR_REPOSITORY --image-ids imageTag=latest 2>/dev/null; then
+            echo "❌ Image with tag 'latest' not found in ECR repository $ECR_REPOSITORY"
+            exit 1
+          fi
+          
+          echo "✅ Docker images verified in ECR"
+          
+          # Verify IAM role exists and has correct permissions
+          echo "Verifying IAM role configuration..."
+          ROLE_ARN="${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
+          
+          if ! aws iam get-role --role-name $(echo $ROLE_ARN | cut -d'/' -f2) 2>/dev/null; then
+            echo "❌ IAM role not found: $ROLE_ARN"
+            exit 1
+          fi
+          
+          echo "✅ IAM role verified"
+          
+          # Check if App Runner service name is available
+          echo "Checking if service name is available..."
+          if aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='${{ env.APP_RUNNER_SERVICE }}'].ServiceArn" --output text | grep -q .; then
+            echo "⚠️ Service name '${{ env.APP_RUNNER_SERVICE }}' already exists"
+          else
+            echo "✅ Service name '${{ env.APP_RUNNER_SERVICE }}' is available"
+          fi
+
       - name: Deploy to App Runner
         run: |
           # Check if App Runner service exists by name first
@@ -88,7 +125,7 @@ jobs:
               
               # Create new service
               echo "Creating new App Runner service..."
-              aws apprunner create-service \
+              if ! aws apprunner create-service \
                 --service-name ${{ env.APP_RUNNER_SERVICE }} \
                 --source-configuration '{
                   "ImageRepository": {
@@ -106,7 +143,26 @@ jobs:
                   "Cpu": "1024",
                   "Memory": "2048"
                 }' \
-                --output json > service-output.json
+                --output json > service-output.json 2>create-error.log; then
+                
+                echo "❌ Service creation command failed!"
+                echo "Error output:"
+                cat create-error.log
+                exit 1
+              fi
+              
+              # Check if the service was created successfully
+              if [ ! -f service-output.json ] || [ ! -s service-output.json ]; then
+                echo "❌ Service creation failed - no output file generated"
+                exit 1
+              fi
+              
+              # Validate the JSON output
+              if ! jq empty service-output.json 2>/dev/null; then
+                echo "❌ Service creation failed - invalid JSON output"
+                cat service-output.json
+                exit 1
+              fi
             else
               # Wait for service to be in a stable state before updating
               echo "Checking service status..."
@@ -144,7 +200,7 @@ jobs:
             fi
           else
             echo "Creating new App Runner service..."
-            aws apprunner create-service \
+            if ! aws apprunner create-service \
               --service-name ${{ env.APP_RUNNER_SERVICE }} \
               --source-configuration '{
                 "ImageRepository": {
@@ -162,7 +218,26 @@ jobs:
                 "Cpu": "1024",
                 "Memory": "2048"
               }' \
-              --output json > service-output.json
+              --output json > service-output.json 2>create-error.log; then
+              
+              echo "❌ Service creation command failed!"
+              echo "Error output:"
+              cat create-error.log
+              exit 1
+            fi
+            
+            # Check if the service was created successfully
+            if [ ! -f service-output.json ] || [ ! -s service-output.json ]; then
+              echo "❌ Service creation failed - no output file generated"
+              exit 1
+            fi
+            
+            # Validate the JSON output
+            if ! jq empty service-output.json 2>/dev/null; then
+              echo "❌ Service creation failed - invalid JSON output"
+              cat service-output.json
+              exit 1
+            fi
           fi
           
           # Extract service ARN for future deployments
@@ -196,8 +271,39 @@ jobs:
             if [ "$STATUS" = "RUNNING" ]; then
               echo "Service is now running!"
               break
+            elif [ "$STATUS" = "CREATE_FAILED" ]; then
+              echo "❌ Service creation failed! Getting detailed error information..."
+              
+              # Get detailed service information including error details
+              SERVICE_INFO=$(aws apprunner describe-service --service-arn $SERVICE_ARN --output json)
+              echo "Full service information:"
+              echo "$SERVICE_INFO" | jq '.'
+              
+              # Extract specific error information
+              ERROR_MESSAGE=$(echo "$SERVICE_INFO" | jq -r '.Service.ServiceStatusMessage // "No error message available"')
+              echo "❌ Error message: $ERROR_MESSAGE"
+              
+              # Get service events for more details
+              echo "📋 Service events:"
+              aws apprunner list-operations --service-arn $SERVICE_ARN --output json | jq '.OperationSummaryList[] | {OperationId: .Id, Status: .Status, Type: .Type, StartedAt: .StartedAt, EndedAt: .EndedAt}' || echo "Could not retrieve service events"
+              
+              # Get the latest operation details
+              LATEST_OP_ID=$(aws apprunner list-operations --service-arn $SERVICE_ARN --query 'OperationSummaryList[0].Id' --output text 2>/dev/null || echo "")
+              if [ ! -z "$LATEST_OP_ID" ]; then
+                echo "🔍 Latest operation details:"
+                aws apprunner describe-operation --operation-arn $LATEST_OP_ID --output json | jq '.' || echo "Could not retrieve operation details"
+              fi
+              
+              echo "❌ Deployment failed! Exiting with error code 1"
+              exit 1
             elif [ "$STATUS" = "FAILED" ]; then
-              echo "Service deployment failed!"
+              echo "❌ Service deployment failed!"
+              
+              # Get detailed service information
+              SERVICE_INFO=$(aws apprunner describe-service --service-arn $SERVICE_ARN --output json)
+              ERROR_MESSAGE=$(echo "$SERVICE_INFO" | jq -r '.Service.ServiceStatusMessage // "No error message available"')
+              echo "❌ Error message: $ERROR_MESSAGE"
+              
               exit 1
             else
               echo "Waiting for service to be ready..."
