@@ -99,7 +99,16 @@ jobs:
               "ImageRepository": {
                 "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
                 "ImageConfiguration": {
-                  "Port": "3000"
+                  "Port": "3000",
+                  "RuntimeEnvironmentVariables": {
+                    "NODE_ENV": "production",
+                    "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+                    "S3_REGION": "us-east-1",
+                    "S3_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
+                    "S3_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+                    "S3_BUCKET_NAME": "sb-hero-images",
+                    "SB_BRANDDEV_API_KEY": "${{ secrets.BRANDDEV_API_KEY }}"
+                  }
                 },
                 "ImageRepositoryType": "ECR"
               },
@@ -110,8 +119,7 @@ jobs:
             --instance-configuration '{
               "Cpu": "1024",
               "Memory": "2048"
-            }' \
-            --environment-variables NODE_ENV=production,OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}",S3_REGION=us-east-1,S3_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}",S3_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}",S3_BUCKET_NAME=sb-hero-images,SB_BRANDDEV_API_KEY="${{ secrets.BRANDDEV_API_KEY }}"
+            }'
           
           # Save the service ARN for future deployments
           echo "$SERVICE_ARN" > service-output.json
