@@ -98,30 +98,11 @@ jobs:
             echo "Current service status: $SERVICE_STATUS"
             
             if [ "$SERVICE_STATUS" = "CREATE_FAILED" ]; then
-              echo "Service creation failed. Deleting failed service and creating a new one..."
-              aws apprunner delete-service --service-arn "$EXISTING_SERVICE"
+              echo "Service creation failed. Attempting to delete failed service..."
+              aws apprunner delete-service --service-arn "$EXISTING_SERVICE" 2>/dev/null || true
               
-              # Wait for deletion to complete with timeout
-              echo "Waiting for service deletion to complete..."
-              TIMEOUT=300  # 5 minutes timeout
-              ELAPSED=0
-              while [ $ELAPSED -lt $TIMEOUT ]; do
-                if aws apprunner describe-service --service-arn "$EXISTING_SERVICE" 2>/dev/null; then
-                  echo "Service still exists, waiting... (${ELAPSED}s elapsed)"
-                  sleep 30
-                  ELAPSED=$((ELAPSED + 30))
-                else
-                  echo "Service deleted successfully"
-                  break
-                fi
-              done
-              
-              # Check if deletion timed out
-              if [ $ELAPSED -ge $TIMEOUT ]; then
-                echo "Service deletion timed out after ${TIMEOUT} seconds. Proceeding with new service creation..."
-                # Force delete by trying again
-                aws apprunner delete-service --service-arn "$EXISTING_SERVICE" 2>/dev/null || true
-              fi
+              # Don't wait for deletion - just proceed immediately
+              echo "Proceeding with new service creation immediately..."
               
               # Create new service
               echo "Creating new App Runner service..."
@@ -276,22 +257,20 @@ jobs:
               
               # Get detailed service information including error details
               SERVICE_INFO=$(aws apprunner describe-service --service-arn $SERVICE_ARN --output json)
-              echo "Full service information:"
-              echo "$SERVICE_INFO" | jq '.'
               
               # Extract specific error information
               ERROR_MESSAGE=$(echo "$SERVICE_INFO" | jq -r '.Service.ServiceStatusMessage // "No error message available"')
               echo "❌ Error message: $ERROR_MESSAGE"
               
-              # Get service events for more details
-              echo "📋 Service events:"
-              aws apprunner list-operations --service-arn $SERVICE_ARN --output json | jq '.OperationSummaryList[] | {OperationId: .Id, Status: .Status, Type: .Type, StartedAt: .StartedAt, EndedAt: .EndedAt}' || echo "Could not retrieve service events"
+              # Get service events for more details (limited output)
+              echo "📋 Service events summary:"
+              aws apprunner list-operations --service-arn $SERVICE_ARN --query 'OperationSummaryList[].[Id,Status,Type,StartedAt]' --output table || echo "Could not retrieve service events"
               
-              # Get the latest operation details
+              # Get the latest operation details (limited output)
               LATEST_OP_ID=$(aws apprunner list-operations --service-arn $SERVICE_ARN --query 'OperationSummaryList[0].Id' --output text 2>/dev/null || echo "")
               if [ ! -z "$LATEST_OP_ID" ]; then
-                echo "🔍 Latest operation details:"
-                aws apprunner describe-operation --operation-arn $LATEST_OP_ID --output json | jq '.' || echo "Could not retrieve operation details"
+                echo "🔍 Latest operation error details:"
+                aws apprunner describe-operation --operation-arn $LATEST_OP_ID --query 'Operation.{Status:Status,Type:Type,ErrorMessage:ErrorMessage,StartedAt:StartedAt,EndedAt:EndedAt}' --output table || echo "Could not retrieve operation details"
               fi
               
               echo "❌ Deployment failed! Exiting with error code 1"
