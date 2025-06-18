@@ -1,14 +1,21 @@
 version: 1
 frontend:
   phases:
-    build:
+    preBuild:
       commands:
         - yarn install
-        - yarn build
+    build:
+      commands:
+        - echo "Node.js backend - no build step needed"
   artifacts:
-    baseDirectory: build
+    baseDirectory: .
     files:
-      - '**/*'
+      - src/**/*
+      - lib/**/*
+      - package.json
+      - yarn.lock
+      - amplify.yml
+      - .env.example
   cache:
     paths:
       - node_modules/**/* 
