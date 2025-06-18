@@ -30,56 +30,67 @@ try {
     Write-Host "⚠️  ECR repository might already exist (this is OK)" -ForegroundColor Yellow
 }
 
-Write-Host "`n⚙️  Creating App Runner auto-scaling configuration..." -ForegroundColor Yellow
-$scalingConfigArn = ""
-try {
-    $scalingConfig = aws apprunner create-auto-scaling-configuration `
-        --auto-scaling-configuration-name sb-email-generator-scaling `
-        --max-concurrency 50 `
-        --max-size 10 `
-        --min-size 1 `
-        --region us-east-1 `
-        --output json
-    
-    $scalingConfigArn = ($scalingConfig | ConvertFrom-Json).AutoScalingConfiguration.AutoScalingConfigurationArn
-    Write-Host "✅ Auto-scaling configuration created: $scalingConfigArn" -ForegroundColor Green
-} catch {
-    Write-Host "⚠️  Auto-scaling configuration might already exist" -ForegroundColor Yellow
-    # Try to get existing configuration
-    try {
-        $scalingConfig = aws apprunner describe-auto-scaling-configuration `
-            --auto-scaling-configuration-name sb-email-generator-scaling `
-            --region us-east-1 `
-            --output json
-        $scalingConfigArn = ($scalingConfig | ConvertFrom-Json).AutoScalingConfiguration.AutoScalingConfigurationArn
-        Write-Host "✅ Found existing auto-scaling configuration: $scalingConfigArn" -ForegroundColor Green
-    } catch {
-        Write-Host "❌ Could not find auto-scaling configuration" -ForegroundColor Red
-        $scalingConfigArn = ""
+Write-Host "`n🔐 Creating IAM role for App Runner..." -ForegroundColor Yellow
+
+# Create trust policy for App Runner
+@'
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "build.apprunner.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
     }
+  ]
+}
+'@ | Set-Content -Path "trust-policy.json" -Encoding ASCII
+
+# Create the IAM role
+try {
+    aws iam create-role --role-name AppRunnerECRAccessRole --assume-role-policy-document file://trust-policy.json
+    Write-Host "✅ IAM role created successfully" -ForegroundColor Green
+} catch {
+    Write-Host "⚠️  IAM role might already exist" -ForegroundColor Yellow
 }
 
-Write-Host "`n🔑 Required GitHub Secrets:" -ForegroundColor Cyan
+# Attach the required policies
+Write-Host "Attaching ECR access policy..." -ForegroundColor White
+try {
+    aws iam attach-role-policy --role-name AppRunnerECRAccessRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess
+    Write-Host "✅ ECR access policy attached" -ForegroundColor Green
+} catch {
+    Write-Host "⚠️  Policy might already be attached" -ForegroundColor Yellow
+}
+
+# Get the role ARN
+$roleArn = aws iam get-role --role-name AppRunnerECRAccessRole --query 'Role.Arn' --output text
+Write-Host "✅ IAM Role ARN: $roleArn" -ForegroundColor Green
+
+# Clean up temporary file
+Remove-Item "trust-policy.json" -ErrorAction SilentlyContinue
+
+Write-Host "`nRequired GitHub Secrets:" -ForegroundColor Cyan
 Write-Host "Add these secrets to your GitHub repository (Settings > Secrets and variables > Actions):" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "AWS_ACCESS_KEY_ID" -ForegroundColor White
 Write-Host "AWS_SECRET_ACCESS_KEY" -ForegroundColor White
 Write-Host "APP_RUNNER_SERVICE_ARN" -ForegroundColor White
-Write-Host "AUTO_SCALING_CONFIG_ARN" -ForegroundColor White
+Write-Host "APP_RUNNER_ACCESS_ROLE_ARN" -ForegroundColor White
 
-if ($scalingConfigArn) {
-    Write-Host "`n📋 Auto-scaling configuration ARN to add as secret:" -ForegroundColor Cyan
-    Write-Host $scalingConfigArn -ForegroundColor Green
-}
+Write-Host "`nIAM Role ARN to add as secret:" -ForegroundColor Cyan
+Write-Host $roleArn -ForegroundColor Green
 
-Write-Host "`n📝 Instructions:" -ForegroundColor Cyan
+Write-Host "`nInstructions:" -ForegroundColor Cyan
 Write-Host "1. Go to your GitHub repository" -ForegroundColor White
 Write-Host "2. Navigate to Settings > Secrets and variables > Actions" -ForegroundColor White
 Write-Host "3. Add the following secrets:" -ForegroundColor White
 Write-Host "   - AWS_ACCESS_KEY_ID: Your AWS access key" -ForegroundColor White
 Write-Host "   - AWS_SECRET_ACCESS_KEY: Your AWS secret key" -ForegroundColor White
 Write-Host "   - APP_RUNNER_SERVICE_ARN: Leave empty for first deployment" -ForegroundColor White
-Write-Host "   - AUTO_SCALING_CONFIG_ARN: $scalingConfigArn" -ForegroundColor White
+Write-Host "   - APP_RUNNER_ACCESS_ROLE_ARN: $roleArn" -ForegroundColor White
 Write-Host "4. Push your code to the main branch to trigger deployment" -ForegroundColor White
 
-Write-Host "`n✅ Setup complete! Ready for deployment." -ForegroundColor Green 
+Write-Host "`nSetup complete! Ready for deployment." -ForegroundColor Green 
