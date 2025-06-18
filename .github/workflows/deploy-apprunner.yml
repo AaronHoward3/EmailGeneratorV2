@@ -87,160 +87,67 @@ jobs:
 
       - name: Deploy to App Runner
         run: |
-          # Check if App Runner service exists by name first
-          EXISTING_SERVICE=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='${{ env.APP_RUNNER_SERVICE }}'].ServiceArn" --output text 2>/dev/null || echo "")
+          # Use the existing service ARN
+          SERVICE_ARN="arn:aws:apprunner:us-east-1:328280503559:service/sb-email-generator/49409e4dcefb4f80b35b6f86f8d01006"
           
-          if [ ! -z "$EXISTING_SERVICE" ]; then
-            echo "Found existing App Runner service: $EXISTING_SERVICE"
-            
-            # Check service status
-            SERVICE_STATUS=$(aws apprunner describe-service --service-arn "$EXISTING_SERVICE" --query 'Service.Status' --output text)
-            echo "Current service status: $SERVICE_STATUS"
-            
-            if [ "$SERVICE_STATUS" = "CREATE_FAILED" ]; then
-              echo "Service creation failed. Attempting to delete failed service..."
-              aws apprunner delete-service --service-arn "$EXISTING_SERVICE" 2>/dev/null || true
-              
-              # Don't wait for deletion - just proceed immediately
-              echo "Proceeding with new service creation immediately..."
-              
-              # Create new service
-              echo "Creating new App Runner service..."
-              if ! aws apprunner create-service \
-                --service-name ${{ env.APP_RUNNER_SERVICE }} \
-                --source-configuration '{
-                  "ImageRepository": {
-                    "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
-                    "ImageConfiguration": {
-                      "Port": "3000"
-                    },
-                    "ImageRepositoryType": "ECR"
-                  },
-                  "AuthenticationConfiguration": {
-                    "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
-                  }
-                }' \
-                --instance-configuration '{
-                  "Cpu": "1024",
-                  "Memory": "2048"
-                }' \
-                --output json > service-output.json 2>create-error.log; then
-                
-                echo "❌ Service creation command failed!"
-                echo "Error output:"
-                cat create-error.log
-                exit 1
-              fi
-              
-              # Check if the service was created successfully
-              if [ ! -f service-output.json ] || [ ! -s service-output.json ]; then
-                echo "❌ Service creation failed - no output file generated"
-                exit 1
-              fi
-              
-              # Validate the JSON output
-              if ! jq empty service-output.json 2>/dev/null; then
-                echo "❌ Service creation failed - invalid JSON output"
-                cat service-output.json
-                exit 1
-              fi
-            else
-              # Wait for service to be in a stable state before updating
-              echo "Checking service status..."
-              while true; do
-                SERVICE_STATUS=$(aws apprunner describe-service --service-arn "$EXISTING_SERVICE" --query 'Service.Status' --output text)
-                echo "Current service status: $SERVICE_STATUS"
-                
-                if [ "$SERVICE_STATUS" = "RUNNING" ] || [ "$SERVICE_STATUS" = "FAILED" ]; then
-                  echo "Service is in stable state, proceeding with update..."
-                  break
-                else
-                  echo "Service is still in progress, waiting 30 seconds..."
-                  sleep 30
-                fi
-              done
-              
-              echo "Updating existing App Runner service: $EXISTING_SERVICE"
-              aws apprunner update-service \
-                --service-arn "$EXISTING_SERVICE" \
-                --source-configuration '{
-                  "ImageRepository": {
-                    "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
-                    "ImageConfiguration": {
-                      "Port": "3000"
-                    },
-                    "ImageRepositoryType": "ECR"
-                  },
-                  "AuthenticationConfiguration": {
-                    "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
-                  }
-                }'
-              
-              # Save the service ARN for future deployments
-              echo "$EXISTING_SERVICE" > service-output.json
-            fi
-          else
-            echo "Creating new App Runner service..."
-            if ! aws apprunner create-service \
-              --service-name ${{ env.APP_RUNNER_SERVICE }} \
-              --source-configuration '{
-                "ImageRepository": {
-                  "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
-                  "ImageConfiguration": {
-                    "Port": "3000"
-                  },
-                  "ImageRepositoryType": "ECR"
+          echo "Updating existing App Runner service: $SERVICE_ARN"
+          
+          # Update the service with the new image and environment variables
+          aws apprunner update-service \
+            --service-arn "$SERVICE_ARN" \
+            --source-configuration '{
+              "ImageRepository": {
+                "ImageIdentifier": "${{ steps.build-image.outputs.image }}",
+                "ImageConfiguration": {
+                  "Port": "3000"
                 },
-                "AuthenticationConfiguration": {
-                  "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
-                }
-              }' \
-              --instance-configuration '{
-                "Cpu": "1024",
-                "Memory": "2048"
-              }' \
-              --output json > service-output.json 2>create-error.log; then
-              
-              echo "❌ Service creation command failed!"
-              echo "Error output:"
-              cat create-error.log
-              exit 1
-            fi
-            
-            # Check if the service was created successfully
-            if [ ! -f service-output.json ] || [ ! -s service-output.json ]; then
-              echo "❌ Service creation failed - no output file generated"
-              exit 1
-            fi
-            
-            # Validate the JSON output
-            if ! jq empty service-output.json 2>/dev/null; then
-              echo "❌ Service creation failed - invalid JSON output"
-              cat service-output.json
-              exit 1
-            fi
-          fi
+                "ImageRepositoryType": "ECR"
+              },
+              "AuthenticationConfiguration": {
+                "AccessRoleArn": "${{ secrets.APP_RUNNER_ACCESS_ROLE_ARN }}"
+              }
+            }' \
+            --instance-configuration '{
+              "Cpu": "1024",
+              "Memory": "2048"
+            }' \
+            --environment-variables '[
+              {
+                "Name": "NODE_ENV",
+                "Value": "production"
+              },
+              {
+                "Name": "OPENAI_API_KEY",
+                "Value": "${{ secrets.OPENAI_API_KEY }}"
+              },
+              {
+                "Name": "S3_REGION",
+                "Value": "us-east-1"
+              },
+              {
+                "Name": "S3_ACCESS_KEY_ID",
+                "Value": "${{ secrets.AWS_ACCESS_KEY_ID }}"
+              },
+              {
+                "Name": "S3_SECRET_ACCESS_KEY",
+                "Value": "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+              },
+              {
+                "Name": "S3_BUCKET_NAME",
+                "Value": "sb-hero-images"
+              },
+              {
+                "Name": "SB_BRANDDEV_API_KEY",
+                "Value": "${{ secrets.BRANDDEV_API_KEY }}"
+              }
+            ]'
           
-          # Extract service ARN for future deployments
-          if [ -f service-output.json ]; then
-            # Check if the file contains JSON or just a plain ARN
-            if grep -q '"Service"' service-output.json; then
-              # File contains JSON, extract ARN from it
-              SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn')
-            else
-              # File contains just the ARN as plain text
-              SERVICE_ARN=$(cat service-output.json)
-            fi
-            echo "Service ARN: $SERVICE_ARN"
-          fi
+          # Save the service ARN for future deployments
+          echo "$SERVICE_ARN" > service-output.json
 
       - name: Wait for deployment to complete
         run: |
-          if [ -f service-output.json ]; then
-            SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn')
-          else
-            SERVICE_ARN=${{ secrets.APP_RUNNER_SERVICE_ARN }}
-          fi
+          SERVICE_ARN="arn:aws:apprunner:us-east-1:328280503559:service/sb-email-generator/49409e4dcefb4f80b35b6f86f8d01006"
           
           echo "Waiting for deployment to complete..."
           
@@ -252,37 +159,8 @@ jobs:
             if [ "$STATUS" = "RUNNING" ]; then
               echo "Service is now running!"
               break
-            elif [ "$STATUS" = "CREATE_FAILED" ]; then
-              echo "❌ Service creation failed! Getting detailed error information..."
-              
-              # Get detailed service information including error details
-              SERVICE_INFO=$(aws apprunner describe-service --service-arn $SERVICE_ARN --output json)
-              
-              # Extract specific error information
-              ERROR_MESSAGE=$(echo "$SERVICE_INFO" | jq -r '.Service.ServiceStatusMessage // "No error message available"')
-              echo "❌ Error message: $ERROR_MESSAGE"
-              
-              # Get service events for more details (limited output)
-              echo "📋 Service events summary:"
-              aws apprunner list-operations --service-arn $SERVICE_ARN --query 'OperationSummaryList[].[Id,Status,Type,StartedAt]' --output table || echo "Could not retrieve service events"
-              
-              # Get the latest operation details (limited output)
-              LATEST_OP_ID=$(aws apprunner list-operations --service-arn $SERVICE_ARN --query 'OperationSummaryList[0].Id' --output text 2>/dev/null || echo "")
-              if [ ! -z "$LATEST_OP_ID" ]; then
-                echo "🔍 Latest operation error details:"
-                aws apprunner describe-operation --operation-arn $LATEST_OP_ID --query 'Operation.{Status:Status,Type:Type,ErrorMessage:ErrorMessage,StartedAt:StartedAt,EndedAt:EndedAt}' --output table || echo "Could not retrieve operation details"
-              fi
-              
-              echo "❌ Deployment failed! Exiting with error code 1"
-              exit 1
             elif [ "$STATUS" = "FAILED" ]; then
               echo "❌ Service deployment failed!"
-              
-              # Get detailed service information
-              SERVICE_INFO=$(aws apprunner describe-service --service-arn $SERVICE_ARN --output json)
-              ERROR_MESSAGE=$(echo "$SERVICE_INFO" | jq -r '.Service.ServiceStatusMessage // "No error message available"')
-              echo "❌ Error message: $ERROR_MESSAGE"
-              
               exit 1
             else
               echo "Waiting for service to be ready..."
@@ -296,11 +174,7 @@ jobs:
 
       - name: Test deployment
         run: |
-          if [ -f service-output.json ]; then
-            SERVICE_ARN=$(cat service-output.json | jq -r '.Service.ServiceArn')
-          else
-            SERVICE_ARN=${{ secrets.APP_RUNNER_SERVICE_ARN }}
-          fi
+          SERVICE_ARN="arn:aws:apprunner:us-east-1:328280503559:service/sb-email-generator/49409e4dcefb4f80b35b6f86f8d01006"
           
           SERVICE_URL=$(aws apprunner describe-service --service-arn $SERVICE_ARN --query 'Service.ServiceUrl' --output text)
           echo "Testing service at: $SERVICE_URL"
@@ -327,7 +201,7 @@ jobs:
 
       - name: Get service URL and test
         run: |
-          SERVICE_ARN=${{ secrets.APP_RUNNER_SERVICE_ARN }}
+          SERVICE_ARN="arn:aws:apprunner:us-east-1:328280503559:service/sb-email-generator/49409e4dcefb4f80b35b6f86f8d01006"
           SERVICE_URL=$(aws apprunner describe-service --service-arn $SERVICE_ARN --query 'Service.ServiceUrl' --output text)
           echo "Service URL: $SERVICE_URL"
           
