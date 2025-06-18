@@ -64,17 +64,27 @@ jobs:
               echo "Service creation failed. Deleting failed service and creating a new one..."
               aws apprunner delete-service --service-arn "$EXISTING_SERVICE"
               
-              # Wait for deletion to complete
+              # Wait for deletion to complete with timeout
               echo "Waiting for service deletion to complete..."
-              while true; do
+              TIMEOUT=300  # 5 minutes timeout
+              ELAPSED=0
+              while [ $ELAPSED -lt $TIMEOUT ]; do
                 if aws apprunner describe-service --service-arn "$EXISTING_SERVICE" 2>/dev/null; then
-                  echo "Service still exists, waiting..."
+                  echo "Service still exists, waiting... (${ELAPSED}s elapsed)"
                   sleep 30
+                  ELAPSED=$((ELAPSED + 30))
                 else
                   echo "Service deleted successfully"
                   break
                 fi
               done
+              
+              # Check if deletion timed out
+              if [ $ELAPSED -ge $TIMEOUT ]; then
+                echo "Service deletion timed out after ${TIMEOUT} seconds. Proceeding with new service creation..."
+                # Force delete by trying again
+                aws apprunner delete-service --service-arn "$EXISTING_SERVICE" 2>/dev/null || true
+              fi
               
               # Create new service
               echo "Creating new App Runner service..."
