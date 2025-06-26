@@ -15,18 +15,11 @@ export async function generateEmails(req, res) {
       .json({ error: "Missing brandData or emailType in request body." });
   }
 
-  // Validate customHeroImage parameter
   if (brandData.customHeroImage !== undefined && typeof brandData.customHeroImage !== 'boolean') {
-    return res
-      .status(400)
-      .json({ 
-        error: "customHeroImage must be a boolean (true/false)" 
-      });
+    return res.status(400).json({ error: "customHeroImage must be a boolean (true/false)" });
   }
 
-  // Generate a unique session ID for this request
   const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
-
   const wantsCustomHero = brandData.customHeroImage === true;
 
   if (wantsCustomHero) {
@@ -38,10 +31,8 @@ export async function generateEmails(req, res) {
 
       if (brandData.primary_custom_hero_image_banner) {
         const url = brandData.primary_custom_hero_image_banner.trim();
-        console.log(
-          "🖼️ Custom hero image is being used:",
-          url
-        );
+        console.log("🖼️ Custom hero image is being used:", url);
+        brandData.hero_image_url = url; // ✅ Injected override
       } else {
         console.log("🚫 No custom hero image present in brand data.");
       }
@@ -55,29 +46,21 @@ export async function generateEmails(req, res) {
   console.log(`🧠 Using assistant for ${emailType}: ${assistantId}`);
 
   if (!assistantId) {
-    return res
-      .status(400)
-      .json({ error: `No assistant configured for: ${emailType}` });
+    return res.status(400).json({ error: `No assistant configured for: ${emailType}` });
   }
 
-  // Generate all layouts upfront to ensure uniqueness within this request
   const layouts = [];
   for (let i = 0; i < 3; i++) {
     const layout = getUniqueLayout(emailType, sessionId);
     if (!layout) {
-      return res.status(500).json({ 
-        error: "Could not generate unique layouts for all emails" 
-      });
+      return res.status(500).json({ error: "Could not generate unique layouts for all emails" });
     }
     layouts.push(layout);
   }
 
-  // Generate emails in parallel for better concurrency
   const emailPromises = layouts.map(async (layout, index) => {
     const i = index + 1;
-    const spinner = ora(
-      `Generating ${emailType} email ${i} using layout: ${layout.layoutId}`
-    ).start();
+    const spinner = ora(`Generating ${emailType} email ${i} using layout: ${layout.layoutId}`).start();
 
     try {
       const sectionDescriptions = Object.entries(layout)
@@ -95,8 +78,8 @@ export async function generateEmails(req, res) {
         ? `\n📢 User Special Instructions:\n${userContext}\n`
         : "";
 
-      const userPrompt =
-        `Ignore any previous context. You are starting from scratch for this email.
+      const userPrompt = `
+Ignore any previous context. You are starting from scratch for this email.
 
 You are an expert ${emailType} email assistant.
 
@@ -109,6 +92,9 @@ Make sure to use at least one block with an image field.
 Only return MJML inside a single \`\`\`mjml\`\`\` block, no other text.
 Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> do not include text outside of those.
 Do not use vibe images for products. Use real product images from provided brand data.
+If "primary_custom_hero_image_banner" or "hero_image_url" is available in brandData, you must use it as the hero image.
+It must appear in the first visual section that supports image blocks.
+
 You may also insert 1–2 utility blocks to add spacing or design elements:
 - divider-line.txt, divider-dotted.txt, divider-accent.txt, spacer-md.txt, labeled-divider.txt
 
@@ -130,37 +116,20 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
         assistant_id: assistantId,
       });
 
-      // Wait for run completion with timeout
-      const maxWaitTime = 120000; // 2 minutes
+      const maxWaitTime = 120000;
       const startTime = Date.now();
       let runStatus;
-      
+
       while (Date.now() - startTime < maxWaitTime) {
         runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-        
-        if (runStatus.status === "completed") {
-          break;
+        if (runStatus.status === "completed") break;
+        if (["failed", "expired", "cancelled"].includes(runStatus.status)) {
+          spinner.fail(`❌ Assistant error on email ${i}`);
+          throw new Error(`Assistant error: ${runStatus.status}`);
         }
-        
-        if (runStatus.status === "failed") {
-          spinner.fail(`❌ Assistant failed on email ${i}`);
-          throw new Error(`Assistant failed on email ${i}: ${runStatus.last_error?.message || 'Unknown error'}`);
-        }
-        
-        if (runStatus.status === "expired") {
-          spinner.fail(`❌ Assistant run expired on email ${i}`);
-          throw new Error(`Assistant run expired on email ${i}`);
-        }
-        
-        if (runStatus.status === "cancelled") {
-          spinner.fail(`❌ Assistant run was cancelled on email ${i}`);
-          throw new Error(`Assistant run was cancelled on email ${i}`);
-        }
-        
-        // Wait before checking again
         await new Promise((r) => setTimeout(r, 1500));
       }
-      
+
       if (runStatus.status !== "completed") {
         spinner.fail(`❌ Assistant run timed out on email ${i}`);
         throw new Error(`Assistant run timed out after ${maxWaitTime / 1000} seconds on email ${i}`);
@@ -176,10 +145,10 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
       if (cleanedMjml.includes("<mjml") && cleanedMjml.includes("</mjml>")) {
         spinner.succeed(`✅ Email ${i} generated successfully`);
-        return { 
-          index: i, 
+        return {
+          index: i,
           content: cleanedMjml,
-          tokens: runStatus.usage?.total_tokens || 0
+          tokens: runStatus.usage?.total_tokens || 0,
         };
       } else {
         spinner.fail(`⚠️ Email ${i} generated but MJML wrapper may be invalid`);
@@ -187,35 +156,27 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
           index: i,
           warning: "MJML formatting invalid",
           content: cleanedMjml,
-          tokens: runStatus.usage?.total_tokens || 0
+          tokens: runStatus.usage?.total_tokens || 0,
         };
       }
     } catch (error) {
       spinner.fail(`❌ Failed to generate email ${i}`);
       return {
         index: i,
-        error: error.message
+        error: error.message,
       };
     }
   });
 
   try {
-    // Wait for all emails to complete
     const results = await Promise.all(emailPromises);
-    
-    // Calculate total tokens
     const totalTokens = results.reduce((sum, result) => sum + (result.tokens || 0), 0);
-    
-    // Clean up session
     cleanupSession(sessionId);
-    
     console.log(`🧹 Session cleanup completed for: ${sessionId}`);
     console.log(`🧠 Total OpenAI tokens used: ${totalTokens}`);
-    
     res.json({ success: true, totalTokens, emails: results });
   } catch (error) {
-    // Clean up session on error
     cleanupSession(sessionId);
     res.status(500).json({ error: error.message });
   }
-} 
+}
