@@ -1,0 +1,9 @@
+    <!-- Block: Elegant Headline and Hero Image -->
+    <mj-section background-color="#ffffff" padding="50px 0 30px">
+      <mj-column>
+        <mj-text font-size="36px" font-weight="bold" color="#111111" padding="0 20px 20px">
+          Timeless Style, Redefined
+        </mj-text>
+        <mj-image src="https://via.placeholder.com/600x280" alt="Editorial Hero" padding="0" />
+      </mj-column>
+    </mj-section>

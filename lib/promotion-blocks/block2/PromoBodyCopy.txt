@@ -1,0 +1,11 @@
+<!-- Block: Promo Body Copy with Subheader -->
+<mj-section background-color="#f9f9f9" padding="30px 0">
+  <mj-column>
+    <mj-text font-family="Helvetica, Arial, sans-serif" font-size="18px" font-weight="bold" color="#333333" align="center" padding="0 20px 10px">
+      Here’s What’s Inside
+    </mj-text>
+    <mj-text font-family="Helvetica, Arial, sans-serif" font-size="16px" color="#555555" align="center" padding="0 20px">
+      Enjoy up to 30% off on select items in our summer collection. Whether you're looking for lightweight essentials or bold statement pieces, this offer has something for everyone.
+    </mj-text>
+  </mj-column>
+</mj-section>

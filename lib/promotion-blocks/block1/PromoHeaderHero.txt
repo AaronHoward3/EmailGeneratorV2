@@ -1,0 +1,12 @@
+<!-- Block: Promo Header with Hero Image -->
+<mj-section background-color="#ffffff" padding="30px 0">
+  <mj-column>
+    <mj-image src="https://via.placeholder.com/600x200" alt="Promotional Banner" padding="0px" />
+    <mj-text font-family="Helvetica, Arial, sans-serif" font-size="24px" font-weight="bold" align="center" padding="20px 0 10px">
+      Special Offer Just for You!
+    </mj-text>
+    <mj-text font-family="Helvetica, Arial, sans-serif" font-size="16px" color="#555555" align="center" padding="0 20px">
+      Discover exclusive savings for a limited time.
+    </mj-text>
+  </mj-column>
+</mj-section>
