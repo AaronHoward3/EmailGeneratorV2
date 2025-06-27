@@ -45,13 +45,11 @@ export const BLOCK_DEFINITIONS = {
         "title-body.txt",
         "title-only.txt",
         "hero-overlay.txt",
-        "split-block.txt",
       ],
       content1: [
         "alternating-grid.txt",
         "product-grid.txt",
         "single-product.txt",
-        "body-text.txt",
         "Double-column.txt",
       ],
       cta: ["body-cta.txt", "cta-only.txt", "image-cta.txt"],

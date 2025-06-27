@@ -110,8 +110,6 @@ export async function generateEmails(req, res) {
         : "";
 
       const userPrompt = `
-Ignore any previous context. You are starting from scratch for this email.
-
 You are an expert ${emailType} email assistant.
 
 Your job:
@@ -143,6 +141,7 @@ VISUAL DESIGN RULES (from design system):
   - Include at least 1 image-based block
 - **Color**:
   - Use brand colors (from JSON)
+  - Replace any template colors with brand colors
   - At least 1 background-colored section using brand.primary_color
   - Max 3 total colors in design
 - **Mobile**:
@@ -150,6 +149,8 @@ VISUAL DESIGN RULES (from design system):
   - Minimum font size 14px
   - Full-width CTAs on mobile
 
+  Do NOT change the layout of the template blocks provided.
+  
 You may also insert 1–2 utility blocks to add spacing or design elements:
 - divider-line.txt, divider-dotted.txt, divider-accent.txt, spacer-md.txt, labeled-divider.txt
 
