@@ -87,6 +87,7 @@ Your job:
 Generate one MJML email using uploaded block templates.
 Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
 
+Only Use correct product image for the corresponding product. Do not use any other images for products.
 Must use at least 1 color block for a section background.
 Only return MJML inside a single \`\`\`mjml\`\`\` block, no other text.
 Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> do not include text outside of those.
