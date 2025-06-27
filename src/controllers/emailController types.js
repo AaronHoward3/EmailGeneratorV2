@@ -15,63 +15,41 @@ export async function generateEmails(req, res) {
       .json({ error: "Missing brandData or emailType in request body." });
   }
 
-  if (
-    brandData.customHeroImage !== undefined &&
-    typeof brandData.customHeroImage !== "boolean"
-  ) {
-    return res.status(400).json({
-      error: "customHeroImage must be a boolean (true/false)",
-    });
+  if (brandData.customHeroImage !== undefined && typeof brandData.customHeroImage !== 'boolean') {
+    return res.status(400).json({ error: "customHeroImage must be a boolean (true/false)" });
   }
 
-  const sessionId = `${Date.now()}-${Math.random()
-    .toString(36)
-    .substring(2, 15)}`;
+  const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
   const wantsCustomHero = brandData.customHeroImage === true;
 
-  const totalStart = Date.now();
-  console.log(
-    `⏱️ [${sessionId}] generation started at ${new Date(
-      totalStart
-    ).toISOString()}`
-  );
-
-  // start hero image generation
-  const heroStart = Date.now();
+  // Start hero image generation immediately, in parallel
   const heroPromise = wantsCustomHero
     ? generateCustomHeroAndEnrich(brandData, storeId).catch((err) => {
         console.error("❌ Failed to generate custom hero image:", err.message);
         console.log("⚠️ Falling back to original brand data.");
-        return brandData;
+        return brandData; // fallback
       })
     : Promise.resolve(brandData);
 
-  // layouts
+  // Start layout selection in parallel
   const layouts = [];
   for (let i = 0; i < 3; i++) {
     const layout = getUniqueLayout(emailType, sessionId);
     if (!layout) {
-      return res.status(500).json({
-        error: "Could not generate unique layouts for all emails",
-      });
+      return res.status(500).json({ error: "Could not generate unique layouts for all emails" });
     }
     layouts.push(layout);
   }
 
-  // pre-create threads
-  const threads = await Promise.all(layouts.map(() => openai.beta.threads.create()));
-  const threadsDone = Date.now();
-  console.log(
-    `🧵 [${sessionId}] Threads created in ${threadsDone - heroStart} ms`
+  // Pre-create threads in parallel
+  const threads = await Promise.all(
+    layouts.map(() => openai.beta.threads.create())
   );
 
-  // wait for hero
+  // Wait for hero to finish so we have final brandData
   brandData = await heroPromise;
-  const heroEnd = Date.now();
-  console.log(
-    `🎨 [${sessionId}] Hero image completed in ${heroEnd - heroStart} ms`
-  );
 
+  // Inject override if present
   if (brandData.primary_custom_hero_image_banner) {
     const url = brandData.primary_custom_hero_image_banner.trim();
     console.log("🖼️ Custom hero image is being used:", url);
@@ -84,17 +62,13 @@ export async function generateEmails(req, res) {
   console.log(`🧠 Using assistant for ${emailType}: ${assistantId}`);
 
   if (!assistantId) {
-    return res.status(400).json({
-      error: `No assistant configured for: ${emailType}`,
-    });
+    return res.status(400).json({ error: `No assistant configured for: ${emailType}` });
   }
 
   const emailPromises = layouts.map(async (layout, index) => {
     const thread = threads[index];
     const i = index + 1;
-    const spinner = ora(
-      `Generating ${emailType} email ${i} using layout: ${layout.layoutId}`
-    ).start();
+    const spinner = ora(`Generating ${emailType} email ${i} using layout: ${layout.layoutId}`).start();
 
     try {
       const sectionDescriptions = Object.entries(layout)
@@ -102,7 +76,8 @@ export async function generateEmails(req, res) {
         .map(([key, val]) => `- Block (${key}): ${val}`)
         .join("\n");
 
-      const layoutInstruction = `Use the following layout:\n${sectionDescriptions}\nYou may insert 1–3 utility blocks for spacing or visual design.`.trim();
+      const layoutInstruction =
+        `Use the following layout:\n${sectionDescriptions}\nYou may insert 1–3 utility blocks for spacing or visual design.`.trim();
 
       const safeUserContext = userContext?.trim().substring(0, 500) || "";
       const userInstructions = safeUserContext
@@ -172,10 +147,10 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       });
 
       const maxWaitTime = 120000;
-      const runStart = Date.now();
+      const startTime = Date.now();
       let runStatus;
 
-      while (Date.now() - runStart < maxWaitTime) {
+      while (Date.now() - startTime < maxWaitTime) {
         runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
         if (runStatus.status === "completed") break;
         if (["failed", "expired", "cancelled"].includes(runStatus.status)) {
@@ -187,9 +162,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
       if (runStatus.status !== "completed") {
         spinner.fail(`❌ Assistant run timed out on email ${i}`);
-        throw new Error(
-          `Assistant run timed out after ${maxWaitTime / 1000} seconds on email ${i}`
-        );
+        throw new Error(`Assistant run timed out after ${maxWaitTime / 1000} seconds on email ${i}`);
       }
 
       const messages = await openai.beta.threads.messages.list(thread.id);
@@ -227,13 +200,9 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
   try {
     const results = await Promise.all(emailPromises);
-    const totalTokens = results.reduce(
-      (sum, result) => sum + (result.tokens || 0),
-      0
-    );
+    const totalTokens = results.reduce((sum, result) => sum + (result.tokens || 0), 0);
     cleanupSession(sessionId);
-    const totalEnd = Date.now();
-    console.log(`✅ [${sessionId}] Total time: ${totalEnd - totalStart} ms`);
+    console.log(`🧹 Session cleanup completed for: ${sessionId}`);
     console.log(`🧠 Total OpenAI tokens used: ${totalTokens}`);
     res.json({ success: true, totalTokens, emails: results });
   } catch (error) {
