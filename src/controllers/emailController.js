@@ -87,13 +87,36 @@ Your job:
 Generate one MJML email using uploaded block templates.
 Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
 
-Must use at least one color block using brand colors.
-Make sure to use at least one block with an image field.
+Must use at least 1 color block for a section background.
 Only return MJML inside a single \`\`\`mjml\`\`\` block, no other text.
 Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> do not include text outside of those.
-Do not use vibe images for products. Use real product images from provided brand data.
 If "primary_custom_hero_image_banner" or "hero_image_url" is available in brandData, you must use it as the hero image.
-It must appear in the first visual section that supports image blocks.
+
+VISUAL DESIGN RULES (from design system):
+- **Max width**: 600–640px
+- **Spacing**:
+  - Between blocks: 40–60px
+  - Internal padding: 20–30px
+  - Buttons: 14–16px vertical / 28–32px horizontal
+- **Typography**:
+  - Headline: 32–48px, bold, 130% line height
+  - Subhead: 20–24px
+  - Body: 16–18px, 150% line height
+- **CTA**:
+  - Prominent, center- or left-aligned
+  - Include supporting subtext + high-contrast button
+- **Images**:
+  - Use real brand photos only
+  - Hero: 600×300–400px preferred, with proper alt text
+  - Include at least 1 image-based block
+- **Color**:
+  - Use brand colors (from JSON)
+  - At least 1 background-colored section using brand.primary_color
+  - Max 3 total colors in design
+- **Mobile**:
+  - Stack columns
+  - Minimum font size 14px
+  - Full-width CTAs on mobile
 
 You may also insert 1–2 utility blocks to add spacing or design elements:
 - divider-line.txt, divider-dotted.txt, divider-accent.txt, spacer-md.txt, labeled-divider.txt

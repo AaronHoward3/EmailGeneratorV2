@@ -1,9 +1,14 @@
-<mj-section background-color="#ffffff" padding="30px">
+
+<mj-section background-color="#ffffff" padding="40px 0">
   <mj-column>
-    <mj-text align="center" font-size="18px" font-weight="bold">Need a hand?</mj-text>
-    <mj-text align="center" color="#555555">
+    <mj-text align="center" font-size="20px" font-weight="bold" color="#000000" padding="0 20px 12px" line-height="1.4">
+      Need a hand?
+    </mj-text>
+    <mj-text align="center" color="#555555" font-size="16px" padding="0 20px" line-height="1.5">
       Reach out to our support team anytime or browse our help center for instant answers.
     </mj-text>
-    <mj-button href="https://example.com/support" align="center" padding="10px 0 0">Contact Support</mj-button>
+    <mj-button href="https://example.com/support" align="center" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" padding="20px 0 0">
+      Contact Support
+    </mj-button>
   </mj-column>
 </mj-section>

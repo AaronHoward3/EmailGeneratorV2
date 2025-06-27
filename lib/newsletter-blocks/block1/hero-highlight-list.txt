@@ -1,13 +1,27 @@
-<mj-section background-color="#ffffff" padding="30px">
+
+<mj-section background-color="#ffffff" padding="40px 0">
   <mj-column>
-    <mj-text align="center" font-size="22px" font-weight="bold" padding="0 0 10px">
+    <mj-text
+      align="center"
+      font-size="28px"
+      font-weight="bold"
+      padding="0 20px 12px"
+      color="#000000"
+      line-height="1.3"
+    >
       What’s New This Month
     </mj-text>
-    <mj-text color="#555555">
-      New feature rollout<br/>
-      Major performance improvements<br/>
-      Team spotlight: Meet our new engineer!<br/>
-      Surprise gift for top subscribers
+    <mj-text
+      font-size="18px"
+      color="#555555"
+      align="center"
+      padding="0 20px"
+      line-height="1.5"
+    >
+      • New feature rollout<br/>
+      • Major performance improvements<br/>
+      • Team spotlight: Meet our new engineer!<br/>
+      • Surprise gift for top subscribers
     </mj-text>
   </mj-column>
 </mj-section>

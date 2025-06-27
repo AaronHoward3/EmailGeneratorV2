@@ -20,7 +20,6 @@ export const BLOCK_DEFINITIONS = {
         "dive.txt",
         "brand-story.txt",
         "photo-overlay.txt",
-        "Doublecontent.txt",
       ],
       content2: [
         "content-text-grid.txt",

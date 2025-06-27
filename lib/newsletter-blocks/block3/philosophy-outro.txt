@@ -1,7 +1,10 @@
-<mj-section background-color="#fafafa" padding="30px">
+
+<mj-section background-color="#fafafa" padding="40px 0">
   <mj-column>
-    <mj-text font-size="18px" font-weight="bold" align="center">We’re Here for the Long Run</mj-text>
-    <mj-text color="#555555" align="center">
+    <mj-text font-size="20px" font-weight="bold" align="center" color="#000000" padding="0 20px 12px" line-height="1.4">
+      We’re Here for the Long Run
+    </mj-text>
+    <mj-text color="#555555" align="center" font-size="16px" padding="0 20px" line-height="1.5">
       Everything we build is with your growth in mind. Thank you for trusting us — let’s keep building together.
     </mj-text>
   </mj-column>

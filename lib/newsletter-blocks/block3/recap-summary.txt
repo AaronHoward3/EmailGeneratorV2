@@ -1,11 +1,16 @@
-<mj-section background-color="#f0f0f0" padding="30px">
+
+<mj-section background-color="#f0f0f0" padding="40px 0">
   <mj-column>
-    <mj-text font-size="18px" font-weight="bold" align="center">This Month at a Glance</mj-text>
-    <mj-text color="#555555" align="center">
-      New feature launched<br/>
-      Ava’s 4X growth story<br/>
-      3 workflow tips from the pros
+    <mj-text font-size="20px" font-weight="bold" align="center" color="#000000" padding="0 20px 12px" line-height="1.4">
+      This Month at a Glance
     </mj-text>
-    <mj-button href="https://example.com/news" align="center" padding="20px 0 0">Catch Up Now</mj-button>
+    <mj-text color="#555555" align="center" font-size="16px" padding="0 20px" line-height="1.5">
+      • New feature launched<br/>
+      • Ava’s 4X growth story<br/>
+      • 3 workflow tips from the pros
+    </mj-text>
+    <mj-button href="https://example.com/news" align="center" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" padding="20px 0 0">
+      Catch Up Now
+    </mj-button>
   </mj-column>
 </mj-section>
