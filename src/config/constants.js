@@ -69,7 +69,7 @@ export const BLOCK_DEFINITIONS = {
   Promotion: {
     sections: ["intro", "content", "cta"],
     blocks: {
-      intro: ["PromoHeaderHero.txt", "BoldHeaderHero.txt", "EditorialHeaderHero.txt"],
+      intro: ["PromoHeaderHero.txt", "BoldHeaderHero.txt", "SplitHero.txt", "EditorialHeaderHero.txt"],
       content: ["PromoBodyCopy.txt", "TextAboveImageBody.txt", "TwoColumnBody.txt"],
       cta: ["PromoCTA.txt", "LargeCTASection.txt", "CTASectionDark.txt"],
     },

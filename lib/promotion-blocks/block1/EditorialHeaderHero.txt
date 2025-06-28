@@ -1,13 +1,23 @@
-<mj-section background-color="#111111" padding="40px 0">
+<mj-section background-color="#ffffff" padding="0">
+  <mj-column>
+    <mj-image
+      src="https://via.placeholder.com/600x300"
+      alt="Summer Sale Banner"
+      width="600px"
+      padding="0"
+    />
+  </mj-column>
+</mj-section>
+<mj-section background-color="#222222" padding="40px 0">
   <mj-column>
     <mj-text
       font-size="50px"
       font-weight="bold"
       color="#ffffff"
       align="center"
-      padding="20px 20px 5px"
+      padding="10px 40px 10px"
       background-color="#007BFF"
-      line-height="1.2"
+      line-height="1"
     >
       40% OFF
     </mj-text>
@@ -16,11 +26,10 @@
       font-weight="bold"
       color="#ffffff"
       align="center"
-      padding="5px 20px 20px"
-      line-height="1.4"
+      padding="10px 40px 20px"
+      line-height=".5"
     >
       Summer Sale Event
     </mj-text>
-    <mj-image src="https://via.placeholder.com/600x300" alt="Summer Sale Banner" width="600px" padding="0" />
   </mj-column>
 </mj-section>

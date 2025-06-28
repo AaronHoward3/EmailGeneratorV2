@@ -2,7 +2,8 @@ import OpenAI from "openai";
 import ora from "ora";
 import { enforceUtilityBlocks } from "../utils/utilityBlockEnforcer.js";
 import { specializedAssistants } from "../config/constants.js";
-import { getUniqueLayout, cleanupSession } from "../utils/layoutGenerator.js";
+import { getUniqueLayoutsBatch, cleanupSession } from "../utils/layoutGenerator.js";
+
 import { generateCustomHeroAndEnrich } from "../services/heroImageService.js";
 import {
   saveMJML,
@@ -57,16 +58,8 @@ export async function generateEmails(req, res) {
       : Promise.resolve(brandData);
 
     // Generate unique layouts
-    const layouts = [];
-    for (let i = 0; i < 3; i++) {
-      const layout = getUniqueLayout(emailType, sessionId);
-      if (!layout) {
-        return res
-          .status(500)
-          .json({ error: "Could not generate unique layouts for all emails" });
-      }
-      layouts.push(layout);
-    }
+const layouts = getUniqueLayoutsBatch(emailType, sessionId, 3);
+
 
     // Create OpenAI threads
     const threads = await Promise.all(layouts.map(() => openai.beta.threads.create()));
@@ -102,25 +95,39 @@ Your job:
 Generate one MJML email using uploaded block templates.
 Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
 
+The structure of the email must be exactly three content blocks in order:
+  1. One hero block
+  2. One content block
+  3. One CTA block
+
+No other content sections are allowed beyond these three. 
+You must insert exactly 1 block-based utility block between every pair of consecutive content blocks. 
+These utility blocks must be block templates and referenced using block comments such as:
+<!-- Blockfile: divider-accent.txt -->
+You cannot use raw <mj-divider> or <mj-spacer> directly. You must only insert block-based utility blocks with their correct block comment markers.  
+Do not skip these utility blocks under any circumstances. They are required between every two consecutive content blocks, but do not add any additional content sections outside of these three.
+
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
 - Must use at least 1 color block for a section background.
 - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
 - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and do not include text outside of those.
-- If "primary_custom_hero_image_banner" or "hero_image_url" is available in brandData, you must use it as the hero image.
+- If brandData.hero_image_url is provided, you must use that image as the only hero image in the email. 
+You may not substitute or add any other images in the hero section. This is mandatory.
 
 **VISUAL DESIGN RULES (from design system):**
 - **Max width**: 600–640px
 - **Spacing**:
   - Between blocks: 40–60px
+  - - All text elements in hero or header sections must have left and right padding of at least 20px to prevent the text from running edge-to-edge.
   - Internal padding: 20–30px
   - Buttons: 14–16px vertical / 28–32px horizontal
 - **Typography**:
-  - Headline: 32–48px, bold, 130% line height
+  - Headline: 40–50px, bold, 130% line height
   - Subhead: 20–24px
   - Body: 16–18px, 150% line height
   - All text and button elements must use Helvetica Neue, Helvetica, Arial, sans-serif
 - **CTA**:
-  - Prominent, center- or left-aligned
+  - Prominent, centeraligned
   - Include supporting subtext + high-contrast button
 - **Images**:
   - Use real brand photos only
@@ -141,13 +148,6 @@ Use userSubmittedContext for info about content, and use userSubmittedTone for t
   - This rule is mandatory — do not skip or override it.
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
-
-**Utility block requirement:**
-You must insert exactly 1 block-based utility block between every pair of consecutive content blocks. 
-These utility blocks must be block templates and referenced using block comments such as:
-<!-- Blockfile: divider-accent.txt -->
-You cannot use raw <mj-divider> or <mj-spacer> directly. You must only insert block-based utility blocks with their correct block comment markers.  
-Do not skip these utility blocks under any circumstances. They are required between every two consecutive content blocks.
 
 📌 IMPORTANT: Above every content section, include a comment marker:
 <!-- Blockfile: block-name.txt -->

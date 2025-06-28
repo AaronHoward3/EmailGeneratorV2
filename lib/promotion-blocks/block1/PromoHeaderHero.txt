@@ -1,22 +1,29 @@
 <mj-section background-color="#ffffff" padding="40px 0">
   <mj-column>
-    <mj-image src="https://via.placeholder.com/600x300" alt="Promotional Banner" width="600px" padding="0" />
+    <mj-image
+      src="https://via.placeholder.com/600x300"
+      alt="Promotional Banner"
+      width="600px"
+      padding="0"
+    />
     <mj-text
       font-size="28px"
       font-weight="bold"
       align="center"
-      padding="20px 20px 10px"
+      padding="20px 40px 10px"
       line-height="1.3"
-      color="#ffffff"
+      color="#111111"
+      background-color="#111111"
     >
       Special Offer Just for You!
     </mj-text>
     <mj-text
       font-size="18px"
-      color="#ffffff"
+      color="#111111"
       align="center"
-      padding="0 20px"
+      padding="0 40px 20px"
       line-height="1.5"
+      background-color="#111111"
     >
       Discover exclusive savings for a limited time.
     </mj-text>
