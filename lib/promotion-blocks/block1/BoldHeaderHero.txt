@@ -1,5 +1,4 @@
-<!-- Block: Large Header and Hero Image with improved spacing and dark background -->
-<mj-section background-color="#111" padding="40px 0">
+<mj-section background-color="#111111" padding="40px 0">
   <mj-column>
     <mj-image src="https://via.placeholder.com/600x300" alt="Adventure Promo" width="600px" padding="0" />
     <mj-text
@@ -7,7 +6,7 @@
       font-weight="bold"
       color="#ffffff"
       align="center"
-      padding="20px 20px"
+      padding="40px 20px 10px"
       background-color="#222222"
       line-height="1.3"
     >

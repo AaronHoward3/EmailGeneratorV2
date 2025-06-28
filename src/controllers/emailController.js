@@ -111,7 +111,7 @@ Use userSubmittedContext for info about content, and use userSubmittedTone for t
 
 Only Use correct product image for the corresponding product. Do not use any other images for products.
 Must use at least 1 color block for a section background.
-Only return MJML inside a single \\\mjml\\\ block, no other text.
+Only return MJML inside a single \`\`\`mjml\`\`\` block, no other text.
 Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> do not include text outside of those.
 If "primary_custom_hero_image_banner" or "hero_image_url" is available in brandData, you must use it as the hero image.
 
@@ -134,7 +134,7 @@ VISUAL DESIGN RULES (from design system):
   - Include at least 1 image-based block
 - **Color**:
   - Use brand colors (from JSON)
-  - Replace any template colors with brand colors
+  - Must Replace any template block colors with brand colors.
   - At least 1 background-colored section using brand.primary_color
   - Max 3 total colors in design
 - **Mobile**:
