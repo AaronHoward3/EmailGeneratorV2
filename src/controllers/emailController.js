@@ -88,9 +88,7 @@ export async function generateEmails(req, res) {
     const emailPromises = layouts.map(async (layout, index) => {
       const thread = threads[index];
       const i = index + 1;
-      const spinner = ora(
-        `Generating ${emailType} email ${i} using layout: ${layout.layoutId}`
-      ).start();
+      const spinner = ora().start();
 
       try {
         const sectionDescriptions = Object.entries(layout)
@@ -246,7 +244,6 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
               realUrl
             );
             updateMJML(jobId, index, updated);
-            console.log(`🔄 Updated MJML at index ${index} with real hero URL`);
           }
         });
 
@@ -282,10 +279,8 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
     // Clean up stored MJMLs after successful response
     setTimeout(() => {
       deleteMJML(jobId);
-      console.log(`🗑️ Cleaned up stored MJMLs for job ${jobId}`);
     }, 1000);
 
-    console.log("🚀 Returning final emails");
     console.log(`✅ [${sessionId}] Total time: ${Date.now() - totalStart} ms`);
     console.log(`🧠 Total OpenAI tokens used: ${totalTokens}`);
 

@@ -11,16 +11,11 @@ export const saveMJML = (jobId, index, mjml) => {
   const current = store.get(jobId) || [];
   current[index] = mjml;
   store.set(jobId, current);
-
-  console.log(
-    `📦 Saved MJML for job ${jobId} at index ${index} (length: ${mjml.length} chars)`
-  );
 };
 
 // Get all MJMLs for a job (returns an array)
 export const getMJML = (jobId) => {
   const result = store.get(jobId) || [];
-  console.log(`📦 Retrieved ${result.length} MJMLs for job ${jobId}`);
   return result;
 };
 
@@ -30,17 +25,12 @@ export const updateMJML = (jobId, index, updatedMJML) => {
   const oldLength = current[index]?.length || 0;
   current[index] = updatedMJML;
   store.set(jobId, current);
-
-  console.log(
-    `🔄 Updated MJML for job ${jobId} at index ${index} (${oldLength} -> ${updatedMJML.length} chars)`
-  );
 };
 
 // Delete all MJMLs for a job
 export const deleteMJML = (jobId) => {
   const existed = store.has(jobId);
   store.delete(jobId);
-  console.log(`🗑️ Deleted MJMLs for job ${jobId} (existed: ${existed})`);
 };
 
 // Debug function to see what's in the store

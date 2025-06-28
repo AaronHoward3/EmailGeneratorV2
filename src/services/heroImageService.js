@@ -79,8 +79,6 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
     const messages = await openai.beta.threads.messages.list(thread.id);
     const promptText = messages.data[0].content[0].text.value;
 
-    console.log(`🎨 Generated image prompt for job ${jobId}`);
-
     // Step 3: Generate image
     const imageResponse = await openai.images.generate({
       model: "gpt-image-1",
@@ -116,8 +114,6 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
       sanitizedStoreSlug
     );
 
-    console.log(`📤 Uploaded hero image for job ${jobId}: ${publicUrl}`);
-
     // Step 5: Enrich brandData inline - FIXED: Set both fields
     const reordered = {
       ...brandData, // Copy all existing properties first
@@ -125,7 +121,6 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
       hero_image_url: publicUrl, // Override/set both hero image fields
     };
 
-    console.log(`✅ Hero image generation completed for job ${jobId}`);
     return reordered;
   } catch (error) {
     console.error(
