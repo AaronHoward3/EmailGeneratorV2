@@ -42,8 +42,6 @@ export const BLOCK_DEFINITIONS = {
     blocks: {
       intro: [
         "hero-title.txt",
-        "title-body.txt",
-        "title-only.txt",
         "hero-overlay.txt",
       ],
       content1: [

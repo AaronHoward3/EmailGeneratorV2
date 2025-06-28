@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import ora from "ora";
+import { enforceUtilityBlocks } from "../utils/utilityBlockEnforcer.js";
 import { specializedAssistants } from "../config/constants.js";
 import { getUniqueLayout, cleanupSession } from "../utils/layoutGenerator.js";
 import { generateCustomHeroAndEnrich } from "../services/heroImageService.js";
@@ -43,19 +44,14 @@ export async function generateEmails(req, res) {
     .substring(2, 15)}`;
   const totalStart = Date.now();
   console.log(
-    `⏱️ [${sessionId}] generation started at ${new Date(
-      totalStart
-    ).toISOString()}`
+    `⏱️ [${sessionId}] generation started at ${new Date(totalStart).toISOString()}`
   );
 
   try {
     // Start hero image generation in parallel
     const heroPromise = wantsCustomHero
       ? generateCustomHeroAndEnrich(brandData, storeId, jobId).catch((err) => {
-          console.error(
-            "❌ Failed to generate custom hero image:",
-            err.message
-          );
+          console.error("❌ Failed to generate custom hero image:", err.message);
           return brandData;
         })
       : Promise.resolve(brandData);
@@ -73,9 +69,7 @@ export async function generateEmails(req, res) {
     }
 
     // Create OpenAI threads
-    const threads = await Promise.all(
-      layouts.map(() => openai.beta.threads.create())
-    );
+    const threads = await Promise.all(layouts.map(() => openai.beta.threads.create()));
 
     const assistantId = specializedAssistants[emailType];
     if (!assistantId) {
@@ -96,8 +90,7 @@ export async function generateEmails(req, res) {
           .map(([key, val]) => `- Block (${key}): ${val}`)
           .join("\n");
 
-        const layoutInstruction =
-          `Use the following layout:\n${sectionDescriptions}\nYou may insert 1–3 utility blocks for spacing or visual design.`.trim();
+        const layoutInstruction = `Use the following layout:\n${sectionDescriptions}\nYou may insert 1–3 utility blocks for spacing or visual design.`.trim();
         const safeUserContext = userContext?.trim().substring(0, 500) || "";
         const userInstructions = safeUserContext
           ? `\n📢 User Special Instructions:\n${userContext}\n`
@@ -109,13 +102,13 @@ Your job:
 Generate one MJML email using uploaded block templates.
 Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
 
-Only Use correct product image for the corresponding product. Do not use any other images for products.
-Must use at least 1 color block for a section background.
-Only return MJML inside a single \`\`\`mjml\`\`\` block, no other text.
-Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> do not include text outside of those.
-If "primary_custom_hero_image_banner" or "hero_image_url" is available in brandData, you must use it as the hero image.
+- Only use the correct product image for the corresponding product. Do not use any other images for products.
+- Must use at least 1 color block for a section background.
+- "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
+- Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and do not include text outside of those.
+- If "primary_custom_hero_image_banner" or "hero_image_url" is available in brandData, you must use it as the hero image.
 
-VISUAL DESIGN RULES (from design system):
+**VISUAL DESIGN RULES (from design system):**
 - **Max width**: 600–640px
 - **Spacing**:
   - Between blocks: 40–60px
@@ -125,6 +118,7 @@ VISUAL DESIGN RULES (from design system):
   - Headline: 32–48px, bold, 130% line height
   - Subhead: 20–24px
   - Body: 16–18px, 150% line height
+  - All text and button elements must use Helvetica Neue, Helvetica, Arial, sans-serif
 - **CTA**:
   - Prominent, center- or left-aligned
   - Include supporting subtext + high-contrast button
@@ -134,20 +128,28 @@ VISUAL DESIGN RULES (from design system):
   - Include at least 1 image-based block
 - **Color**:
   - Use brand colors (from JSON)
-  - Must Replace any template block colors with brand colors.
+  - Must replace any template block colors with brand colors
   - At least 1 background-colored section using brand.primary_color
   - Max 3 total colors in design
 - **Mobile**:
   - Stack columns
   - Minimum font size 14px
   - Full-width CTAs on mobile
+- **Text color**:
+  - If a section uses a background color that is *not white (#ffffff)*, then set all text color inside that section to #ffffff (white).
+  - If a section uses a white background or no background color, use text color #000000 (black).
+  - This rule is mandatory — do not skip or override it.
 
-  Do NOT change the layout of the template blocks provided.
-  
-You may also insert 1–2 utility blocks to add spacing or design elements:
-- divider-line.txt, divider-dotted.txt, divider-accent.txt, spacer-md.txt, labeled-divider.txt
+Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
-📌 IMPORTANT: Above every content section, include a comment like:
+**Utility block requirement:**
+You must insert exactly 1 block-based utility block between every pair of consecutive content blocks. 
+These utility blocks must be block templates and referenced using block comments such as:
+<!-- Blockfile: divider-accent.txt -->
+You cannot use raw <mj-divider> or <mj-spacer> directly. You must only insert block-based utility blocks with their correct block comment markers.  
+Do not skip these utility blocks under any circumstances. They are required between every two consecutive content blocks.
+
+📌 IMPORTANT: Above every content section, include a comment marker:
 <!-- Blockfile: block-name.txt -->
 
 ${layoutInstruction}
@@ -169,10 +171,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
         let runStatus;
 
         while (Date.now() - runStart < maxWaitTime) {
-          runStatus = await openai.beta.threads.runs.retrieve(
-            thread.id,
-            run.id
-          );
+          runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
           if (runStatus.status === "completed") break;
           if (["failed", "expired", "cancelled"].includes(runStatus.status)) {
             spinner.fail(`❌ Assistant error on email ${i}`);
@@ -183,11 +182,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
         if (runStatus.status !== "completed") {
           spinner.fail(`❌ Assistant run timed out on email ${i}`);
-          throw new Error(
-            `Assistant run timed out after ${
-              maxWaitTime / 1000
-            } seconds on email ${i}`
-          );
+          throw new Error(`Assistant run timed out after ${maxWaitTime / 1000} seconds on email ${i}`);
         }
 
         const messages = await openai.beta.threads.messages.list(thread.id);
@@ -197,7 +192,6 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
           .replace(/```$/, "")
           .trim();
 
-        // FIXED: Save MJML with proper index
         saveMJML(jobId, index, cleanedMjml);
         console.log(`📦 Saved MJML for job ${jobId} at index ${index}`);
 
@@ -213,70 +207,84 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       }
     });
 
-    // Wait for both email generation and hero image
+    // Wait for both hero and emails
     const [results, finalBrandData] = await Promise.all([
       Promise.all(emailPromises),
       heroPromise,
     ]);
 
-    // Debug: Check what we have stored
     const storedMjmls = getMJML(jobId);
-    console.log(
-      `📦 Retrieved ${storedMjmls.length} stored MJMLs for job ${jobId}`
-    );
+    console.log(`📦 Retrieved ${storedMjmls.length} stored MJMLs for job ${jobId}`);
 
-    // Replace hero image placeholder if custom hero was requested
+    // Replace placeholder hero with the real hero image
     let finalResults = results;
-    if (wantsCustomHero) {
-      const realUrl = finalBrandData.hero_image_url?.trim();
-      console.log(`🖼️ Final hero URL: ${realUrl}`);
+    const fontHead = `
+      <mj-head>
+        <mj-attributes>
+          <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
+          <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
+        </mj-attributes>
+      </mj-head>
+    `;
 
-      if (
-        realUrl &&
-        realUrl.includes("http") &&
-        !realUrl.includes("CUSTOMHEROIMAGE")
-      ) {
-        // Update stored MJMLs with real hero URL
-        storedMjmls.forEach((mjml, index) => {
-          if (mjml) {
-            const updated = mjml.replace(
-              /https:\/\/CUSTOMHEROIMAGE\.COM/g,
-              realUrl
-            );
-            updateMJML(jobId, index, updated);
+    if (
+      wantsCustomHero &&
+      finalBrandData.hero_image_url &&
+      finalBrandData.hero_image_url.includes("http") &&
+      !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
+    ) {
+      storedMjmls.forEach((mjml, index) => {
+        if (mjml) {
+          let updated = mjml.replace(/https:\/\/CUSTOMHEROIMAGE\.COM/g, finalBrandData.hero_image_url);
+
+          if (!updated.includes("<mj-head>")) {
+            updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
+            console.log(`🔤 Injected Helvetica font block for email ${index + 1}`);
           }
-        });
 
-        // Get the updated MJMLs and build final results
-        const patchedMjmls = getMJML(jobId);
-        finalResults = results.map((result, index) => {
-          if (result.content && patchedMjmls[index]) {
-            return {
-              ...result,
-              content: patchedMjmls[index],
-            };
-          }
-          return result;
-        });
+          updateMJML(jobId, index, updated);
+        }
+      });
 
-        console.log(
-          "🖼️ ✅ Successfully replaced placeholder hero in all MJMLs"
-        );
-      } else {
-        console.log("⚠️ Hero URL not ready or invalid, using placeholder");
-      }
+      const patchedMjmls = getMJML(jobId);
+      finalResults = results.map((result, index) => {
+        if (result.content && patchedMjmls[index]) {
+          return {
+            ...result,
+            content: patchedMjmls[index],
+          };
+        }
+        return result;
+      });
+
+      console.log("🖼️ ✅ Successfully replaced hero + enforced font block");
+    } else {
+      console.log("⚠️ Hero URL not ready or invalid, using placeholder");
+
+      storedMjmls.forEach((mjml, index) => {
+        if (mjml && !mjml.includes("<mj-head>")) {
+          const injected = mjml.replace("<mjml>", `<mjml>${fontHead}`);
+          updateMJML(jobId, index, injected);
+          console.log(`🔤 Injected Helvetica font block for email ${index + 1} (fallback)`);
+        }
+      });
     }
+    
+    // enforce utility blocks between every pair of sections
+finalResults = finalResults.map((result) => {
+  if (result.content) {
+    return {
+      ...result,
+      content: enforceUtilityBlocks(result.content),
+    };
+  }
+  return result;
+});
 
-    // Calculate total tokens
-    const totalTokens = finalResults.reduce(
-      (sum, result) => sum + (result.tokens || 0),
-      0
-    );
+    const totalTokens = finalResults.reduce((sum, result) => sum + (result.tokens || 0), 0);
 
-    // Cleanup
     cleanupSession(sessionId);
 
-    // Clean up stored MJMLs after successful response
     setTimeout(() => {
       deleteMJML(jobId);
     }, 1000);
