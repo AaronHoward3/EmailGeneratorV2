@@ -1,0 +1,59 @@
+<!-- Blockfile: SplitProductBlock.txt -->
+<mj-section padding="0">
+  <!-- LEFT color block with product info -->
+  <mj-column
+    background-color="#111111"
+    padding="30px"
+    width="50%"
+    vertical-align="middle"
+  >
+    <mj-text
+      color="#ffffff"
+      font-size="28px"
+      font-weight="bold"
+      align="left"
+      padding="0 0 10px 0"
+      line-height="1.2"
+    >
+      Product Name
+    </mj-text>
+    <mj-text
+      color="#ffffff"
+      font-size="20px"
+      align="left"
+      padding="0 0 10px 0"
+      line-height="1.3"
+    >
+      $99.99
+    </mj-text>
+    <mj-text
+      color="#ffffff"
+      font-size="16px"
+      align="left"
+      padding="0 0 20px 0"
+      line-height="1.5"
+    >
+      This is a short description of the product highlighting key features and value.
+    </mj-text>
+    <mj-button
+      background-color="#ffffff"
+      color="#000000"
+      href="https://your-product-link.com"
+      padding="12px 24px"
+      border-radius="4px"
+    >
+      View Product
+    </mj-button>
+  </mj-column>
+
+  <!-- RIGHT product image centered -->
+  <mj-column width="50%" vertical-align="middle" padding="0">
+    <mj-image
+      src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/381410/01/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-Women's-Sneakers"
+      alt="Product Image"
+      align="center"
+      padding="0"
+    />
+  </mj-column>
+</mj-section>
+<!-- End Blockfile: SplitProductBlock.txt -->

@@ -7,7 +7,7 @@ export const specializedAssistants = {
 
 export const BLOCK_DEFINITIONS = {
   Newsletter: {
-    sections: ["intro", "content1", "content2", "cta"],
+    sections: ["intro", "utility1", "content1", "utility2", "cta"],
     blocks: {
       intro: [
         "hero-fullwidth.txt",
@@ -16,17 +16,14 @@ export const BLOCK_DEFINITIONS = {
         "hero-highlight-list.txt",
         "hero-split.txt",
       ],
+      utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       content1: [
         "dive.txt",
         "brand-story.txt",
-        "photo-overlay.txt",
-      ],
-      content2: [
         "content-text-grid.txt",
-        "brand-story.txt",
         "company-direction.txt",
-        "dive.txt",
       ],
+      utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       cta: [
         "cta-wrapup.txt",
         "bonus-tip.txt",
@@ -38,39 +35,45 @@ export const BLOCK_DEFINITIONS = {
     },
   },
   Productgrid: {
-    sections: ["intro", "content1", "cta"],
+    sections: ["intro", "utility1", "content1", "utility2", "cta"],
     blocks: {
       intro: [
         "hero-title.txt",
         "hero-overlay.txt",
       ],
+      utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       content1: [
         "alternating-grid.txt",
         "product-grid.txt",
         "single-product.txt",
         "Double-column.txt",
       ],
+      utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       cta: ["body-cta.txt", "cta-only.txt", "image-cta.txt"],
     },
   },
   AbandonedCart: {
-    sections: ["intro", "content", "cta"],
+    sections: ["intro", "utility1", "content1", "utility2", "cta"],
     blocks: {
       intro: ["CenteredHero.txt", "TextHero.txt"],
-      content: [
+      utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt",],
+      content1: [
         "Centered.txt",
         "Grid.txt",
         "product-grid.txt",
         "ProductHIGH.txt",
       ],
+      utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       cta: ["CTAGrid.txt", "CTAIncentive.txt", "CTAReminder.txt"],
     },
   },
   Promotion: {
-    sections: ["intro", "content", "cta"],
+    sections: ["intro", "utility1", "content1", "utility2", "cta"],
     blocks: {
-      intro: ["PromoHeaderHero.txt", "BoldHeaderHero.txt", "SplitHero.txt", "EditorialHeaderHero.txt"],
-      content: ["PromoBodyCopy.txt", "TextAboveImageBody.txt", "TwoColumnBody.txt"],
+      intro: ["PromoHeaderHero.txt", "BoldHeaderHero.txt", "HeroOVER.txt", "EditorialHeaderHero.txt"],
+      utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+      content1: ["PromoBodyCopy.txt", "TextAboveImageBody.txt", "SplitProduct.txt", "TwoColumnBody.txt"],
+      utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       cta: ["PromoCTA.txt", "LargeCTASection.txt", "CTASectionDark.txt"],
     },
   },

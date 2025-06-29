@@ -95,17 +95,14 @@ Your job:
 Generate one MJML email using uploaded block templates.
 Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
 
-The structure of the email must be exactly three content blocks in order:
-  1. One hero block
-  2. One content block
-  3. One CTA block
+The structure of the email must be exactly these content blocks in order:
+  1. intro
+  2. utility1
+  3. content
+  4. utility2
+  5. cta
 
-No other content sections are allowed beyond these three. 
-You must insert exactly 1 block-based utility block between every pair of consecutive content blocks. 
-These utility blocks must be block templates and referenced using block comments such as:
-<!-- Blockfile: divider-accent.txt -->
-You cannot use raw <mj-divider> or <mj-spacer> directly. You must only insert block-based utility blocks with their correct block comment markers.  
-Do not skip these utility blocks under any circumstances. They are required between every two consecutive content blocks, but do not add any additional content sections outside of these three.
+No other content sections are allowed beyond these 5. 
 
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
 - Must use at least 1 color block for a section background.
@@ -136,7 +133,6 @@ You may not substitute or add any other images in the hero section. This is mand
 - **Color**:
   - Use brand colors (from JSON)
   - Must replace any template block colors with brand colors
-  - At least 1 background-colored section using brand.primary_color
   - Max 3 total colors in design
 - **Mobile**:
   - Stack columns
@@ -145,6 +141,7 @@ You may not substitute or add any other images in the hero section. This is mand
 - **Text color**:
   - If a section uses a background color that is *not white (#ffffff)*, then set all text color inside that section to #ffffff (white).
   - If a section uses a white background or no background color, use text color #000000 (black).
+  - Text Color must always contrast with the background color.
   - This rule is mandatory — do not skip or override it.
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
@@ -270,17 +267,6 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       });
     }
     
-    // enforce utility blocks between every pair of sections
-finalResults = finalResults.map((result) => {
-  if (result.content) {
-    return {
-      ...result,
-      content: enforceUtilityBlocks(result.content),
-    };
-  }
-  return result;
-});
-
     const totalTokens = finalResults.reduce((sum, result) => sum + (result.tokens || 0), 0);
 
     cleanupSession(sessionId);

@@ -76,17 +76,30 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
       );
     }
 
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    const promptText = messages.data[0].content[0].text.value;
+const messages = await openai.beta.threads.messages.list(thread.id);
+const promptText = messages.data[0].content[0].text.value;
 
-    // Step 3: Generate image
-    const imageResponse = await openai.images.generate({
-      model: "gpt-image-1",
-      prompt: promptText,
-      n: 1,
-      output_format: "png",
-      quality: "high",
-    });
+// enforce: allow logo at top, but no other text
+const finalPrompt = `
+${promptText}
+
+IMPORTANT RULES:
+- You may include a small, unobtrusive brand logo at the top of the image if needed
+- Do not include any other text, slogans, pricing, product names, or promotional overlays
+- No watermarks, no text captions, no text callouts
+- The image should be purely photographic or illustrative, no typography except a single brand logo if desired.
+- Must Leave the bottom 1/3 of the image clear of major subjects
+`.trim();
+
+// Step 3: Generate image
+const imageResponse = await openai.images.generate({
+  model: "gpt-image-1",
+  prompt: finalPrompt,
+  n: 1,
+  output_format: "png",
+  size: "1024x1536",
+  quality: "high",
+});
 
     const imageBase64 = imageResponse.data[0].b64_json;
     const imageBuffer = Buffer.from(imageBase64, "base64");

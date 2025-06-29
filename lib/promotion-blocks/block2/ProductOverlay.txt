@@ -1,0 +1,61 @@
+<!-- Blockfile: ProductOverlayBlock.txt -->
+<mj-section padding="0">
+  <mj-column padding="0">
+    <mj-raw>
+      <div style="
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      ">
+        <img
+          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/381410/01/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-Women's-Sneakers"
+          alt="Product Image"
+          style="width: 100%; height: auto; display: block;"
+        />
+        <div style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.8);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: #ffffff;
+          text-align: center;
+          font-family: Helvetica, Arial, sans-serif;
+          padding: 20px;
+        ">
+          <div style="font-size: 32px; font-weight: bold;">
+            Product Name
+          </div>
+          <div style="font-size: 20px; margin-top: 10px;">
+            $99.99
+          </div>
+          <div style="font-size: 16px; margin-top: 10px;">
+            This is a short description of the product highlighting key features and value.
+          </div>
+          <a
+            href="https://your-product-link.com"
+            style="
+              margin-top: 20px;
+              background-color: #ffffff;
+              color: #000000;
+              text-decoration: none;
+              padding: 12px 24px;
+              border-radius: 4px;
+              font-weight: bold;
+              display: inline-block;
+            "
+          >
+            View Product
+          </a>
+        </div>
+      </div>
+    </mj-raw>
+  </mj-column>
+</mj-section>
+<!-- End Blockfile: ProductOverlayBlock.txt -->
