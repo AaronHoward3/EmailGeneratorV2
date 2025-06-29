@@ -39,7 +39,8 @@ export const BLOCK_DEFINITIONS = {
     blocks: {
       intro: [
         "hero-title.txt",
-        "hero-overlay.txt",
+        "HeroOVER.txt",
+        "BoldHeaderHero.txt",
       ],
       utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
       content1: [
