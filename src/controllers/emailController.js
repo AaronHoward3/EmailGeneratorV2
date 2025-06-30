@@ -1,6 +1,5 @@
 import OpenAI from "openai";
 import ora from "ora";
-import { enforceUtilityBlocks } from "../utils/utilityBlockEnforcer.js";
 import { specializedAssistants } from "../config/constants.js";
 import { getUniqueLayoutsBatch, cleanupSession } from "../utils/layoutGenerator.js";
 
@@ -58,7 +57,17 @@ export async function generateEmails(req, res) {
       : Promise.resolve(brandData);
 
     // Generate unique layouts
-const layouts = getUniqueLayoutsBatch(emailType, sessionId, 3);
+let layouts;
+try {
+  layouts = getUniqueLayoutsBatch(emailType, sessionId, 3);
+} catch (err) {
+  console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
+  cleanupSession(sessionId);  // consistent cleanup
+  deleteMJML(jobId);          // consistent cleanup
+  res.status(500).json({ error: `Layout generator failed: ${err.message}` });
+  return;
+}
+
 
 
     // Create OpenAI threads

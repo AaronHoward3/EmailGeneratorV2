@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import { uploadImage } from "./imageUploadService.js";
+import { TIMEOUTS } from "../config/constants.js";
 
 dotenv.config();
 
@@ -37,7 +38,8 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
     });
 
     // Step 2: Wait for run completion with timeout
-    const maxWaitTime = 60000; // 60 seconds
+    const maxWaitTime = TIMEOUTS.HERO_GENERATION;
+ // 60 seconds
     const startTime = Date.now();
     let runStatus;
 

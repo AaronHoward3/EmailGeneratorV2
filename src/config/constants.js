@@ -78,4 +78,10 @@ export const BLOCK_DEFINITIONS = {
       cta: ["PromoCTA.txt", "LargeCTASection.txt", "CTASectionDark.txt"],
     },
   },
-}; 
+};
+
+export const TIMEOUTS = {
+  HERO_GENERATION: 60000,
+  EMAIL_GENERATION: 120000,
+  ASSISTANT_RUN: 120000
+};
