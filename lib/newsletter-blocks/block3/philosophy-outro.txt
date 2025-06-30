@@ -1,4 +1,3 @@
-
 <mj-section background-color="#fafafa" padding="40px 0">
   <mj-column>
     <mj-text font-size="20px" font-weight="bold" align="center" color="#000000" padding="0 20px 12px" line-height="1.4">
@@ -7,5 +6,8 @@
     <mj-text color="#555555" align="center" font-size="16px" padding="0 20px" line-height="1.5">
       Everything we build is with your growth in mind. Thank you for trusting us — let’s keep building together.
     </mj-text>
+    <mj-button href="https://example.com/about" align="center" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" padding="20px 0 0">
+      Learn More
+    </mj-button>
   </mj-column>
 </mj-section>

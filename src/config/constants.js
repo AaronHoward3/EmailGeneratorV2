@@ -56,7 +56,7 @@ export const BLOCK_DEFINITIONS = {
   AbandonedCart: {
     sections: ["intro", "utility1", "content1", "utility2", "cta"],
     blocks: {
-      intro: ["CenteredHero.txt", "TextHero.txt"],
+      intro: ["CenteredHero.txt", "Blockhero.txt", "TextHero.txt"],
       utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt",],
       content1: [
         "Centered.txt",

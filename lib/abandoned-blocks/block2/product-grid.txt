@@ -1,27 +1,26 @@
-<mj-section background-color="#ffffff" padding="20px">
-  <mj-column width="50%">
-    <mj-image src="https://via.placeholder.com/300x200" alt="Product Image" align="center" />
-    <mj-text font-weight="bold" font-size="16px" padding-top="10px" color="#000000" align="center" line-height="1.6">
-      Product Title
+<mj-section background-color="#ffffff" padding="40px 0">
+  <mj-column>
+    <mj-text font-size="38px" font-weight="bold" color="#111111" align="center" padding="0 20px 12px" line-height="1.4">
+      Save Big on Outdoor Gear
     </mj-text>
-    <mj-text font-size="14px" color="#555555" align="center" line-height="1.6">
-      $99.99
+    <mj-text font-size="16px" color="#555555" align="center" padding="0 20px 20px" line-height="1.5">
+      For a limited time, explore our new arrivals with up to 40% off essentials for hiking, camping, and travel. Whether you’re a weekend warrior or planning a full escape — gear up now.
     </mj-text>
-    <mj-button href="https://example.com/product" background-color="#000000" color="#ffffff" font-size="14px" padding-top="10px" align="center">
-      View Product
-    </mj-button>
-  </mj-column>
-
-  <mj-column width="50%">
-    <mj-image src="https://via.placeholder.com/300x200" alt="Product Image" align="center" />
-    <mj-text font-weight="bold" font-size="16px" padding-top="10px" color="#000000" align="center" line-height="1.6">
-      Product Title
+    <mj-image src="https://via.placeholder.com/400x300" alt="Outdoor Product" padding="0 20px" />
+    <mj-text font-size="14px" color="#555555" align="center" padding="10px 20px 10px">
+      Outdoor Backpack 45L
     </mj-text>
-    <mj-text font-size="14px" color="#555555" align="center" line-height="1.6">
-      $99.99
-    </mj-text>
-    <mj-button href="https://example.com/product" background-color="#000000" color="#ffffff" font-size="14px" padding-top="10px" align="center">
-      View Product
+    <mj-button
+      href="https://example.com"
+      background-color="#007BFF"
+      color="#ffffff"
+      font-size="16px"
+      font-weight="600"
+      inner-padding="14px 28px"
+      border-radius="6px"
+      align="center"
+    >
+      Shop Now
     </mj-button>
   </mj-column>
 </mj-section>

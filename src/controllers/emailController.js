@@ -105,9 +105,8 @@ The structure of the email must be exactly these content blocks in order:
 No other content sections are allowed beyond these 5. 
 
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
-- Must use at least 1 color block for a section background.
 - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
-- Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and do not include text outside of those.
+- Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
 - If brandData.hero_image_url is provided, you must use that image as the only hero image in the email. 
 You may not substitute or add any other images in the hero section. This is mandatory.
 
@@ -143,6 +142,9 @@ You may not substitute or add any other images in the hero section. This is mand
   - If a section uses a white background or no background color, use text color #000000 (black).
   - Text Color must always contrast with the background color.
   - This rule is mandatory — do not skip or override it.
+  **CTA rules:**
+- Do not invent or inject new buttons into any block outside of the template structures.
+
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
