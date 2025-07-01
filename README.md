@@ -2,6 +2,9 @@
 
 A Node.js application that generates branded MJML email templates using OpenAI and dynamic block layouts. Supports custom hero image generation and flexible image hosting via AWS S3 or Supabase.
 
+## Production Host
+https://mjml-generator-service.springbot.com
+
 ## Architecture
 
 The application is structured with clear separation of concerns:
@@ -95,7 +98,7 @@ Returns a simple health check response.
 
 ## Deployment
 
-### GitHub Actions + AWS App Runner (Recommended)
+### GitHub Actions + AWS App Runner
 
 The application uses GitHub Actions for automated deployment to AWS App Runner, which supports long-running requests (5+ minutes) without timeout limitations.
 
