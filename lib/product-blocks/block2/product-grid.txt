@@ -1,21 +1,25 @@
-<mj-section background-color="#ffffff" padding="20px">
-  <mj-column width="50%">
+<mj-section background-color="#ffffff" padding="40px 20px">
+  <mj-column width="50%" vertical-align="middle">
     <mj-image src="[[product_image1]]" alt="[[product_title1]]" />
-    <mj-text font-weight="bold" font-size="16px" padding-top="10px">
+    <mj-text align="center" font-weight="bold" font-size="18px" padding-top="10px">
       [[product_title1]]
     </mj-text>
-    <mj-text font-size="14px" color="#888888">[[product_price1]]</mj-text>
-    <mj-button href="[[product_url1]]" background-color="#000000" color="#ffffff" font-size="14px" padding-top="10px">
+    <mj-text align="center" font-size="14px" color="#888888" padding-bottom="10px">
+      [[product_price1]]
+    </mj-text>
+    <mj-button align="center" href="[[product_url1]]" background-color="#007BFF" color="#ffffff" font-size="16px" inner-padding="14px 28px" border-radius="6px">
       View Product
     </mj-button>
   </mj-column>
-  <mj-column width="50%">
+  <mj-column width="50%" vertical-align="middle">
     <mj-image src="[[product_image2]]" alt="[[product_title2]]" />
-    <mj-text font-weight="bold" font-size="16px" padding-top="10px">
+    <mj-text align="center" font-weight="bold" font-size="18px" padding-top="10px">
       [[product_title2]]
     </mj-text>
-    <mj-text font-size="14px" color="#888888">[[product_price2]]</mj-text>
-    <mj-button href="[[product_url2]]" background-color="#000000" color="#ffffff" font-size="14px" padding-top="10px">
+    <mj-text align="center" font-size="14px" color="#888888" padding-bottom="10px">
+      [[product_price2]]
+    </mj-text>
+    <mj-button align="center" href="[[product_url2]]" background-color="#007BFF" color="#ffffff" font-size="16px" inner-padding="14px 28px" border-radius="6px">
       View Product
     </mj-button>
   </mj-column>

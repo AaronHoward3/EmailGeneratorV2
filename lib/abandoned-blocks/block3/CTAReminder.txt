@@ -1,12 +1,12 @@
-<mj-section background-color="#ffffff" padding="30px">
+<mj-section background-color="#241c23" padding="30px">
   <mj-column>
-    <mj-text align="center" font-size="17px" padding-bottom="15px">
+    <mj-text align="center" font-size="30px" padding-bottom="15px" color="#ffffff">
       Act soon — this item is limited in stock and in high demand.
     </mj-text>
     <mj-button
       href="https://example.com/cart"
-      background-color="#000000"
-      color="#ffffff"
+      background-color="#ffffff"
+      color="#241c23"
       font-size="16px"
       font-weight="bold"
       border-radius="4px"

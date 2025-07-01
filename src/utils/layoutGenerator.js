@@ -8,30 +8,49 @@ function pickRandom(arr, exclude = []) {
 
 const layoutHistory = [];
 
-export function getUniqueLayout(emailType) {
-  const config = BLOCK_DEFINITIONS[emailType];
-  if (!config) return null;
+export function getUniqueLayoutsBatch(emailType, sessionId, count = 3) {
+  const typeConfig = BLOCK_DEFINITIONS[emailType];
 
-  let attempts = 0;
-  while (attempts < 10) {
-    const layout = {};
-    const layoutIdParts = [];
-
-    for (const section of config.sections) {
-      const choice = pickRandom(config.blocks[section]);
-      layout[section] = choice;
-      layoutIdParts.push(choice);
-    }
-
-    const layoutId = layoutIdParts.join("|");
-
-    if (!layoutHistory.includes(layoutId)) {
-      layoutHistory.push(layoutId);
-      return { ...layout, layoutId };
-    }
-    attempts++;
+  if (!typeConfig) {
+    throw new Error(`No block configuration found for email type: ${emailType}`);
   }
-  return null;
+
+  const { sections, blocks } = typeConfig;
+  const layouts = [];
+  const usedBlocksPerSlot = {};
+
+  for (let i = 0; i < count; i++) {
+    const layout = { layoutId: `${emailType}-${sessionId}-${i + 1}` };
+
+    sections.forEach((sectionName, sectionIndex) => {
+      const availableBlocks = blocks[sectionName];
+      if (!availableBlocks || availableBlocks.length === 0) {
+        throw new Error(`No available blocks for section: ${sectionName}`);
+      }
+
+      const used = usedBlocksPerSlot[sectionName] || [];
+      const remaining = availableBlocks.filter(b => !used.includes(b));
+
+      let chosen;
+      if (remaining.length > 0) {
+        chosen = remaining[Math.floor(Math.random() * remaining.length)];
+      } else {
+        // fallback if exhausted
+        chosen = availableBlocks[Math.floor(Math.random() * availableBlocks.length)];
+      }
+
+      layout[sectionName] = chosen;
+
+      if (!usedBlocksPerSlot[sectionName]) {
+        usedBlocksPerSlot[sectionName] = [];
+      }
+      usedBlocksPerSlot[sectionName].push(chosen);
+    });
+
+    layouts.push(layout);
+  }
+
+  return layouts;
 }
 
 // Simple cleanup function for session management

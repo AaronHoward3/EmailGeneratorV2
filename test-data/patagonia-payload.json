@@ -167,7 +167,7 @@
       }
     ]
   },
-  "emailType": "Productgrid",
-  "userSubmittedContext": "We want to call attention to christmas sales .",
-  "userSubmittedTone": "Urgent & Promotional"
+  "emailType": "Promotion",
+  "userContext": "We want to call attention to our 4th of July sales at 40% off!.",
+  "tone": "Urgent & Promotional"
 }

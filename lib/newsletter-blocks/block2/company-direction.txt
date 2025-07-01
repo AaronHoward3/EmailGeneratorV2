@@ -1,9 +1,10 @@
-<mj-section background-color="#ffffff" padding="30px">
+
+<mj-section background-color="#ffffff" padding="40px 0">
   <mj-column>
-    <mj-text font-size="20px" font-weight="bold" padding="0 0 10px">
+    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-height="1.4">
       Looking Ahead
     </mj-text>
-    <mj-text color="#555555" font-size="15px">
+    <mj-text font-size="18px" color="#555555" align="center" padding="0 20px" line-height="1.5">
       As we move forward, our focus remains on building with purpose and clarity. We’re doubling down on the features our users love, streamlining our processes for better performance, and expanding our reach into new markets. Every step is driven by the belief that great products are built with empathy, transparency, and relentless iteration. We're excited for what's next — and grateful to have you with us.
     </mj-text>
   </mj-column>

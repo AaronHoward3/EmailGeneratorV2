@@ -1,13 +1,31 @@
-<mj-section background-color="#f4f4f4" padding="30px 0">
-  <mj-column width="50%">
-    <mj-image src="https://via.placeholder.com/270x200" alt="New Collection" />
-  </mj-column>
-  <mj-column width="50%" padding="0 25px">
-    <mj-text font-size="24px" font-weight="bold" color="#000000" align="left" padding-bottom="10px" line-height="1.6">
+<mj-section background-color="#f4f4f4" padding="0">
+  <mj-column>
+    <mj-divider width="80%" border-color="#cccccc" border-width="2px" padding="24px 0" />
+    <mj-text
+      font-size="28px"
+      font-weight="bold"
+      color="#000000"
+      align="center"
+      padding="16px 20px 12px"
+      line-height="1.3"
+    >
       Discover the New Collection
     </mj-text>
-    <mj-text font-size="16px" color="#555555" align="left" line-height="1.6">
+    <mj-text
+      font-size="18px"
+      color="#555555"
+      align="center"
+      padding="0 20px 16px"
+      line-height="1.5"
+    >
       Minimal, elevated, and built for everyday movement. This season’s drop is all about flow.
     </mj-text>
+    <mj-divider width="80%" border-color="#cccccc" border-width="2px" padding="24px 0 32px" />
+    <mj-image
+      src="https://sb-hero-images.s3.us-east-1.amazonaws.com/hero_images/123/hero-t9nsat0grgip2fedkxq6x.png"
+      alt="New Collection"
+      width="600px"
+      padding="0"
+    />
   </mj-column>
 </mj-section>

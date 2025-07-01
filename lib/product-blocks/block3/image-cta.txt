@@ -1,10 +1,18 @@
-<mj-section background-color="#ffffff" padding="40px 20px">
+<mj-section background-color="#ffffff" padding="60px 20px">
   <mj-column>
-    <mj-image src="[[cta_image]]" alt="Call to Action" />
-    <mj-text align="center" font-size="18px" font-weight="bold" padding-top="20px">
-      [[cta_heading]]
+    <mj-text align="center" font-size="35px" font-weight="bold" color="#111111" padding-top="20px" line-height="1.4">
+      Header Action
     </mj-text>
-    <mj-button align="center" href="[[cta_url]]" background-color="#000000" color="#ffffff" font-size="16px" padding-top="10px">
+    <mj-button
+      align="center"
+      href="[[cta_url]]"
+      background-color="#007BFF"
+      color="#ffffff"
+      font-size="16px"
+      inner-padding="14px 28px"
+      border-radius="6px"
+      padding-top="10px"
+    >
       [[cta_text]]
     </mj-button>
   </mj-column>

@@ -1,0 +1,20 @@
+<!-- Block: Promo CTA -->
+<mj-section background-color="#ffffff" padding="40px 0">
+  <mj-column>
+    <mj-button
+      href="https://example.com"
+      background-color="#007BFF"
+      color="#ffffff"
+      font-size="16px"
+      font-weight="600"
+      inner-padding="14px 28px"
+      border-radius="6px"
+      align="center"
+    >
+      Shop Now
+    </mj-button>
+    <mj-text font-size="14px" color="#999999" align="center" padding="15px 20px 0">
+      Offer valid while supplies last. Don’t miss out!
+    </mj-text>
+  </mj-column>
+</mj-section>

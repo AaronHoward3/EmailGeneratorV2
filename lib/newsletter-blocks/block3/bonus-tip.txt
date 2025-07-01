@@ -1,9 +1,13 @@
-<mj-section background-color="#f4f4f4" padding="30px">
+<mj-section background-color="#f4f4f4" padding="40px 0">
   <mj-column>
-    <mj-text font-size="18px" font-weight="bold" align="center">Bonus Tip</mj-text>
-    <mj-text color="#555555" align="center">
+    <mj-text font-size="20px" font-weight="bold" align="center" color="#000000" padding="0 20px 12px" line-height="1.4">
+      Bonus Tip
+    </mj-text>
+    <mj-text color="#555555" align="center" font-size="16px" padding="0 20px" line-height="1.5">
       Did you know you can schedule all your campaigns a week in advance? Just use the planner in your dashboard.
     </mj-text>
-    <mj-button href="https://example.com/tips" align="center" padding="20px 0 0">See How</mj-button>
+    <mj-button href="https://example.com/tips" align="center" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" padding="20px 0 0">
+      See How
+    </mj-button>
   </mj-column>
 </mj-section>

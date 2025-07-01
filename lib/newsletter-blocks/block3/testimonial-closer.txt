@@ -1,10 +1,13 @@
-<mj-section background-color="#ffffff" padding="40px">
+<mj-section background-color="#ffffff" padding="40px 0">
   <mj-column>
-    <mj-text align="center" font-size="18px" font-style="italic" color="#333333">
+    <mj-text align="center" font-size="20px" font-style="italic" color="#333333" padding="0 20px 12px" line-height="1.5">
       "This platform turned my team into a well-oiled machine. Can’t imagine working without it!"
     </mj-text>
-    <mj-text align="center" font-size="14px" color="#999999" padding="10px 0 0">
+    <mj-text align="center" font-size="14px" color="#999999" padding="0 20px" line-height="1.5">
       — Jamie L., Ops Director
     </mj-text>
+    <mj-button href="https://example.com/stories" align="center" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" padding="20px 0 0">
+      Read More Stories
+    </mj-button>
   </mj-column>
 </mj-section>
