@@ -2,16 +2,22 @@ import OpenAI from "openai";
 import ora from "ora";
 import { specializedAssistants } from "../config/constants.js";
 import { getUniqueLayoutsBatch, cleanupSession } from "../utils/layoutGenerator.js";
-
+import { getThreadPool } from "../utils/threadPool.js";
+import { retryOpenAI } from "../utils/retryUtils.js";
+import { initializeBlockCache } from "../utils/blockCache.js";
 import { generateCustomHeroAndEnrich } from "../services/heroImageService.js";
 import {
   saveMJML,
   updateMJML,
   getMJML,
   deleteMJML,
+  getStoreStats,
 } from "../utils/inMemoryStore.js";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// Initialize block cache on module load
+initializeBlockCache().catch(console.error);
 
 export async function generateEmails(req, res) {
   let { brandData, emailType, userContext, storeId } = req.body;
@@ -47,6 +53,9 @@ export async function generateEmails(req, res) {
     `⏱️ [${sessionId}] generation started at ${new Date(totalStart).toISOString()}`
   );
 
+  // Get thread pool instance
+  const threadPool = getThreadPool(10);
+
   try {
     // Start hero image generation in parallel
     const heroPromise = wantsCustomHero
@@ -57,21 +66,19 @@ export async function generateEmails(req, res) {
       : Promise.resolve(brandData);
 
     // Generate unique layouts
-let layouts;
-try {
-  layouts = getUniqueLayoutsBatch(emailType, sessionId, 3);
-} catch (err) {
-  console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
-  cleanupSession(sessionId);  // consistent cleanup
-  deleteMJML(jobId);          // consistent cleanup
-  res.status(500).json({ error: `Layout generator failed: ${err.message}` });
-  return;
-}
+    let layouts;
+    try {
+      layouts = getUniqueLayoutsBatch(emailType, sessionId, 3);
+    } catch (err) {
+      console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
+      cleanupSession(sessionId);
+      deleteMJML(jobId);
+      res.status(500).json({ error: `Layout generator failed: ${err.message}` });
+      return;
+    }
 
-
-
-    // Create OpenAI threads
-    const threads = await Promise.all(layouts.map(() => openai.beta.threads.create()));
+    // Get threads from pool instead of creating new ones
+    const threads = await Promise.all(layouts.map(() => threadPool.getThread()));
 
     const assistantId = specializedAssistants[emailType];
     if (!assistantId) {
@@ -80,7 +87,7 @@ try {
         .json({ error: `No assistant configured for: ${emailType}` });
     }
 
-    // Generate emails
+    // Generate emails with retry logic
     const emailPromises = layouts.map(async (layout, index) => {
       const thread = threads[index];
       const i = index + 1;
@@ -165,21 +172,30 @@ ${layoutInstruction}
 ${userInstructions}
 ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
-        await openai.beta.threads.messages.create(thread.id, {
-          role: "user",
-          content: userPrompt,
+        // Use retry logic for OpenAI API calls
+        await retryOpenAI(async () => {
+          await openai.beta.threads.messages.create(thread.id, {
+            role: "user",
+            content: userPrompt,
+          });
         });
 
-        const run = await openai.beta.threads.runs.create(thread.id, {
-          assistant_id: assistantId,
+        const run = await retryOpenAI(async () => {
+          return await openai.beta.threads.runs.create(thread.id, {
+            assistant_id: assistantId,
+          });
         });
 
         const maxWaitTime = 120000;
         const runStart = Date.now();
         let runStatus;
 
+        // Use retry logic for run status checking
         while (Date.now() - runStart < maxWaitTime) {
-          runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+          runStatus = await retryOpenAI(async () => {
+            return await openai.beta.threads.runs.retrieve(thread.id, run.id);
+          });
+          
           if (runStatus.status === "completed") break;
           if (["failed", "expired", "cancelled"].includes(runStatus.status)) {
             spinner.fail(`❌ Assistant error on email ${i}`);
@@ -193,7 +209,10 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
           throw new Error(`Assistant run timed out after ${maxWaitTime / 1000} seconds on email ${i}`);
         }
 
-        const messages = await openai.beta.threads.messages.list(thread.id);
+        const messages = await retryOpenAI(async () => {
+          return await openai.beta.threads.messages.list(thread.id);
+        });
+        
         const rawContent = messages.data[0].content[0].text.value;
         let cleanedMjml = rawContent
           .replace(/^\s*```mjml/i, "")
@@ -212,6 +231,9 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       } catch (error) {
         spinner.fail(`❌ Failed to generate email ${i}`);
         return { index: i, error: error.message };
+      } finally {
+        // Return thread to pool
+        threadPool.returnThread(thread);
       }
     });
 
@@ -288,6 +310,11 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
     console.log(`✅ [${sessionId}] Total time: ${Date.now() - totalStart} ms`);
     console.log(`🧠 Total OpenAI tokens used: ${totalTokens}`);
+    
+    // Log performance stats
+    const storeStats = getStoreStats();
+    const threadStats = threadPool.getStats();
+    console.log(`📊 Performance stats - Store: ${storeStats.totalEntries}/${storeStats.maxEntries}, Threads: ${threadStats.utilization.toFixed(1)}% utilization`);
 
     res.json({
       success: true,
