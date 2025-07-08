@@ -7,17 +7,65 @@
   </mj-column>
 </mj-section>
 
-<mj-section background-color="#007BFF" padding="40px 20px">
-  <mj-column width="50%" vertical-align="top">
-    <mj-text align="center" font-size="20px" font-weight="bold" color="#ffffff" padding-bottom="12px" line-height="1.4">
-      [[product1_title]]
+<mj-section padding-top="15px" padding-bottom="15px">
+  <mj-group width="100%">
+    <mj-column css-class="product-list-module-group-mobile-responsive">
+      <mj-text font-family="'Arial',Helvetica,sans-serif" color="#4A4A4A" line-height="1" css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;" data-tag="name">
+          <span style="font-size:100%;"><strong>[[product1_title]]</strong></span>
+        </p>
+      </mj-text>
+      <mj-image padding-bottom="0px" padding-left="0px" padding-right="0px" padding-top="0px" width="600px" height="auto" src="[[product1_image]]" container-background-color="#FFFFFF" href="[[product1_url]]">
+      </mj-image>
+      <mj-text padding="0 0">
+        <div product-id="[[product1_id]]" style="display:none;">product_tag
+        </div>
+      </mj-text>
+      <mj-text font-family="'Arial',Helvetica,sans-serif" color="#4A4A4A" line-height="1.5" css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;" data-tag="description">
+          <span style="font-size:100%;">[[product1_description]]</span>
+        </p>
+      </mj-text>
+      <mj-text font-family="'Arial',Helvetica,sans-serif" color="#888888" line-height="1" css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;" data-tag="price">
+          <span style="font-size:100%;">[[product1_price]]</span>
+        </p>
+      </mj-text>
+      <mj-button background-color="#65D585" border-radius="0px 0px 0px 0px" border="1px solid #65D585" color="#000000" font-family="'Arial',Helvetica,sans-serif" padding-bottom="3px" padding-right="5px" padding-left="5px" padding-top="3px" text-align="center" line-height="15px" width="100%" container-background-color="#FFFFFF" href="[[product1_url]]">
+        Buy Now
+      </mj-button>
+    </mj-column>
+    <mj-column css-class="product-list-module-group-mobile-responsive">
+      <mj-text font-family="'Arial',Helvetica,sans-serif" color="#4A4A4A" line-height="1" css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;" data-tag="name">
+          <span style="font-size:100%;"><strong>[[product2_title]]</strong></span>
+        </p>
+      </mj-text>
+      <mj-image padding-bottom="0px" padding-left="0px" padding-right="0px" padding-top="0px" width="600px" height="auto" src="[[product2_image]]" container-background-color="#FFFFFF" href="[[product2_url]]">
+      </mj-image>
+      <mj-text padding="0 0">
+        <div product-id="[[product2_id]]" style="display:none;">product_tag
+        </div>
+      </mj-text>
+      <mj-text font-family="'Arial',Helvetica,sans-serif" color="#4A4A4A" line-height="1.5" css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;" data-tag="description">
+          <span style="font-size:100%;">[[product2_description]]</span>
+        </p>
+      </mj-text>
+      <mj-text font-family="'Arial',Helvetica,sans-serif" color="#888888" line-height="1" css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;" data-tag="price">
+          <span style="font-size:100%;">[[product2_price]]</span>
+        </p>
+      </mj-text>
+      <mj-button background-color="#65D585" border-radius="0px 0px 0px 0px" border="1px solid #65D585" color="#000000" font-family="'Arial',Helvetica,sans-serif" padding-bottom="3px" padding-right="5px" padding-left="5px" padding-top="3px" text-align="center" line-height="15px" width="100%" container-background-color="#FFFFFF" href="[[product2_url]]">
+        Buy Now
+      </mj-button>
+    </mj-column>
+  </mj-group>
+  <mj-column border-radius="0 0 0 0" width="0">
+    <mj-text padding="0 0">
+      <div style="display:none;">products_list_tag
+      </div>
     </mj-text>
-    <mj-image src="[[product1_image]]" alt="[[product1_title]]" padding="10px" />
-  </mj-column>
-  <mj-column width="50%" vertical-align="top">
-    <mj-text align="center" font-size="20px" font-weight="bold" color="#ffffff" padding-bottom="12px" line-height="1.4">
-      [[product2_title]]
-    </mj-text>
-    <mj-image src="[[product2_image]]" alt="[[product2_title]]" padding="10px" />
   </mj-column>
 </mj-section>

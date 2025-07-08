@@ -1,29 +1,48 @@
 <!-- Blockfile: PromoHeaderHero.txt -->
-<mj-section padding="0">
+<!-- Logo Header Section -->
+<mj-section background-color="[[header_color]]" padding="20px">
   <mj-column>
     <mj-image
-      src="https://sb-hero-images.s3.us-east-1.amazonaws.com/hero_images/123/hero-wt0x4q16l7galzgevix4aj.png"
-      alt="Promotional Banner"
-      width="600px"
-      padding="0"
+      src="[[logo_url]]"
+      alt="[[brand_name]] Logo"
+      width="150px"
+      align="center"
     />
+  </mj-column>
+</mj-section>
+
+<!-- Banner Section -->
+<mj-section background-color="[[header_color]]" padding="0 20px 20px">
+  <mj-column>
+    <mj-image
+      src="[[banner_url]]"
+      alt="[[brand_name]] Banner"
+      width="100%"
+      align="center"
+    />
+  </mj-column>
+</mj-section>
+
+<!-- Hero Text Section -->
+<mj-section background-color="[[header_color]]" padding="0 20px 40px">
+  <mj-column>
     <!-- divider for spacing -->
-    <mj-divider padding="30" border-color="#111111" border-width="2px" />
+    <mj-divider padding="0 0 20px 0" border-color="#ffffff" border-width="2px" />
     <mj-text
       font-size="28px"
       font-weight="bold"
       align="center"
-      padding="20px 40px 10px"
+      color="#ffffff"
+      padding="0 0 10px 0"
       line-height="1"
-      color="#111111"
     >
       Special Offer Just for You!
     </mj-text>
     <mj-text
       font-size="18px"
-      color="#111111"
+      color="#ffffff"
       align="center"
-      padding="0 40px 20px"
+      padding="0"
       line-height="1.5"
     >
       Discover exclusive savings for a limited time.

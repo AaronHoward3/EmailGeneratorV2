@@ -6,6 +6,11 @@ const MAX_CACHE_SIZE = 500;
 
 // Generate cache key from request body
 export function generateCacheKey(requestBody) {
+  // Handle undefined or null requestBody
+  if (!requestBody) {
+    return crypto.createHash('sha256').update('null-request').digest('hex');
+  }
+  
   // Create a deterministic key from the request
   const keyData = {
     brandData: requestBody.brandData,
@@ -21,6 +26,11 @@ export function generateCacheKey(requestBody) {
 
 // Check if request is cacheable
 export function isCacheable(requestBody) {
+  // Handle undefined or null requestBody
+  if (!requestBody) {
+    return false;
+  }
+  
   // Don't cache requests with custom hero images (they're unique)
   if (requestBody.brandData?.customHeroImage === true) {
     return false;

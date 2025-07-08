@@ -1,53 +1,50 @@
 <!-- Blockfile: HeroOverlayBlock.txt -->
-<mj-section padding="0">
-  <mj-column padding="0">
-    <mj-raw>
-      <div style="
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-      ">
-        <img
-          src="https://sb-hero-images.s3.us-east-1.amazonaws.com/hero_images/123/hero-u0hxahel5ddq2284zemyxm.png"
-          alt="Hero Promo"
-          style="width: 100%; height: auto; display: block;"
-        />
-        <div style="
-          position: absolute;
-          bottom: 30px;
-          left: 50%;
-          transform: translateX(-50%);
-          color: #ffffff;
-          text-align: center;
-          font-family: Helvetica, Arial, sans-serif;
-          width: 100%;
-          padding: 0 20px;
-        ">
-          <div style="
-            max-width: 500px;
-            margin: 0 auto;
-          ">
-            <div style="
-              font-size: 50px;
-              font-weight: bold;
-              line-height: 1.2;
-              margin: 0;
-            ">
-              Your Headline Text Here
-            </div>
-            <div style="
-              font-size: 20px;
-              margin-top: 10px;
-              line-height: 1.4;
-              margin: 0;
-            ">
-              Your Subheadline Text Here
-            </div>
-          </div>
-        </div>
-      </div>
-    </mj-raw>
+<!-- Logo Header Section -->
+<mj-section background-color="[[header_color]]" padding="20px">
+  <mj-column>
+    <mj-image
+      src="[[logo_url]]"
+      alt="[[brand_name]] Logo"
+      width="150px"
+      align="center"
+    />
+  </mj-column>
+</mj-section>
+
+<!-- Banner Section -->
+<mj-section background-color="[[header_color]]" padding="0 20px 20px">
+  <mj-column>
+    <mj-image
+      src="[[banner_url]]"
+      alt="[[brand_name]] Banner"
+      width="100%"
+      align="center"
+    />
+  </mj-column>
+</mj-section>
+
+<!-- Hero Text Section -->
+<mj-section background-color="[[header_color]]" padding="0 20px 20px">
+  <mj-column>
+    <mj-text
+      font-size="50px"
+      font-weight="bold"
+      align="center"
+      color="#ffffff"
+      padding="0 0 10px 0"
+      line-height="1.2"
+    >
+      Your Headline Text Here
+    </mj-text>
+    <mj-text
+      font-size="20px"
+      align="center"
+      color="#ffffff"
+      padding="0"
+      line-height="1.4"
+    >
+      Your Subheadline Text Here
+    </mj-text>
   </mj-column>
 </mj-section>
 <!-- End Blockfile: HeroOverlayBlock.txt -->
