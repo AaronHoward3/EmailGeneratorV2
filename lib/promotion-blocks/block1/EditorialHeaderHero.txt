@@ -1,35 +1,50 @@
-<mj-section background-color="#ffffff" padding="0">
+<!-- Blockfile: EditorialHeaderHero.txt -->
+<!-- Logo Header Section -->
+<mj-section background-color="[[header_color]]" padding="20px">
   <mj-column>
     <mj-image
-      src="https://via.placeholder.com/600x300"
-      alt="Summer Sale Banner"
-      width="600px"
-      padding="0"
+      src="[[logo_url]]"
+      alt="[[brand_name]] Logo"
+      width="150px"
+      align="center"
     />
   </mj-column>
 </mj-section>
-<mj-section background-color="#222222" padding="40px 0">
+
+<!-- Banner Section -->
+<mj-section background-color="[[header_color]]" padding="0 20px 20px">
+  <mj-column>
+    <mj-image
+      src="[[banner_url]]"
+      alt="[[brand_name]] Banner"
+      width="100%"
+      align="center"
+    />
+  </mj-column>
+</mj-section>
+
+<!-- Hero Text Section -->
+<mj-section background-color="[[header_color]]" padding="0 20px 40px">
   <mj-column>
     <mj-text
-      font-size="50px"
+      font-size="28px"
       font-weight="bold"
-      color="#ffffff"
       align="center"
-      padding="10px 40px 10px"
-      background-color="#007BFF"
-      line-height="1"
+      color="#ffffff"
+      padding="0 0 10px 0"
+      line-height="1.4"
     >
-      40% OFF
+      Editorial Style Headline
     </mj-text>
     <mj-text
-      font-size="30px"
-      font-weight="bold"
+      font-size="16px"
       color="#ffffff"
       align="center"
-      padding="10px 40px 20px"
-      line-height=".5"
+      padding="0"
+      line-height="1.6"
     >
-      Summer Sale Event
+      Supporting text that provides context and detail.
     </mj-text>
   </mj-column>
 </mj-section>
+<!-- End Blockfile: EditorialHeaderHero.txt -->

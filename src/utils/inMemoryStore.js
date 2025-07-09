@@ -35,7 +35,8 @@ export const saveMJML = (...args) => {
   cleanupExpiredEntries();
   enforceSizeLimit();
 
-  const current = store.get(jobId) || [];
+  const entry = store.get(jobId);
+  const current = entry ? entry.mjmls || [] : [];
   current[index] = mjml;
   store.set(jobId, { 
     mjmls: current, 

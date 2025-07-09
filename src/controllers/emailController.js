@@ -1,5 +1,8 @@
 import OpenAI from "openai";
 import ora from "ora";
+import fs from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
 import { specializedAssistants } from "../config/constants.js";
 import { getUniqueLayoutsBatch, cleanupSession } from "../utils/layoutGenerator.js";
 import { getThreadPool } from "../utils/threadPool.js";
@@ -14,12 +17,114 @@ import {
   getStoreStats,
 } from "../utils/inMemoryStore.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Initialize block cache on module load
 initializeBlockCache().catch(console.error);
 
+// Function to process footer template with brand data
+async function processFooterTemplate(brandData) {
+  try {
+    const footerPath = path.join(__dirname, '../../lib/promotion-blocks/design-elements/footer.txt');
+    console.log('🦶 Footer path:', footerPath);
+    let footerTemplate = await fs.readFile(footerPath, 'utf8');
+    console.log('🦶 Footer template loaded, length:', footerTemplate.length);
+    
+    // Get current year
+    const currentYear = new Date().getFullYear();
+    
+    // Replace basic placeholders with actual data
+    let processedFooter = footerTemplate
+      .replace(/\[\[logo_url\]\]/g, brandData.logo_url || '')
+      .replace(/\[\[current_year\]\]/g, currentYear.toString())
+      .replace(/\[\[website_url\]\]/g, brandData.website_url || brandData.website || '')
+      .replace(/\[\[store_url\]\]/g, brandData.store_url || brandData.website_url || brandData.website || '')
+      .replace(/\[\[store_email\]\]/g, brandData.email || '')
+      .replace(/\[\[header_color\]\]/g, brandData.header_color || '#70D0F0');
+    
+    console.log('🦶 Processed footer length:', processedFooter.length);
+    console.log('🦶 Brand data keys:', Object.keys(brandData));
+    console.log('🦶 Social links:', brandData.social_links);
+    console.log('🦶 Store address:', brandData.store_address);
+    console.log('🦶 Website URL:', brandData.website_url || brandData.website);
+    
+    // Note: [[store_name]], [[unsubscribe]], and [[store_address]] are left as tags for send-time replacement
+    
+    // Process social media URLs - only include if they're not base URLs
+    const socialPlatforms = [
+      { templateKey: 'facebook_url', dataKey: 'facebook' },
+      { templateKey: 'instagram_url', dataKey: 'instagram' },
+      { templateKey: 'linkedin_url', dataKey: 'linkedin' },
+      { templateKey: 'twitter_url', dataKey: 'twitter' },
+      { templateKey: 'twitter_url', dataKey: 'x' }, // Handle X/Twitter
+      { templateKey: 'youtube_url', dataKey: 'youtube' },
+      { templateKey: 'pinterest_url', dataKey: 'pinterest' }
+    ];
+    
+    // Process each social platform
+    socialPlatforms.forEach(({ templateKey, dataKey }) => {
+      // Check both direct property and nested in social_links
+      let url = brandData[templateKey];
+      if (!url && brandData.social_links && brandData.social_links[dataKey]) {
+        url = brandData.social_links[dataKey];
+      }
+      
+      if (url && url !== `https://${dataKey}.com/` && url !== `https://www.${dataKey}.com/`) {
+        // Replace the URL placeholder
+        processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), url);
+        // Remove the conditional markers for this platform
+        processedFooter = processedFooter.replace(new RegExp(`\\[\\[#if ${templateKey}\\]\\]`, 'g'), '');
+        processedFooter = processedFooter.replace(new RegExp(`\\[\\[\\/if\\]\\]`, 'g'), '');
+      } else {
+        // Remove the entire conditional block if URL is base URL or missing
+        const regex = new RegExp(`\\[\\[#if ${templateKey}\\]\\][\\s\\S]*?\\[\\[\\/if\\]\\]`, 'g');
+        processedFooter = processedFooter.replace(regex, '');
+      }
+    });
+    
+    // Process store_address conditional
+    if (brandData.store_address) {
+      processedFooter = processedFooter.replace(new RegExp(`\\[\\[store_address\\]\\]`, 'g'), brandData.store_address);
+      processedFooter = processedFooter.replace(new RegExp(`\\[\\[#if store_address\\]\\]`, 'g'), '');
+      processedFooter = processedFooter.replace(new RegExp(`\\[\\[\\/if\\]\\]`, 'g'), '');
+    } else {
+      // Remove the entire conditional block if store_address is missing
+      const regex = /\[\[#if store_address\]\][\s\S]*?\[\[\/if\]\]/g;
+      processedFooter = processedFooter.replace(regex, '');
+    }
+    
+    // Process website_url conditional
+    if (brandData.website_url || brandData.website) {
+      processedFooter = processedFooter.replace(new RegExp(`\\[\\[#if website_url\\]\\]`, 'g'), '');
+      processedFooter = processedFooter.replace(new RegExp(`\\[\\[\\/if\\]\\]`, 'g'), '');
+    } else {
+      // Remove the entire conditional block if website_url is missing
+      const regex = /\[\[#if website_url\]\][\s\S]*?\[\[\/if\]\]/g;
+      processedFooter = processedFooter.replace(regex, '');
+    }
+    
+    // Clean up any remaining conditional markers
+    processedFooter = processedFooter.replace(/\[\[#if [^\]]+\]\]/g, '');
+    processedFooter = processedFooter.replace(/\[\[\/if\]\]/g, '');
+    
+    return processedFooter;
+  } catch (error) {
+    console.error('Error processing footer template:', error);
+    return '';
+  }
+}
+
 export async function generateEmails(req, res) {
+  // Check if request body exists
+  if (!req.body) {
+    return res.status(400).json({ 
+      error: "Request body is missing. Please ensure Content-Type: application/json is set." 
+    });
+  }
+
   let { brandData, emailType, userContext, storeId } = req.body;
 
   if (!brandData || !emailType) {
@@ -45,6 +150,13 @@ export async function generateEmails(req, res) {
     brandData.hero_image_url = "https://CUSTOMHEROIMAGE.COM";
   }
 
+  // Set header_image_url for hero/header blocks: use banner_url if present, else logo_url
+  if (brandData.banner_url && brandData.banner_url.trim() !== "") {
+    brandData.header_image_url = brandData.banner_url;
+  } else {
+    brandData.header_image_url = brandData.logo_url || "";
+  }
+
   const sessionId = `${Date.now()}-${Math.random()
     .toString(36)
     .substring(2, 15)}`;
@@ -68,7 +180,7 @@ export async function generateEmails(req, res) {
     // Generate unique layouts
     let layouts;
     try {
-      layouts = getUniqueLayoutsBatch(emailType, sessionId, 3);
+      layouts = getUniqueLayoutsBatch(emailType, sessionId, 1);
     } catch (err) {
       console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
       cleanupSession(sessionId);
@@ -120,11 +232,37 @@ The structure of the email must be exactly these content blocks in order:
 
 No other content sections are allowed beyond these 5. 
 
+**HERO SECTION REQUIREMENTS:**
+- For the intro block, use either "hero-with-text-cta" or "hero-with-featured-product" templates
+- These templates have the correct structure: Logo at top, hero image below logo, then primary content section
+- If brandData.hero_image_url is provided and is not "https://CUSTOMHEROIMAGE.COM", you must use that image as the hero image
+- If brandData.hero_image_url is "https://CUSTOMHEROIMAGE.COM" or not provided, DO NOT include any hero images in the email
+- You may not substitute or add any other images in the hero section. This is mandatory.
+
+**HERO TEMPLATE CHOICES:**
+- Use "hero-with-text-cta" when you want a text-based primary section with headline, description, and CTA button
+- Use "hero-with-featured-product" when you want to feature a specific product with large image, name, description, and buy button
+
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
 - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
 - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
-- If brandData.hero_image_url is provided, you must use that image as the only hero image in the email. 
-You may not substitute or add any other images in the hero section. This is mandatory.
+- If brandData.logo_url is provided, use it as the brand logo in appropriate sections (header, footer, etc.).
+- If brandData.banner_url is provided, use it as a banner image in appropriate sections.
+- If brandData.header_color is provided, use it as the background color for logo header sections.
+- Always use the exact URLs provided in brandData for logo_url and banner_url - do not substitute with other images.
+- Always use the exact colors provided in brandData for header_color - do not substitute with other colors.
+- For product blocks, use the exact product data provided in brandData.
+- If brandData.products array is provided, map the fields as follows:
+  * products[].name → product_title
+  * products[].image_url → product_image  
+  * products[].description → product_description
+  * products[].url → product_url
+  * products[].price → product_price (if available)
+  * products[].id → product_id (if available)
+- **PRODUCT DESCRIPTION REWRITING**: When using product descriptions, rewrite them to be more engaging and contextual to the email's purpose. Focus on benefits, urgency, and emotional appeal rather than just technical specifications. Make descriptions compelling and action-oriented while maintaining accuracy to the original product.
+- Do not invent or substitute product information - use only what is provided in the brandData, but feel free to rewrite descriptions for better engagement.
+- Social media URLs (facebook_url, instagram_url, linkedin_url, twitter_url, youtube_url, pinterest_url) will be automatically added to the footer if provided and not base URLs.
+- Company address and website will be automatically added to the footer if provided in brandData.
 
 **VISUAL DESIGN RULES (from design system):**
 - **Max width**: 600–640px
@@ -138,6 +276,11 @@ You may not substitute or add any other images in the hero section. This is mand
   - Subhead: 20–24px
   - Body: 16–18px, 150% line height
   - All text and button elements must use Helvetica Neue, Helvetica, Arial, sans-serif
+- **Product Description Engagement**:
+  - Rewrite product descriptions to be compelling and benefit-focused
+  - Emphasize emotional benefits, urgency, and value proposition
+  - Use action-oriented language that drives clicks and conversions
+  - Maintain product accuracy while making descriptions more engaging
 - **CTA**:
   - Prominent, centeraligned
   - Include supporting subtext + high-contrast button
@@ -216,7 +359,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
         const rawContent = messages.data[0].content[0].text.value;
         let cleanedMjml = rawContent
           .replace(/^\s*```mjml/i, "")
-          .replace(/```$/, "")
+          .replace(/```[\s\n\r]*$/g, "")
           .trim();
 
         saveMJML(jobId, index, cleanedMjml);
@@ -243,8 +386,17 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       heroPromise,
     ]);
 
-    const storedMjmls = getMJML(jobId);
-    console.log(`📦 Retrieved ${storedMjmls.length} stored MJMLs for job ${jobId}`);
+    const storedMjmls = getMJML(jobId) || [];
+    console.log(`📦 Retrieved ${storedMjmls ? storedMjmls.length : 'undefined'} stored MJMLs for job ${jobId}`);
+    console.log(`📦 storedMjmls type: ${typeof storedMjmls}, isArray: ${Array.isArray(storedMjmls)}`);
+
+    // Process footer template
+    const footerMjml = await processFooterTemplate(finalBrandData);
+    console.log('🦶 Footer template processed successfully');
+    console.log('🦶 Footer MJML length:', footerMjml ? footerMjml.length : 0);
+    if (footerMjml) {
+      console.log('🦶 Footer preview:', footerMjml.substring(0, 200) + '...');
+    }
 
     // Replace placeholder hero with the real hero image
     let finalResults = results;
@@ -257,48 +409,64 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       </mj-head>
     `;
 
-    if (
-      wantsCustomHero &&
-      finalBrandData.hero_image_url &&
-      finalBrandData.hero_image_url.includes("http") &&
-      !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
-    ) {
-      storedMjmls.forEach((mjml, index) => {
-        if (mjml) {
-          let updated = mjml.replace(/https:\/\/CUSTOMHEROIMAGE\.COM/g, finalBrandData.hero_image_url);
+    // Process all emails to add font block and footer
+    (storedMjmls || []).forEach((mjml, index) => {
+      if (mjml) {
+        let updated = mjml;
 
-          if (!updated.includes("<mj-head>")) {
-            updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
-            console.log(`🔤 Injected Helvetica font block for email ${index + 1}`);
-          }
-
-          updateMJML(jobId, index, updated);
+        // Replace hero image if available
+        if (
+          wantsCustomHero &&
+          finalBrandData.hero_image_url &&
+          finalBrandData.hero_image_url.includes("http") &&
+          !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
+        ) {
+          updated = updated.replace(/https:\/\/CUSTOMHEROIMAGE\.COM/g, finalBrandData.hero_image_url);
+          console.log(`🖼️ Replaced hero image for email ${index + 1}`);
+        } else {
+          console.log(`⚠️ Hero URL not ready or invalid for email ${index + 1}, using placeholder`);
         }
-      });
 
-      const patchedMjmls = getMJML(jobId);
-      finalResults = results.map((result, index) => {
-        if (result.content && patchedMjmls[index]) {
-          return {
-            ...result,
-            content: patchedMjmls[index],
-          };
+        // Add font block if not present
+        if (!updated.includes("<mj-head>")) {
+          updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
+          console.log(`🔤 Injected Helvetica font block for email ${index + 1}`);
         }
-        return result;
-      });
 
-      console.log("🖼️ ✅ Successfully replaced hero + enforced font block");
-    } else {
-      console.log("⚠️ Hero URL not ready or invalid, using placeholder");
-
-      storedMjmls.forEach((mjml, index) => {
-        if (mjml && !mjml.includes("<mj-head>")) {
-          const injected = mjml.replace("<mjml>", `<mjml>${fontHead}`);
-          updateMJML(jobId, index, injected);
-          console.log(`🔤 Injected Helvetica font block for email ${index + 1} (fallback)`);
+        // Remove any existing footer section (by unique comment) - remove everything from comment to end of mj-body
+        updated = updated.replace(/<!-- Footer Section -->[\s\S]*?<\/mj-body>/g, "</mj-body>");
+        
+        // Add footer before closing mj-body tag, but only if not already present
+        if (footerMjml && updated.includes("</mj-body>") && !updated.includes("mj-social")) {
+          updated = updated.replace("</mj-body>", `${footerMjml}\n</mj-body>`);
+          console.log(`🦶 Added footer to email ${index + 1}`);
+          console.log(`🦶 Email ${index + 1} now contains footer:`, updated.includes('Unsubscribe'));
+        } else if (footerMjml && updated.includes("<mj-body") && !updated.includes("mj-social")) {
+          // If no closing tag, add footer and closing tag at the end
+          updated = updated + `\n${footerMjml}\n</mj-body>`;
+          console.log(`🦶 Added footer and closing tag to email ${index + 1} (no closing tag found)`);
+          console.log(`🦶 Email ${index + 1} now contains footer:`, updated.includes('Unsubscribe'));
+        } else {
+          console.log(`🦶 Could not add footer to email ${index + 1} - footerMjml:`, !!footerMjml, 'has closing tag:', updated.includes("</mj-body>"), 'has body tag:', updated.includes("<mj-body"), 'footer already present:', updated.includes("mj-social"));
         }
-      });
-    }
+
+        updateMJML(jobId, index, updated);
+      }
+    });
+
+    // Update finalResults with processed MJMLs
+    const patchedMjmls = getMJML(jobId) || [];
+    finalResults = results.map((result, index) => {
+      if (result.content && patchedMjmls[index]) {
+        return {
+          ...result,
+          content: patchedMjmls[index],
+        };
+      }
+      return result;
+    });
+
+    console.log("✅ Successfully processed all emails with font block and footer");
     
     const totalTokens = finalResults.reduce((sum, result) => sum + (result.tokens || 0), 0);
 
@@ -316,11 +484,25 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
     const threadStats = threadPool.getStats();
     console.log(`📊 Performance stats - Store: ${storeStats.totalEntries}/${storeStats.maxEntries}, Threads: ${threadStats.utilization.toFixed(1)}% utilization`);
 
-    res.json({
-      success: true,
-      totalTokens,
-      emails: finalResults,
-    });
+    // Check if client wants MJML format
+    const acceptHeader = req.headers.accept || '';
+    const wantsMjml = acceptHeader.includes('text/mjml') || acceptHeader.includes('application/mjml');
+    
+    if (wantsMjml && finalResults.length > 0 && finalResults[0].content) {
+      // Return the first email as MJML
+      const mjmlContent = finalResults[0].content;
+      res.setHeader('Content-Type', 'text/mjml');
+      res.setHeader('X-Total-Tokens', totalTokens.toString());
+      res.setHeader('X-Generation-Time', `${Date.now() - totalStart}ms`);
+      res.send(mjmlContent);
+    } else {
+      // Return JSON response as before
+      res.json({
+        success: true,
+        totalTokens,
+        emails: finalResults,
+      });
+    }
   } catch (error) {
     console.error("❌ Email generation failed:", error);
     cleanupSession(sessionId);
