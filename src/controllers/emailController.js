@@ -42,7 +42,7 @@ async function processFooterTemplate(brandData) {
       .replace(/\[\[current_year\]\]/g, currentYear.toString())
       .replace(/\[\[website_url\]\]/g, brandData.website_url || brandData.website || '')
       .replace(/\[\[store_url\]\]/g, brandData.store_url || brandData.website_url || brandData.website || '')
-      .replace(/\[\[store_email\]\]/g, brandData.email || '')
+      .replace(/\[\[store_email\]\]/g, '')
       .replace(/\[\[header_color\]\]/g, brandData.header_color || '#70D0F0');
     
     console.log('🦶 Processed footer length:', processedFooter.length);
@@ -72,7 +72,7 @@ async function processFooterTemplate(brandData) {
         url = brandData.social_links[dataKey];
       }
       
-      if (url && url !== `https://${dataKey}.com/` && url !== `https://www.${dataKey}.com/`) {
+      if (url && url !== `https://${dataKey}.com/` && url !== `https://www.${dataKey}.com/` && url !== `http://${dataKey}.com/` && url !== `http://www.${dataKey}.com/`) {
         // Replace the URL placeholder
         processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), url);
         // Remove the conditional markers for this platform
@@ -82,6 +82,8 @@ async function processFooterTemplate(brandData) {
         // Remove the entire conditional block if URL is base URL or missing
         const regex = new RegExp(`\\[\\[#if ${templateKey}\\]\\][\\s\\S]*?\\[\\[\\/if\\]\\]`, 'g');
         processedFooter = processedFooter.replace(regex, '');
+        // Also remove any remaining template variables for this platform
+        processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), '');
       }
     });
     
@@ -180,7 +182,7 @@ export async function generateEmails(req, res) {
     // Generate unique layouts
     let layouts;
     try {
-      layouts = getUniqueLayoutsBatch(emailType, sessionId, 1);
+      layouts = getUniqueLayoutsBatch(emailType, sessionId, 1, brandData);
     } catch (err) {
       console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
       cleanupSession(sessionId);
@@ -217,11 +219,18 @@ export async function generateEmails(req, res) {
           ? `\n📢 User Special Instructions:\n${userContext}\n`
           : "";
 
-        const userPrompt = `You are an expert ${emailType} email assistant.
+        const userPrompt = `You are an expert marketing content designer building a ${emailType} email.
 
 Your job:
 Generate one MJML email using uploaded block templates.
-Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
+Use userContext for info about content, and use userTone for the email tone.
+
+**MJML VALIDATION RULES - CRITICAL:**
+- Do NOT add font-family attributes to any MJML tags (mj-body, mj-section, mj-column, mj-text, mj-button, etc.)
+- You MAY use font-family in inline HTML (e.g., <span style="font-family:...">) inside <mj-text> for special styling
+- Never nest MJML tags inside <mj-divider>
+- Do NOT add height attributes to mj-section elements
+- All padding values must include units (e.g., "40px 0px" not "40px 0")
 
 The structure of the email must be exactly these content blocks in order:
   1. intro
@@ -232,12 +241,25 @@ The structure of the email must be exactly these content blocks in order:
 
 No other content sections are allowed beyond these 5. 
 
+**EMAIL STRUCTURE REQUIREMENTS:**
+- The email will have this structure (added automatically):
+  1. Header/Banner Image (banner_url if provided, otherwise logo_url)
+  2. Hero Content (your intro block - text only, no images)
+  3. Main Content (your content blocks)
+  4. Footer (added automatically)
+
+**CRITICAL: DO NOT INCLUDE ANY HEADER IMAGES**
+- DO NOT create any sections with logo_url or banner_url
+- DO NOT add any mj-image elements with logo or banner URLs
+- DO NOT include any header sections at all
+- Start your content directly with the hero text content
+
 **HERO SECTION REQUIREMENTS:**
 - For the intro block, use either "hero-with-text-cta" or "hero-with-featured-product" templates
-- These templates have the correct structure: Logo at top, hero image below logo, then primary content section
-- If brandData.hero_image_url is provided and is not "https://CUSTOMHEROIMAGE.COM", you must use that image as the hero image
-- If brandData.hero_image_url is "https://CUSTOMHEROIMAGE.COM" or not provided, DO NOT include any hero images in the email
-- You may not substitute or add any other images in the hero section. This is mandatory.
+- These templates should contain ONLY text content, headlines, descriptions, and CTAs
+- DO NOT include any images in the hero section - images will be handled separately
+- The banner image will be displayed above your hero content automatically
+- You may not substitute or add any images in the hero section. This is mandatory.
 
 **HERO TEMPLATE CHOICES:**
 - Use "hero-with-text-cta" when you want a text-based primary section with headline, description, and CTA button
@@ -246,11 +268,10 @@ No other content sections are allowed beyond these 5.
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
 - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
 - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
-- If brandData.logo_url is provided, use it as the brand logo in appropriate sections (header, footer, etc.).
-- If brandData.banner_url is provided, use it as a banner image in appropriate sections.
-- If brandData.header_color is provided, use it as the background color for logo header sections.
-- Always use the exact URLs provided in brandData for logo_url and banner_url - do not substitute with other images.
-- Always use the exact colors provided in brandData for header_color - do not substitute with other colors.
+- DO NOT use brandData.logo_url or brandData.banner_url in your content - these will be handled automatically
+- DO NOT create any header sections with logos or banners - these will be added automatically
+- If brandData.header_color is provided, use it as the background color for content sections (not headers)
+- Always use the exact colors provided in brandData for header_color - do not substitute with other colors
 - For product blocks, use the exact product data provided in brandData.
 - If brandData.products array is provided, map the fields as follows:
   * products[].name → product_title
@@ -275,7 +296,8 @@ No other content sections are allowed beyond these 5.
   - Headline: 40–50px, bold, 130% line height
   - Subhead: 20–24px
   - Body: 16–18px, 150% line height
-  - All text and button elements must use Helvetica Neue, Helvetica, Arial, sans-serif
+  - Font family will be automatically applied via mj-head - do NOT add font-family attributes to any elements
+  - Do NOT add font-family attributes to mj-body, mj-text, mj-button, or any other elements
 - **Product Description Engagement**:
   - Rewrite product descriptions to be compelling and benefit-focused
   - Emphasize emotional benefits, urgency, and value proposition
@@ -307,7 +329,7 @@ No other content sections are allowed beyond these 5.
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
-📌 IMPORTANT: Above every content section, include a comment marker:
+📌 IMPORTANT: Above every content section, include a comment marker that must be embeded in an mj-raw block:
 <!-- Blockfile: block-name.txt -->
 
 ${layoutInstruction}
@@ -409,28 +431,43 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       </mj-head>
     `;
 
-    // Process all emails to add font block and footer
+    // Process all emails to add header, banner, font block and footer
     (storedMjmls || []).forEach((mjml, index) => {
       if (mjml) {
         let updated = mjml;
-
-        // Replace hero image if available
-        if (
-          wantsCustomHero &&
-          finalBrandData.hero_image_url &&
-          finalBrandData.hero_image_url.includes("http") &&
-          !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
-        ) {
-          updated = updated.replace(/https:\/\/CUSTOMHEROIMAGE\.COM/g, finalBrandData.hero_image_url);
-          console.log(`🖼️ Replaced hero image for email ${index + 1}`);
-        } else {
-          console.log(`⚠️ Hero URL not ready or invalid for email ${index + 1}, using placeholder`);
-        }
 
         // Add font block if not present
         if (!updated.includes("<mj-head>")) {
           updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
           console.log(`🔤 Injected Helvetica font block for email ${index + 1}`);
+        }
+
+
+
+        // Add header/banner image at the beginning of mj-body
+        // Use banner_url if provided, otherwise use logo_url as header
+        const headerImageUrl = finalBrandData.banner_url && finalBrandData.banner_url.trim() !== "" 
+          ? finalBrandData.banner_url 
+          : finalBrandData.logo_url;
+        
+        if (headerImageUrl) {
+          const headerSection = `
+            <!-- Header/Banner Image -->
+            <mj-section background-color="${finalBrandData.header_color || '#70D0F0'}" padding="0">
+              <mj-column>
+                <mj-image
+                  src="${headerImageUrl}"
+                  alt="${finalBrandData.banner_url ? 'Banner' : finalBrandData.store_name || 'Store Logo'}"
+                  width="${finalBrandData.banner_url ? '600px' : '200px'}"
+                  padding="${finalBrandData.banner_url ? '0' : '20px'}"
+                />
+              </mj-column>
+            </mj-section>
+          `;
+          
+          // Insert header/banner after <mj-body> tag
+          updated = updated.replace("<mj-body>", `<mj-body>${headerSection}`);
+          console.log(`🖼️ Added ${finalBrandData.banner_url ? 'banner' : 'logo header'} to email ${index + 1}`);
         }
 
         // Remove any existing footer section (by unique comment) - remove everything from comment to end of mj-body
@@ -466,7 +503,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       return result;
     });
 
-    console.log("✅ Successfully processed all emails with font block and footer");
+    console.log("✅ Successfully processed all emails with header/banner, font block and footer");
     
     const totalTokens = finalResults.reduce((sum, result) => sum + (result.tokens || 0), 0);
 

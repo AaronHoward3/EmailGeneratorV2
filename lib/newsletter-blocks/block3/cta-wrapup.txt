@@ -1,10 +1,1 @@
-<mj-section background-color="#1a1a1a" padding="40px 0">
-  <mj-column>
-    <mj-text align="center" color="#ffffff" font-size="24px" font-weight="bold" padding="0 20px 12px" line-height="1.4">
-      Ready to take the next step?
-    </mj-text>
-    <mj-button href="https://example.com/signup" background-color="#ffffff" color="#000000" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px">
-      Get Started Today
-    </mj-button>
-  </mj-column>
-</mj-section>
+<mj-section background-color="#1a1a1a" padding="40px 0px"> <mj-column> <mj-text align="center" color="#ffffff" font-size="24px" font-weight="bold" padding="0 20px 12px" line-> Ready to take the next step? </mj-text> <mj-button href="https://example.com/signup" background-color="#ffffff" color="#000000" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px"> Get Started Today </mj-button> </mj-column> </mj-section> 

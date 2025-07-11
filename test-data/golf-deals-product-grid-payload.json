@@ -1,0 +1,71 @@
+{
+    "storeId": "16416",
+    "brandData": {
+      "store_name": "Golf Deals and Steals ",
+      "customHeroImage": false,
+      "store_url": "https://golfdealsandsteals.myshopify.com",
+      "logo_url": "https://media.brand.dev/ceb76a26-31d3-4d80-9d79-79427a0af20b.png",
+      "banner_url": "https://media.brand.dev/6208ca6d-7e3d-4351-9833-5458231af96e.png",
+      "fonts": [
+        {
+          "usage": "title",
+          "name": "Basic Commercial, sans-serif, 'Arial',  Helvetica,  sans-serif"
+        },
+        {
+          "usage": "body",
+          "name": "Basic Commercial, sans-serif, 'Arial',  Helvetica,  sans-serif"
+        }
+      ],
+      "products": [
+        {
+          "id": "66bbdb0ab476c78ab6fd2d4f",
+          "name": "Cobra LTDx Driver, Right Hand",
+          "url": "https://golfdealsandsteals.myshopify.com/products/cobra-ltdx-driver-right-hand",
+          "description": "Cobra LTDx Driver, Right Handwith headcover and toolCondition: NewHand: RightLoft: Choose 9 Degree,10.5 Degree, 12 DegreeFlex: Choose Senior, Regular, Stiff, or X-StiffShaft:PROJECT X HZRDUS Smoke iM10 60PROJECT X HZRDUS Smoke RDX Blue 60UST Helium Nanocore 40 (Senior) / 50 (Regular)Grip: Lamkin Crossline (58R) - Black (48.5g)",
+          "image_url": "https://cdn.shopify.com/s/files/1/0566/4863/0466/files/554712e3-f7da-5d59-aa8d-de16d7c0de03.jpg?v=1723587384"
+        },
+        {
+          "id": "66bbdb5bb476c78ab6fdbcc3",
+          "name": "Cobra LTDx MAX Driver, Right Hand",
+          "url": "https://golfdealsandsteals.myshopify.com/products/cobra-ltdx-max-driver-right-hand",
+          "description": "Cobra LTDx MAX Driver, Right Handwith headcover and toolCondition: NewHand: RightLoft: Choose 10.5 Degree or 12 DegreeFlex: Choose Senior, Regular, or StiffShaft:PROJECT X HZRDUS Smoke RDX Blue 60UST Helium Nanocore 40 (Senior) / 50 (Regular)Grip: Lamkin Crossline (58R) - Black (48.5g)",
+          "image_url": "https://cdn.shopify.com/s/files/1/0566/4863/0466/files/d1821227-7ea0-51d0-8cd4-0d532f89ef7d.jpg?v=1723587403"
+        },
+        {
+          "id": "67819fd1b476c78ab6674ebc",
+          "name": "NEW TaylorMade 2021 P790 #4-PW Iron Set, 7 Piece, Steel KBS Tour Lite Stiff Flex",
+          "url": "https://golfdealsandsteals.myshopify.com/products/new-taylormade-2021-p790-4-pw-iron-set-7-piece-steel-kbs-tour-lite-stiff-flex",
+          "description": "NEW TaylorMade 2021 P790 #4-PW Iron Set Right Handed. .\n**total of 7 clubs**\nSteel Shaft: KBS Tour Lite Stiff Flex .\nTaylorMade Grips. .\nClubs are new in plastic\nPhotos are stock\nSorry, no local pickups. .\n",
+          "image_url": "https://cdn.shopify.com/s/files/1/0566/4863/0466/files/d587b28c-290c-5ce2-90cd-01f35da8e621.png?v=1736548301"
+        }
+      ],
+      "address": {
+        "street": "10545 Humbolt Street",
+        "city": "Los Alamitos",
+        "state_code": "California",
+        "postal_code": "90720",
+        "country": "United States"
+      },
+      "social_links": {
+        "facebook": "https://facebook.com/golfdealsandsteals",
+        "x": "https://twitter.com",
+        "linkedin": "https://linkedin.com/in/golfdealsandsteals",
+        "instagram": "https://instagram.com/golfdealsandsteals",
+        "youtube": "https://www.youtube.com/",
+        "pinterest": "http://pinterest.com",
+        "button_border_style": "Rounded",
+        "header_color": "#70D0F0",
+        "body_color": "#FFFFFF",
+        "link_color": "#CE1F1F",
+        "text_color": "#4A4A4A",
+        "primary_color": "#CE1F1F",
+        "button_color": "#CE1F1F",
+        "button_text_color": "#FFFFFF",
+        "button_border_color": "#CE1F1F"
+      }
+    },
+    "emailType": "Productgrid",
+    "userContext": "new product catalog, best practices ecommerce marketing email",
+    "tone": "professional and reliable"
+  }
+  

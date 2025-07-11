@@ -1,51 +1,23 @@
 <!-- Footer Section -->
 <mj-section background-color="[[header_color]]" padding-bottom="2px" padding-top="20px" text-align="center">
   <mj-column width="50%">
-    <mj-image 
-      align="left" 
-      padding-bottom="5px" 
-      padding-left="10px" 
-      padding-right="0px" 
-      padding-top="3px" 
-      width="100px" 
-      height="auto" 
-      src="[[logo_url]]" 
-      alt="[[store_name]]" 
-      href="[[store_url]]"
-    />
-    <mj-text 
-      font-family="Basic Commercial, sans-serif, 'Arial', Helvetica, sans-serif" 
-      color="#4A4A4A" 
-      padding-top="5px" 
-      padding-left="10px" 
-      line-height="1" 
-      css-class="mj-text-break"
-    >
-      <p style="line-height: 1;"> 
-        <span style="font-size:12px;">Sent by:&nbsp;[[store_name]]</span> 
+    <mj-image align="left" padding-bottom="5px" padding-left="10px" padding-right="0px" padding-top="3px" width="100px" src="[[logo_url]]" alt="[[store_name]]" href="[[store_url]]" />
+    <mj-text color="#4A4A4A" padding-top="5px" padding-left="10px" line-height="1" css-class="mj-text-break">
+      <p style="line-height: 1;">
+        <span style="font-size:12px;">Sent by:&nbsp;[[store_name]]</span>
       </p>
       [[#if store_address]]
-      <p style="line-height: 1;"> 
-        <span style="font-size:12px;">[[store_address]]</span> 
+      <p style="line-height: 1;">
+        <span style="font-size:12px;">[[store_address]]</span>
       </p>
       [[/if]]
     </mj-text>
   </mj-column>
   <mj-column width="50%">
-    <mj-text 
-      font-family="Basic Commercial, sans-serif, 'Arial', Helvetica, sans-serif" 
-      color="#4A4A4A" 
-      padding-top="0px" 
-      padding-bottom="0px" 
-      padding-right="10px" 
-      padding-left="10px" 
-      line-height="1" 
-      css-class="mj-text-break"
-      align="center"
-    >
+    <mj-text color="#4A4A4A" padding-top="0px" padding-bottom="0px" padding-right="10px" padding-left="10px" line-height="1" css-class="mj-text-break" align="center">
       <span style="font-size:18px;">FOLLOW US</span>
     </mj-text>
-    <mj-social icon-size="27px" font-family="'Arial',Helvetica,sans-serif" padding-top="5px" padding-left="10px" padding-right="10px" padding-bottom="5px" border-radius="4px" mode="horizontal">
+    <mj-social icon-size="27px" padding-top="5px" padding-left="10px" padding-right="10px" padding-bottom="5px" border-radius="4px" mode="horizontal">
       [[#if facebook_url]]
       <mj-social-element name="facebook-noshare" href="[[facebook_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/facebook.png" background-color="#3B5998"></mj-social-element>
       [[/if]]
@@ -69,19 +41,12 @@
 </mj-section>
 <mj-section background-color="[[header_color]]" padding-bottom="0" padding-top="5px" text-align="center">
   <mj-column>
-    <mj-text 
-      font-family="Basic Commercial, sans-serif, 'Arial', Helvetica, sans-serif" 
-      color="#4A4A4A" 
-      padding-bottom="1px" 
-      padding-left="10px" 
-      line-height="1" 
-      css-class="mj-text-break"
-    >
-      <p style="line-height: 1.3; text-align: center;"> 
-        <span style="font-size:11px;">To unsubscribe from all future communications, click&nbsp;[[unsubscribe]]</span> 
+    <mj-text color="#4A4A4A" padding-bottom="1px" padding-left="0px" padding-right="0px" line-height="1.3" css-class="mj-text-break">
+      <p style="line-height: 1.3; text-align: center;">
+        <span style="font-size:11px;">To unsubscribe from all future communications, click&nbsp;[[unsubscribe]]</span>
       </p>
-      <p style="line-height: 1.3; text-align: center;"> 
-        <span style="font-size:11px;">To ensure delivery to your inbox (not bulk or junk folders), please add [[store_email]] to your address book.</span> 
+      <p style="line-height: 1.3; text-align: center;">
+        <span style="font-size:11px;">To ensure delivery to your inbox (not bulk or junk folders), please add us to your address book.</span>
       </p>
     </mj-text>
   </mj-column>
