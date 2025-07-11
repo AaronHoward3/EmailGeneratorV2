@@ -1,18 +1,1 @@
-<mj-section background-color="#111111" padding="60px 20px">
-  <mj-column>
-    <mj-text align="center" font-size="30px" font-weight="bold" color="#ffffff" padding-bottom="20px" line-height="1.4">
-      [[cta_heading]]
-    </mj-text>
-    <mj-button
-      align="center"
-      href="[[cta_url]]"
-      background-color="#ffffff"
-      color="#111111"
-      font-size="25px"
-      inner-padding="14px 28px"
-      border-radius="6px"
-    >
-      [[cta_text]]
-    </mj-button>
-  </mj-column>
-</mj-section>
+<mj-section background-color="#111111" padding="60px 20px"> <mj-column> <mj-text align="center" font-size="30px" font-weight="bold" color="#ffffff" padding-bottom="20px" line-> [[cta_heading]] </mj-text> <mj-button align="center" href="[[cta_url]]" background-color="#ffffff" color="#111111" font-size="25px" inner-padding="14px 28px" border-radius="6px" > [[cta_text]] </mj-button> </mj-column> </mj-section> 

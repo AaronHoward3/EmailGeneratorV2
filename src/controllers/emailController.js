@@ -219,11 +219,18 @@ export async function generateEmails(req, res) {
           ? `\n📢 User Special Instructions:\n${userContext}\n`
           : "";
 
-        const userPrompt = `You are an expert ${emailType} email assistant.
+        const userPrompt = `You are an expert marketing content designer building a ${emailType} email.
 
 Your job:
 Generate one MJML email using uploaded block templates.
-Use userSubmittedContext for info about content, and use userSubmittedTone for the email tone.
+Use userContext for info about content, and use userTone for the email tone.
+
+**MJML VALIDATION RULES - CRITICAL:**
+- Do NOT add font-family attributes to any MJML tags (mj-body, mj-section, mj-column, mj-text, mj-button, etc.)
+- You MAY use font-family in inline HTML (e.g., <span style="font-family:...">) inside <mj-text> for special styling
+- Never nest MJML tags inside <mj-divider>
+- Do NOT add height attributes to mj-section elements
+- All padding values must include units (e.g., "40px 0px" not "40px 0")
 
 The structure of the email must be exactly these content blocks in order:
   1. intro
@@ -237,7 +244,7 @@ No other content sections are allowed beyond these 5.
 **HERO SECTION REQUIREMENTS:**
 - For the intro block, use either "hero-with-text-cta" or "hero-with-featured-product" templates
 - These templates have the correct structure: Logo at top, hero image below logo, then primary content section
-- If brandData.hero_image_url is provided and is not "https://CUSTOMHEROIMAGE.COM", you must use that image as the hero image
+- If brandData.hero_image_url is provided and is not "https://CUSTOMHEROIMAGE.COM", just display the logo image without any overlaid text.
 - If brandData.hero_image_url is "https://CUSTOMHEROIMAGE.COM" or not provided, DO NOT include any hero images in the email
 - You may not substitute or add any other images in the hero section. This is mandatory.
 
@@ -277,7 +284,8 @@ No other content sections are allowed beyond these 5.
   - Headline: 40–50px, bold, 130% line height
   - Subhead: 20–24px
   - Body: 16–18px, 150% line height
-  - All text and button elements must use Helvetica Neue, Helvetica, Arial, sans-serif
+  - Font family will be automatically applied via mj-head - do NOT add font-family attributes to any elements
+  - Do NOT add font-family attributes to mj-body, mj-text, mj-button, or any other elements
 - **Product Description Engagement**:
   - Rewrite product descriptions to be compelling and benefit-focused
   - Emphasize emotional benefits, urgency, and value proposition
@@ -309,7 +317,7 @@ No other content sections are allowed beyond these 5.
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
-📌 IMPORTANT: Above every content section, include a comment marker:
+📌 IMPORTANT: Above every content section, include a comment marker that must be embeded in an mj-raw block:
 <!-- Blockfile: block-name.txt -->
 
 ${layoutInstruction}

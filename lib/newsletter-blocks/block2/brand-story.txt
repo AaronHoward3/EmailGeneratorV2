@@ -1,14 +1,1 @@
-
-<mj-section background-color="#f9f9f9" padding="40px 0">
-  <mj-column>
-    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-height="1.4">
-      Why We Created This Tool
-    </mj-text>
-    <mj-text font-size="18px" color="#555555" align="center" padding="0 20px 12px" line-height="1.5">
-      Three years ago, we were drowning in complexity. Tools that didn’t talk to each other. Metrics no one understood. So we built something better — for you, and for ourselves.
-    </mj-text>
-    <mj-text font-size="14px" color="#999999" align="center" padding="0 20px" line-height="1.5">
-      — The Team at BetterStack
-    </mj-text>
-  </mj-column>
-</mj-section>
+ <mj-section background-color="#f9f9f9" padding="40px 0px"> <mj-column> <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-> Why We Created This Tool </mj-text> <mj-text font-size="18px" color="#555555" align="center" padding="0 20px 12px" line-> Three years ago, we were drowning in complexity. Tools that didn’t talk to each other. Metrics no one understood. So we built something better — for you, and for ourselves. </mj-text> <mj-text font-size="14px" color="#999999" align="center" padding="0px 20px" line-> — The Team at BetterStack </mj-text> </mj-column> </mj-section> 

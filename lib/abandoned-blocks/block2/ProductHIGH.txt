@@ -1,16 +1,1 @@
-<mj-section background-color="#f9f9f9" padding="20px">
-  <mj-column width="30%">
-    <mj-image src="https://via.placeholder.com/150x150" alt="Product Image" align="center" />
-  </mj-column>
-  <mj-column width="70%">
-    <mj-text font-size="16px" font-weight="bold" color="#333333">
-      Product Name
-    </mj-text>
-    <mj-text font-size="14px" color="#777777">
-      This is a brief product description.
-    </mj-text>
-    <mj-text font-size="14px" color="#098648" font-weight="bold">
-      $49.99
-    </mj-text>
-  </mj-column>
-</mj-section>
+<mj-section background-color="#f9f9f9" padding="20px"> <mj-column width="30%"> <mj-image src="https://via.placeholder.com/150x150" alt="Product Image" align="center" /> </mj-column> <mj-column width="70%"> <mj-text font-size="16px" font-weight="bold" color="#333333"> Product Name </mj-text> <mj-text font-size="14px" color="#777777"> This is a brief product description. </mj-text> <mj-text font-size="14px" color="#098648" font-weight="bold"> $49.99 </mj-text> </mj-column> </mj-section> 

@@ -38,7 +38,7 @@ function generateUserContext() {
 }
 
 // Load the base payload
-const payload = JSON.parse(fs.readFileSync("test-data/golf-deals-payload.json", "utf-8"));
+const payload = JSON.parse(fs.readFileSync("test-data/golf-deals-promotion-payload.json", "utf-8"));
 
 // Update userContext with unique content
 payload.userContext = generateUserContext();

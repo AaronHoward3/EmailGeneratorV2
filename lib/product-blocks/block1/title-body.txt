@@ -1,12 +1,1 @@
-
-<!-- Block: Title and Body with background -->
-<mj-section background-color="#007BFF" padding="60px 20px">
-  <mj-column>
-    <mj-text font-size="40px" font-weight="bold" align="center" color="#ffffff" padding-bottom="12px" line-height="1.3">
-      Header Here
-    </mj-text>
-    <mj-text font-size="25px" color="#ffffff" align="center" line-height="1.5">
-      Body text about company
-    </mj-text>
-  </mj-column>
-</mj-section>
+ <!-- Block: Title and Body with background --> <mj-section background-color="#007BFF" padding="60px 20px"> <mj-column> <mj-text font-size="40px" font-weight="bold" align="center" color="#ffffff" padding-bottom="12px" line-> Header Here </mj-text> <mj-text font-size="25px" color="#ffffff" align="center" line-> Body text about company </mj-text> </mj-column> </mj-section> 
