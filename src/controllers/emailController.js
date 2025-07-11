@@ -42,7 +42,7 @@ async function processFooterTemplate(brandData) {
       .replace(/\[\[current_year\]\]/g, currentYear.toString())
       .replace(/\[\[website_url\]\]/g, brandData.website_url || brandData.website || '')
       .replace(/\[\[store_url\]\]/g, brandData.store_url || brandData.website_url || brandData.website || '')
-      .replace(/\[\[store_email\]\]/g, brandData.email || '')
+      .replace(/\[\[store_email\]\]/g, '')
       .replace(/\[\[header_color\]\]/g, brandData.header_color || '#70D0F0');
     
     console.log('🦶 Processed footer length:', processedFooter.length);
@@ -72,7 +72,7 @@ async function processFooterTemplate(brandData) {
         url = brandData.social_links[dataKey];
       }
       
-      if (url && url !== `https://${dataKey}.com/` && url !== `https://www.${dataKey}.com/`) {
+      if (url && url !== `https://${dataKey}.com/` && url !== `https://www.${dataKey}.com/` && url !== `http://${dataKey}.com/` && url !== `http://www.${dataKey}.com/`) {
         // Replace the URL placeholder
         processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), url);
         // Remove the conditional markers for this platform
@@ -82,6 +82,8 @@ async function processFooterTemplate(brandData) {
         // Remove the entire conditional block if URL is base URL or missing
         const regex = new RegExp(`\\[\\[#if ${templateKey}\\]\\][\\s\\S]*?\\[\\[\\/if\\]\\]`, 'g');
         processedFooter = processedFooter.replace(regex, '');
+        // Also remove any remaining template variables for this platform
+        processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), '');
       }
     });
     
@@ -180,7 +182,7 @@ export async function generateEmails(req, res) {
     // Generate unique layouts
     let layouts;
     try {
-      layouts = getUniqueLayoutsBatch(emailType, sessionId, 1);
+      layouts = getUniqueLayoutsBatch(emailType, sessionId, 1, brandData);
     } catch (err) {
       console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
       cleanupSession(sessionId);

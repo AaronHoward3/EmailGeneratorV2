@@ -8,7 +8,7 @@ function pickRandom(arr, exclude = []) {
 
 const layoutHistory = [];
 
-export function getUniqueLayoutsBatch(emailType, sessionId, count = 3) {
+export function getUniqueLayoutsBatch(emailType, sessionId, count = 3, brandData = null) {
   const typeConfig = BLOCK_DEFINITIONS[emailType];
 
   if (!typeConfig) {
@@ -19,11 +19,30 @@ export function getUniqueLayoutsBatch(emailType, sessionId, count = 3) {
   const layouts = [];
   const usedBlocksPerSlot = {};
 
+  // Check if products are available
+  const hasProducts = brandData && brandData.products && brandData.products.length > 0;
+
+  // Define product blocks that can be used in any email type
+  const productBlocks = [
+    "single-product.txt",
+    "product-grid.txt", 
+    "alternating-grid.txt",
+    "Double-column.txt",
+    "product-list.txt",
+    "product-from-array.txt"
+  ];
+
   for (let i = 0; i < count; i++) {
     const layout = { layoutId: `${emailType}-${sessionId}-${i + 1}` };
 
     sections.forEach((sectionName, sectionIndex) => {
-      const availableBlocks = blocks[sectionName];
+      let availableBlocks = blocks[sectionName];
+      
+      // If this is a content section and products are available, add product blocks
+      if (sectionName === 'content1' && hasProducts) {
+        availableBlocks = [...availableBlocks, ...productBlocks];
+      }
+      
       if (!availableBlocks || availableBlocks.length === 0) {
         throw new Error(`No available blocks for section: ${sectionName}`);
       }

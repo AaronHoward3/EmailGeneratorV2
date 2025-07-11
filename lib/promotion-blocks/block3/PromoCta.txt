@@ -10,11 +10,18 @@
       inner-padding="14px 28px"
       border-radius="6px"
       align="center"
+      font-family="Arial, Helvetica, sans-serif"
     >
       Shop Now
     </mj-button>
-    <mj-text font-size="14px" color="#999999" align="center" padding="15px 20px 0">
-      Offer valid while supplies last. Don’t miss out!
+    <mj-text 
+      font-size="14px" 
+      color="#999999" 
+      align="center" 
+      padding="15px 20px 0"
+      font-family="Arial, Helvetica, sans-serif"
+    >
+      Offer valid while supplies last. Don't miss out!
     </mj-text>
   </mj-column>
 </mj-section>

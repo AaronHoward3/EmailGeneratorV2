@@ -1,10 +1,10 @@
 <!-- Blockfile: PromoHeaderHero.txt -->
 <!-- Logo Header Section -->
-<mj-section background-color="[[header_color]]" padding="20px">
+<mj-section background-color="#007BFF" padding="20px">
   <mj-column>
     <mj-image
-      src="[[logo_url]]"
-      alt="[[brand_name]] Logo"
+      src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600"
+      alt="[[store_name]] Logo"
       width="150px"
       align="center"
     />
@@ -12,11 +12,11 @@
 </mj-section>
 
 <!-- Banner Section -->
-<mj-section background-color="[[header_color]]" padding="0 20px 20px">
+<mj-section background-color="#007BFF" padding="0 20px 20px">
   <mj-column>
     <mj-image
-      src="[[banner_url]]"
-      alt="[[brand_name]] Banner"
+      src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600"
+      alt="[[store_name]] Banner"
       width="100%"
       align="center"
     />
@@ -24,7 +24,7 @@
 </mj-section>
 
 <!-- Hero Text Section -->
-<mj-section background-color="[[header_color]]" padding="0 20px 40px">
+<mj-section background-color="#007BFF" padding="0 20px 40px">
   <mj-column>
     <!-- divider for spacing -->
     <mj-divider padding="0 0 20px 0" border-color="#ffffff" border-width="2px" />
@@ -35,6 +35,7 @@
       color="#ffffff"
       padding="0 0 10px 0"
       line-height="1"
+      font-family="Arial, Helvetica, sans-serif"
     >
       Special Offer Just for You!
     </mj-text>
@@ -44,6 +45,7 @@
       align="center"
       padding="0"
       line-height="1.5"
+      font-family="Arial, Helvetica, sans-serif"
     >
       Discover exclusive savings for a limited time.
     </mj-text>

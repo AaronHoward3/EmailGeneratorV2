@@ -1,13 +1,40 @@
 <mj-section background-color="#f9f9f9" padding="40px 0">
   <mj-column>
-    <mj-image src="https://via.placeholder.com/400x300" alt="Featured Product" padding="0 20px" />
-    <mj-text font-size="14px" color="#555555" align="center" padding="10px 20px 20px">
+    <mj-image 
+      src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" 
+      alt="Featured Product" 
+      padding="0 20px"
+      width="100%"
+      align="center"
+    />
+    <mj-text 
+      font-size="14px" 
+      color="#555555" 
+      align="center" 
+      padding="10px 20px 20px"
+      font-family="Arial, Helvetica, sans-serif"
+    >
       Featured Product Name
     </mj-text>
-    <mj-text font-size="35px" font-weight="bold" color="#111111" align="center" padding="0 20px 12px" line-height="1.4">
-      Here’s What’s Inside
+    <mj-text 
+      font-size="35px" 
+      font-weight="bold" 
+      color="#111111" 
+      align="center" 
+      padding="0 20px 12px" 
+      line-height="1.4"
+      font-family="Arial, Helvetica, sans-serif"
+    >
+      Here's What's Inside
     </mj-text>
-    <mj-text font-size="16px" color="#555555" align="center" padding="0 20px 20px" line-height="1.5">
+    <mj-text 
+      font-size="16px" 
+      color="#555555" 
+      align="center" 
+      padding="0 20px 20px" 
+      line-height="1.5"
+      font-family="Arial, Helvetica, sans-serif"
+    >
       Enjoy up to 30% off on select items in our summer collection. Whether you're looking for lightweight essentials or bold statement pieces, this offer has something for everyone.
     </mj-text>
     <mj-button
@@ -19,6 +46,7 @@
       inner-padding="14px 28px"
       border-radius="6px"
       align="center"
+      font-family="Arial, Helvetica, sans-serif"
     >
       Shop Now
     </mj-button>
