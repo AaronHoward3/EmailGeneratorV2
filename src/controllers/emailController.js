@@ -241,12 +241,25 @@ The structure of the email must be exactly these content blocks in order:
 
 No other content sections are allowed beyond these 5. 
 
+**EMAIL STRUCTURE REQUIREMENTS:**
+- The email will have this structure (added automatically):
+  1. Header/Banner Image (banner_url if provided, otherwise logo_url)
+  2. Hero Content (your intro block - text only, no images)
+  3. Main Content (your content blocks)
+  4. Footer (added automatically)
+
+**CRITICAL: DO NOT INCLUDE ANY HEADER IMAGES**
+- DO NOT create any sections with logo_url or banner_url
+- DO NOT add any mj-image elements with logo or banner URLs
+- DO NOT include any header sections at all
+- Start your content directly with the hero text content
+
 **HERO SECTION REQUIREMENTS:**
 - For the intro block, use either "hero-with-text-cta" or "hero-with-featured-product" templates
-- These templates have the correct structure: Logo at top, hero image below logo, then primary content section
-- If brandData.hero_image_url is provided and is not "https://CUSTOMHEROIMAGE.COM", just display the logo image without any overlaid text.
-- If brandData.hero_image_url is "https://CUSTOMHEROIMAGE.COM" or not provided, DO NOT include any hero images in the email
-- You may not substitute or add any other images in the hero section. This is mandatory.
+- These templates should contain ONLY text content, headlines, descriptions, and CTAs
+- DO NOT include any images in the hero section - images will be handled separately
+- The banner image will be displayed above your hero content automatically
+- You may not substitute or add any images in the hero section. This is mandatory.
 
 **HERO TEMPLATE CHOICES:**
 - Use "hero-with-text-cta" when you want a text-based primary section with headline, description, and CTA button
@@ -255,11 +268,10 @@ No other content sections are allowed beyond these 5.
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
 - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
 - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
-- If brandData.logo_url is provided, use it as the brand logo in appropriate sections (header, footer, etc.).
-- If brandData.banner_url is provided, use it as a banner image in appropriate sections.
-- If brandData.header_color is provided, use it as the background color for logo header sections.
-- Always use the exact URLs provided in brandData for logo_url and banner_url - do not substitute with other images.
-- Always use the exact colors provided in brandData for header_color - do not substitute with other colors.
+- DO NOT use brandData.logo_url or brandData.banner_url in your content - these will be handled automatically
+- DO NOT create any header sections with logos or banners - these will be added automatically
+- If brandData.header_color is provided, use it as the background color for content sections (not headers)
+- Always use the exact colors provided in brandData for header_color - do not substitute with other colors
 - For product blocks, use the exact product data provided in brandData.
 - If brandData.products array is provided, map the fields as follows:
   * products[].name → product_title
@@ -419,28 +431,43 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       </mj-head>
     `;
 
-    // Process all emails to add font block and footer
+    // Process all emails to add header, banner, font block and footer
     (storedMjmls || []).forEach((mjml, index) => {
       if (mjml) {
         let updated = mjml;
-
-        // Replace hero image if available
-        if (
-          wantsCustomHero &&
-          finalBrandData.hero_image_url &&
-          finalBrandData.hero_image_url.includes("http") &&
-          !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
-        ) {
-          updated = updated.replace(/https:\/\/CUSTOMHEROIMAGE\.COM/g, finalBrandData.hero_image_url);
-          console.log(`🖼️ Replaced hero image for email ${index + 1}`);
-        } else {
-          console.log(`⚠️ Hero URL not ready or invalid for email ${index + 1}, using placeholder`);
-        }
 
         // Add font block if not present
         if (!updated.includes("<mj-head>")) {
           updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
           console.log(`🔤 Injected Helvetica font block for email ${index + 1}`);
+        }
+
+
+
+        // Add header/banner image at the beginning of mj-body
+        // Use banner_url if provided, otherwise use logo_url as header
+        const headerImageUrl = finalBrandData.banner_url && finalBrandData.banner_url.trim() !== "" 
+          ? finalBrandData.banner_url 
+          : finalBrandData.logo_url;
+        
+        if (headerImageUrl) {
+          const headerSection = `
+            <!-- Header/Banner Image -->
+            <mj-section background-color="${finalBrandData.header_color || '#70D0F0'}" padding="0">
+              <mj-column>
+                <mj-image
+                  src="${headerImageUrl}"
+                  alt="${finalBrandData.banner_url ? 'Banner' : finalBrandData.store_name || 'Store Logo'}"
+                  width="${finalBrandData.banner_url ? '600px' : '200px'}"
+                  padding="${finalBrandData.banner_url ? '0' : '20px'}"
+                />
+              </mj-column>
+            </mj-section>
+          `;
+          
+          // Insert header/banner after <mj-body> tag
+          updated = updated.replace("<mj-body>", `<mj-body>${headerSection}`);
+          console.log(`🖼️ Added ${finalBrandData.banner_url ? 'banner' : 'logo header'} to email ${index + 1}`);
         }
 
         // Remove any existing footer section (by unique comment) - remove everything from comment to end of mj-body
@@ -476,7 +503,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       return result;
     });
 
-    console.log("✅ Successfully processed all emails with font block and footer");
+    console.log("✅ Successfully processed all emails with header/banner, font block and footer");
     
     const totalTokens = finalResults.reduce((sum, result) => sum + (result.tokens || 0), 0);
 
