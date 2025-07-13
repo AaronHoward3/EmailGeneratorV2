@@ -81,16 +81,20 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
 const messages = await openai.beta.threads.messages.list(thread.id);
 const promptText = messages.data[0].content[0].text.value;
 
-// enforce: allow logo at top, but no other text
+// enforce: lifestyle focus, no text or product labels
 const finalPrompt = `
 ${promptText}
 
-IMPORTANT RULES:
-- You may include a small, unobtrusive brand logo at the top of the image if needed
-- Do not include any other text, slogans, pricing, product names, or promotional overlays
-- No watermarks, no text captions, no text callouts
-- The image should be purely photographic or illustrative, no typography except a single brand logo if desired.
-- Must Leave the bottom 1/3 of the image clear of major subjects
+CRITICAL IMAGE REQUIREMENTS:
+- Focus on LIFESTYLE photography - people enjoying activities, beautiful scenes, aspirational moments
+- NO text, slogans, pricing, product names, or promotional overlays anywhere in the image
+- NO product logos, brand labels, or product packaging visible
+- NO watermarks, captions, or text callouts
+- The image should be purely photographic lifestyle content
+- Leave the bottom 1/3 of the image clear of major subjects for text overlay
+- Create an emotional, aspirational mood that connects with the audience
+- Use natural lighting and authentic, relatable scenes
+- Avoid any commercial or promotional elements
 `.trim();
 
 // Step 3: Generate image

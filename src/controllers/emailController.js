@@ -255,11 +255,11 @@ No other content sections are allowed beyond these 5.
 - Start your content directly with the hero text content
 
 **HERO SECTION REQUIREMENTS:**
-- For the intro block, use either "hero-with-text-cta" or "hero-with-featured-product" templates
-- These templates should contain ONLY text content, headlines, descriptions, and CTAs
-- DO NOT include any images in the hero section - images will be handled separately
-- The banner image will be displayed above your hero content automatically
-- You may not substitute or add any images in the hero section. This is mandatory.
+- For the intro block, you may use hero templates that contain placeholder images (like "HeroOVER.txt")
+- The placeholder images will be automatically replaced with the generated hero image
+- The hero section should contain text content overlaid on the image
+- DO NOT manually replace placeholder images - this will be handled automatically
+- You may use templates with mj-raw blocks that contain placeholder images
 
 **HERO TEMPLATE CHOICES:**
 - Use "hero-with-text-cta" when you want a text-based primary section with headline, description, and CTA button
@@ -428,46 +428,75 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
           <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
           <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
         </mj-attributes>
+        <mj-style inline="inline">
+          @media only screen and (max-width:480px) {
+            .hero-headline {
+              font-size: 28px !important;
+              line-height: 1.2 !important;
+            }
+            .hero-subhead {
+              font-size: 16px !important;
+            }
+          }
+        </mj-style>
       </mj-head>
     `;
 
-    // Process all emails to add header, banner, font block and footer
+    // Process all emails to add font block, header image, and footer
     (storedMjmls || []).forEach((mjml, index) => {
       if (mjml) {
         let updated = mjml;
+
+                // Add header image at the very top if we have one
+        if (finalBrandData.header_image_url && finalBrandData.header_image_url.trim() !== "") {
+          const headerImageSection = `
+<!-- Header Image Section -->
+<mj-section padding="0px" background-color="#ffffff">
+  <mj-column>
+    <mj-image src="${finalBrandData.header_image_url}" alt="Header" padding="0px" />
+  </mj-column>
+</mj-section>`;
+          
+          // Insert header image right after <mj-body> tag, handling different formatting
+          updated = updated.replace(/<mj-body[^>]*>/, (match) => `${match}${headerImageSection}`);
+          console.log(`🖼️ Added header image to email ${index + 1}: ${finalBrandData.header_image_url}`);
+        } else {
+          console.log(`⚠️ No header image available for email ${index + 1}`);
+        }
+
+        // Replace placeholder hero image if available
+        if (
+          wantsCustomHero &&
+          finalBrandData.hero_image_url &&
+          finalBrandData.hero_image_url.includes("http") &&
+          !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
+        ) {
+          // Replace the CUSTOMHEROIMAGE placeholder
+          updated = updated.replace(
+            /src="https:\/\/CUSTOMHEROIMAGE\.COM"/g,
+            `src="${finalBrandData.hero_image_url}"`
+          );
+          
+          // Also replace other common placeholder patterns
+          updated = updated.replace(
+            /src="https:\/\/via\.placeholder\.com\/[^"]*"/g,
+            `src="${finalBrandData.hero_image_url}"`
+          );
+          
+          updated = updated.replace(
+            /src="https:\/\/placeholder\.com\/[^"]*"/g,
+            `src="${finalBrandData.hero_image_url}"`
+          );
+          
+          console.log(`🖼️ Replaced placeholder hero image with generated image for email ${index + 1}`);
+        } else if (wantsCustomHero) {
+          console.log(`⚠️ Hero URL not ready or invalid for email ${index + 1}`);
+        }
 
         // Add font block if not present
         if (!updated.includes("<mj-head>")) {
           updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
           console.log(`🔤 Injected Helvetica font block for email ${index + 1}`);
-        }
-
-
-
-        // Add header/banner image at the beginning of mj-body
-        // Use banner_url if provided, otherwise use logo_url as header
-        const headerImageUrl = finalBrandData.banner_url && finalBrandData.banner_url.trim() !== "" 
-          ? finalBrandData.banner_url 
-          : finalBrandData.logo_url;
-        
-        if (headerImageUrl) {
-          const headerSection = `
-            <!-- Header/Banner Image -->
-            <mj-section background-color="${finalBrandData.header_color || '#70D0F0'}" padding="0">
-              <mj-column>
-                <mj-image
-                  src="${headerImageUrl}"
-                  alt="${finalBrandData.banner_url ? 'Banner' : finalBrandData.store_name || 'Store Logo'}"
-                  width="${finalBrandData.banner_url ? '600px' : '200px'}"
-                  padding="${finalBrandData.banner_url ? '0' : '20px'}"
-                />
-              </mj-column>
-            </mj-section>
-          `;
-          
-          // Insert header/banner after <mj-body> tag
-          updated = updated.replace("<mj-body>", `<mj-body>${headerSection}`);
-          console.log(`🖼️ Added ${finalBrandData.banner_url ? 'banner' : 'logo header'} to email ${index + 1}`);
         }
 
         // Remove any existing footer section (by unique comment) - remove everything from comment to end of mj-body
@@ -503,7 +532,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       return result;
     });
 
-    console.log("✅ Successfully processed all emails with header/banner, font block and footer");
+    console.log("✅ Successfully processed all emails with font block, hero images, and footer");
     
     const totalTokens = finalResults.reduce((sum, result) => sum + (result.tokens || 0), 0);
 
