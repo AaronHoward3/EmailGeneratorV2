@@ -135,7 +135,7 @@ export async function generateEmails(req, res) {
       .json({ error: "Missing brandData or emailType in request body." });
   }
 
-  const jobId = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
+  const jobId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}-${Math.random().toString(36).substring(2, 15)}`;
 
   if (
     brandData.customHeroImage !== undefined &&
@@ -159,9 +159,7 @@ export async function generateEmails(req, res) {
     brandData.header_image_url = brandData.logo_url || "";
   }
 
-  const sessionId = `${Date.now()}-${Math.random()
-    .toString(36)
-    .substring(2, 15)}`;
+  const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}-${Math.random().toString(36).substring(2, 15)}`;
   const totalStart = Date.now();
   console.log(
     `⏱️ [${sessionId}] generation started at ${new Date(totalStart).toISOString()}`
@@ -224,6 +222,18 @@ export async function generateEmails(req, res) {
 Your job:
 Generate one MJML email using uploaded block templates.
 Use userContext for info about content, and use userTone for the email tone.
+
+**RESPONSE FORMAT:**
+You must respond with exactly two parts:
+1. A compelling email subject line (max 60 characters)
+2. The MJML email content
+
+Format your response exactly like this:
+Subject: [Your subject line here]
+
+\`\`\`mjml
+[Your MJML content here]
+\`\`\`
 
 **MJML VALIDATION RULES - CRITICAL:**
 - Do NOT add font-family attributes to any MJML tags (mj-body, mj-section, mj-column, mj-text, mj-button, etc.)
@@ -379,18 +389,36 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
         });
         
         const rawContent = messages.data[0].content[0].text.value;
-        let cleanedMjml = rawContent
+        
+        // Parse subject line and MJML content
+        let subjectLine = '';
+        let cleanedMjml = rawContent;
+        
+        // Extract subject line if present
+        const subjectMatch = rawContent.match(/^Subject:\s*(.+)$/m);
+        if (subjectMatch) {
+          subjectLine = subjectMatch[1].trim();
+          // Remove the subject line from the content
+          cleanedMjml = rawContent.replace(/^Subject:\s*.+$/m, '').trim();
+        }
+        
+        // Clean up MJML content
+        cleanedMjml = cleanedMjml
           .replace(/^\s*```mjml/i, "")
           .replace(/```[\s\n\r]*$/g, "")
           .trim();
 
         saveMJML(jobId, index, cleanedMjml);
         console.log(`📦 Saved MJML for job ${jobId} at index ${index}`);
+        if (subjectLine) {
+          console.log(`📧 Subject line for email ${i}: ${subjectLine}`);
+        }
 
         spinner.succeed(`✅ Email ${i} generated successfully`);
         return {
           index: i,
           content: cleanedMjml,
+          subjectLine: subjectLine,
           tokens: runStatus.usage?.total_tokens || 0,
         };
       } catch (error) {
@@ -560,6 +588,9 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       res.setHeader('Content-Type', 'text/mjml');
       res.setHeader('X-Total-Tokens', totalTokens.toString());
       res.setHeader('X-Generation-Time', `${Date.now() - totalStart}ms`);
+      if (finalResults[0].subjectLine) {
+        res.setHeader('X-Subject-Line', finalResults[0].subjectLine);
+      }
       res.send(mjmlContent);
     } else {
       // Return JSON response as before
