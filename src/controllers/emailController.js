@@ -324,9 +324,9 @@ No other content sections are allowed beyond these 5.
   - Internal padding: 20–30px
   - Buttons: 14–16px vertical / 28–32px horizontal
 - **Typography**:
-  - Headline: 40–50px, bold, 130% line height
-  - Subhead: 20–24px
-  - Body: 16–18px, 150% line height
+  - Headline: 40–50px, bold, 130% line height, MUST be center aligned
+  - Subhead: 20–24px, Must be center aligned
+  - Body: 16–18px, 150% line height must be center aligned.
   - Font family will be automatically applied via mj-head - do NOT add font-family attributes to any elements
   - Do NOT add font-family attributes to mj-body, mj-text, mj-button, or any other elements
 - **Product Description Engagement**:

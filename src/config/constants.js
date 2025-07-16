@@ -71,11 +71,11 @@ export const BLOCK_DEFINITIONS = {
   Promotion: {
     sections: ["intro", "utility1", "content1", "utility2", "cta"],
     blocks: {
-      intro: ["PromoHeaderHero.txt", "BoldHeaderHero.txt", "HeroOVER.txt", "EditorialHeaderHero.txt"],
+      intro: ["promoHero_1.txt", "promoHero_2.txt", "promoHero_3.txt", "promoHero_4.txt", "promoHero_3.txt", "promoHero_5.txt", "promoHero_6.txt", "promoHero_7.txt", "promoHero_8.txt", "promoHero_9.txt"],
       utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
-      content1: ["PromoBodyCopy.txt", "TextAboveImageBody.txt", "SplitProduct.txt", "TwoColumnBody.txt"],
+      content1: ["promoBody_1.txt", "promoBody_2.txt", "promoBody_4.txt", "promoBody_5.txt", "promoBody_6.txt"],
       utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
-      cta: ["PromoCTA.txt", "LargeCTASection.txt", "CTASectionDark.txt"],
+      cta: ["ctaBlock_1.txt", "ctaBlock_2.txt", "ctaBlock_3.txt", "ctaBlock_4.txt", "ctaBlock_5.txt", "ctaBlock_6.txt", "ctaBlock_7.txt"],
     },
   },
 };
