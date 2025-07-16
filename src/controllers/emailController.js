@@ -150,6 +150,22 @@ export async function generateEmails(req, res) {
   brandData.imageContext = imageContext.trim().substring(0, 300);
 }
 
+// Override colors if userContext includes any CSS color names
+if (userContext && typeof userContext === "string") {
+  const cssColors = userContext.match(/\b(black|white|red|blue|green|yellow|orange|pink|purple|gray|grey|teal|cyan|magenta|lime|maroon|navy|olive|silver|gold|beige|brown|coral|crimson|indigo|ivory|khaki|lavender|mint|peach|plum|salmon|tan|turquoise)\b/gi);
+  const hexColors = userContext.match(/#(?:[0-9a-fA-F]{3}){1,2}/g);
+
+  const combinedColors = [
+    ...(cssColors || []).map(c => c.toLowerCase()),
+    ...(hexColors || [])
+  ];
+
+  if (combinedColors.length > 0) {
+    brandData.colors = combinedColors.slice(0, 3); // Limit to top 3
+    console.log(`🎨 Overriding brandData.colors with user-defined colors:`, brandData.colors);
+  }
+}
+
 
   const wantsCustomHero = brandData.customHeroImage === true;
   if (wantsCustomHero) {
