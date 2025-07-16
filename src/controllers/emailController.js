@@ -127,7 +127,7 @@ export async function generateEmails(req, res) {
     });
   }
 
-  let { brandData, emailType, userContext, storeId } = req.body;
+  let { brandData, emailType, userContext, imageContext, storeId } = req.body;
 
   if (!brandData || !emailType) {
     return res
@@ -145,6 +145,11 @@ export async function generateEmails(req, res) {
       .status(400)
       .json({ error: "customHeroImage must be a boolean (true/false)" });
   }
+
+  if (imageContext) {
+  brandData.imageContext = imageContext.trim().substring(0, 300);
+}
+
 
   const wantsCustomHero = brandData.customHeroImage === true;
   if (wantsCustomHero) {

@@ -28,10 +28,16 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
   try {
     // Step 1: Generate image prompt from assistant
     const thread = await openai.beta.threads.create();
-    await openai.beta.threads.messages.create(thread.id, {
-      role: "user",
-      content: JSON.stringify(brandData),
-    });
+    let heroPrompt = JSON.stringify(brandData, null, 2);
+
+if (brandData.imageContext) {
+  heroPrompt += `\n\nUSER IMAGE INSTRUCTIONS:\n${brandData.imageContext}`;
+}
+
+await openai.beta.threads.messages.create(thread.id, {
+  role: "user",
+  content: heroPrompt,
+});
 
     const run = await openai.beta.threads.runs.create(thread.id, {
       assistant_id: "asst_UwEhWG62uCnBiFijrH2ZzVdd",
