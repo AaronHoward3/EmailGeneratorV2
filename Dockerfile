@@ -11,7 +11,7 @@ RUN apk add --no-cache dumb-init
 COPY package.json yarn.lock ./
 
 # Install dependencies with production optimizations
-RUN yarn install --frozen-lockfile --production=false --network-timeout 100000
+RUN yarn install --production=false --network-timeout 100000
 
 # Copy source code
 COPY . .
