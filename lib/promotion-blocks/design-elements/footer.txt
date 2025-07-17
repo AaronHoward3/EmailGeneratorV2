@@ -6,11 +6,9 @@
       <p style="line-height: 1;">
         <span style="font-size:12px;">Sent by:&nbsp;[[store_name]]</span>
       </p>
-      [[#if store_address]]
       <p style="line-height: 1;">
         <span style="font-size:12px;">[[store_address]]</span>
       </p>
-      [[/if]]
     </mj-text>
   </mj-column>
   <mj-column width="50%">
@@ -18,24 +16,7 @@
       <span style="font-size:18px;">FOLLOW US</span>
     </mj-text>
     <mj-social icon-size="27px" padding-top="5px" padding-left="10px" padding-right="10px" padding-bottom="5px" border-radius="4px" mode="horizontal">
-      [[#if facebook_url]]
-      <mj-social-element name="facebook-noshare" href="[[facebook_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/facebook.png" background-color="#3B5998"></mj-social-element>
-      [[/if]]
-      [[#if instagram_url]]
-      <mj-social-element name="instagram" href="[[instagram_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/instagram.png" background-color="#3F729B"></mj-social-element>
-      [[/if]]
-      [[#if linkedin_url]]
-      <mj-social-element name="linkedin-noshare" href="[[linkedin_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/linkedin.png" background-color="#0077B5"></mj-social-element>
-      [[/if]]
-      [[#if pinterest_url]]
-      <mj-social-element name="pinterest-noshare" href="[[pinterest_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/pinterest.png" background-color="#BD081C"></mj-social-element>
-      [[/if]]
-      [[#if twitter_url]]
-      <mj-social-element name="twitter-noshare" href="[[twitter_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/twitter.png" background-color="#55ACEE"></mj-social-element>
-      [[/if]]
-      [[#if youtube_url]]
-      <mj-social-element name="youtube" href="[[youtube_url]]" src="https://springbot-assets.s3.amazonaws.com/images/social_media_white_icons_72x72/youtube.png" background-color="#c4302b"></mj-social-element>
-      [[/if]]
+      <!-- Social elements will be injected here dynamically -->
     </mj-social>
   </mj-column>
 </mj-section>

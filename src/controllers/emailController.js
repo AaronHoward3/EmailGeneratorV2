@@ -16,6 +16,7 @@ import {
   deleteMJML,
   getStoreStats,
 } from "../utils/inMemoryStore.js";
+import { processFooterTemplate } from "../services/footerService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,100 +25,6 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Initialize block cache on module load
 initializeBlockCache().catch(console.error);
-
-// Function to process footer template with brand data
-async function processFooterTemplate(brandData) {
-  try {
-    const footerPath = path.join(__dirname, '../../lib/promotion-blocks/design-elements/footer.txt');
-    console.log('🦶 Footer path:', footerPath);
-    let footerTemplate = await fs.readFile(footerPath, 'utf8');
-    console.log('🦶 Footer template loaded, length:', footerTemplate.length);
-    
-    // Get current year
-    const currentYear = new Date().getFullYear();
-    
-    // Replace basic placeholders with actual data
-    let processedFooter = footerTemplate
-      .replace(/\[\[logo_url\]\]/g, brandData.logo_url || '')
-      .replace(/\[\[current_year\]\]/g, currentYear.toString())
-      .replace(/\[\[website_url\]\]/g, brandData.website_url || brandData.website || '')
-      .replace(/\[\[store_url\]\]/g, brandData.store_url || brandData.website_url || brandData.website || '')
-      .replace(/\[\[store_email\]\]/g, '')
-      .replace(/\[\[header_color\]\]/g, brandData.header_color || '#70D0F0');
-    
-    console.log('🦶 Processed footer length:', processedFooter.length);
-    console.log('🦶 Brand data keys:', Object.keys(brandData));
-    console.log('🦶 Social links:', brandData.social_links);
-    console.log('🦶 Store address:', brandData.store_address);
-    console.log('🦶 Website URL:', brandData.website_url || brandData.website);
-    
-    // Note: [[store_name]], [[unsubscribe]], and [[store_address]] are left as tags for send-time replacement
-    
-    // Process social media URLs - only include if they're not base URLs
-    const socialPlatforms = [
-      { templateKey: 'facebook_url', dataKey: 'facebook' },
-      { templateKey: 'instagram_url', dataKey: 'instagram' },
-      { templateKey: 'linkedin_url', dataKey: 'linkedin' },
-      { templateKey: 'twitter_url', dataKey: 'twitter' },
-      { templateKey: 'twitter_url', dataKey: 'x' }, // Handle X/Twitter
-      { templateKey: 'youtube_url', dataKey: 'youtube' },
-      { templateKey: 'pinterest_url', dataKey: 'pinterest' }
-    ];
-    
-    // Process each social platform
-    socialPlatforms.forEach(({ templateKey, dataKey }) => {
-      // Check both direct property and nested in social_links
-      let url = brandData[templateKey];
-      if (!url && brandData.social_links && brandData.social_links[dataKey]) {
-        url = brandData.social_links[dataKey];
-      }
-      
-      if (url && url !== `https://${dataKey}.com/` && url !== `https://www.${dataKey}.com/` && url !== `http://${dataKey}.com/` && url !== `http://www.${dataKey}.com/`) {
-        // Replace the URL placeholder
-        processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), url);
-        // Remove the conditional markers for this platform
-        processedFooter = processedFooter.replace(new RegExp(`\\[\\[#if ${templateKey}\\]\\]`, 'g'), '');
-        processedFooter = processedFooter.replace(new RegExp(`\\[\\[\\/if\\]\\]`, 'g'), '');
-      } else {
-        // Remove the entire conditional block if URL is base URL or missing
-        const regex = new RegExp(`\\[\\[#if ${templateKey}\\]\\][\\s\\S]*?\\[\\[\\/if\\]\\]`, 'g');
-        processedFooter = processedFooter.replace(regex, '');
-        // Also remove any remaining template variables for this platform
-        processedFooter = processedFooter.replace(new RegExp(`\\[\\[${templateKey}\\]\\]`, 'g'), '');
-      }
-    });
-    
-    // Process store_address conditional
-    if (brandData.store_address) {
-      processedFooter = processedFooter.replace(new RegExp(`\\[\\[store_address\\]\\]`, 'g'), brandData.store_address);
-      processedFooter = processedFooter.replace(new RegExp(`\\[\\[#if store_address\\]\\]`, 'g'), '');
-      processedFooter = processedFooter.replace(new RegExp(`\\[\\[\\/if\\]\\]`, 'g'), '');
-    } else {
-      // Remove the entire conditional block if store_address is missing
-      const regex = /\[\[#if store_address\]\][\s\S]*?\[\[\/if\]\]/g;
-      processedFooter = processedFooter.replace(regex, '');
-    }
-    
-    // Process website_url conditional
-    if (brandData.website_url || brandData.website) {
-      processedFooter = processedFooter.replace(new RegExp(`\\[\\[#if website_url\\]\\]`, 'g'), '');
-      processedFooter = processedFooter.replace(new RegExp(`\\[\\[\\/if\\]\\]`, 'g'), '');
-    } else {
-      // Remove the entire conditional block if website_url is missing
-      const regex = /\[\[#if website_url\]\][\s\S]*?\[\[\/if\]\]/g;
-      processedFooter = processedFooter.replace(regex, '');
-    }
-    
-    // Clean up any remaining conditional markers
-    processedFooter = processedFooter.replace(/\[\[#if [^\]]+\]\]/g, '');
-    processedFooter = processedFooter.replace(/\[\[\/if\]\]/g, '');
-    
-    return processedFooter;
-  } catch (error) {
-    console.error('Error processing footer template:', error);
-    return '';
-  }
-}
 
 export async function generateEmails(req, res) {
   // Check if request body exists
@@ -249,6 +156,7 @@ The structure of the email must be exactly these content blocks in order:
   3. content
   4. utility2
   5. cta
+  6. footer
 
 No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPORTANT: Since no hero image is being generated, SKIP the intro section entirely. Do not include any intro block in your email.**' : ''} 
 
@@ -293,8 +201,9 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
   * products[].id → product_id (if available)
 - **PRODUCT DESCRIPTION REWRITING**: When using product descriptions, rewrite them to be more engaging and contextual to the email's purpose. Focus on benefits, urgency, and emotional appeal rather than just technical specifications. Make descriptions compelling and action-oriented while maintaining accuracy to the original product.
 - Do not invent or substitute product information - use only what is provided in the brandData, but feel free to rewrite descriptions for better engagement.
-- Social media URLs (facebook_url, instagram_url, linkedin_url, twitter_url, youtube_url, pinterest_url) will be automatically added to the footer if provided and not base URLs.
+- Social media URLs (facebook_url, instagram_url, linkedin_url, twitter_url, youtube_url, pinterest_url) will be automatically replaced in the footer if provided.
 - Company address and website will be automatically added to the footer if provided in brandData.
+- **IMPORTANT:** In the footer block, you MUST replace all href="SOCIAL_URL_*" values in <mj-social-element> tags with the correct social URLs from brandData. Omit the entire <mj-social-element> tag if the corresponding social URL is missing, empty, null, undefined, or is a base URL (like https://facebook.com/).
 
 **VISUAL DESIGN RULES (from design system):**
 - **Max width**: 600–640px
@@ -412,6 +321,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
           .replace(/```[\s\n\r]*$/g, "")
           .trim();
 
+        // Only cache on success
         saveMJML(jobId, index, cleanedMjml);
         console.log(`📦 Saved MJML for job ${jobId} at index ${index}`);
         if (subjectLine) {
@@ -427,6 +337,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
         };
       } catch (error) {
         spinner.fail(`❌ Failed to generate email ${i}`);
+        // Do NOT cache on error
         return { index: i, error: error.message };
       } finally {
         // Return thread to pool
@@ -486,6 +397,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
           <mj-section padding="0px" background-color="#ffffff">
             <mj-column>
               <mj-image src="${finalBrandData.header_image_url}" href="[[store_url]]" alt="Header" padding="0px" />
+            </mj-column>
           </mj-section>`;
           
           // Insert header image right after <mj-body> tag, handling different formatting
@@ -591,9 +503,6 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
       res.setHeader('Content-Type', 'text/mjml');
       res.setHeader('X-Total-Tokens', totalTokens.toString());
       res.setHeader('X-Generation-Time', `${Date.now() - totalStart}ms`);
-      if (finalResults[0].subjectLine) {
-        res.setHeader('X-Subject-Line', finalResults[0].subjectLine);
-      }
       res.send(mjmlContent);
     } else {
       // Return JSON response as before
