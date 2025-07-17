@@ -1,1 +1,12 @@
-<mj-section background-color="#241c23" padding="30px"> <mj-column> <mj-divider border-color="#ffffff" border-width="2px" padding="0 0 20px" /> <mj-text font-size="40px" font-weight="bold" align="center" color="#ffffff" padding="0 0 15px"> We Saved Your Items! </mj-text> <mj-text font-size="18px" align="center" color="#ffffff" line-> These best-sellers are still available — check out before they’re gone! </mj-text> <mj-divider border-color="#ffffff" border-width="2px" padding="20px 0 0" /> </mj-column> </mj-section> 
+<mj-section background-color="#241c23" padding="30px">
+  <mj-column>
+    <mj-divider border-color="#ffffff" border-width="2px" padding="0 0 20px" />
+    <mj-text font-size="40px" font-weight="bold" align="center" color="#ffffff" padding="0 0 15px">
+      We Saved Your Items!
+    </mj-text>
+    <mj-text font-size="18px" align="center" color="#ffffff" line->
+      These best-sellers are still available — check out before they’re gone!
+    </mj-text>
+    <mj-divider border-color="#ffffff" border-width="2px" padding="20px 0 0" />
+  </mj-column>
+</mj-section>

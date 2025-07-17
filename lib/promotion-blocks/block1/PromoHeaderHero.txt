@@ -1,1 +1,21 @@
-<!-- Blockfile: PromoHeaderHero.txt --> <!-- Logo Header Section --> <mj-section background-color="#007BFF" padding="20px"> <mj-column> <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="[[store_name]] Logo" width="150px" align="center" /> </mj-column> </mj-section> <!-- Banner Section --> <mj-section background-color="#007BFF" padding="0 20px 20px"> <mj-column> <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="[[store_name]] Banner" width="100%" align="center" /> </mj-column> </mj-section> <!-- Hero Text Section --> <mj-section background-color="#007BFF" padding="0 20px 40px"> <mj-column> <!-- divider for spacing --> <mj-divider padding="0 0 20px 0" border-color="#ffffff" border-width="2px" /> <mj-text font-size="28px" font-weight="bold" align="center" color="#ffffff" padding="0 0 10px 0" line- > Special Offer Just for You! </mj-text> <mj-text font-size="18px" color="#ffffff" align="center" padding="0" line- > Discover exclusive savings for a limited time. </mj-text> </mj-column> </mj-section> <!-- End Blockfile: PromoHeaderHero.txt --> 
+<mj-section background-color="#007BFF" padding="20px">
+  <mj-column>
+    <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="[[store_name]] Logo" width="150px" align="center" href="[[store_url]]" />
+  </mj-column>
+</mj-section>
+<mj-section background-color="#007BFF" padding="0 20px 20px">
+  <mj-column>
+    <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="[[store_name]] Banner" width="100%" align="center" href="[[store_url]]" />
+  </mj-column>
+</mj-section>
+<mj-section background-color="#007BFF" padding="0 20px 40px">
+  <mj-column>
+    <mj-divider padding="0 0 20px 0" border-color="#ffffff" border-width="2px" />
+    <mj-text font-size="28px" font-weight="bold" align="center" color="#ffffff" padding="0 0 10px 0" line- >
+      Special Offer Just for You!
+    </mj-text>
+    <mj-text font-size="18px" color="#ffffff" align="center" padding="0" line- >
+      Discover exclusive savings for a limited time.
+    </mj-text>
+  </mj-column>
+</mj-section>

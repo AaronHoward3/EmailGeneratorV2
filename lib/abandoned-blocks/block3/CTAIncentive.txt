@@ -1,1 +1,13 @@
-<mj-section background-color="#ffffff" padding="30px"> <mj-column> <mj-text font-size="35px" font-weight="bold" align="center"> Complete Your Order Today and Get Free Shipping! </mj-text> <mj-text align="center" font-size="18px" padding-bottom="20px"> We're sweetening the deal — just for you. </mj-text> <mj-button href="https://example.com/cart" background-color="#000000" color="#ffffff" font-size="16px" padding="10px 25px" > Return to My Cart </mj-button> </mj-column> </mj-section> 
+<mj-section background-color="#ffffff" padding="30px">
+  <mj-column>
+    <mj-text font-size="35px" font-weight="bold" align="center">
+      Complete Your Order Today and Get Free Shipping!
+    </mj-text>
+    <mj-text align="center" font-size="18px" padding-bottom="20px">
+      We're sweetening the deal — just for you.
+    </mj-text>
+    <mj-button href="https://example.com/cart" background-color="#000000" color="#ffffff" font-size="16px" padding="10px 25px" >
+      Return to My Cart
+    </mj-button>
+  </mj-column>
+</mj-section>

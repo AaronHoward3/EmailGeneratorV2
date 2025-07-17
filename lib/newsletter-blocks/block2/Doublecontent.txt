@@ -1,1 +1,23 @@
-<!-- Block: Team Update Highlight --> <mj-section background-color="#ffffff" padding="40px 0px"> <mj-column> <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-> Welcoming New Talent </mj-text> <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line-> This month, we welcomed 5 new team members across engineering, design, and customer success. We’re thrilled to continue growing with such talented individuals. </mj-text> </mj-column> </mj-section> <!-- Block: Founder Message --> <mj-section background-color="#ffffff" padding="40px 0px"> <mj-column> <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-> From the Founder </mj-text> <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line-> “As we grow, staying true to our core values is more important than ever. We’re committed to transparency, progress, and impact — thank you for being on this journey with us.” </mj-text> <mj-text font-size="14px" color="#999999" align="center" padding="10px 20px 0" line-> — Alex Reynolds, CEO </mj-text> </mj-column> </mj-section> 
+<mj-section background-color="#ffffff" padding="40px 0px">
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line->
+      Welcoming New Talent
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line->
+      This month, we welcomed 5 new team members across engineering, design, and customer success. We’re thrilled to continue growing with such talented individuals.
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section background-color="#ffffff" padding="40px 0px">
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line->
+      From the Founder
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line->
+      “As we grow, staying true to our core values is more important than ever. We’re committed to transparency, progress, and impact — thank you for being on this journey with us.”
+    </mj-text>
+    <mj-text font-size="14px" color="#999999" align="center" padding="10px 20px 0" line->
+      — Alex Reynolds, CEO
+    </mj-text>
+  </mj-column>
+</mj-section>

@@ -1,1 +1,14 @@
-<!-- Block: Hero Title --> <mj-section background-color="#f0f0f0" padding="40px 0px"> <mj-column> <!-- Header image (banner or logo) --> <mj-image src="[[header_image_url]]" alt="[[brand_name]] Header" width="600px" padding="20px 0px" align="center" /> <mj-text align="center" font-size="32px" font-weight="bold" padding-top="10px" line-> Introducing Our New Spring Line </mj-text> <mj-text align="center" font-size="18px" color="#555555" padding="5px 20px 20px" line-> Fresh looks, inspired by nature. Designed for your lifestyle. </mj-text> <mj-button background-color="#111111" color="#ffffff" href="[[store_url]]" inner-padding="14px 28px" border-radius="6px"> Shop Now </mj-button> </mj-column> </mj-section> 
+<mj-section background-color="#f0f0f0" padding="40px 0px">
+  <mj-column>
+    <mj-image src="[[header_image_url]]" alt="[[brand_name]] Header" width="600px" padding="20px 0px" align="center" href="[[store_url]]" />
+    <mj-text align="center" font-size="32px" font-weight="bold" padding-top="10px" line->
+      Introducing Our New Spring Line
+    </mj-text>
+    <mj-text align="center" font-size="18px" color="#555555" padding="5px 20px 20px" line->
+      Fresh looks, inspired by nature. Designed for your lifestyle.
+    </mj-text>
+    <mj-button background-color="#111111" color="#ffffff" href="[[store_url]]" inner-padding="14px 28px" border-radius="6px">
+      Shop Now
+    </mj-button>
+  </mj-column>
+</mj-section>

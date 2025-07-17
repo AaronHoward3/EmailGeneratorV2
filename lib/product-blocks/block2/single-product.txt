@@ -1,1 +1,21 @@
-<mj-section padding-top="15px" padding-bottom="15px"> <mj-column> <mj-image padding-bottom="0px" padding-left="0px" padding-right="0px" padding-top="0px" width="600px" src="[[product_image]]" container-background-color="#FFFFFF" href="[[product_url]]"> </mj-image> <mj-text padding="0px 0px"> <div product-id="[[product_id]]" style="display:none;">product_tag </div> </mj-text> <mj-text color="#4A4A4A" line- css-class="mj-text-break" container-background-color="#FFFFFF"> <p style="text-align: center;" data-tag="name"> <span style="font-size:100%;"><strong>[[product_title]]</strong></span> </p> </mj-text> <mj-text color="#4A4A4A" line- css-class="mj-text-break" container-background-color="#FFFFFF"> <p style="text-align: center;" data-tag="description"> <span style="font-size:100%;">[[product_description]]</span> </p> </mj-text> <mj-text color="#888888" line- css-class="mj-text-break" container-background-color="#FFFFFF"> <p style="text-align: center;" data-tag="price"> <span style="font-size:100%;">[[product_price]]</span> </p> </mj-text> <mj-button background-color="#65D585" border-radius="0px 0px 0px 0px" border="1px solid #65D585" color="#000000" padding-bottom="3px" padding-right="5px" padding-left="5px" padding-top="3px" text-align="center" line- width="100%" container-background-color="#FFFFFF" href="[[product_url]]"> Buy Now </mj-button> </mj-column> </mj-section> 
+<mj-section padding-top="15px" padding-bottom="15px">
+  <mj-column>
+    <mj-image padding-bottom="0px" padding-left="0px" padding-right="0px" padding-top="0px" width="600px" src="[[product_image]]" container-background-color="#FFFFFF" href="[[product_url]]">
+    </mj-image>
+    <mj-text padding="0px 0px">
+      <div product-id="[[product_id]]" style="display:none;">product_tag </div>
+    </mj-text>
+    <mj-text color="#4A4A4A" line- css-class="mj-text-break" container-background-color="#FFFFFF">
+      <p style="text-align: center;" data-tag="name"> <span style="font-size:100%;"><strong>[[product_title]]</strong></span> </p>
+    </mj-text>
+    <mj-text color="#4A4A4A" line- css-class="mj-text-break" container-background-color="#FFFFFF">
+      <p style="text-align: center;" data-tag="description"> <span style="font-size:100%;">[[product_description]]</span> </p>
+    </mj-text>
+    <mj-text color="#888888" line- css-class="mj-text-break" container-background-color="#FFFFFF">
+      <p style="text-align: center;" data-tag="price"> <span style="font-size:100%;">[[product_price]]</span> </p>
+    </mj-text>
+    <mj-button background-color="#65D585" border-radius="0px 0px 0px 0px" border="1px solid #65D585" color="#000000" padding-bottom="3px" padding-right="5px" padding-left="5px" padding-top="3px" text-align="center" line- width="100%" container-background-color="#FFFFFF" href="[[product_url]]">
+      Buy Now
+    </mj-button>
+  </mj-column>
+</mj-section>

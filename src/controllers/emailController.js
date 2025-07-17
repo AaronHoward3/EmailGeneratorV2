@@ -208,6 +208,7 @@ export async function generateEmails(req, res) {
       try {
         const sectionDescriptions = Object.entries(layout)
           .filter(([key]) => key !== "layoutId")
+          .filter(([key]) => wantsCustomHero || key !== "intro") // Exclude intro if no hero image
           .map(([key, val]) => `- Block (${key}): ${val}`)
           .join("\n");
 
@@ -249,7 +250,7 @@ The structure of the email must be exactly these content blocks in order:
   4. utility2
   5. cta
 
-No other content sections are allowed beyond these 5. 
+No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPORTANT: Since no hero image is being generated, SKIP the intro section entirely. Do not include any intro block in your email.**' : ''} 
 
 **EMAIL STRUCTURE REQUIREMENTS:**
 - The email will have this structure (added automatically):
@@ -320,6 +321,9 @@ No other content sections are allowed beyond these 5.
   - Use real brand photos only
   - Hero: 600×300–400px preferred, with proper alt text
   - Include at least 1 image-based block
+  - All <mj-image> elements must have an href attribute:
+    - If the image is a product image (e.g., product photo, product grid, or any image representing a product), set href="[[product_url]]" (or the correct product's url if in a loop)
+    - For all other images, set href="[[store_url]]"
 - **Color**:
   - Use brand colors (from JSON)
   - Must replace any template block colors with brand colors
@@ -478,12 +482,11 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
                 // Add header image at the very top if we have one
         if (finalBrandData.header_image_url && finalBrandData.header_image_url.trim() !== "") {
           const headerImageSection = `
-<!-- Header Image Section -->
-<mj-section padding="0px" background-color="#ffffff">
-  <mj-column>
-    <mj-image src="${finalBrandData.header_image_url}" alt="Header" padding="0px" />
-  </mj-column>
-</mj-section>`;
+          <!-- Header Image Section -->
+          <mj-section padding="0px" background-color="#ffffff">
+            <mj-column>
+              <mj-image src="${finalBrandData.header_image_url}" href="[[store_url]]" alt="Header" padding="0px" />
+          </mj-section>`;
           
           // Insert header image right after <mj-body> tag, handling different formatting
           updated = updated.replace(/<mj-body[^>]*>/, (match) => `${match}${headerImageSection}`);
