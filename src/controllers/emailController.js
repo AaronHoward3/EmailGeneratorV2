@@ -23,10 +23,21 @@ const __dirname = path.dirname(__filename);
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Initialize block cache on module load
-initializeBlockCache().catch(console.error);
+// Defer block cache initialization to first request for faster startup
+let blockCacheInitialized = false;
 
 export async function generateEmails(req, res) {
+  // Initialize block cache on first request instead of startup
+  if (!blockCacheInitialized) {
+    try {
+      await initializeBlockCache();
+      blockCacheInitialized = true;
+    } catch (error) {
+      console.error('❌ Failed to initialize block cache:', error);
+      // Continue without cache - will load blocks on demand
+    }
+  }
+
   // Check if request body exists
   if (!req.body) {
     return res.status(400).json({ 
@@ -72,19 +83,25 @@ export async function generateEmails(req, res) {
     `⏱️ [${sessionId}] generation started at ${new Date(totalStart).toISOString()}`
   );
 
-  // Get thread pool instance
-  const threadPool = getThreadPool(10);
+  // Get thread pool instance with optimized size based on environment
+  const threadPoolSize = process.env.NODE_ENV === 'production' ? 15 : 10;
+  const threadPool = getThreadPool(threadPoolSize);
 
   try {
-    // Start hero image generation in parallel
+    // Start hero image generation in parallel with timeout
     const heroPromise = wantsCustomHero
-      ? generateCustomHeroAndEnrich(brandData, storeId, jobId).catch((err) => {
+      ? Promise.race([
+          generateCustomHeroAndEnrich(brandData, storeId, jobId),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Hero generation timeout')), 45000)
+          )
+        ]).catch((err) => {
           console.error("❌ Failed to generate custom hero image:", err.message);
           return brandData;
         })
       : Promise.resolve(brandData);
 
-    // Generate unique layouts
+    // Generate unique layouts with error handling
     let layouts;
     try {
       layouts = getUniqueLayoutsBatch(emailType, sessionId, 1, brandData);
@@ -96,8 +113,17 @@ export async function generateEmails(req, res) {
       return;
     }
 
-    // Get threads from pool instead of creating new ones
-    const threads = await Promise.all(layouts.map(() => threadPool.getThread()));
+    // Get threads from pool with timeout
+    const threadPromises = layouts.map(() => 
+      Promise.race([
+        threadPool.getThread(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Thread pool timeout')), 10000)
+        )
+      ])
+    );
+    
+    const threads = await Promise.all(threadPromises);
 
     const assistantId = specializedAssistants[emailType];
     if (!assistantId) {
@@ -106,7 +132,7 @@ export async function generateEmails(req, res) {
         .json({ error: `No assistant configured for: ${emailType}` });
     }
 
-    // Generate emails with retry logic
+    // Generate emails with optimized retry logic and timeouts
     const emailPromises = layouts.map(async (layout, index) => {
       const thread = threads[index];
       const i = index + 1;
@@ -198,6 +224,7 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
 - If brandData.header_color is provided, use it as the background color for content sections (not headers)
 - Always use the exact colors provided in brandData for header_color - do not substitute with other colors
 - For product blocks, use the exact product data provided in brandData.
+- For product blocks, use the exact product data provided in brandData.
 - If brandData.products array is provided, map the fields as follows:
   * products[].name → product_title
   * products[].image_url → product_image  
@@ -274,7 +301,7 @@ ${layoutInstruction}
 ${userInstructions}
 ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null, 2)}`.trim();
 
-        // Use retry logic for OpenAI API calls
+        // Use retry logic for OpenAI API calls with shorter timeouts
         await retryOpenAI(async () => {
           await openai.beta.threads.messages.create(thread.id, {
             role: "user",
@@ -288,11 +315,11 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
           });
         });
 
-        const maxWaitTime = 120000;
+        const maxWaitTime = 90000; // Reduced from 120000 to 90000
         const runStart = Date.now();
         let runStatus;
 
-        // Use retry logic for run status checking
+        // Use retry logic for run status checking with shorter intervals
         while (Date.now() - runStart < maxWaitTime) {
           runStatus = await retryOpenAI(async () => {
             return await openai.beta.threads.runs.retrieve(thread.id, run.id);
@@ -303,7 +330,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
             spinner.fail(`❌ Assistant error on email ${i}`);
             throw new Error(`Assistant error: ${runStatus.status}`);
           }
-          await new Promise((r) => setTimeout(r, 1500));
+          await new Promise((r) => setTimeout(r, 1000)); // Reduced from 1500 to 1000
         }
 
         if (runStatus.status !== "completed") {
@@ -359,7 +386,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
       }
     });
 
-    // Wait for both hero and emails
+    // Wait for both hero and emails with timeout
     const [results, finalBrandData] = await Promise.all([
       Promise.all(emailPromises),
       heroPromise,

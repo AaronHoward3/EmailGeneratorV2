@@ -5,53 +5,83 @@ import { glob } from 'glob';
 const blockCache = new Map();
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 let cacheInitialized = false;
+let initializationPromise = null;
 
-// Initialize cache on startup
+// Optimized cache initialization with lazy loading
 export async function initializeBlockCache() {
   if (cacheInitialized) return;
   
-  try {
-    console.log('🔄 Initializing block cache...');
-    const startTime = Date.now();
-    
-    // Find all block files
-    const blockFiles = await glob('lib/**/*.txt', { cwd: process.cwd() });
-    
-    // Load all blocks into cache
-    const loadPromises = blockFiles.map(async (file) => {
-      try {
-        const content = await fs.readFile(file, 'utf8');
-        const blockName = path.basename(file, '.txt');
-        const fullPath = path.resolve(file);
+  // Prevent multiple simultaneous initializations
+  if (initializationPromise) {
+    return initializationPromise;
+  }
+  
+  initializationPromise = (async () => {
+    try {
+      console.log('🔄 Initializing block cache...');
+      const startTime = Date.now();
+      
+      // Use a more efficient glob pattern and limit concurrent operations
+      const blockFiles = await glob('lib/**/*.txt', { 
+        cwd: process.cwd(),
+        ignore: ['**/node_modules/**', '**/.git/**'],
+        maxDepth: 4 // Limit directory depth for faster scanning
+      });
+      
+      // Process files in batches to avoid overwhelming the system
+      const BATCH_SIZE = 10;
+      const loadedBlocks = [];
+      
+      for (let i = 0; i < blockFiles.length; i += BATCH_SIZE) {
+        const batch = blockFiles.slice(i, i + BATCH_SIZE);
         
-        blockCache.set(blockName, {
-          content,
-          path: fullPath,
-          timestamp: Date.now(),
-          size: content.length
+        const batchPromises = batch.map(async (file) => {
+          try {
+            const content = await fs.readFile(file, 'utf8');
+            const blockName = path.basename(file, '.txt');
+            const fullPath = path.resolve(file);
+            
+            blockCache.set(blockName, {
+              content,
+              path: fullPath,
+              timestamp: Date.now(),
+              size: content.length
+            });
+            
+            return blockName;
+          } catch (error) {
+            console.error(`❌ Failed to load block ${file}:`, error.message);
+            return null;
+          }
         });
         
-        return blockName;
-      } catch (error) {
-        console.error(`❌ Failed to load block ${file}:`, error.message);
-        return null;
+        const batchResults = await Promise.all(batchPromises);
+        loadedBlocks.push(...batchResults.filter(Boolean));
+        
+        // Small delay between batches to prevent overwhelming the system
+        if (i + BATCH_SIZE < blockFiles.length) {
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
       }
-    });
-    
-    const loadedBlocks = (await Promise.all(loadPromises)).filter(Boolean);
-    const loadTime = Date.now() - startTime;
-    
-    console.log(`✅ Block cache initialized: ${loadedBlocks.length} blocks loaded in ${loadTime}ms`);
-    console.log(`📊 Cache stats: ${blockCache.size} blocks, ${getCacheSize()} bytes`);
-    
-    cacheInitialized = true;
-  } catch (error) {
-    console.error('❌ Failed to initialize block cache:', error);
-    throw error;
-  }
+      
+      const loadTime = Date.now() - startTime;
+      
+      console.log(`✅ Block cache initialized: ${loadedBlocks.length} blocks loaded in ${loadTime}ms`);
+      console.log(`📊 Cache stats: ${blockCache.size} blocks, ${getCacheSize()} bytes`);
+      
+      cacheInitialized = true;
+    } catch (error) {
+      console.error('❌ Failed to initialize block cache:', error);
+      throw error;
+    } finally {
+      initializationPromise = null;
+    }
+  })();
+  
+  return initializationPromise;
 }
 
-// Load a specific block (with caching)
+// Optimized block loading with better error handling
 export async function loadBlock(blockName) {
   if (!cacheInitialized) {
     await initializeBlockCache();
@@ -69,15 +99,50 @@ export async function loadBlock(blockName) {
     }
   }
   
-  // Load from disk if not in cache
+  // Load from disk if not in cache - use more efficient path resolution
   try {
-    const blockFiles = await glob(`lib/**/${blockName}.txt`, { cwd: process.cwd() });
+    // Try common block directories first for faster lookup
+    const commonPaths = [
+      `lib/newsletter-blocks/block1/${blockName}.txt`,
+      `lib/newsletter-blocks/block2/${blockName}.txt`,
+      `lib/newsletter-blocks/block3/${blockName}.txt`,
+      `lib/product-blocks/block1/${blockName}.txt`,
+      `lib/product-blocks/block2/${blockName}.txt`,
+      `lib/product-blocks/block3/${blockName}.txt`,
+      `lib/promotion-blocks/block1/${blockName}.txt`,
+      `lib/promotion-blocks/block2/${blockName}.txt`,
+      `lib/promotion-blocks/block3/${blockName}.txt`,
+      `lib/abandoned-blocks/block1/${blockName}.txt`,
+      `lib/abandoned-blocks/block2/${blockName}.txt`,
+      `lib/abandoned-blocks/block3/${blockName}.txt`,
+      `lib/*/design-elements/${blockName}.txt`
+    ];
     
-    if (blockFiles.length === 0) {
-      throw new Error(`Block not found: ${blockName}`);
+    let filePath = null;
+    for (const path of commonPaths) {
+      try {
+        await fs.access(path);
+        filePath = path;
+        break;
+      } catch {
+        // Continue to next path
+      }
     }
     
-    const filePath = blockFiles[0];
+    if (!filePath) {
+      // Fallback to glob if not found in common paths
+      const blockFiles = await glob(`lib/**/${blockName}.txt`, { 
+        cwd: process.cwd(),
+        maxDepth: 4
+      });
+      
+      if (blockFiles.length === 0) {
+        throw new Error(`Block not found: ${blockName}`);
+      }
+      
+      filePath = blockFiles[0];
+    }
+    
     const content = await fs.readFile(filePath, 'utf8');
     const fullPath = path.resolve(filePath);
     
