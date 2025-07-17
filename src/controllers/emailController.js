@@ -34,7 +34,7 @@ export async function generateEmails(req, res) {
     });
   }
 
-  let { brandData, emailType, userContext, storeId } = req.body;
+  let { brandData, emailType, userContext, storeId, designAesthetic } = req.body;
 
   if (!brandData || !emailType) {
     return res
@@ -125,11 +125,17 @@ export async function generateEmails(req, res) {
           ? `\n📢 User Special Instructions:\n${userContext}\n`
           : "";
 
+        // Add design aesthetic instructions if provided
+        const designAestheticInstructions = designAesthetic
+          ? `\n🎨 Design Aesthetic: ${designAesthetic}\n- Use this aesthetic to influence color scheme choices and block selection\n- Choose blocks that align with the ${designAesthetic} style\n- Adjust color combinations to match the ${designAesthetic} aesthetic\n`
+          : "";
+
         const userPrompt = `You are an expert marketing content designer building a ${emailType} email.
 
 Your job:
 Generate one MJML email using uploaded block templates.
 Use userContext for info about content, and use userTone for the email tone.
+${designAestheticInstructions}
 
 **RESPONSE FORMAT:**
 You must respond with exactly two parts:
@@ -237,6 +243,7 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
   - Use brand colors (from JSON)
   - Must replace any template block colors with brand colors
   - Max 3 total colors in design
+  - If designAesthetic is provided, choose color combinations that align with that aesthetic
 - **Mobile**:
   - Stack columns
   - Minimum font size 14px
@@ -252,13 +259,20 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
+**BLOCK SELECTION GUIDANCE:**
+- Choose blocks that best match the overall design aesthetic when multiple options are available
+- For modern/minimal aesthetics: prefer clean, simple blocks with lots of whitespace
+- For bold/energetic aesthetics: prefer high-contrast blocks with strong visual elements
+- For elegant/premium aesthetics: prefer sophisticated layouts with refined typography
+- For playful/creative aesthetics: prefer blocks with visual interest and dynamic layouts
+
 📌 IMPORTANT: Above every content section, include a comment marker that must be embeded in an mj-raw block:
 <!-- Blockfile: block-name.txt -->
 
 ${layoutInstruction}
 
 ${userInstructions}
-${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
+${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null, 2)}`.trim();
 
         // Use retry logic for OpenAI API calls
         await retryOpenAI(async () => {
