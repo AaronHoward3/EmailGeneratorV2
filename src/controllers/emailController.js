@@ -201,7 +201,8 @@ if (userContext && typeof userContext === "string") {
     // Generate unique layouts
     let layouts;
     try {
-      layouts = getUniqueLayoutsBatch(emailType, sessionId, 1, brandData);
+      const { designStyle = "Default" } = req.body;
+layouts = getUniqueLayoutsBatch(emailType, designStyle, sessionId, 1, brandData);
     } catch (err) {
       console.error(`❌ Layout generator failed for type=${emailType}: ${err.message}`);
       cleanupSession(sessionId);
@@ -213,15 +214,22 @@ if (userContext && typeof userContext === "string") {
     // Get threads from pool instead of creating new ones
     const threads = await Promise.all(layouts.map(() => threadPool.getThread()));
 
-    const assistantId = specializedAssistants[emailType];
-    if (!assistantId) {
-      return res
-        .status(400)
-        .json({ error: `No assistant configured for: ${emailType}` });
-    }
+    const { designStyle = "Default" } = req.body;
+console.log("🎯 Requested designStyle:", designStyle);
+console.log("📦 Available styles for type:", Object.keys(specializedAssistants[emailType] || {}));
+const assistantId =
+  specializedAssistants[emailType]?.[designStyle] ||
+  specializedAssistants[emailType]?.["Default"];
+
+if (!assistantId || typeof assistantId !== "string") {
+  return res.status(400).json({
+    error: `No valid assistant found for emailType="${emailType}" and designStyle="${designStyle}"`,
+  });
+}
 
     // Generate emails with retry logic
     const emailPromises = layouts.map(async (layout, index) => {
+  console.log(`🧩 Email ${index + 1} layout:`, layout);
       const thread = threads[index];
       const i = index + 1;
       const spinner = ora().start();
@@ -270,7 +278,7 @@ The structure of the email must be exactly these content blocks in order:
   4. utility2
   5. cta
 
-No other content sections are allowed beyond these 5. 
+"If the number of products exceeds the capacity of one product block (e.g., more than 2), add additional content1 sections with appropriate product blocks until all are included."
 
 **EMAIL STRUCTURE REQUIREMENTS:**
 - The email will have this structure (added automatically):
@@ -301,8 +309,6 @@ No other content sections are allowed beyond these 5.
 - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
 - DO NOT use brandData.logo_url or brandData.banner_url in your content - these will be handled automatically
 - DO NOT create any header sections with logos or banners - these will be added automatically
-- If brandData.header_color is provided, use it as the background color for content sections (not headers)
-- Always use the exact colors provided in brandData for header_color - do not substitute with other colors
 - For product blocks, use the exact product data provided in brandData.
 - If brandData.products array is provided, map the fields as follows:
   * products[].name → product_title
@@ -340,9 +346,8 @@ No other content sections are allowed beyond these 5.
 - **Images**:
   - Use real brand photos only
   - Hero: 600×300–400px preferred, with proper alt text
-  - Include at least 1 image-based block
 - **Color**:
-  - Use brand colors (from JSON)
+  - Use brand colors (from JSON), unless userContext overrides them
   - Must replace any template block colors with brand colors
   - Max 3 total colors in design
 - **Mobile**:
@@ -356,7 +361,7 @@ No other content sections are allowed beyond these 5.
   - This rule is mandatory — do not skip or override it.
   **CTA rules:**
 - Do not invent or inject new buttons into any block outside of the template structures.
-
+Do not Copy text from the template blocks come up with new content.
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
