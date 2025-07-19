@@ -113,7 +113,7 @@ export const BLOCK_DEFINITIONS = {
         ]
       }
     },
-    Minimal: {
+    minimal_clean: {
       sections: ["intro", "utility1", "content1", "utility2", "cta"],
       blocks: {
         intro: [
