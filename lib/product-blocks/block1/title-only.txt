@@ -1,1 +1,7 @@
- <!-- Block: Title Only with background --> <mj-section background-color="#007BFF" padding="60px 20px"> <mj-column> <mj-text font-size="45px" font-weight="bold" align="center" color="#ffffff" line-> Title Header </mj-text> </mj-column> </mj-section> 
+<mj-section background-color="#007BFF" padding="60px 20px">
+  <mj-column>
+    <mj-text font-size="45px" font-weight="bold" align="center" color="#ffffff" line->
+      Title Header
+    </mj-text>
+  </mj-column>
+</mj-section>

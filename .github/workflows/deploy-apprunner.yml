@@ -117,9 +117,10 @@ jobs:
               }
             }' \
             --instance-configuration '{
-              "Cpu": "1024",
-              "Memory": "2048"
-            }'
+              "Cpu": "2048",
+              "Memory": "4096"
+            }' \
+
           
           # Save the service ARN for future deployments
           echo "$SERVICE_ARN" > service-output.json

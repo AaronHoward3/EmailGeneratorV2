@@ -1,1 +1,13 @@
- <mj-section background-url="https://media4.manhattan-institute.org/sites/cj/files/concept-of-hero.jpg" background-size="cover" background-repeat="no-repeat" background-color="#000000" padding="0px" text-align="center" > <mj-column width="100%" vertical-align="middle" padding="120px 25px" background-color="rgba(0, 0, 0, 0.5)" > <mj-text align="center" font-size="32px" color="#ffffff" font-weight="bold" padding="0 0 20px" line- > Headline goes here </mj-text> <mj-text align="center" font-size="18px" color="#ffffff" padding="0 0 10px" line- > Subheading 1 goes here </mj-text> <mj-text align="center" font-size="16px" color="#ffffff" padding="0" line- > Optional supporting body copy or CTA text can be placed here. </mj-text> </mj-column> </mj-section> 
+<mj-section background-url="https://media4.manhattan-institute.org/sites/cj/files/concept-of-hero.jpg" background-size="cover" background-repeat="no-repeat" background-color="#000000" padding="0px" text-align="center" >
+  <mj-column width="100%" vertical-align="middle" padding="120px 25px" background-color="rgba(0, 0, 0, 0.5)" >
+    <mj-text align="center" font-size="32px" color="#ffffff" font-weight="bold" padding="0 0 20px" line- >
+      Headline goes here
+    </mj-text>
+    <mj-text align="center" font-size="18px" color="#ffffff" padding="0 0 10px" line- >
+      Subheading 1 goes here
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#ffffff" padding="0" line- >
+      Optional supporting body copy or CTA text can be placed here.
+    </mj-text>
+  </mj-column>
+</mj-section>

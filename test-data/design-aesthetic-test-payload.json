@@ -1,0 +1,64 @@
+{
+    "storeId": "test-design-aesthetic",
+    "brandData": {
+      "store_name": "Design Aesthetic Test Store",
+      "customHeroImage": false,
+      "store_url": "https://test-store.myshopify.com",
+      "logo_url": "https://via.placeholder.com/200x80/333333/FFFFFF?text=LOGO",
+      "banner_url": "https://via.placeholder.com/600x200/666666/FFFFFF?text=BANNER",
+      "fonts": [
+        {
+          "usage": "title",
+          "name": "Helvetica Neue, Helvetica, Arial, sans-serif"
+        },
+        {
+          "usage": "body",
+          "name": "Helvetica Neue, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "products": [
+        {
+          "id": "test-product-1",
+          "name": "Test Product One",
+          "url": "https://test-store.myshopify.com/products/test-product-1",
+          "description": "This is a test product to demonstrate how design aesthetics influence email generation.",
+          "image_url": "https://via.placeholder.com/300x300/CCCCCC/333333?text=PRODUCT+1"
+        },
+        {
+          "id": "test-product-2",
+          "name": "Test Product Two",
+          "url": "https://test-store.myshopify.com/products/test-product-2",
+          "description": "Another test product to show aesthetic variations in email design.",
+          "image_url": "https://via.placeholder.com/300x300/CCCCCC/333333?text=PRODUCT+2"
+        }
+      ],
+      "address": {
+        "street": "123 Test Street",
+        "city": "Test City",
+        "state_code": "CA",
+        "postal_code": "90210",
+        "country": "United States"
+      },
+      "social_links": {
+        "facebook": "https://facebook.com/teststore",
+        "x": "https://twitter.com/teststore",
+        "linkedin": "https://linkedin.com/company/teststore",
+        "instagram": "https://instagram.com/teststore",
+        "youtube": "https://youtube.com/teststore",
+        "pinterest": "https://pinterest.com/teststore",
+        "button_border_style": "Rounded",
+        "header_color": "#4A90E2",
+        "body_color": "#FFFFFF",
+        "link_color": "#E24A4A",
+        "text_color": "#333333",
+        "primary_color": "#E24A4A",
+        "button_color": "#E24A4A",
+        "button_text_color": "#FFFFFF",
+        "button_border_color": "#E24A4A"
+      }
+    },
+    "emailType": "Promotion",
+    "userContext": "Test email to demonstrate design aesthetic parameter functionality",
+    "tone": "friendly and professional",
+    "designAesthetic": "modern"
+  } 

@@ -1,58 +1,115 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { glob } from 'glob';
+import { createLogger } from './logger.js';
+
+const logger = createLogger('BlockCache');
 
 const blockCache = new Map();
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 let cacheInitialized = false;
+let initializationPromise = null;
 
-// Initialize cache on startup
+// Optimized cache initialization with lazy loading
 export async function initializeBlockCache() {
   if (cacheInitialized) return;
   
-  try {
-    console.log('🔄 Initializing block cache...');
-    const startTime = Date.now();
-    
-    // Find all block files
-    const blockFiles = await glob('lib/**/*.txt', { cwd: process.cwd() });
-    
-    // Load all blocks into cache
-    const loadPromises = blockFiles.map(async (file) => {
-      try {
-        const content = await fs.readFile(file, 'utf8');
-        const blockName = path.basename(file, '.txt');
-        const fullPath = path.resolve(file);
+  // Prevent multiple simultaneous initializations
+  if (initializationPromise) {
+    return initializationPromise;
+  }
+  
+  initializationPromise = (async () => {
+    try {
+      logger.info('Starting block cache initialization');
+      const startTime = performance.now();
+      
+      // Use a more efficient glob pattern and limit concurrent operations
+      const globStartTime = performance.now();
+      const blockFiles = await glob('lib/**/*.txt', { 
+        cwd: process.cwd(),
+        ignore: ['**/node_modules/**', '**/.git/**'],
+        maxDepth: 4 // Limit directory depth for faster scanning
+      });
+      const globDuration = performance.now() - globStartTime;
+      
+      logger.performance('File discovery', globDuration, { fileCount: blockFiles.length });
+      
+      // Process files in batches to avoid overwhelming the system
+      const BATCH_SIZE = 10;
+      const loadedBlocks = [];
+      
+      for (let i = 0; i < blockFiles.length; i += BATCH_SIZE) {
+        const batch = blockFiles.slice(i, i + BATCH_SIZE);
+        const batchStartTime = performance.now();
         
-        blockCache.set(blockName, {
-          content,
-          path: fullPath,
-          timestamp: Date.now(),
-          size: content.length
+        const batchPromises = batch.map(async (file) => {
+          const fileStartTime = performance.now();
+          try {
+            const content = await fs.readFile(file, 'utf8');
+            const blockName = path.basename(file, '.txt');
+            const fullPath = path.resolve(file);
+            
+            blockCache.set(blockName, {
+              content,
+              path: fullPath,
+              timestamp: Date.now(),
+              size: content.length
+            });
+            
+            const fileDuration = performance.now() - fileStartTime;
+            logger.fileOperation('read', file, fileDuration, true, { blockName, size: content.length });
+            
+            return blockName;
+          } catch (error) {
+            const fileDuration = performance.now() - fileStartTime;
+            logger.fileOperation('read', file, fileDuration, false, { error: error.message });
+            logger.error(`Failed to load block ${file}`, { error: error.message });
+            return null;
+          }
         });
         
-        return blockName;
-      } catch (error) {
-        console.error(`❌ Failed to load block ${file}:`, error.message);
-        return null;
+        const batchResults = await Promise.all(batchPromises);
+        loadedBlocks.push(...batchResults.filter(Boolean));
+        
+        const batchDuration = performance.now() - batchStartTime;
+        logger.performance(`Batch ${Math.floor(i / BATCH_SIZE) + 1} processing`, batchDuration, {
+          batchSize: batch.length,
+          successfulLoads: batchResults.filter(Boolean).length
+        });
+        
+        // Small delay between batches to prevent overwhelming the system
+        if (i + BATCH_SIZE < blockFiles.length) {
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
       }
-    });
-    
-    const loadedBlocks = (await Promise.all(loadPromises)).filter(Boolean);
-    const loadTime = Date.now() - startTime;
-    
-    console.log(`✅ Block cache initialized: ${loadedBlocks.length} blocks loaded in ${loadTime}ms`);
-    console.log(`📊 Cache stats: ${blockCache.size} blocks, ${getCacheSize()} bytes`);
-    
-    cacheInitialized = true;
-  } catch (error) {
-    console.error('❌ Failed to initialize block cache:', error);
-    throw error;
-  }
+      
+      const loadTime = performance.now() - startTime;
+      
+      logger.info('Block cache initialization completed', {
+        loadedBlocks: loadedBlocks.length,
+        totalFiles: blockFiles.length,
+        cacheSize: blockCache.size,
+        totalSize: getCacheSize(),
+        loadTime: `${loadTime.toFixed(2)}ms`
+      });
+      
+      cacheInitialized = true;
+    } catch (error) {
+      logger.error('Failed to initialize block cache', { error: error.message, stack: error.stack });
+      throw error;
+    } finally {
+      initializationPromise = null;
+    }
+  })();
+  
+  return initializationPromise;
 }
 
-// Load a specific block (with caching)
+// Optimized block loading with better error handling
 export async function loadBlock(blockName) {
+  const startTime = performance.now();
+  
   if (!cacheInitialized) {
     await initializeBlockCache();
   }
@@ -62,24 +119,75 @@ export async function loadBlock(blockName) {
   if (cached) {
     // Check if cache is still valid
     if (Date.now() - cached.timestamp < CACHE_TTL) {
+      const duration = performance.now() - startTime;
+      logger.cacheOperation('get', blockName, true, duration, { size: cached.size });
       return cached.content;
     } else {
       // Cache expired, remove it
       blockCache.delete(blockName);
+      logger.debug('Cache entry expired', { blockName });
     }
   }
   
-  // Load from disk if not in cache
+  // Load from disk if not in cache - use more efficient path resolution
   try {
-    const blockFiles = await glob(`lib/**/${blockName}.txt`, { cwd: process.cwd() });
+    const pathResolutionStart = performance.now();
     
-    if (blockFiles.length === 0) {
-      throw new Error(`Block not found: ${blockName}`);
+    // Try common block directories first for faster lookup
+    const commonPaths = [
+      `lib/newsletter-blocks/block1/${blockName}.txt`,
+      `lib/newsletter-blocks/block2/${blockName}.txt`,
+      `lib/newsletter-blocks/block3/${blockName}.txt`,
+      `lib/product-blocks/block1/${blockName}.txt`,
+      `lib/product-blocks/block2/${blockName}.txt`,
+      `lib/product-blocks/block3/${blockName}.txt`,
+      `lib/promotion-blocks/block1/${blockName}.txt`,
+      `lib/promotion-blocks/block2/${blockName}.txt`,
+      `lib/promotion-blocks/block3/${blockName}.txt`,
+      `lib/abandoned-blocks/block1/${blockName}.txt`,
+      `lib/abandoned-blocks/block2/${blockName}.txt`,
+      `lib/abandoned-blocks/block3/${blockName}.txt`,
+      `lib/*/design-elements/${blockName}.txt`
+    ];
+    
+    let filePath = null;
+    for (const path of commonPaths) {
+      try {
+        await fs.access(path);
+        filePath = path;
+        break;
+      } catch {
+        // Continue to next path
+      }
     }
     
-    const filePath = blockFiles[0];
+    if (!filePath) {
+      // Fallback to glob if not found in common paths
+      const blockFiles = await glob(`lib/**/${blockName}.txt`, { 
+        cwd: process.cwd(),
+        maxDepth: 4
+      });
+      
+      if (blockFiles.length === 0) {
+        throw new Error(`Block not found: ${blockName}`);
+      }
+      
+      filePath = blockFiles[0];
+    }
+    
+    const pathResolutionDuration = performance.now() - pathResolutionStart;
+    logger.performance('Path resolution', pathResolutionDuration, { blockName, filePath });
+    
+    const fileReadStart = performance.now();
     const content = await fs.readFile(filePath, 'utf8');
     const fullPath = path.resolve(filePath);
+    const fileReadDuration = performance.now() - fileReadStart;
+    
+    logger.fileOperation('read', filePath, fileReadDuration, true, { 
+      blockName, 
+      size: content.length,
+      resolvedPath: fullPath 
+    });
     
     // Cache the block
     blockCache.set(blockName, {
@@ -89,9 +197,16 @@ export async function loadBlock(blockName) {
       size: content.length
     });
     
+    const totalDuration = performance.now() - startTime;
+    logger.cacheOperation('set', blockName, false, totalDuration, { size: content.length });
+    
     return content;
   } catch (error) {
-    console.error(`❌ Failed to load block ${blockName}:`, error.message);
+    const totalDuration = performance.now() - startTime;
+    logger.error(`Failed to load block ${blockName}`, { 
+      error: error.message, 
+      duration: totalDuration 
+    });
     throw error;
   }
 }
@@ -101,13 +216,17 @@ export function getCacheStats() {
   const totalSize = getCacheSize();
   const blockCount = blockCache.size;
   
-  return {
+  const stats = {
     blockCount,
     totalSize,
     cacheSizeMB: (totalSize / 1024 / 1024).toFixed(2),
     ttlMinutes: CACHE_TTL / (60 * 1000),
     initialized: cacheInitialized
   };
+  
+  logger.debug('Cache statistics', stats);
+  
+  return stats;
 }
 
 // Get total cache size in bytes
@@ -121,6 +240,7 @@ function getCacheSize() {
 
 // Clear expired entries
 export function cleanupCache() {
+  const startTime = performance.now();
   const now = Date.now();
   let cleaned = 0;
   
@@ -131,8 +251,14 @@ export function cleanupCache() {
     }
   }
   
+  const duration = performance.now() - startTime;
+  
   if (cleaned > 0) {
-    console.log(`🧹 Cache cleanup: removed ${cleaned} expired blocks`);
+    logger.info('Cache cleanup completed', { 
+      cleaned, 
+      remaining: blockCache.size,
+      duration: `${duration.toFixed(2)}ms`
+    });
   }
   
   return cleaned;
@@ -140,10 +266,15 @@ export function cleanupCache() {
 
 // Manual cache refresh
 export async function refreshCache() {
-  console.log('🔄 Refreshing block cache...');
+  logger.info('Starting manual cache refresh');
+  const startTime = performance.now();
+  
   blockCache.clear();
   cacheInitialized = false;
   await initializeBlockCache();
+  
+  const duration = performance.now() - startTime;
+  logger.info('Manual cache refresh completed', { duration: `${duration.toFixed(2)}ms` });
 }
 
 // Get list of all cached blocks

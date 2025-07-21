@@ -1,1 +1,10 @@
-<mj-section background-color="#241c23" padding="30px"> <mj-column> <mj-text align="center" font-size="30px" padding-bottom="15px" color="#ffffff"> Act soon — this item is limited in stock and in high demand. </mj-text> <mj-button href="https://example.com/cart" background-color="#ffffff" color="#241c23" font-size="16px" font-weight="bold" border-radius="4px" padding="15px 30px" > Return to My Cart </mj-button> </mj-column> </mj-section> 
+<mj-section background-color="#241c23" padding="30px">
+  <mj-column>
+    <mj-text align="center" font-size="30px" padding-bottom="15px" color="#ffffff">
+      Act soon — this item is limited in stock and in high demand.
+    </mj-text>
+    <mj-button href="https://example.com/cart" background-color="#ffffff" color="#241c23" font-size="16px" font-weight="bold" border-radius="4px" padding="15px 30px" >
+      Return to My Cart
+    </mj-button>
+  </mj-column>
+</mj-section>

@@ -1,1 +1,42 @@
- <!-- Block: Team Update Highlight --> <mj-section background-color="#ffffff" padding="40px 0px"> <mj-column> <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-> Welcoming New Talent </mj-text> <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line-> This month, we welcomed 5 new team members across engineering, design, and customer success. We’re thrilled to continue growing with such talented individuals. </mj-text> <mj-button href="https://example.com/team" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" align="center"> Meet the Team </mj-button> </mj-column> </mj-section> <!-- Block: Founder Message --> <mj-section background-color="#ffffff" padding="40px 0px"> <mj-column> <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-> From the Founder </mj-text> <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line-> “As we grow, staying true to our core values is more important than ever. We’re committed to transparency, progress, and impact — thank you for being on this journey with us.” </mj-text> <mj-text font-size="14px" color="#999999" align="center" padding="10px 20px 0" line-> — Alex Reynolds, CEO </mj-text> <mj-button href="https://example.com/vision" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" align="center"> Read Our Vision </mj-button> </mj-column> </mj-section> <!-- Block: Company Stats --> <mj-section background-color="#ffffff" padding="40px 0px"> <mj-column> <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line-> What We’ve Achieved This Quarter </mj-text> <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line-> • 28% increase in user engagement<br /> • 3 major platform updates shipped<br /> • Expanded operations into 2 new countries </mj-text> <mj-button href="https://example.com/stats" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" align="center"> View the Report </mj-button> </mj-column> </mj-section> 
+<mj-section background-color="#ffffff" padding="40px 0px">
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line->
+      Welcoming New Talent
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line->
+      This month, we welcomed 5 new team members across engineering, design, and customer success. We’re thrilled to continue growing with such talented individuals.
+    </mj-text>
+    <mj-button href="https://example.com/team" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" align="center">
+      Meet the Team
+    </mj-button>
+  </mj-column>
+</mj-section>
+<mj-section background-color="#ffffff" padding="40px 0px">
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line->
+      From the Founder
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line->
+      “As we grow, staying true to our core values is more important than ever. We’re committed to transparency, progress, and impact — thank you for being on this journey with us.”
+    </mj-text>
+    <mj-text font-size="14px" color="#999999" align="center" padding="10px 20px 0" line->
+      — Alex Reynolds, CEO
+    </mj-text>
+    <mj-button href="https://example.com/vision" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" align="center">
+      Read Our Vision
+    </mj-button>
+  </mj-column>
+</mj-section>
+<mj-section background-color="#ffffff" padding="40px 0px">
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" padding="0 20px 12px" color="#000000" align="center" line->
+      What We’ve Achieved This Quarter
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line->
+      • 28% increase in user engagement<br /> • 3 major platform updates shipped<br /> • Expanded operations into 2 new countries
+    </mj-text>
+    <mj-button href="https://example.com/stats" background-color="#007BFF" color="#ffffff" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px" align="center">
+      View the Report
+    </mj-button>
+  </mj-column>
+</mj-section>

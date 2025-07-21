@@ -1,1 +1,19 @@
-<!-- Blockfile: SplitProductBlock.txt --> <mj-section padding="0"> <!-- LEFT color block with product info --> <mj-column background-color="#111111" padding="30px" width="50%" vertical-align="middle" > <mj-text color="#ffffff" font-size="28px" font-weight="bold" align="left" padding="0 0 10px 0" line- > Product Name </mj-text> <mj-text color="#ffffff" font-size="20px" align="left" padding="0 0 10px 0" line- > $99.99 </mj-text> <mj-text color="#ffffff" font-size="16px" align="left" padding="0 0 20px 0" line- > This is a short description of the product highlighting key features and value. </mj-text> <mj-button background-color="#ffffff" color="#000000" href="https://your-product-link.com" padding="12px 24px" border-radius="4px" > View Product </mj-button> </mj-column> <!-- RIGHT product image centered --> <mj-column width="50%" vertical-align="middle" padding="0"> <mj-image src="https://placeholder-image.com/asdf.png" alt="Product Image" align="center" padding="0" /> </mj-column> </mj-section> <!-- End Blockfile: SplitProductBlock.txt --> 
+<mj-section padding="0">
+  <mj-column background-color="#111111" padding="30px" width="50%" vertical-align="middle" >
+    <mj-text color="#ffffff" font-size="28px" font-weight="bold" align="left" padding="0 0 10px 0" line- >
+      Product Name
+    </mj-text>
+    <mj-text color="#ffffff" font-size="20px" align="left" padding="0 0 10px 0" line- >
+      $99.99
+    </mj-text>
+    <mj-text color="#ffffff" font-size="16px" align="left" padding="0 0 20px 0" line- >
+      This is a short description of the product highlighting key features and value.
+    </mj-text>
+    <mj-button background-color="#ffffff" color="#000000" href="https://your-product-link.com" padding="12px 24px" border-radius="4px" >
+      View Product
+    </mj-button>
+  </mj-column>
+  <mj-column width="50%" vertical-align="middle" padding="0">
+    <mj-image src="https://placeholder-image.com/asdf.png" alt="Product Image" align="center" padding="0" href="[[store_url]]" />
+  </mj-column>
+</mj-section>
