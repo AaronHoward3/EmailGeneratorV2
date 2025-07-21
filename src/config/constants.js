@@ -1,6 +1,9 @@
 export const specializedAssistants = {
   Newsletter: {
-    Default: "asst_So4cxsaziuSI6hZYAT330j1u"
+    Default: "asst_So4cxsaziuSI6hZYAT330j1u",
+    minimal_clean: "asst_eTTf61YuIljqse55v4Sfre9O",
+    bold_contrasting: "asst_PtW2huAkuDjh4Fv2ab5Pg00z",
+    editorial_story: "asst_I6x7ygpURvP2IyuLtYrD7orG"
   },
   Productgrid: {
     Default: "asst_wpEAG1SSFXym8BLxqyzTPaVe"
@@ -43,6 +46,56 @@ export const BLOCK_DEFINITIONS = {
           "philosophy-outro.txt",
           "support-options.txt",
           "recap-summary.txt"
+        ]
+      }
+    },
+    minimal_clean: {
+      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+      blocks: {
+        intro: [
+          "heroMinimal_N1.txt",
+          "heroMinimal_N2.txt",
+          "heroMinimal_N3.txt",
+          "heroMinimal_N4.txt"
+        ],
+        utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        content1: [
+          "contentMinimal_N1.txt",
+          "contentMinimal_N2",
+          "contentMinimal_N3.txt",
+          "contentMinimal_N4.txt"
+        ],
+        utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        cta: [
+          "ctaMinimal_N1.txt",
+          "ctaMinimal_N2.txt",
+          "ctaMinimal_N3.txt",
+          "ctaMinimal_N4.txt"
+        ]
+      }
+    },
+    bold_contrasting: {
+      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+      blocks: {
+        intro: [
+          "heroBold_N1.txt",
+          "heroBold_N2.txt",
+          "heroBold_N3.txt",
+          "heroBold_N4.txt"
+        ],
+        utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        content1: [
+          "contentBold_N1.txt",
+          "contentBold_N2",
+          "contentBold_N3.txt",
+          "contentBold_N4.txt"
+        ],
+        utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        cta: [
+          "ctaBold_N1.txt",
+          "ctaBold_N2.txt",
+          "ctaBold_N3.txt",
+          "ctaBold_N4.txt"
         ]
       }
     }

@@ -1,5 +1,5 @@
 <mj-section
-  background-url="https://heroimage.png"
+  background-url="https://CUSTOMHEROIMAGE.COM"
   background-size="cover"
   background-repeat="no-repeat"
   css-class="bg-center"

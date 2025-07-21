@@ -1,0 +1,21 @@
+<mj-section background-color="#ffffff" padding="20px">
+  <mj-group>
+    <mj-column width="50%" class="split-col">
+      <mj-text font-size="16px" font-weight="bold" padding-bottom="6px">
+        Feature Drop: Instant Sync
+      </mj-text>
+      <mj-text color="#555555" padding-bottom="20px" line-height="1.6">
+        Keep everything in sync — automatically. Files, settings, and preferences now update across devices in real time.
+      </mj-text>
+    </mj-column>
+
+    <mj-column width="50%" class="split-col">
+      <mj-text font-size="16px" font-weight="bold" padding-bottom="6px">
+        New Series: Founder's Notes
+      </mj-text>
+      <mj-text color="#555555" padding-bottom="20px" line-height="1.6">
+        Our CEO shares reflections and behind-the-scenes stories from the past quarter. A personal lens into how we're evolving.
+      </mj-text>
+    </mj-column>
+  </mj-group>
+</mj-section>

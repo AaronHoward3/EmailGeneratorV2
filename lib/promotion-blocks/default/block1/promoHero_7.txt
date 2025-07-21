@@ -1,7 +1,7 @@
 <mj-section background-color="#ffffff" padding="0">
   <mj-column>
     <mj-image
-      src="https://via.placeholder.com/600x300"
+      src="https://CUSTOMHEROIMAGE.COM"
       alt="Summer Sale Banner"
       width="600px"
       padding="0"
