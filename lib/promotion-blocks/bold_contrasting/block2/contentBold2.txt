@@ -1,0 +1,24 @@
+<!-- Blockfile: contentBold_2.txt -->
+<mj-wrapper padding="0px" css-class="product-section">
+  <mj-section background-color="#F3F4F6" padding="60px 20px 0">
+    <mj-column>
+      <mj-divider border-width="2px" border-color="#D1D5DB" width="100px" padding-bottom="20px" />
+      <mj-text align="center" font-size="22px" font-weight="bold" color="#000000" padding-bottom="10px">Title</mj-text>
+      <mj-divider border-width="2px" border-color="#D1D5DB" width="100px" padding-top="20px" />
+    </mj-column>
+  </mj-section>
+  <mj-section background-color="#F3F4F6" padding="40px 20px 60px">
+    <mj-group>
+      <mj-column>
+        <mj-image src="https://via.placeholder.com/300x400" alt="Product A" padding="0px" />
+        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">Product A</mj-text>
+        <mj-button href="#" background-color="#000000" color="#ffffff">Buy Now</mj-button>
+      </mj-column>
+      <mj-column>
+        <mj-image src="https://via.placeholder.com/300x400" alt="Product B" padding="0px" />
+        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">Product B</mj-text>
+        <mj-button href="#" background-color="#000000" color="#ffffff">Buy Now</mj-button>
+      </mj-column>
+    </mj-group>
+  </mj-section>
+</mj-wrapper>

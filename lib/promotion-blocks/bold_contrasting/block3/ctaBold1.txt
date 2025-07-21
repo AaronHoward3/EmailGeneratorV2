@@ -1,0 +1,10 @@
+<!-- Blockfile: ctaBold_1.txt -->
+<mj-wrapper padding="0px" css-class="cta-section">
+  <mj-section background-color="#ffffff" padding="60px 20px">
+    <mj-column>
+      <mj-text align="center" font-size="24px" font-weight="bold" color="#000000" padding-bottom="10px">Only While Supplies Last</mj-text>
+      <mj-text align="center" color="#444444" padding-bottom="20px">Get yours before they’re gone. No restocks.</mj-text>
+      <mj-button href="#" background-color="#000000" color="#ffffff">Shop the Drop</mj-button>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

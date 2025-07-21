@@ -221,6 +221,8 @@ const assistantId =
   specializedAssistants[emailType]?.[designStyle] ||
   specializedAssistants[emailType]?.["Default"];
 
+  console.log("🧠 Using assistant ID:", assistantId, "for emailType:", emailType, "and designStyle:", designStyle);
+
 if (!assistantId || typeof assistantId !== "string") {
   return res.status(400).json({
     error: `No valid assistant found for emailType="${emailType}" and designStyle="${designStyle}"`,
@@ -242,6 +244,9 @@ if (!assistantId || typeof assistantId !== "string") {
 
         const layoutInstruction = `Use the following layout:\n${sectionDescriptions}\nYou may insert 1–3 utility blocks for spacing or visual design.`.trim();
         const safeUserContext = userContext?.trim().substring(0, 500) || "";
+        const placeholderNote = wantsCustomHero
+  ? 'The hero section MUST include an <mj-image> tag with src="https://CUSTOMHEROIMAGE.COM". This will be automatically replaced with the correct hero image. Do not use any other image URL.'
+  : '';
         const userInstructions = safeUserContext
           ? `\n📢 User Special Instructions:\n${userContext}\n`
           : "";
@@ -368,6 +373,11 @@ Do NOT change the layout of the template blocks provided except to update colors
 📌 IMPORTANT: Above every content section, include a comment marker that must be embeded in an mj-raw block:
 <!-- Blockfile: block-name.txt -->
 
+${placeholderNote}
+
+📌 IMPORTANT: Above every content section, include a comment marker that must be embeded in an mj-raw block:
+<!-- Blockfile: block-name.txt -->
+
 ${layoutInstruction}
 
 ${userInstructions}
@@ -475,26 +485,47 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
     }
 
     // Replace placeholder hero with the real hero image
-    let finalResults = results;
-    const fontHead = `
-      <mj-head>
-        <mj-attributes>
-          <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
-          <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
-        </mj-attributes>
-        <mj-style inline="inline">
-          @media only screen and (max-width:480px) {
-            .hero-headline {
-              font-size: 28px !important;
-              line-height: 1.2 !important;
-            }
-            .hero-subhead {
-              font-size: 16px !important;
-            }
+    let fontHead = `
+  <mj-head>
+    <mj-attributes>
+      <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
+      <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
+    </mj-attributes>
+    <mj-style inline="inline">
+      @media only screen and (max-width:480px) {
+        .hero-headline {
+          font-size: 28px !important;
+          line-height: 1.2 !important;
+        }
+        .hero-subhead {
+          font-size: 16px !important;
+        }
+      }
+    </mj-style>
+  </mj-head>
+`;
+
+if (req.body.designStyle === "editorial_story") {
+  fontHead = `
+    <mj-head>
+      <mj-attributes>
+        <mj-text font-family="Georgia, Times, 'Times New Roman', serif" />
+        <mj-button font-family="Georgia, Times, 'Times New Roman', serif" />
+      </mj-attributes>
+      <mj-style inline="inline">
+        @media only screen and (max-width:480px) {
+          .hero-headline {
+            font-size: 28px !important;
+            line-height: 1.2 !important;
           }
-        </mj-style>
-      </mj-head>
-    `;
+          .hero-subhead {
+            font-size: 16px !important;
+          }
+        }
+      </mj-style>
+    </mj-head>
+  `;
+}
 
     // Process all emails to add font block, header image, and footer
     (storedMjmls || []).forEach((mjml, index) => {
@@ -530,6 +561,12 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
             /src="https:\/\/CUSTOMHEROIMAGE\.COM"/g,
             `src="${finalBrandData.hero_image_url}"`
           );
+
+          // Replace in background-url too
+updated = updated.replace(
+  /background-url="https:\/\/CUSTOMHEROIMAGE\.COM"/g,
+  `background-url="${finalBrandData.hero_image_url}"`
+);
           
           // Also replace other common placeholder patterns
           updated = updated.replace(
@@ -576,7 +613,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType }, null, 2)}`.trim();
 
     // Update finalResults with processed MJMLs
     const patchedMjmls = getMJML(jobId) || [];
-    finalResults = results.map((result, index) => {
+    const finalResults = results.map((result, index) => {
       if (result.content && patchedMjmls[index]) {
         return {
           ...result,

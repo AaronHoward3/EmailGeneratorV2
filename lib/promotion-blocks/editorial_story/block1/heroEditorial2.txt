@@ -1,0 +1,11 @@
+
+    <!-- 🟦 HERO SECTION – overlay text -->
+    <mj-wrapper padding="0px">
+      <mj-section background-url="https://CUSTOMHEROIMAGE.COM" background-size="cover" background-repeat="no-repeat" background-position="center center" padding="80px 20px">
+        <mj-column>
+          <mj-text align="center" font-size="28px" font-weight="bold" color="#ffffff" padding="10px 20px" background-color="rgba(0, 0, 0, 0.4)" border-radius="8px">
+            Season of Subtle Statements
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>

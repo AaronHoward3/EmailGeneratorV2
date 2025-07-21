@@ -10,7 +10,9 @@ export const specializedAssistants = {
   },
   Promotion: {
     Default: "asst_Kr6Sc01OP5oJgwIXQgV7qb2k",
-    Minimal: "asst_j3yGRDTKiLs9q5SBEYE4Xl3w"
+    minimal_clean: "asst_j3yGRDTKiLs9q5SBEYE4Xl3w",
+    editorial_story: "asst_9U2VdPdyciv7T18958UOqZHi",
+    bold_contrasting: "asst_K6W7d5i1f7GEcCagXEpxaFp5"
   }
 };
 
@@ -110,6 +112,56 @@ export const BLOCK_DEFINITIONS = {
           "ctaBlock_5.txt",
           "ctaBlock_6.txt",
           "ctaBlock_7.txt"
+        ]
+      }
+    },
+    bold_contrasting: {
+      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+      blocks: {
+        intro: [
+          "heroBold1.txt",
+          "heroBold2.txt",
+          "heroBold3.txt",
+          "heroBold4.txt"
+        ],
+        utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        content1: [
+          "contentBold1.txt",
+          "contentBold2.txt",
+          "contentBold3.txt",
+          "contentBold4.txt"
+        ],
+        utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        cta: [
+          "ctaBold1.txt",
+          "ctaBold2.txt",
+          "ctaBold3.txt",
+          "ctaBold4.txt"
+        ]
+      }
+    },
+    editorial_story: {
+      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+      blocks: {
+        intro: [
+          "heroEditorial1.txt",
+          "heroEditorial2.txt",
+          "heroEditorial3.txt",
+          "heroEditorial4.txt"
+        ],
+        utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        content1: [
+          "contentEditorial1.txt",
+          "contentEditorial2.txt",
+          "contentEditorial3.txt",
+          "contentEditorial4.txt"
+        ],
+        utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        cta: [
+          "ctaEditorial1.txt",
+          "ctaEditorial2.txt",
+          "ctaEditorial3.txt",
+          "ctaEditorial4.txt"
         ]
       }
     },

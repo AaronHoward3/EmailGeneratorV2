@@ -4,7 +4,7 @@
     <mj-column>
       <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px">Final Call</mj-text>
       <mj-text align="center" padding-bottom="20px">Don’t wait! Limited quantities available.</mj-text>
-      <mj-button href="#" align="center" background-color="#10B981">Shop Now</mj-button>
+      <mj-button href="#" align="center" background-color="#000000">Shop Now</mj-button>
     </mj-column>
   </mj-section>
 </mj-wrapper>

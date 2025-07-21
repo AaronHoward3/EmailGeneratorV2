@@ -1,0 +1,16 @@
+<!-- Blockfile: heroBold_2.txt -->
+<mj-wrapper padding="0px" css-class="hero-section">
+  <mj-section background-color="#000000" padding="40px 20px 40px">
+    <mj-column>
+      <mj-divider border-width="2px" border-color="#ffffff" width="100px" padding-bottom="20px" />
+      <mj-text align="center" font-size="38px" font-weight="bold" color="#ffffff" padding-bottom="10px">LIMITED EDITION</mj-text>
+      <mj-text align="center" font-size="18px" color="#cccccc" padding-bottom="20px">Designed to disrupt. Made to move.</mj-text>
+      <mj-divider border-width="2px" border-color="#ffffff" width="100px" padding-top="20px" />
+    </mj-column>
+  </mj-section>
+  <mj-section padding="0">
+    <mj-column>
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Visual" padding="0px" />
+    </mj-column>
+  </mj-section>
+</mj-wrapper>
