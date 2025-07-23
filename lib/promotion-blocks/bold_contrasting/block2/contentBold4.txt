@@ -1,0 +1,45 @@
+<!-- Blockfile: contentBold_4.txt -->
+<mj-wrapper padding="0px" css-class="product-section">
+  <!-- Section Title -->
+  <mj-section background-color="#000000" padding="40px 20px 40px">
+    <mj-divider border-width="2px" border-color="#ffffff" width="100px" padding-bottom="20px" />
+    <mj-column>
+      <mj-text align="center" font-size="24px" font-weight="bold" color="#ffffff">This Drop Won’t Wait</mj-text>
+    </mj-column>
+    <mj-divider border-width="2px" border-color="#ffffff" width="100px" padding-bottom="20px" />
+  </mj-section>
+
+  <!-- Product 1 -->
+  <mj-section background-url="https://via.placeholder.com/600x600" background-size="cover" background-repeat="no-repeat" background-position="center center" padding="0" height="600px">
+    <mj-column vertical-align="middle">
+      <mj-text
+        align="center"
+        font-size="22px"
+        font-weight="bold"
+        color="#ffffff"
+        padding="30px 20px"
+        background-color="rgba(0,0,0,0.55)"
+      >
+        Product One<br/><br/>
+        <a href="#" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Buy Now</a>
+      </mj-text>
+    </mj-column>
+  </mj-section>
+
+  <!-- Product 2 -->
+  <mj-section background-url="https://via.placeholder.com/600x600/111111/ffffff" background-size="cover" background-repeat="no-repeat" background-position="center center" padding="0" height="600px">
+    <mj-column vertical-align="middle">
+      <mj-text
+        align="center"
+        font-size="22px"
+        font-weight="bold"
+        color="#ffffff"
+        padding="30px 20px"
+        background-color="rgba(0,0,0,0.55)"
+      >
+        Product Two<br/><br/>
+        <a href="#" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Buy Now</a>
+      </mj-text>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

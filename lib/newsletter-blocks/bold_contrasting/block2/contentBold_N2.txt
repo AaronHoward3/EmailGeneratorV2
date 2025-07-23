@@ -1,0 +1,26 @@
+<mj-section background-color="#ffffff" padding="40px 20px">
+  <mj-group>
+
+    <!-- Left: Text -->
+    <mj-column width="60%">
+      <mj-text font-size="16px" font-weight="bold" padding-bottom="6px">
+        Feature in Focus: Priority Feed
+      </mj-text>
+      <mj-text color="#555555" line-height="1.6">
+        See what matters first. Our new feed algorithm surfaces updates based on relevance and urgency — not just recency.
+      </mj-text>
+      <mj-text font-size="16px" font-weight="bold" padding-top="20px" padding-bottom="6px">
+        Creator Tools Revamped
+      </mj-text>
+      <mj-text color="#555555" line-height="1.6">
+        New publishing tools help you move faster and create cleaner layouts with fewer clicks.
+      </mj-text>
+    </mj-column>
+
+    <!-- Right: Stat Visual -->
+    <mj-column width="40%">
+      <mj-image src="https://via.placeholder.com/200x200?text=+75%25+Engagement" alt="Stat Graphic" padding="10px" />
+    </mj-column>
+
+  </mj-group>
+</mj-section>

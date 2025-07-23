@@ -2,7 +2,7 @@
 <mj-section padding="0">
   <mj-column>
     <mj-image
-      src="https://sb-hero-images.s3.us-east-1.amazonaws.com/hero_images/123/hero-wt0x4q16l7galzgevix4aj.png"
+      src="https://CUSTOMHEROIMAGE.COM"
       alt="Promotional Banner"
       width="600px"
       padding="0"

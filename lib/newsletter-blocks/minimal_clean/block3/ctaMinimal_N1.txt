@@ -1,0 +1,7 @@
+<mj-section background-color="#ffffff" padding="30px 20px 40px">
+  <mj-column>
+    <mj-button href="#" align="center">
+      Dive into the Details
+    </mj-button>
+  </mj-column>
+</mj-section>

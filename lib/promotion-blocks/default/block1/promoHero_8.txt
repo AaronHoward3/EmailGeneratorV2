@@ -9,7 +9,7 @@
         margin: 0 auto;
       ">
         <img
-          src="https://sb-hero-images.s3.us-east-1.amazonaws.com/hero_images/123/hero-u0hxahel5ddq2284zemyxm.png"
+          src="https://CUSTOMHEROIMAGE.COM"
           alt="Hero Promo"
           style="width: 100%; height: auto; display: block;"
         />

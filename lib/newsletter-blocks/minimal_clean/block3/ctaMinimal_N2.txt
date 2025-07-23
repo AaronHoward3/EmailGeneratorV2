@@ -1,0 +1,17 @@
+<mj-section background-color="#ffffff" padding="20px 30px 40px">
+  <mj-group>
+    <mj-column width="66%">
+      <mj-text font-size="16px" font-weight="bold" color="#111111" padding-bottom="4px">
+        Dive Deeper Into These Topics
+      </mj-text>
+      <mj-text color="#555555">
+        Our full articles and release notes give you all the details — explore them now.
+      </mj-text>
+    </mj-column>
+    <mj-column width="33%" vertical-align="middle">
+      <mj-button href="#" padding="10px 0">
+        Read More
+      </mj-button>
+    </mj-column>
+  </mj-group>
+</mj-section>
