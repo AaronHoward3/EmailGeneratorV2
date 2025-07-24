@@ -1,0 +1,33 @@
+<!-- Blockfile: PromoHeaderHero.txt -->
+<mj-section padding="0">
+  <mj-column>
+    <mj-image
+      src="https://CUSTOMHEROIMAGE.COM"
+      alt="Promotional Banner"
+      width="600px"
+      padding="0"
+    />
+    <!-- divider for spacing -->
+    <mj-divider padding="30" border-color="#111111" border-width="2px" />
+    <mj-text
+      font-size="28px"
+      font-weight="bold"
+      align="center"
+      padding="20px 40px 10px"
+      line-height="1"
+      color="#111111"
+    >
+      Special Offer Just for You!
+    </mj-text>
+    <mj-text
+      font-size="18px"
+      color="#111111"
+      align="center"
+      padding="0 40px 20px"
+      line-height="1.5"
+    >
+      Discover exclusive savings for a limited time.
+    </mj-text>
+  </mj-column>
+</mj-section>
+<!-- End Blockfile: PromoHeaderHero.txt -->

@@ -1,0 +1,20 @@
+<mj-section
+  background-url="https://CUSTOMHEROIMAGE.COM"
+  background-size="cover"
+  background-repeat="no-repeat"
+  css-class="bg-center"
+  padding="40"
+  height="400px"
+>
+  <mj-column background-color="rgba(0,0,0,0.4)" padding="40px" vertical-align="middle">
+    <mj-text align="center" color="#ffffff" font-size="40px" font-weight="bold">
+      The Sale Starts Now
+    </mj-text>
+    <mj-text align="center" color="#ffffff" font-size="16px" padding="10px 25px">
+      Everything you need to upgrade your wardrobe.
+    </mj-text>
+    <mj-button background-color="#ffffff" color="#000000" align="center">
+      Browse Collection
+    </mj-button>
+  </mj-column>
+</mj-section>

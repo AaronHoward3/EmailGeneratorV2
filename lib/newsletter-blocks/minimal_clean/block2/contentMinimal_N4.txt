@@ -1,0 +1,30 @@
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column>
+
+    <mj-text align="center" font-size="16px" font-weight="bold" padding-bottom="6px">
+      Easier Navigation, Everywhere
+    </mj-text>
+    <mj-text align="center" color="#555555" padding-bottom="20px" line-height="1.6">
+      Our new layout adapts to how you work. Whether you're on desktop or mobile, it’s easier to find what matters.
+    </mj-text>
+
+    <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0" />
+
+    <mj-text align="center" font-size="16px" font-weight="bold" padding-bottom="6px">
+      Smarter Notifications
+    </mj-text>
+    <mj-text align="center" color="#555555" padding-bottom="20px" line-height="1.6">
+      We've rolled out an improved system that keeps you informed without interrupting your flow.
+    </mj-text>
+
+    <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0" />
+
+    <mj-text align="center" font-size="16px" font-weight="bold" padding-bottom="6px">
+      Fresh Insights Each Week
+    </mj-text>
+    <mj-text align="center" color="#555555" line-height="1.6">
+      Our new content series brings curated perspectives from industry experts directly to your inbox.
+    </mj-text>
+
+  </mj-column>
+</mj-section>

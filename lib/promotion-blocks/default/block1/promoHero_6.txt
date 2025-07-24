@@ -1,0 +1,31 @@
+<!-- Blockfile: BoldHeaderHero.txt -->
+<mj-section background-color="#ffffff" padding="0">
+  <mj-column>
+    <mj-image
+      src="https://CUSTOMHEROIMAGE.COM"
+      alt="Adventure Promo"
+      width="600px"
+      padding="0"
+    ></mj-image>
+  </mj-column>
+</mj-section>
+<mj-section background-color="#111111" padding="40px 0">
+  <mj-column>
+    <!-- divider line above the text -->
+    <mj-divider padding="0 40px" border-color="#ffffff" border-width="2px" />
+    <mj-text
+      font-size="36px"
+      font-weight="bold"
+      color="#ffffff"
+      align="center"
+      padding="20px 50px 10px"
+      background-color="#222222"
+      line-height="1.3"
+    >
+      Your Next Adventure Starts Now
+    </mj-text>
+    <!-- divider line below the text -->
+    <mj-divider padding="0 40px" border-color="#ffffff" border-width="2px" />
+  </mj-column>
+</mj-section>
+<!-- End Blockfile: BoldHeaderHero.txt -->

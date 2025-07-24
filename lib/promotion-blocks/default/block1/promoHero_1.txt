@@ -1,0 +1,20 @@
+<mj-section
+  background-url="https://CUSTOMHEROIMAGE.COM"
+  background-size="cover"
+  background-repeat="no-repeat"
+  css-class="bg-center"
+  padding="100px"
+  height="600px"
+>
+  <mj-column vertical-align="middle">
+    <mj-text align="center" font-size="14px" color="#ffffff" font-weight="bold" padding-bottom="0px" background-color="rgba(0,0,0,0.5)">
+      NEW ARRIVAL
+    </mj-text>
+    <mj-text align="center" font-size="28px" font-weight="bold" color="#ffffff" padding="10px 25px" background-color="rgba(0,0,0,0.5)">
+      Discover the Look of the Season
+    </mj-text>
+    <mj-button align="center" background-color="#ffffff" color="#000000" padding="20px">
+      Shop Now
+    </mj-button>
+  </mj-column>
+</mj-section>

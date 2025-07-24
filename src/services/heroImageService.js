@@ -10,52 +10,58 @@ const openai = new OpenAI({
 });
 
 export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
-  // Use storeId directly, with fallback to store_name if not provided
-  // Convert storeId to string if it's a number
   let storeSlug = storeId
     ? String(storeId)
-    : brandData.store_name?.toLowerCase().replace(/\s+/g, "-") ||
-      "custom-brand";
+    : brandData.store_name?.toLowerCase().replace(/\s+/g, "-") || "custom-brand";
 
-  // Clean up the slug to prevent issues
-  storeSlug = storeSlug
-    .replace(/[^a-z0-9-]/g, "")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
+  storeSlug = storeSlug.replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
 
   console.log(`🖼️ Starting hero image generation for job ${jobId}`);
 
   try {
-    // Step 1: Generate image prompt from assistant
+    // Step 1: Generate prompt using assistant
     const thread = await openai.beta.threads.create();
+
+    const seedContext = `
+You are a creative visual assistant that generates powerful, specific, photographic image prompts for ecommerce brands.
+
+Your job is to craft a single prompt for generating a lifestyle-themed hero image for a promotional email.
+
+Use all available brand data and user instructions below to write the image prompt.
+
+RULES:
+- Your response must ONLY be the raw prompt text (no explanation, no formatting).
+- Do NOT include JSON, markdown, headings, or code blocks.
+- Use a cinematic, photographic tone in your prompt (not descriptive sentences).
+
+--- BRAND DATA ---
+${JSON.stringify(brandData, null, 2)}
+
+--- USER INSTRUCTIONS ---
+${brandData.imageContext || "None"}
+`;
+
     await openai.beta.threads.messages.create(thread.id, {
       role: "user",
-      content: JSON.stringify(brandData),
+      content: seedContext,
     });
 
     const run = await openai.beta.threads.runs.create(thread.id, {
       assistant_id: "asst_UwEhWG62uCnBiFijrH2ZzVdd",
     });
 
-    // Step 2: Wait for run completion with timeout
+    // Step 2: Wait for assistant to finish
     const maxWaitTime = TIMEOUTS.HERO_GENERATION;
- // 60 seconds
     const startTime = Date.now();
     let runStatus;
 
     while (Date.now() - startTime < maxWaitTime) {
       runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
 
-      if (runStatus.status === "completed") {
-        break;
-      }
+      if (runStatus.status === "completed") break;
 
       if (runStatus.status === "failed") {
-        throw new Error(
-          `Assistant run failed: ${
-            runStatus.last_error?.message || "Unknown error"
-          }`
-        );
+        throw new Error(`Assistant run failed: ${runStatus.last_error?.message || "Unknown error"}`);
       }
 
       if (runStatus.status === "expired") {
@@ -66,23 +72,21 @@ export async function generateCustomHeroAndEnrich(brandData, storeId, jobId) {
         throw new Error("Assistant run was cancelled");
       }
 
-      // Wait before checking again
       await new Promise((r) => setTimeout(r, 1000));
     }
 
     if (runStatus.status !== "completed") {
-      throw new Error(
-        `Assistant run timed out after ${maxWaitTime / 1000} seconds. Status: ${
-          runStatus.status
-        }`
-      );
+      throw new Error(`Assistant run timed out after ${maxWaitTime / 1000} seconds. Status: ${runStatus.status}`);
     }
 
-const messages = await openai.beta.threads.messages.list(thread.id);
-const promptText = messages.data[0].content[0].text.value;
+    // Step 3: Get the image prompt text
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    const promptText = messages.data[0].content[0].text.value.trim();
 
-// enforce: lifestyle focus, no text or product labels
-const finalPrompt = `
+    console.log("📤 Generated image prompt:", promptText);
+
+    // Step 4: Apply hardcoded safe image rules
+    const finalPrompt = `
 ${promptText}
 
 CRITICAL IMAGE REQUIREMENTS:
@@ -97,56 +101,38 @@ CRITICAL IMAGE REQUIREMENTS:
 - Avoid any commercial or promotional elements
 `.trim();
 
-// Step 3: Generate image
-const imageResponse = await openai.images.generate({
-  model: "gpt-image-1",
-  prompt: finalPrompt,
-  n: 1,
-  output_format: "png",
-  size: "1024x1536",
-  quality: "high",
-});
+    // Step 5: Generate image
+    const imageResponse = await openai.images.generate({
+      model: "gpt-image-1",
+      prompt: finalPrompt,
+      n: 1,
+      output_format: "png",
+      size: "1024x1536",
+      quality: "high",
+    });
 
     const imageBase64 = imageResponse.data[0].b64_json;
     const imageBuffer = Buffer.from(imageBase64, "base64");
 
     console.log(`🖼️ Generated image for job ${jobId}`);
 
-    // Step 4: Upload using abstraction with hash-based filename generation
-    // Generate a random hash instead of using timestamp to avoid duplication issues
+    // Step 6: Upload to S3 or Supabase
     const randomHash =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
 
-    // Generate a more robust filename with validation
-    const sanitizedStoreSlug = storeSlug
-      .replace(/[^a-z0-9-]/g, "")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "");
-
-    // Use hash-based filename generation
     const filename = `hero-${randomHash}.png`;
 
-    const publicUrl = await uploadImage(
-      imageBuffer,
-      filename,
-      sanitizedStoreSlug
-    );
+    const publicUrl = await uploadImage(imageBuffer, filename, storeSlug);
 
-    // Step 5: Enrich brandData inline - FIXED: Set both fields
-    const reordered = {
-      ...brandData, // Copy all existing properties first
+    // Step 7: Return enriched brandData with hero image URLs
+    return {
+      ...brandData,
       primary_custom_hero_image_banner: publicUrl,
-      hero_image_url: publicUrl, // Override/set both hero image fields
+      hero_image_url: publicUrl,
     };
-
-    return reordered;
   } catch (error) {
-    console.error(
-      `❌ Hero image generation failed for job ${jobId}:`,
-      error.message
-    );
-    // Return original brandData on error so the process can continue
+    console.error(`❌ Hero image generation failed for job ${jobId}:`, error.message);
     return brandData;
   }
 }

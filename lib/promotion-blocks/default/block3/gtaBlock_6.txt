@@ -1,0 +1,20 @@
+<!-- Block: Large CTA Section -->
+<mj-section background-color="#007BFF" padding="50px 0">
+  <mj-column>
+    <mj-button
+      href="https://example.com"
+      background-color="#ffffff"
+      color="#007BFF"
+      font-size="25px"
+      font-weight="bold"
+      inner-padding="15px 30px"
+      border-radius="6px"
+      align="center"
+    >
+      Explore the Collection
+    </mj-button>
+    <mj-text font-size="14px" color="#ffffff" align="center" padding="20px 20px 0">
+      Offer valid this week only. Terms apply.
+    </mj-text>
+  </mj-column>
+</mj-section>

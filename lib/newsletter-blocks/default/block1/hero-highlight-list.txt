@@ -1,0 +1,13 @@
+<mj-section background-color="#ffffff" padding="0">
+  <mj-column>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Monthly Highlights" width="600px" padding="0" href="[[store_url]]"></mj-image>
+    <mj-divider width="80%" border-color="#cccccc" border-width="2px" padding="24px 0px" />
+    <mj-text align="center" font-size="28px" font-weight="bold" padding="16px 20px 12px" color="#000000" line- >
+      What’s New This Month
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0px 20px" line- >
+      • New feature rollout<br/> • Major performance improvements<br/> • Team spotlight: Meet our new engineer!<br/> • Surprise gift for top subscribers
+    </mj-text>
+    <mj-divider width="80%" border-color="#cccccc" border-width="2px" padding="24px 0 32px" />
+  </mj-column>
+</mj-section>

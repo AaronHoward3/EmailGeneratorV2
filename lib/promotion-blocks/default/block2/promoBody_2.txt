@@ -1,0 +1,14 @@
+<mj-section padding="40px 0" background-color="#ffffff">
+  <mj-column width="80%" background-color="#f8f8f8" border-radius="8px" padding="40px">
+    <mj-text font-size="24px" font-weight="bold" align="center" padding="0 0 10px" color="#333333">
+      Simple & Elegant
+    </mj-text>
+    <mj-text font-size="16px" align="center" padding="0 0 20px" color="#666666">
+      Our minimalist collection focuses on quality materials and timeless design.
+    </mj-text>
+    <mj-image src="https://via.placeholder.com/400x200" alt="Minimalist Design" padding="0 0 20px"></mj-image>
+    <mj-button href="https://example.com/minimalist" background-color="#333333" color="#ffffff" padding="12px 30px" align="center">
+      Discover Minimalism
+    </mj-button>
+  </mj-column>
+</mj-section>

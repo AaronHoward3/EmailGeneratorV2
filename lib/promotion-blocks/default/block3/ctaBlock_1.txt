@@ -1,0 +1,13 @@
+<mj-section padding="0" background-url="https://via.placeholder.com/1200x500" background-size="cover" background-repeat="no-repeat" background-position="center center">
+  <mj-column padding="80px 20px" background-color="rgba(0,0,0,0.5)">
+    <mj-text align="center" font-size="32px" color="#ffffff" font-weight="bold" padding-bottom="12px">
+      Step Into the Future of Style
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#eeeeee" padding-bottom="20px">
+      Our new capsule is here. Designed for movement. Made for impact.
+    </mj-text>
+    <mj-button align="center" background-color="#ffffff" color="#000000" border-radius="4px" padding="14px 28px">
+      Discover Now
+    </mj-button>
+  </mj-column>
+</mj-section>

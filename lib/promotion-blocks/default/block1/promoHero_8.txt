@@ -1,0 +1,53 @@
+<!-- Blockfile: HeroOverlayBlock.txt -->
+<mj-section padding="0">
+  <mj-column padding="0">
+    <mj-raw>
+      <div style="
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      ">
+        <img
+          src="https://CUSTOMHEROIMAGE.COM"
+          alt="Hero Promo"
+          style="width: 100%; height: auto; display: block;"
+        />
+        <div style="
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          color: #ffffff;
+          text-align: center;
+          font-family: Helvetica, Arial, sans-serif;
+          width: 100%;
+          padding: 0 20px;
+        ">
+          <div style="
+            max-width: 500px;
+            margin: 0 auto;
+          ">
+            <div style="
+              font-size: 50px;
+              font-weight: bold;
+              line-height: 1.2;
+              margin: 0;
+            ">
+              Your Headline Text Here
+            </div>
+            <div style="
+              font-size: 20px;
+              margin-top: 10px;
+              line-height: 1.4;
+              margin: 0;
+            ">
+              Your Subheadline Text Here
+            </div>
+          </div>
+        </div>
+      </div>
+    </mj-raw>
+  </mj-column>
+</mj-section>
+<!-- End Blockfile: HeroOverlayBlock.txt -->

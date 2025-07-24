@@ -1,0 +1,29 @@
+    <!-- 🟧 PRODUCT SECTION – more text, soft color -->
+    <mj-wrapper padding="0px">
+      <mj-section background-color="#f1f1f1" padding="50px 20px 30px">
+        <mj-column>
+          <mj-text font-size="18px" font-weight="bold" color="#111111" padding-bottom="10px">Behind the Design</mj-text>
+          <mj-text color="#555555" padding-bottom="30px">
+            In this edit, fabric takes center stage. Each piece is chosen not only for its drape, but the feeling it gives you the moment you wear it.
+          </mj-text>
+
+          <!-- Product 1 -->
+          <mj-image src="https://via.placeholder.com/600x400" alt="Product 1" padding="0px" border-radius="8px"></mj-image>
+          <mj-text font-size="16px" font-weight="bold" padding-top="12px" padding-bottom="5px">Structured Knit Polo</mj-text>
+          <mj-text color="#777777" padding-bottom="15px">$105.00 USD</mj-text>
+          <mj-text color="#555555" padding-bottom="30px">
+            A structured silhouette with breathable knit. Tailored for ease, polished for presence.
+          </mj-text>
+
+          <!-- Product 2 -->
+          <mj-image src="https://via.placeholder.com/600x400/eeeeee/222222" alt="Product 2" padding="0px" border-radius="8px"></mj-image>
+          <mj-text font-size="16px" font-weight="bold" padding-top="12px" padding-bottom="5px">Stonewashed Wide Trouser</mj-text>
+          <mj-text color="#777777" padding-bottom="15px">$135.00 USD</mj-text>
+          <mj-text color="#555555" padding-bottom="30px">
+            The foundation of the modern uniform — relaxed cut, soft stone finish, timeless appeal.
+          </mj-text>
+
+          <mj-button href="#" background-color="#000000" color="#ffffff" align="left">Shop This Editorial</mj-button>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>

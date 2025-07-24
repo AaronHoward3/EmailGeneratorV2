@@ -1,0 +1,19 @@
+<mj-section>
+  <mj-column width="50%">
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Promotion" padding="0px"></mj-image>
+  </mj-column>
+  <mj-column width="50%" padding="20px">
+    <mj-text font-size="12px" color="#888888" font-weight="bold">
+      LIMITED TIME ONLY
+    </mj-text>
+    <mj-text font-size="26px" font-weight="bold" padding-bottom="10px">
+      Up to 40% Off Sitewide
+    </mj-text>
+    <mj-text font-size="16px" padding-bottom="20px">
+      Style, savings, and everything in between—don't miss this exclusive offer.
+    </mj-text>
+    <mj-button background-color="#000000" color="#ffffff">
+      Explore Deals
+    </mj-button>
+  </mj-column>
+</mj-section>

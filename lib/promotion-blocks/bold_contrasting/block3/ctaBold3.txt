@@ -1,0 +1,15 @@
+<!-- Blockfile: ctaBold_3.txt -->
+<mj-wrapper padding="0px" css-class="cta-section">
+  <mj-section padding="0">
+    <mj-column>
+      <mj-image src="https://via.placeholder.com/600x300" alt="Final CTA Visual" padding="0px"></mj-image>
+    </mj-column>
+  </mj-section>
+  <mj-section background-color="#111111" padding="50px 20px">
+    <mj-column>
+      <mj-text align="center" font-size="22px" font-weight="bold" color="#ffffff" padding-bottom="10px">ACT FAST</mj-text>
+      <mj-text align="center" font-size="16px" color="#cccccc" padding-bottom="20px">Once it’s gone, it’s gone.</mj-text>
+      <mj-button href="#" background-color="#ffffff" color="#000000">Get Yours</mj-button>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

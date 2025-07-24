@@ -1,0 +1,9 @@
+<!-- Blockfile: heroBold_1.txt -->
+<mj-wrapper padding="0px" css-class="hero-section">
+  <mj-section background-url="https://CUSTOMHEROIMAGE.COM" background-size="cover" background-repeat="no-repeat" background-position="center center" padding="100px 20px">
+    <mj-column>
+      <mj-text align="center" font-size="36px" font-weight="bold" color="#ffffff" padding-bottom="10px">DROP JUST LANDED</mj-text>
+      <mj-text align="center" font-size="18px" color="#ffffff">Your exclusive first look starts now.</mj-text>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

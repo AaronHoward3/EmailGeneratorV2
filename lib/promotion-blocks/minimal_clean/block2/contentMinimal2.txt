@@ -1,0 +1,19 @@
+<!-- Blockfile: contentMinimal_2.txt -->
+<mj-wrapper padding="0px" background-color="#E5E7EB" css-class="product-section">
+  <mj-section padding="40px 20px">
+    <mj-column>
+      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="bold" padding-top="10px">Product Name</mj-text>
+      <mj-text>$99.99</mj-text>
+      <mj-button href="#">Add to Cart</mj-button>
+    </mj-column>
+  </mj-section>
+  <mj-section padding="40px 20px">
+    <mj-column>
+      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="bold" padding-top="10px">Product Name</mj-text>
+      <mj-text>$79.99</mj-text>
+      <mj-button href="#">Add to Cart</mj-button>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

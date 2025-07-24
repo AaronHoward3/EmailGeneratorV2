@@ -1,0 +1,15 @@
+<mj-section background-color="#ffffff" padding="0px">
+  <mj-group>
+    <mj-column width="50%">
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Visual" padding="0px" border-radius="0px"></mj-image>
+    </mj-column>
+    <mj-column width="50%" padding="30px 20px">
+      <mj-text font-size="24px" font-weight="bold" color="#111111" class="headline" padding-bottom="10px">
+        Inside This Issue
+      </mj-text>
+      <mj-text font-size="15px" color="#555555" line-height="1.6">
+        Discover what’s new, what’s coming, and what we’re excited about — all packed into this month’s roundup.
+      </mj-text>
+    </mj-column>
+  </mj-group>
+</mj-section>

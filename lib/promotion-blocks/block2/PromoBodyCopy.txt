@@ -1,6 +1,6 @@
 <mj-section background-color="#f9f9f9" padding="40px 0px">
   <mj-column>
-    <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="Featured Product" padding="0px 20px" width="100%" align="center" href="[[store_url]]" />
+    <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="Featured Product" padding="0px 20px" width="100%" align="center" href="[[store_url]]"></mj-image>
     <mj-text font-size="14px" color="#555555" align="center" padding="10px 20px 20px" >
       Featured Product Name
     </mj-text>

@@ -1,0 +1,14 @@
+<!-- Blockfile: heroEditorial_4.txt -->
+<mj-wrapper padding="0px">
+  <mj-section background-color="#f4f1ec" padding="40px 20px 10px">
+    <mj-column>
+      <mj-text font-size="13px" color="#999999" padding-bottom="8px" text-transform="uppercase" letter-spacing="1px">01 / Collection Feature</mj-text>
+      <mj-text font-size="30px" font-weight="bold" color="#000000" padding-bottom="16px">The Texture Issue</mj-text>
+      <mj-divider border-width="1px" border-color="#cccccc" width="40px" padding="8px 0" />
+      <mj-text color="#444444" padding-bottom="20px">
+        Touch is the first language. From brushed wool to liquid silk, this is a conversation in feel.
+      </mj-text>
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Editorial Spread" padding="0px" border-radius="10px"></mj-image>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

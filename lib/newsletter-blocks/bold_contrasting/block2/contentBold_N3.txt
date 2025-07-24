@@ -1,0 +1,35 @@
+<!-- Stack Block 1 -->
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
+      New Navigation
+    </mj-text>
+    <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
+      Get where you're going faster, with fewer clicks.
+    </mj-text>
+  </mj-column>
+</mj-section>
+
+<!-- Stack Block 2 -->
+<mj-section background-color="#eaeaea" padding="30px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
+      Smart Stats
+    </mj-text>
+    <mj-text align="center" font-size="15px" color="#555555" class="stack-sub">
+      Your dashboard now tells you what matters — instantly.
+    </mj-text>
+  </mj-column>
+</mj-section>
+
+<!-- Stack Block 3 -->
+<mj-section background-color="#ffffff" padding="30px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
+      Cleaner Layouts
+    </mj-text>
+    <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
+      We tightened up spacing, alignment, and readability site-wide.
+    </mj-text>
+  </mj-column>
+</mj-section>

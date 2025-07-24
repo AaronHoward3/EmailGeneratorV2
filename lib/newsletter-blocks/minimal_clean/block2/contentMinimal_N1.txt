@@ -1,0 +1,30 @@
+<mj-section background-color="#fafafa" padding="30px 20px">
+  <mj-column>
+
+    <mj-text font-size="16px" font-weight="bold" padding-bottom="6px">
+    Dashboard Enhancements
+    </mj-text>
+    <mj-text color="#555555" padding-bottom="18px" line-height="1.6">
+      Enjoy a more intuitive and faster dashboard experience with real-time filters and a new layout that works seamlessly across devices.
+    </mj-text>
+
+    <mj-divider border-width="1px" border-color="#e6e6e6" padding="10px 0" />
+
+    <mj-text font-size="16px" font-weight="bold" padding-top="10px" padding-bottom="6px">
+    New Article: Building a Smarter Stack
+    </mj-text>
+    <mj-text color="#555555" padding-bottom="18px" line-height="1.6">
+      Learn how to optimize your tools and workflows with our latest write-up on agile infrastructure for modern teams.
+    </mj-text>
+
+    <mj-divider border-width="1px" border-color="#e6e6e6" padding="10px 0" />
+
+    <mj-text font-size="16px" font-weight="bold" padding-top="10px" padding-bottom="6px">
+    Beta Access Now Open
+    </mj-text>
+    <mj-text color="#555555" padding-bottom="0px" line-height="1.6">
+      We’re rolling out early access to the next-gen features. Want to shape the future? Now’s your chance to join the beta.
+    </mj-text>
+
+  </mj-column>
+</mj-section>

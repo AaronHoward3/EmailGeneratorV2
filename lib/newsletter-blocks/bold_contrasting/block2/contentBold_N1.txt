@@ -1,0 +1,30 @@
+<mj-section background-color="#ffffff" padding="40px 20px">
+  <mj-column>
+
+    <mj-text align="center" font-size="22px" font-weight="bold" padding-bottom="10px" class="chunky">
+      One Tap. Total Sync.
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#555555" padding-bottom="30px">
+      Your data now updates in real time — everywhere.
+    </mj-text>
+
+    <mj-divider border-color="#000000" border-width="2px" padding="10px 0" />
+
+    <mj-text align="center" font-size="22px" font-weight="bold" padding="20px 0 10px" class="chunky">
+      Numbers That Talk Back.
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#555555" padding-bottom="30px">
+      A redesigned dashboard with insights that hit.
+    </mj-text>
+
+    <mj-divider border-color="#000000" border-width="2px" padding="10px 0" />
+
+    <mj-text align="center" font-size="22px" font-weight="bold" padding="20px 0 10px" class="chunky">
+      New Look. Same Power.
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#555555">
+      We've cleaned it up. Sharpened the edges. Made it yours.
+    </mj-text>
+
+  </mj-column>
+</mj-section>

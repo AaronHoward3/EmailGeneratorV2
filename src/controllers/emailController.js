@@ -17,13 +17,13 @@ import {
   getStoreStats,
 } from "../utils/inMemoryStore.js";
 import { processFooterTemplate } from "../services/footerService.js";
-import { createLogger, performanceTracker } from "../utils/logger.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const logger = createLogger('EmailController');
+
 
 // Defer block cache initialization to first request for faster startup
 let blockCacheInitialized = false;
@@ -32,61 +32,76 @@ export async function generateEmails(req, res) {
   const requestStartTime = performance.now();
   const requestId = req.headers['x-request-id'] || `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
   
-  logger.requestStart(requestId, req.method, req.url, {
-    userAgent: req.get('User-Agent'),
-    ip: req.ip || req.connection.remoteAddress
-  });
+  console.log(`[${new Date().toISOString()}] Request started: ${req.method} ${req.url}`);
 
   try {
     // Initialize block cache on first request instead of startup
     if (!blockCacheInitialized) {
-      await logger.trackPerformance('block_cache_initialization', async () => {
-        try {
-          await initializeBlockCache();
-          blockCacheInitialized = true;
-          logger.info('Block cache initialized successfully');
-        } catch (error) {
-          logger.error('Failed to initialize block cache', { error: error.message });
-          // Continue without cache - will load blocks on demand
-        }
-      });
+      try {
+        await initializeBlockCache();
+        blockCacheInitialized = true;
+        console.log('Block cache initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize block cache:', error.message);
+        // Continue without cache - will load blocks on demand
+      }
     }
 
     // Check if request body exists
     if (!req.body) {
-      logger.error('Request body missing', { requestId });
+      console.error('Request body missing');
       return res.status(400).json({ 
         error: "Request body is missing. Please ensure Content-Type: application/json is set." 
       });
     }
 
-    let { brandData, emailType, userContext, storeId, designAesthetic } = req.body;
+    let { brandData, emailType, userContext, imageContext, storeId, designAesthetic } = req.body;
 
     if (!brandData || !emailType) {
-      logger.error('Missing required fields', { requestId, emailType, hasBrandData: !!brandData });
+      console.error('Missing required fields:', { emailType, hasBrandData: !!brandData });
       return res
         .status(400)
         .json({ error: "Missing brandData or emailType in request body." });
     }
 
     const jobId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}-${Math.random().toString(36).substring(2, 15)}`;
-    logger.info('Starting email generation', { requestId, jobId, emailType });
+    console.log('Starting email generation:', { jobId, emailType });
 
     if (
       brandData.customHeroImage !== undefined &&
       typeof brandData.customHeroImage !== "boolean"
     ) {
-      logger.error('Invalid customHeroImage type', { requestId, customHeroImage: brandData.customHeroImage });
+      console.error('Invalid customHeroImage type:', brandData.customHeroImage);
       return res
         .status(400)
         .json({ error: "customHeroImage must be a boolean (true/false)" });
+    }
+
+    if (imageContext) {
+      brandData.imageContext = imageContext.trim().substring(0, 300);
+    }
+
+    // Override colors if userContext includes any CSS color names
+    if (userContext && typeof userContext === "string") {
+      const cssColors = userContext.match(/\b(black|white|red|blue|green|yellow|orange|pink|purple|gray|grey|teal|cyan|magenta|lime|maroon|navy|olive|silver|gold|beige|brown|coral|crimson|indigo|ivory|khaki|lavender|mint|peach|plum|salmon|tan|turquoise)\b/gi);
+      const hexColors = userContext.match(/#(?:[0-9a-fA-F]{3}){1,2}/g);
+
+      const combinedColors = [
+        ...(cssColors || []).map(c => c.toLowerCase()),
+        ...(hexColors || [])
+      ];
+
+      if (combinedColors.length > 0) {
+        brandData.colors = combinedColors.slice(0, 3); // Limit to top 3
+        console.log('Overriding brandData.colors with user-defined colors:', brandData.colors);
+      }
     }
 
     const wantsCustomHero = brandData.customHeroImage === true;
     if (wantsCustomHero) {
       brandData.primary_custom_hero_image_banner = "https://CUSTOMHEROIMAGE.COM";
       brandData.hero_image_url = "https://CUSTOMHEROIMAGE.COM";
-      logger.info('Custom hero image requested', { requestId, jobId });
+      console.log('Custom hero image requested:', { jobId });
     }
 
     // Set header_image_url for hero/header blocks: use banner_url if present, else logo_url
@@ -99,8 +114,7 @@ export async function generateEmails(req, res) {
     const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}-${Math.random().toString(36).substring(2, 15)}`;
     const totalStart = Date.now();
     
-    logger.info('Email generation session started', {
-      requestId,
+    console.log('Email generation session started:', {
       sessionId,
       jobId,
       emailType,
@@ -112,24 +126,18 @@ export async function generateEmails(req, res) {
     const threadPoolSize = process.env.NODE_ENV === 'production' ? 15 : 10;
     const threadPool = getThreadPool(threadPoolSize);
     
-    logger.debug('Thread pool initialized', { requestId, threadPoolSize });
+
 
     try {
       // Start hero image generation in parallel with timeout
       const heroPromise = wantsCustomHero
-        ? logger.trackPerformance('hero_image_generation', async () => {
-            return Promise.race([
-              generateCustomHeroAndEnrich(brandData, storeId, jobId),
-              new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Hero generation timeout')), 45000)
-              )
-            ]);
-          }, { requestId, jobId }).catch((err) => {
-            logger.error("Failed to generate custom hero image", { 
-              requestId, 
-              jobId, 
-              error: err.message 
-            });
+        ? Promise.race([
+            generateCustomHeroAndEnrich(brandData, storeId, jobId),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Hero generation timeout')), 90000)
+            )
+          ]).catch((err) => {
+            console.error("Failed to generate custom hero image:", err.message);
             return brandData;
           })
         : Promise.resolve(brandData);
@@ -137,18 +145,14 @@ export async function generateEmails(req, res) {
       // Generate unique layouts with error handling
       let layouts;
       try {
-        layouts = await logger.trackPerformance('layout_generation', async () => {
-          return getUniqueLayoutsBatch(emailType, sessionId, 1, brandData);
-        }, { requestId, sessionId, emailType });
+        const { designStyle = "Default" } = req.body;
+
+        layouts = getUniqueLayoutsBatch(emailType, designStyle, sessionId, 1, brandData);
+        console.log('Generated layout:', layouts[0]);
         
-        logger.debug('Layouts generated', { requestId, sessionId, layoutCount: layouts.length });
+
       } catch (err) {
-        logger.error('Layout generator failed', { 
-          requestId, 
-          sessionId, 
-          emailType, 
-          error: err.message 
-        });
+        console.error('Layout generator failed:', err.message);
         cleanupSession(sessionId);
         deleteMJML(jobId);
         res.status(500).json({ error: `Layout generator failed: ${err.message}` });
@@ -165,18 +169,17 @@ export async function generateEmails(req, res) {
         ])
       );
       
-      const threads = await logger.trackPerformance('thread_allocation', async () => {
-        return Promise.all(threadPromises);
-      }, { requestId, threadCount: layouts.length });
+      const threads = await Promise.all(threadPromises);
       
-      logger.debug('Threads allocated', { requestId, threadCount: threads.length });
-
-      const assistantId = specializedAssistants[emailType];
-      if (!assistantId) {
-        logger.error('No assistant configured', { requestId, emailType });
+      const { designStyle = "Default" } = req.body;
+      
+      const assistantId = specializedAssistants[emailType]?.[designStyle] || specializedAssistants[emailType]?.["Default"];
+      
+      if (!assistantId || typeof assistantId !== "string") {
+        console.error('No assistant configured:', { emailType, designStyle });
         return res
           .status(400)
-          .json({ error: `No assistant configured for: ${emailType}` });
+          .json({ error: `No valid assistant found for emailType="${emailType}" and designStyle="${designStyle}"` });
       }
 
       // Generate emails with optimized retry logic and timeouts
@@ -187,7 +190,7 @@ export async function generateEmails(req, res) {
         const emailStartTime = performance.now();
 
         try {
-          logger.debug('Starting email generation', { requestId, jobId, emailIndex: i, threadId: thread.id });
+
 
           const sectionDescriptions = Object.entries(layout)
             .filter(([key]) => key !== "layoutId")
@@ -240,7 +243,7 @@ The structure of the email must be exactly these content blocks in order:
   5. cta
   6. footer
 
-No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPORTANT: Since no hero image is being generated, SKIP the intro section entirely. Do not include any intro block in your email.**' : ''} 
+"If the number of products exceeds the capacity of one product block (e.g., more than 2), add additional content1 sections with appropriate product blocks until all are included."
 
 **EMAIL STRUCTURE REQUIREMENTS:**
 - The email will have this structure (added automatically):
@@ -271,8 +274,6 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
 - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
 - DO NOT use brandData.logo_url or brandData.banner_url in your content - these will be handled automatically
 - DO NOT create any header sections with logos or banners - these will be added automatically
-- If brandData.header_color is provided, use it as the background color for content sections (not headers)
-- Always use the exact colors provided in brandData for header_color - do not substitute with other colors
 - For product blocks, use the exact product data provided in brandData.
 - For product blocks, use the exact product data provided in brandData.
 - If brandData.products array is provided, map the fields as follows:
@@ -296,9 +297,9 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
   - Internal padding: 20–30px
   - Buttons: 14–16px vertical / 28–32px horizontal
 - **Typography**:
-  - Headline: 40–50px, bold, 130% line height
-  - Subhead: 20–24px
-  - Body: 16–18px, 150% line height
+  - Headline: 40–50px, bold, 130% line height, MUST be center aligned
+  - Subhead: 20–24px, Must be center aligned
+  - Body: 16–18px, 150% line height must be center aligned.
   - Font family will be automatically applied via mj-head - do NOT add font-family attributes to any elements
   - Do NOT add font-family attributes to mj-body, mj-text, mj-button, or any other elements
 - **Product Description Engagement**:
@@ -317,7 +318,7 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
     - If the image is a product image (e.g., product photo, product grid, or any image representing a product), set href="[[product_url]]" (or the correct product's url if in a loop)
     - For all other images, set href="[[store_url]]"
 - **Color**:
-  - Use brand colors (from JSON)
+  - Use brand colors (from JSON), unless userContext overrides them
   - Must replace any template block colors with brand colors
   - Max 3 total colors in design
   - If designAesthetic is provided, choose color combinations that align with that aesthetic
@@ -332,7 +333,7 @@ No other content sections are allowed beyond these 6${!wantsCustomHero ? '**IMPO
   - This rule is mandatory — do not skip or override it.
   **CTA rules:**
 - Do not invent or inject new buttons into any block outside of the template structures.
-
+Do not Copy text from the template blocks come up with new content.
 
 Do NOT change the layout of the template blocks provided except to update colors and text content to match brand data.
 
@@ -353,58 +354,37 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
 
           // Use retry logic for OpenAI API calls with shorter timeouts
           const messageStartTime = performance.now();
-          await logger.trackPerformance('openai_message_creation', async () => {
-            await retryOpenAI(async () => {
-              await openai.beta.threads.messages.create(thread.id, {
-                role: "user",
-                content: userPrompt,
-              });
+          await retryOpenAI(async () => {
+            await openai.beta.threads.messages.create(thread.id, {
+              role: "user",
+              content: userPrompt,
             });
-          }, { requestId, jobId, emailIndex: i, threadId: thread.id });
+          });
 
           const runStartTime = performance.now();
-          const run = await logger.trackPerformance('openai_run_creation', async () => {
-            return await retryOpenAI(async () => {
-              return await openai.beta.threads.runs.create(thread.id, {
-                assistant_id: assistantId,
-              });
+          const run = await retryOpenAI(async () => {
+            return await openai.beta.threads.runs.create(thread.id, {
+              assistant_id: assistantId,
             });
-          }, { requestId, jobId, emailIndex: i, threadId: thread.id, assistantId });
+          });
 
           const maxWaitTime = 90000; // Reduced from 120000 to 90000
           const runStart = Date.now();
           let runStatus;
-          let pollCount = 0;
 
           // Use retry logic for run status checking with shorter intervals
-          while (Date.now() - runStart < maxWaitTime) {
-            pollCount++;
-            const pollStartTime = performance.now();
-            
-            runStatus = await logger.trackPerformance('openai_run_poll', async () => {
-              return await retryOpenAI(async () => {
-                return await openai.beta.threads.runs.retrieve(thread.id, run.id);
-              });
-            }, { requestId, jobId, emailIndex: i, threadId: thread.id, pollCount });
+          while (Date.now() - runStart < maxWaitTime) {            
+            runStatus = await retryOpenAI(async () => {
+              return await openai.beta.threads.runs.retrieve(thread.id, run.id);
+            });
             
             if (runStatus.status === "completed") {
-              logger.debug('OpenAI run completed', { 
-                requestId, 
-                jobId, 
-                emailIndex: i, 
-                threadId: thread.id, 
-                pollCount,
-                totalPollTime: Date.now() - runStart
-              });
               break;
             }
             
             if (["failed", "expired", "cancelled"].includes(runStatus.status)) {
-              logger.error('OpenAI run failed', { 
-                requestId, 
-                jobId, 
+              console.error('OpenAI run failed:', { 
                 emailIndex: i, 
-                threadId: thread.id, 
                 status: runStatus.status,
                 error: runStatus.last_error?.message
               });
@@ -416,11 +396,8 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
           }
 
           if (runStatus.status !== "completed") {
-            logger.error('OpenAI run timed out', { 
-              requestId, 
-              jobId, 
+            console.error('OpenAI run timed out:', { 
               emailIndex: i, 
-              threadId: thread.id, 
               maxWaitTime,
               finalStatus: runStatus.status
             });
@@ -429,13 +406,12 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
           }
 
           const messagesStartTime = performance.now();
-          const messages = await logger.trackPerformance('openai_messages_retrieval', async () => {
-            return await retryOpenAI(async () => {
-              return await openai.beta.threads.messages.list(thread.id);
-            });
-          }, { requestId, jobId, emailIndex: i, threadId: thread.id });
+          const messages = await retryOpenAI(async () => {
+            return await openai.beta.threads.messages.list(thread.id);
+          });
           
           const rawContent = messages.data[0].content[0].text.value;
+          console.log('Raw AI response:', rawContent.substring(0, 1000) + '...');
           
           // Parse subject line and MJML content
           let subjectLine = '';
@@ -456,24 +432,10 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
             .trim();
 
           // Only cache on success
-          await logger.trackPerformance('mjml_caching', async () => {
-            saveMJML(jobId, index, cleanedMjml);
-          }, { requestId, jobId, emailIndex: i, index });
-          
-          logger.debug('MJML saved to cache', { requestId, jobId, emailIndex: i, index });
-          
-          if (subjectLine) {
-            logger.debug('Subject line extracted', { requestId, jobId, emailIndex: i, subjectLine });
-          }
+          saveMJML(jobId, index, cleanedMjml);
 
           const emailDuration = performance.now() - emailStartTime;
-          logger.performance(`Email ${i} generation`, emailDuration, { 
-            requestId, 
-            jobId, 
-            emailIndex: i, 
-            threadId: thread.id,
-            tokens: runStatus.usage?.total_tokens || 0
-          });
+
 
           spinner.succeed(`✅ Email ${i} generated successfully`);
           return {
@@ -484,14 +446,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
           };
         } catch (error) {
           const emailDuration = performance.now() - emailStartTime;
-          logger.error(`Failed to generate email ${i}`, { 
-            requestId, 
-            jobId, 
-            emailIndex: i, 
-            threadId: thread.id,
-            error: error.message,
-            duration: emailDuration
-          });
+          console.error(`Failed to generate email ${i}:`, error.message);
           
           spinner.fail(`❌ Failed to generate email ${i}`);
           // Do NOT cache on error
@@ -503,33 +458,24 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
       });
 
       // Wait for both hero and emails with timeout
-      const [results, finalBrandData] = await logger.trackPerformance('parallel_processing', async () => {
-        return Promise.all([
-          Promise.all(emailPromises),
-          heroPromise,
-        ]);
-      }, { requestId, jobId, emailCount: layouts.length });
+      const [results, finalBrandData] = await Promise.all([
+        Promise.all(emailPromises),
+        heroPromise,
+      ]);
 
-      const storedMjmls = await logger.trackPerformance('mjml_retrieval', async () => {
-        return getMJML(jobId) || [];
-      }, { requestId, jobId });
+      const storedMjmls = getMJML(jobId) || [];
       
-      logger.debug('MJMLs retrieved from cache', { 
-        requestId, 
-        jobId, 
-        mjmlCount: storedMjmls ? storedMjmls.length : 0 
-      });
+                
 
       // Process footer template
-      const footerMjml = await logger.trackPerformance('footer_processing', async () => {
-        return processFooterTemplate(finalBrandData);
-      }, { requestId, jobId });
-      
-      logger.debug('Footer template processed', { 
-        requestId, 
-        jobId, 
-        footerLength: footerMjml ? footerMjml.length : 0 
+      const footerMjml = await processFooterTemplate(finalBrandData);
+      console.log('Footer processed:', { 
+        hasFooter: !!footerMjml, 
+        footerLength: footerMjml?.length || 0,
+        footerPreview: footerMjml?.substring(0, 200) + '...'
       });
+      
+      
 
       // Replace placeholder hero with the real hero image
       let finalResults = results;
@@ -554,8 +500,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
       `;
 
       // Process all emails to add font block, header image, and footer
-      await logger.trackPerformance('email_post_processing', async () => {
-        (storedMjmls || []).forEach((mjml, index) => {
+      (storedMjmls || []).forEach((mjml, index) => {
           if (mjml) {
             let updated = mjml;
 
@@ -571,10 +516,20 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
               
               // Insert header image right after <mj-body> tag, handling different formatting
               updated = updated.replace(/<mj-body[^>]*>/, (match) => `${match}${headerImageSection}`);
-              logger.debug('Header image added', { requestId, jobId, emailIndex: index + 1 });
+
             }
 
             // Replace placeholder hero image if available
+            console.log('Hero image replacement check:', { 
+              emailIndex: index + 1,
+              wantsCustomHero,
+              hasHeroImageUrl: !!finalBrandData.hero_image_url,
+              heroImageUrl: finalBrandData.hero_image_url,
+              containsCUSTOMHEROIMAGE: updated.includes("CUSTOMHEROIMAGE"),
+              mjmlLength: updated.length,
+              mjmlPreview: updated.substring(0, 500) + '...'
+            });
+            
             if (
               wantsCustomHero &&
               finalBrandData.hero_image_url &&
@@ -582,29 +537,40 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
               !finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE")
             ) {
               // Replace the CUSTOMHEROIMAGE placeholder
+              const beforeReplacement = updated.includes("CUSTOMHEROIMAGE");
               updated = updated.replace(
                 /src="https:\/\/CUSTOMHEROIMAGE\.COM"/g,
                 `src="${finalBrandData.hero_image_url}"`
               );
+              const afterReplacement = updated.includes("CUSTOMHEROIMAGE");
               
-              // Also replace other common placeholder patterns
-              updated = updated.replace(
-                /src="https:\/\/via\.placeholder\.com\/[^"]*"/g,
-                `src="${finalBrandData.hero_image_url}"`
-              );
+              console.log('Hero image replaced successfully:', { 
+                emailIndex: index + 1,
+                replacementCount: (updated.match(new RegExp(finalBrandData.hero_image_url, 'g')) || []).length
+              });
+            } else {
+              console.warn('Hero image replacement skipped:', { 
+                emailIndex: index + 1,
+                wantsCustomHero,
+                hasHeroImageUrl: !!finalBrandData.hero_image_url,
+                reason: !wantsCustomHero ? 'wantsCustomHero is false' : 
+                        !finalBrandData.hero_image_url ? 'no hero image URL' :
+                        !finalBrandData.hero_image_url.includes("http") ? 'hero URL not valid' :
+                        finalBrandData.hero_image_url.includes("CUSTOMHEROIMAGE") ? 'hero URL contains CUSTOMHEROIMAGE' : 'unknown'
+              });
               
-              updated = updated.replace(
-                /src="https:\/\/placeholder\.com\/[^"]*"/g,
-                `src="${finalBrandData.hero_image_url}"`
-              );
-              
-              logger.debug('Hero image replaced', { requestId, jobId, emailIndex: index + 1 });
+              // If hero generation failed (timeout), remove hero image sections to avoid broken images
+              if (wantsCustomHero && finalBrandData.hero_image_url?.includes("CUSTOMHEROIMAGE")) {
+                console.log('Removing hero image sections due to generation timeout');
+                // Remove entire mj-section blocks that contain CUSTOMHEROIMAGE
+                updated = updated.replace(/<mj-section[^>]*>[\s\S]*?<mj-image[^>]*src="https:\/\/CUSTOMHEROIMAGE\.COM"[^>]*>[\s\S]*?<\/mj-section>/g, '');
+              }
             }
 
             // Add font block if not present
             if (!updated.includes("<mj-head>")) {
               updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
-              logger.debug('Font block added', { requestId, jobId, emailIndex: index + 1 });
+
             }
 
             // Remove any existing footer section (by unique comment) - remove everything from comment to end of mj-body
@@ -613,22 +579,27 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
             // Add footer before closing mj-body tag, but only if not already present
             if (footerMjml && updated.includes("</mj-body>") && !updated.includes("mj-social")) {
               updated = updated.replace("</mj-body>", `${footerMjml}\n</mj-body>`);
-              logger.debug('Footer added', { requestId, jobId, emailIndex: index + 1 });
+              console.log('Footer added before closing mj-body tag');
+
             } else if (footerMjml && updated.includes("<mj-body") && !updated.includes("mj-social")) {
               // If no closing tag, add footer and closing tag at the end
               updated = updated + `\n${footerMjml}\n</mj-body>`;
-              logger.debug('Footer and closing tag added', { requestId, jobId, emailIndex: index + 1 });
+              console.log('Footer added at the end with closing tag');
+
+            } else {
+              console.log('Footer not added:', { 
+                hasFooter: !!footerMjml, 
+                hasClosingTag: updated.includes("</mj-body>"),
+                hasSocial: updated.includes("mj-social")
+              });
             }
 
             updateMJML(jobId, index, updated);
           }
         });
-      }, { requestId, jobId, emailCount: storedMjmls?.length || 0 });
 
       // Update finalResults with processed MJMLs
-      const patchedMjmls = await logger.trackPerformance('final_mjml_retrieval', async () => {
-        return getMJML(jobId) || [];
-      }, { requestId, jobId });
+      const patchedMjmls = getMJML(jobId) || [];
       
       finalResults = results.map((result, index) => {
         if (result.content && patchedMjmls[index]) {
@@ -640,8 +611,7 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
         return result;
       });
 
-      logger.info('Email generation completed successfully', { 
-        requestId, 
+      console.log('Email generation completed successfully:', { 
         jobId, 
         sessionId,
         emailCount: finalResults.length,
@@ -658,29 +628,12 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
       }, 1000);
 
       const totalDuration = Date.now() - totalStart;
-      logger.performance('Total email generation', totalDuration, {
-        requestId,
-        jobId,
-        sessionId,
-        totalTokens,
-        emailCount: finalResults.length
-      });
+
       
       // Log performance stats
       const storeStats = getStoreStats();
       const threadStats = threadPool.getStats();
-      logger.info('Performance stats', {
-        requestId,
-        store: {
-          totalEntries: storeStats.totalEntries,
-          maxEntries: storeStats.maxEntries
-        },
-        threadPool: {
-          utilization: threadStats.utilization.toFixed(1),
-          activeThreads: threadStats.activeThreads,
-          availableThreads: threadStats.availableThreads
-        }
-      });
+
 
       // Check if client wants MJML format
       const acceptHeader = req.headers.accept || '';
@@ -702,28 +655,16 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
         });
       }
     } catch (error) {
-      logger.error('Email generation failed', { 
-        requestId, 
-        jobId, 
-        sessionId, 
-        error: error.message,
-        stack: error.stack
-      });
+      console.error('Email generation failed:', error.message);
       cleanupSession(sessionId);
       deleteMJML(jobId);
       res.status(500).json({ error: error.message });
     }
   } catch (error) {
-    logger.error('Request processing failed', { 
-      requestId, 
-      error: error.message,
-      stack: error.stack
-    });
+    console.error('Request processing failed:', error.message);
     res.status(500).json({ error: error.message });
   } finally {
     const requestDuration = performance.now() - requestStartTime;
-    logger.requestEnd(requestId, res.statusCode, requestDuration, {
-      success: res.statusCode < 400
-    });
+    console.log(`[${new Date().toISOString()}] Request completed: ${req.method} ${req.url} - ${res.statusCode}`);
   }
 }

@@ -12,7 +12,7 @@ class ThreadPool {
     this.creationPromises = new Map(); // Track thread creation promises
     this.lastCleanup = Date.now();
     
-    logger.info('Thread pool initialized', { maxThreads });
+    // logger.info('Thread pool initialized', { maxThreads });
   }
   
   async getThread() {
@@ -23,11 +23,11 @@ class ThreadPool {
       const thread = this.threads.pop();
       this.activeThreads.add(thread.id);
       
-      const duration = performance.now() - startTime;
-      logger.threadPoolOperation('get_existing', thread.id, duration, {
-        availableThreads: this.threads.length,
-        activeThreads: this.activeThreads.size
-      });
+      // const duration = performance.now() - startTime;
+      // logger.threadPoolOperation('get_existing', thread.id, duration, {
+      //   availableThreads: this.threads.length,
+      //   activeThreads: this.activeThreads.size
+      // });
       
       return thread;
     }
@@ -55,11 +55,11 @@ class ThreadPool {
         const thread = await creationPromise;
         this.activeThreads.add(thread.id);
         
-        const duration = performance.now() - startTime;
-        logger.threadPoolOperation('create_new', thread.id, duration, {
-          activeThreads: this.activeThreads.size,
-          maxThreads: this.maxThreads
-        });
+        // const duration = performance.now() - startTime;
+        // logger.threadPoolOperation('create_new', thread.id, duration, {
+        //   activeThreads: this.activeThreads.size,
+        //   maxThreads: this.maxThreads
+        // });
         
         return thread;
       } finally {
@@ -219,7 +219,7 @@ export const getThreadPool = (maxThreads = 10) => {
       });
     }, 60000); // Check every minute
     
-    logger.info('Thread pool singleton created', { maxThreads });
+    // logger.info('Thread pool singleton created', { maxThreads });
   }
   return threadPoolInstance;
 };

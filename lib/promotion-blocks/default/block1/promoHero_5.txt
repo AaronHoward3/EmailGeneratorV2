@@ -1,0 +1,14 @@
+<mj-section background-color="#111111" padding="40px 0">
+  <mj-column>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Promo Banner" padding-bottom="20px"></mj-image>
+    <mj-text align="center" color="#ffffff" font-size="24px" font-weight="bold" padding-bottom="10px">
+      Elegant. Modern. You.
+    </mj-text>
+    <mj-text align="center" color="#cccccc" font-size="14px" padding-bottom="20px">
+      Get 25% off your first purchase — this weekend only.
+    </mj-text>
+    <mj-button background-color="#ffffff" color="#111111" align="center">
+      Claim Offer
+    </mj-button>
+  </mj-column>
+</mj-section>

@@ -1,0 +1,30 @@
+<mj-section background-color="#ffffff" padding="40px 20px">
+  <mj-column>
+
+    <mj-text align="center" font-size="16px" font-weight="bold" padding-bottom="8px">
+      A Simpler Way to Shop
+    </mj-text>
+    <mj-text align="center" color="#555555" line-height="1.6" padding-bottom="20px">
+      Our improved storefront experience makes it easier than ever to browse, filter, and check out in seconds — from any device.
+    </mj-text>
+
+    <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0" />
+
+    <mj-text align="center" font-size="16px" font-weight="bold" padding-top="20px" padding-bottom="8px">
+      Smarter Insights, On Demand
+    </mj-text>
+    <mj-text align="center" color="#555555" line-height="1.6" padding-bottom="20px">
+      We've updated your analytics dashboard to give you deeper trends, faster filtering, and export-ready summaries.
+    </mj-text>
+
+    <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0" />
+
+    <mj-text align="center" font-size="16px" font-weight="bold" padding-top="20px" padding-bottom="8px">
+      Collaboration That Flows
+    </mj-text>
+    <mj-text align="center" color="#555555" line-height="1.6">
+      Team notes, shared workflows, and real-time updates — all now built directly into your workspace.
+    </mj-text>
+
+  </mj-column>
+</mj-section>

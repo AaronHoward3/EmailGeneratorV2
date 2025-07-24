@@ -33,7 +33,7 @@ export async function initializeBlockCache() {
       });
       const globDuration = performance.now() - globStartTime;
       
-      logger.performance('File discovery', globDuration, { fileCount: blockFiles.length });
+
       
       // Process files in batches to avoid overwhelming the system
       const BATCH_SIZE = 10;
@@ -72,11 +72,7 @@ export async function initializeBlockCache() {
         const batchResults = await Promise.all(batchPromises);
         loadedBlocks.push(...batchResults.filter(Boolean));
         
-        const batchDuration = performance.now() - batchStartTime;
-        logger.performance(`Batch ${Math.floor(i / BATCH_SIZE) + 1} processing`, batchDuration, {
-          batchSize: batch.length,
-          successfulLoads: batchResults.filter(Boolean).length
-        });
+
         
         // Small delay between batches to prevent overwhelming the system
         if (i + BATCH_SIZE < blockFiles.length) {

@@ -1,0 +1,36 @@
+<!-- Blockfile: contentEditorial_4.txt -->
+<mj-wrapper padding="0px">
+  <mj-section background-color="#ffffff" padding="40px 20px 20px">
+    <mj-column>
+      <mj-divider border-width="2px" border-color="#111111" width="60px" padding-bottom="20px" />
+      <mj-text font-size="18px" font-weight="bold" color="#111111" padding-bottom="10px">02 / Material Study</mj-text>
+      <mj-text color="#666666" padding-bottom="20px">
+        A pairing of silhouette and substance. Styled to honor the power of minimal structure.
+      </mj-text>
+    </mj-column>
+  </mj-section>
+
+  <mj-section background-color="#ffffff" padding="0 20px 0">
+    <mj-group>
+      <mj-column width="50%">
+        <mj-image src="https://via.placeholder.com/600x360/000000/ffffff" alt="Product 1" border-radius="6px" padding="0px"></mj-image>
+        <mj-text align="center" font-size="16px" font-weight="bold" padding-top="12px" padding-bottom="4px">Monochrome Drape Tee</mj-text>
+        <mj-text align="center" color="#777777" padding-bottom="10px">$125.00 USD</mj-text>
+        <mj-button href="#" background-color="#111111" color="#ffffff" border-radius="0px">View Product</mj-button>
+      </mj-column>
+
+      <mj-column width="50%">
+        <mj-image src="https://via.placeholder.com/600x360/ffffff/000000" alt="Product 2" border-radius="6px" padding="0px"></mj-image>
+        <mj-text align="center" font-size="16px" font-weight="bold" padding-top="12px" padding-bottom="4px">Panel Trouser</mj-text>
+        <mj-text align="center" color="#777777" padding-bottom="10px">$175.00 USD</mj-text>
+        <mj-button href="#" background-color="#111111" color="#ffffff" border-radius="0px">View Product</mj-button>
+      </mj-column>
+    </mj-group>
+  </mj-section>
+
+  <mj-section background-color="#ffffff" padding="30px 20px 40px">
+    <mj-column>
+      <mj-button href="#" background-color="#111111" color="#ffffff" align="center" border-radius="0px">Shop This Issue</mj-button>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

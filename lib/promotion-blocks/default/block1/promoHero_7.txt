@@ -1,0 +1,35 @@
+<mj-section background-color="#ffffff" padding="0">
+  <mj-column>
+    <mj-image
+      src="https://CUSTOMHEROIMAGE.COM"
+      alt="Summer Sale Banner"
+      width="600px"
+      padding="0"
+    />
+  </mj-column>
+</mj-section>
+<mj-section background-color="#222222" padding="40px 0">
+  <mj-column>
+    <mj-text
+      font-size="50px"
+      font-weight="bold"
+      color="#ffffff"
+      align="center"
+      padding="10px 40px 10px"
+      background-color="#007BFF"
+      line-height="1"
+    >
+      40% OFF
+    </mj-text>
+    <mj-text
+      font-size="30px"
+      font-weight="bold"
+      color="#ffffff"
+      align="center"
+      padding="10px 40px 20px"
+      line-height=".5"
+    >
+      Summer Sale Event
+    </mj-text>
+  </mj-column>
+</mj-section>

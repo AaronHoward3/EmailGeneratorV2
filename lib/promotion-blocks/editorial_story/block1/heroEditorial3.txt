@@ -1,0 +1,16 @@
+<!-- Blockfile: heroEditorial_3.txt -->
+<mj-wrapper padding="0px">
+  <mj-section padding="60px 20px 20px">
+    <mj-column width="60%">
+      <mj-text font-size="14px" color="#999999" padding-bottom="10px">FEATURED STORY</mj-text>
+      <mj-text font-size="32px" font-weight="bold" color="#000000" padding-bottom="20px">Lines of Legacy</mj-text>
+      <mj-divider border-width="1px" border-color="#cccccc" width="40px" padding="10px 0" />
+      <mj-text color="#555555" padding-bottom="10px">
+        Bold silhouettes redefined. Timeless textures woven into future classics.
+      </mj-text>
+    </mj-column>
+    <mj-column width="40%">
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Editorial Feature" border-radius="8px" padding="0px"></mj-image>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

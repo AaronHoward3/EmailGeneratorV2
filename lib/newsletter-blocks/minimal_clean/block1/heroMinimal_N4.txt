@@ -1,0 +1,85 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="14px" color="#333333" />
+      <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" background-color="#111111" color="#ffffff" border-radius="4px" font-size="14px" />
+    </mj-attributes>
+    <mj-style inline="inline">
+      @media only screen and (max-width:480px) {
+        .headline { font-size: 22px !important; }
+        .section-title { font-size: 16px !important; }
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#f6f7f9">
+
+    <!-- Title Section -->
+    <mj-section background-color="#ffffff" padding="30px 20px 10px">
+      <mj-column>
+        <mj-text align="center" font-size="24px" font-weight="bold" color="#111111" class="headline" padding-bottom="8px">
+          Your Monthly Digest
+        </mj-text>
+        <mj-text align="center" font-size="15px" color="#777777">
+          News, updates, and ideas to keep you in the loop.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Divider Line -->
+    <mj-section background-color="#ffffff" padding="0 20px">
+      <mj-column>
+        <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Hero Image (Smaller Height via padding) -->
+    <mj-section background-color="#ffffff" padding="0 20px 20px">
+      <mj-column>
+        <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" border-radius="10px" padding="0px"></mj-image>
+      </mj-column>
+    </mj-section>
+
+    <!-- Decorative Line Under Hero -->
+    <mj-section background-color="#ffffff" padding="0 20px">
+      <mj-column>
+        <mj-divider border-color="#dddddd" border-width="1px" padding="0px" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Content Section -->
+    <mj-section background-color="#ffffff" padding="0 20px 30px">
+      <mj-column>
+
+        <mj-text align="center" font-size="16px" font-weight="bold" padding-bottom="6px" class="section-title">
+          Easier Navigation, Everywhere
+        </mj-text>
+        <mj-text align="center" color="#555555" padding-bottom="20px" line-height="1.6">
+          Our new layout adapts to how you work. Whether you're on desktop or mobile, it’s easier to find what matters.
+        </mj-text>
+
+        <mj-text align="center" font-size="16px" font-weight="bold" padding-bottom="6px" class="section-title">
+          Smarter Notifications
+        </mj-text>
+        <mj-text align="center" color="#555555" padding-bottom="20px" line-height="1.6">
+          We've rolled out an improved system that keeps you informed without interrupting your flow.
+        </mj-text>
+
+
+      </mj-column>
+    </mj-section>
+
+    <!-- CTA Section -->
+    <mj-section background-color="#111111" padding="30px 20px">
+      <mj-column>
+        <mj-text align="center" color="#ffffff" font-size="18px" font-weight="bold" padding-bottom="10px">
+          Stay Ahead of the Curve
+        </mj-text>
+        <mj-button background-color="#ffffff" color="#000000" href="#">
+          Read the Full Update
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>

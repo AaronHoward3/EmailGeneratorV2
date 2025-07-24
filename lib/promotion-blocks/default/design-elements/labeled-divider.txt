@@ -1,0 +1,8 @@
+<mj-section padding="0">
+  <mj-column padding="0">
+    <mj-text align="center" color="#999" font-size="14px" padding-bottom="10px">
+      — Explore More —
+    </mj-text>
+    <mj-divider border-color="#dddddd" border-width="1px" />
+  </mj-column>
+</mj-section>

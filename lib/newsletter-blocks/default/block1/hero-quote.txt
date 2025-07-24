@@ -1,0 +1,11 @@
+<mj-section background-color="#ffffff" padding="0">
+  <mj-column>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Brand Quote Image" width="600px" padding="0" href="[[store_url]]"></mj-image>
+    <mj-text align="center" font-size="24px" font-style="italic" color="#333333" padding="32px 20px 16px" line- >
+      "The best time to innovate is before the world catches up."
+    </mj-text>
+    <mj-text align="center" font-size="14px" color="#999999" padding="0 20px 32px" line- >
+      — The Brand Manifesto
+    </mj-text>
+  </mj-column>
+</mj-section>

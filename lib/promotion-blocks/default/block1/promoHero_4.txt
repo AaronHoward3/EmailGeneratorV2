@@ -1,0 +1,14 @@
+<mj-section>
+  <mj-column>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Main Promo" padding="0px"></mj-image>
+    <mj-text font-size="22px" align="center" font-weight="bold" padding-top="20px">
+      Fresh Looks Just Landed
+    </mj-text>
+    <mj-text align="center" font-size="16px" padding="10px 20px">
+      Our hottest new arrivals are here. Be the first to shop.
+    </mj-text>
+    <mj-button background-color="#ff5a5f" color="#ffffff" align="center">
+      See What’s New
+    </mj-button>
+  </mj-column>
+</mj-section>

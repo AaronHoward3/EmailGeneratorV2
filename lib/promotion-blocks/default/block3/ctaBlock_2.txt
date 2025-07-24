@@ -1,0 +1,16 @@
+<mj-section background-color="#ffffff" padding="50px 30px" border-radius="12px">
+  <mj-column>
+    <mj-text align="center" font-size="14px" color="#888888" text-transform="uppercase" letter-spacing="1px" padding-bottom="10px">
+      Limited Offer
+    </mj-text>
+    <mj-text align="center" font-size="28px" font-weight="bold" color="#000000" padding-bottom="10px">
+      Get 20% Off Before Midnight
+    </mj-text>
+    <mj-text align="center" font-size="16px" color="#555555" padding-bottom="20px">
+      Use code <b>FLASH20</b> at checkout — no minimums, no fuss.
+    </mj-text>
+    <mj-button background-color="#000000" color="#ffffff" border-radius="0" font-weight="600">
+      Apply Code
+    </mj-button>
+  </mj-column>
+</mj-section>

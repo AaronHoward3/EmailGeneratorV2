@@ -1,0 +1,13 @@
+<mj-section background-color="#f4f4f4" padding="0">
+  <mj-column>
+    <mj-divider width="80%" border-color="#cccccc" border-width="2px" padding="24px 0px" />
+    <mj-text font-size="28px" font-weight="bold" color="#000000" align="center" padding="16px 20px 12px" line- >
+      Discover the New Collection
+    </mj-text>
+    <mj-text font-size="18px" color="#555555" align="center" padding="0 20px 16px" line- >
+      Minimal, elevated, and built for everyday movement. This season’s drop is all about flow.
+    </mj-text>
+    <mj-divider width="80%" border-color="#cccccc" border-width="2px" padding="24px 0 32px" />
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="New Collection" width="600px" padding="0" href="[[store_url]]"></mj-image>
+  </mj-column>
+</mj-section>
