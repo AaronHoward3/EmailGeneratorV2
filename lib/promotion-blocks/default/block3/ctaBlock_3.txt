@@ -12,7 +12,7 @@
       </mj-button>
     </mj-column>
     <mj-column background-color="#e0e0e0" width="50%" padding="0">
-      <mj-image src="https://via.placeholder.com/300x300" alt="Sneak Peek Product" />
+      <mj-image src="https://via.placeholder.com/300x300" alt="Sneak Peek Product"></mj-image>
     </mj-column>
   </mj-group>
 </mj-section>

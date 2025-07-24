@@ -1,6 +1,6 @@
 <mj-section background-color="#ffffff" padding="40px 20px 20px">
   <mj-column>
-    <mj-image src="https://CUSTOMHEROIMAGE.COM" border-radius="12px" alt="Hero Image" padding="0" />
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" border-radius="12px" alt="Hero Image" padding="0"></mj-image>
     <mj-text align="center" font-size="24px" font-weight="bold" color="#111111" padding-top="20px" class="headline">
       The Highlights You Missed
     </mj-text>

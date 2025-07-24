@@ -8,7 +8,7 @@
           </mj-text>
 
           <!-- Product 1 -->
-          <mj-image src="https://via.placeholder.com/600x400" alt="Product 1" padding="0px" border-radius="8px" />
+          <mj-image src="https://via.placeholder.com/600x400" alt="Product 1" padding="0px" border-radius="8px"></mj-image>
           <mj-text font-size="16px" font-weight="bold" padding-top="12px" padding-bottom="5px">Structured Knit Polo</mj-text>
           <mj-text color="#777777" padding-bottom="15px">$105.00 USD</mj-text>
           <mj-text color="#555555" padding-bottom="30px">
@@ -16,7 +16,7 @@
           </mj-text>
 
           <!-- Product 2 -->
-          <mj-image src="https://via.placeholder.com/600x400/eeeeee/222222" alt="Product 2" padding="0px" border-radius="8px" />
+          <mj-image src="https://via.placeholder.com/600x400/eeeeee/222222" alt="Product 2" padding="0px" border-radius="8px"></mj-image>
           <mj-text font-size="16px" font-weight="bold" padding-top="12px" padding-bottom="5px">Stonewashed Wide Trouser</mj-text>
           <mj-text color="#777777" padding-bottom="15px">$135.00 USD</mj-text>
           <mj-text color="#555555" padding-bottom="30px">

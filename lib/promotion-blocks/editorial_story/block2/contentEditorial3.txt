@@ -9,7 +9,7 @@
       </mj-text>
 
       <!-- Product 1 -->
-      <mj-image src="https://via.placeholder.com/600x360" alt="Editorial Product 1" padding="0px" border-radius="8px" />
+      <mj-image src="https://via.placeholder.com/600x360" alt="Editorial Product 1" padding="0px" border-radius="8px"></mj-image>
       <mj-text font-size="17px" font-weight="bold" padding-top="15px" padding-bottom="5px">Canvas Trench Wrap</mj-text>
       <mj-text color="#777777" padding-bottom="15px">$245.00 USD</mj-text>
       <mj-text color="#555555" padding-bottom="30px">
@@ -18,7 +18,7 @@
       <mj-divider border-width="1px" border-color="#eeeeee" padding="20px 0" />
 
       <!-- Product 2 -->
-      <mj-image src="https://via.placeholder.com/600x360/eeeeee/111111" alt="Editorial Product 2" padding="0px" border-radius="8px" />
+      <mj-image src="https://via.placeholder.com/600x360/eeeeee/111111" alt="Editorial Product 2" padding="0px" border-radius="8px"></mj-image>
       <mj-text font-size="17px" font-weight="bold" padding-top="15px" padding-bottom="5px">Double Pleated Trouser</mj-text>
       <mj-text color="#777777" padding-bottom="15px">$165.00 USD</mj-text>
       <mj-text color="#555555" padding-bottom="30px">

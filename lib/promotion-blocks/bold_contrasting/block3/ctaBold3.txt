@@ -2,7 +2,7 @@
 <mj-wrapper padding="0px" css-class="cta-section">
   <mj-section padding="0">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x300" alt="Final CTA Visual" padding="0px" />
+      <mj-image src="https://via.placeholder.com/600x300" alt="Final CTA Visual" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
   <mj-section background-color="#111111" padding="50px 20px">

@@ -8,7 +8,7 @@
 
   <mj-section padding="0 20px">
     <mj-column background-color="#F9FAFB" padding="30px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" border-radius="4px" padding="0px" />
+      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" border-radius="4px" padding="0px"></mj-image>
       <mj-text font-size="18px" font-weight="bold" padding-top="15px">Product Title</mj-text>
       <mj-text>$119.00</mj-text>
       <mj-button href="#" background-color="#111111" color="#ffffff" padding-top="15px">View Product</mj-button>
@@ -17,7 +17,7 @@
 
   <mj-section padding="20px 20px 0">
     <mj-column background-color="#F9FAFB" padding="30px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" border-radius="4px" padding="0px" />
+      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" border-radius="4px" padding="0px"></mj-image>
       <mj-text font-size="18px" font-weight="bold" padding-top="15px">Product Title</mj-text>
       <mj-text>$89.00</mj-text>
       <mj-button href="#" background-color="#111111" color="#ffffff" padding-top="15px">View Product</mj-button>

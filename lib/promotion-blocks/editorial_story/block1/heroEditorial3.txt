@@ -10,7 +10,7 @@
       </mj-text>
     </mj-column>
     <mj-column width="40%">
-      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Editorial Feature" border-radius="8px" padding="0px" />
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Editorial Feature" border-radius="8px" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
 </mj-wrapper>

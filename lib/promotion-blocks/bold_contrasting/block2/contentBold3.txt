@@ -2,14 +2,14 @@
 <mj-wrapper padding="0px" css-class="product-section">
   <mj-section padding="0">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x300" alt="Featured Product Banner" padding="0px" />
+      <mj-image src="https://via.placeholder.com/600x300" alt="Featured Product Banner" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
 
   <!-- Product 1 -->
   <mj-section background-color="#ffffff" padding="40px 20px 20px">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x600" alt="Product A" padding="0px" />
+      <mj-image src="https://via.placeholder.com/600x600" alt="Product A" padding="0px"></mj-image>
       <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">Product A</mj-text>
       <mj-button href="#" background-color="#000000" color="#ffffff">Shop Now</mj-button>
     </mj-column>
@@ -18,7 +18,7 @@
   <!-- Product 2 -->
   <mj-section background-color="#ffffff" padding="20px 20px 60px">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x600" alt="Product B" padding="0px" />
+      <mj-image src="https://via.placeholder.com/600x600" alt="Product B" padding="0px"></mj-image>
       <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">Product B</mj-text>
       <mj-button href="#" background-color="#000000" color="#ffffff">Shop Now</mj-button>
     </mj-column>

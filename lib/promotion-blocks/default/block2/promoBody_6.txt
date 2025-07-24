@@ -1,6 +1,6 @@
 <mj-section background-color="#ffffff" padding="40px 0">
   <mj-column width="50%">
-    <mj-image src="https://via.placeholder.com/300x300" alt="Product One" padding="0 20px" />
+    <mj-image src="https://via.placeholder.com/300x300" alt="Product One" padding="0 20px"></mj-image>
     <mj-text font-size="18px" font-weight="bold" color="#111111" align="center" padding-top="12px" line-height="1.4">
       Product One
     </mj-text>
@@ -21,7 +21,7 @@
     </mj-button>
   </mj-column>
   <mj-column width="50%">
-    <mj-image src="https://via.placeholder.com/300x300" alt="Product Two" padding="0 20px" />
+    <mj-image src="https://via.placeholder.com/300x300" alt="Product Two" padding="0 20px"></mj-image>
     <mj-text font-size="18px" font-weight="bold" color="#111111" align="center" padding-top="12px" line-height="1.4">
       Product Two
     </mj-text>

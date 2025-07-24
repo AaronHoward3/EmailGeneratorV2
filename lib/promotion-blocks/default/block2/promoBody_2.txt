@@ -6,7 +6,7 @@
     <mj-text font-size="16px" align="center" padding="0 0 20px" color="#666666">
       Our minimalist collection focuses on quality materials and timeless design.
     </mj-text>
-    <mj-image src="https://via.placeholder.com/400x200" alt="Minimalist Design" padding="0 0 20px" />
+    <mj-image src="https://via.placeholder.com/400x200" alt="Minimalist Design" padding="0 0 20px"></mj-image>
     <mj-button href="https://example.com/minimalist" background-color="#333333" color="#ffffff" padding="12px 30px" align="center">
       Discover Minimalism
     </mj-button>

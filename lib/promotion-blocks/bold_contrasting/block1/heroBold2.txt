@@ -10,7 +10,7 @@
   </mj-section>
   <mj-section padding="0">
     <mj-column>
-      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Visual" padding="0px" />
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Visual" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
 </mj-wrapper>

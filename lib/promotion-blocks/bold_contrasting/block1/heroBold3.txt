@@ -2,7 +2,7 @@
 <mj-wrapper padding="0px" css-class="hero-section">
   <mj-section padding="0">
     <mj-column>
-      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Full Hero Image" padding="0px" />
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Full Hero Image" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
   <mj-section background-color="#000000" padding="40px 20px">

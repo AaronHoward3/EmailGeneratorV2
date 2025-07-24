@@ -10,12 +10,12 @@
   <mj-section background-color="#F3F4F6" padding="40px 20px 60px">
     <mj-group>
       <mj-column>
-        <mj-image src="https://via.placeholder.com/300x400" alt="Product A" padding="0px" />
+        <mj-image src="https://via.placeholder.com/300x400" alt="Product A" padding="0px"></mj-image>
         <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">Product A</mj-text>
         <mj-button href="#" background-color="#000000" color="#ffffff">Buy Now</mj-button>
       </mj-column>
       <mj-column>
-        <mj-image src="https://via.placeholder.com/300x400" alt="Product B" padding="0px" />
+        <mj-image src="https://via.placeholder.com/300x400" alt="Product B" padding="0px"></mj-image>
         <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">Product B</mj-text>
         <mj-button href="#" background-color="#000000" color="#ffffff">Buy Now</mj-button>
       </mj-column>

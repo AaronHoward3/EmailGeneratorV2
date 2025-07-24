@@ -1,6 +1,6 @@
 <mj-section background-color="#ffffff" padding="30px">
   <mj-column width="100%" padding="0">
-    <mj-image src="https://via.placeholder.com/300x200" alt="Product Image" align="center" padding="0" width="300px" href="[[store_url]]" />
+    <mj-image src="https://via.placeholder.com/300x200" alt="Product Image" align="center" padding="0" width="300px" href="[[store_url]]"></mj-image>
     <mj-text align="center" font-size="26px" font-weight="bold" color="#000000" padding="20px 0 10px" line->
       Product Title Goes Here
     </mj-text>

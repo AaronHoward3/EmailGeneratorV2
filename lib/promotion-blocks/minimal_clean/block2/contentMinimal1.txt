@@ -3,13 +3,13 @@
   <mj-section padding="40px 20px">
     <mj-group>
       <mj-column>
-        <mj-image src="https://via.placeholder.com/300x300" alt="Product 1" padding="0px" />
+        <mj-image src="https://via.placeholder.com/300x300" alt="Product 1" padding="0px"></mj-image>
         <mj-text font-size="18px" font-weight="bold" padding-top="10px">Product Name</mj-text>
         <mj-text>$99.99</mj-text>
         <mj-button href="#">Buy Now</mj-button>
       </mj-column>
       <mj-column>
-        <mj-image src="https://via.placeholder.com/300x300" alt="Product 2" padding="0px" />
+        <mj-image src="https://via.placeholder.com/300x300" alt="Product 2" padding="0px"></mj-image>
         <mj-text font-size="18px" font-weight="bold" padding-top="10px">Product Name</mj-text>
         <mj-text>$99.99</mj-text>
         <mj-button href="#">Buy Now</mj-button>

@@ -19,7 +19,7 @@
 
     <!-- Right: Stat Visual -->
     <mj-column width="40%">
-      <mj-image src="https://via.placeholder.com/200x200?text=+75%25+Engagement" alt="Stat Graphic" padding="10px" />
+      <mj-image src="https://via.placeholder.com/200x200?text=+75%25+Engagement" alt="Stat Graphic" padding="10px"></mj-image>
     </mj-column>
 
   </mj-group>

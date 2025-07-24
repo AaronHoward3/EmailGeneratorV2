@@ -1,7 +1,7 @@
 <!-- Footer Section -->
 <mj-section background-color="[[header_color]]" padding-bottom="2px" padding-top="20px" text-align="center">
   <mj-column width="50%">
-    <mj-image align="left" padding-bottom="5px" padding-left="10px" padding-right="0px" padding-top="3px" width="100px" src="[[logo_url]]" alt="[[store_name]]" href="[[store_url]]" />
+    <mj-image align="left" padding-bottom="5px" padding-left="10px" padding-right="0px" padding-top="3px" width="100px" src="[[logo_url]]" alt="[[store_name]]" href="[[store_url]]"></mj-image>
     <mj-text color="#4A4A4A" padding-top="5px" padding-left="10px" line-height="1" css-class="mj-text-break">
       <p style="line-height: 1;">
         <span style="font-size:12px;">Sent by:&nbsp;[[store_name]]</span>

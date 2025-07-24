@@ -10,6 +10,6 @@
 <!-- Hero Image -->
 <mj-section background-color="#ffffff" padding="20px 20px 0">
   <mj-column>
-    <mj-image src="https://CUSTOMHEROIMAGE.COM" border-radius="8px" alt="Newsletter Hero" padding="0px" />
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" border-radius="8px" alt="Newsletter Hero" padding="0px"></mj-image>
   </mj-column>
 </mj-section>
