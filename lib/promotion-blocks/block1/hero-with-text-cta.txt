@@ -1,11 +1,11 @@
 <mj-section background-color="#007BFF" padding="20px">
   <mj-column>
-    <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="[[store_name]] Logo" width="150px" align="center" href="[[store_url]]"></mj-image>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[store_name]] Logo" width="150px" align="center" href="[[store_url]]"></mj-image>
   </mj-column>
 </mj-section>
 <mj-section background-color="#007BFF" padding="0 20px 20px">
   <mj-column>
-    <mj-image src="https://img.sbassets.net/production/springmail/13529/1747923909126logo.png?format=png&width=600" alt="[[store_name]] Hero" width="100%" align="center" href="[[store_url]]"></mj-image>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[store_name]] Hero" width="100%" align="center" href="[[store_url]]"></mj-image>
   </mj-column>
 </mj-section>
 <mj-section background-color="#ffffff" padding="40px 20px">

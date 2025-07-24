@@ -2,11 +2,11 @@
 <mj-section background-color="#ffffff" padding="0">
   <mj-column>
     <mj-image
-      src="hhttps://CUSTOMHEROIMAGE.COM"
+      src="https://CUSTOMHEROIMAGE.COM"
       alt="Adventure Promo"
       width="600px"
       padding="0"
-    />
+    ></mj-image>
   </mj-column>
 </mj-section>
 <mj-section background-color="#111111" padding="40px 0">

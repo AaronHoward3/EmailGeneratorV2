@@ -37,6 +37,20 @@ export function getUniqueLayoutsBatch(emailType, designStyle = "Default", sessio
         throw new Error(`No available blocks for section: ${sectionName}`);
       }
 
+      // If this is the intro section and custom hero is requested, prefer hero image templates
+      if (sectionName === "intro" && brandData?.customHeroImage === true) {
+        // Filter to prefer templates that contain CUSTOMHEROIMAGE placeholders
+        // Exclude hero-title.txt as it uses [[header_image_url]] instead of CUSTOMHEROIMAGE
+        const heroImageTemplates = availableBlocks.filter(block => 
+          (block.includes("Hero") || block.includes("Bold") || block.includes("Promo")) &&
+          block !== "hero-title.txt"
+        );
+        
+        if (heroImageTemplates.length > 0) {
+          availableBlocks = heroImageTemplates;
+        }
+      }
+
       const used = usedBlocksPerSlot[sectionName] || [];
       const remaining = availableBlocks.filter(b => !used.includes(b));
 
