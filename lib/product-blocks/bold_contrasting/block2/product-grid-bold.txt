@@ -26,7 +26,7 @@
   <mj-section background-color="#ffffff" padding="0 20px 40px">
     <mj-group>
       <mj-column width="50%" padding="0 10px">
-        <mj-image src="[[product_image_url_3]]" alt="[[product_name_3]]" border-radius="12px" padding="0 0 10px" />
+        <mj-image src="[[product_image_url_3]]" alt="[[product_name_3]]" border-radius="12px" padding="0 0 10px"></mj-image>
         <mj-text align="center" font-size="16px" font-weight="bold" color="#241c23" padding-bottom="8px">
           [[product_name_3]]
         </mj-text>
