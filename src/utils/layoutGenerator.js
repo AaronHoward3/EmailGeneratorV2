@@ -28,6 +28,11 @@ export function getUniqueLayoutsBatch(emailType, designStyle = "Default", sessio
     const usedBlocksPerSlot = {};
 
     sections.forEach((sectionName, sectionIndex) => {
+      // Skip intro section entirely if customHeroImage is false
+      if (sectionName === "intro" && brandData?.customHeroImage === false) {
+        return; // Skip this section
+      }
+      
       let availableBlocks = blocks[sectionName];
       
       // If this is a content section and products are available, add product blocks

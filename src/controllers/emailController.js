@@ -125,8 +125,6 @@ export async function generateEmails(req, res) {
     // Get thread pool instance with optimized size based on environment
     const threadPoolSize = process.env.NODE_ENV === 'production' ? 15 : 10;
     const threadPool = getThreadPool(threadPoolSize);
-    
-
 
     try {
       // Start hero image generation in parallel with timeout
@@ -235,20 +233,25 @@ Subject: [Your subject line here]
 - Do NOT add height attributes to mj-section elements
 - All padding values must include units (e.g., "40px 0px" not "40px 0")
 
-The structure of the email must be exactly these content blocks in order:
+The structure of the email must be exactly these content blocks in order:${wantsCustomHero ? `
   1. intro
   2. utility1
   3. content
   4. utility2
   5. cta
-  6. footer
+  6. footer` : `
+  1. utility1
+  2. content
+  3. utility2
+  4. cta
+  5. footer`}
 
 "If the number of products exceeds the capacity of one product block (e.g., more than 2), add additional content1 sections with appropriate product blocks until all are included."
 
 **EMAIL STRUCTURE REQUIREMENTS:**
 - The email will have this structure (added automatically):
-  1. Header/Banner Image (banner_url if provided, otherwise logo_url)
-  2. Hero Content (your intro block - text only, no images)
+  1. Header/Banner Image (banner_url if provided, otherwise logo_url)${wantsCustomHero ? `
+  2. Hero Content (your intro block - text only, no images)` : ''}
   3. Main Content (your content blocks)
   4. Footer (added automatically)
 
@@ -258,7 +261,7 @@ The structure of the email must be exactly these content blocks in order:
 - DO NOT include any header sections at all
 - Start your content directly with the hero text content
 
-**HERO SECTION REQUIREMENTS:**
+${wantsCustomHero ? `**HERO SECTION REQUIREMENTS:**
 - For the intro block, you may use hero templates that contain placeholder images (like "HeroOVER.txt")
 - The placeholder images will be automatically replaced with the generated hero image
 - The hero section should contain text content overlaid on the image
@@ -267,7 +270,7 @@ The structure of the email must be exactly these content blocks in order:
 
 **HERO TEMPLATE CHOICES:**
 - Use "hero-with-text-cta" when you want a text-based primary section with headline, description, and CTA button
-- Use "hero-with-featured-product" when you want to feature a specific product with large image, name, description, and buy button
+- Use "hero-with-featured-product" when you want to feature a specific product with large image, name, description, and buy button` : ''}
 
 - Only use the correct product image for the corresponding product. Do not use any other images for products.
 - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
@@ -317,6 +320,7 @@ The structure of the email must be exactly these content blocks in order:
   - All <mj-image> elements must have an href attribute:
     - If the image is a product image (e.g., product photo, product grid, or any image representing a product), set href="[[product_url]]" (or the correct product's url if in a loop)
     - For all other images, set href="[[store_url]]"
+  - <mj-image> elements must NOT be self-closing, and must have a closing tag </mj-image>.
 - **Color**:
   - Use brand colors (from JSON), unless userContext overrides them
   - Must replace any template block colors with brand colors
