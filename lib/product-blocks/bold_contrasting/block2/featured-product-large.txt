@@ -38,7 +38,7 @@
     </mj-column>
 
     <mj-column width="33%">
-      <mj-image src="[[product_image_url4]]" alt="[[product_name4]]" border-radius="12px" />
+      <mj-image src="[[product_image_url4]]" alt="[[product_name4]]" border-radius="12px"></mj-image>
       <mj-text align="center" color="#241c23" font-size="16px" font-weight="bold" padding-top="10px">
         [[product_name4]]
       </mj-text>
