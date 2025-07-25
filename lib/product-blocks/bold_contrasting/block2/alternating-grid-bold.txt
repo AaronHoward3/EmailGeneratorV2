@@ -2,7 +2,7 @@
   <!-- Product 1 -->
   <mj-section background-color="#000000" padding="40px 0">
     <mj-column width="50%" padding="0 10px">
-      <mj-image src="[[product_image_url_1]]" alt="[[product_name_1]]" border-radius="12px" />
+      <mj-image src="[[product_image_url_1]]" alt="[[product_name_1]]" border-radius="12px"></mj-image>
     </mj-column>
     <mj-column width="50%" padding="0 20px">
       <mj-text font-size="20px" font-weight="bold" color="#ffffff" padding-bottom="10px">
