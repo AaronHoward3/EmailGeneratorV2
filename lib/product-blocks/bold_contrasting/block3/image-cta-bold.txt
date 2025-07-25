@@ -1,7 +1,7 @@
 <!-- Block: image-cta-bold.txt -->
   <mj-section padding="0">
     <mj-column>
-      <mj-image src="[[cta_image_url]]" alt="[[cta_image_alt]]" padding="0" />
+      <mj-image src="[[cta_image_url]]" alt="[[cta_image_alt]]" padding="0"></mj-image>
     </mj-column>
   </mj-section>
   <mj-section background-color="#000000" padding="40px 20px">
