@@ -6,7 +6,8 @@ export const specializedAssistants = {
     editorial_story: "asst_I6x7ygpURvP2IyuLtYrD7orG"
   },
   Productgrid: {
-    Default: "asst_wpEAG1SSFXym8BLxqyzTPaVe"
+    minimal_clean: "asst_wpEAG1SSFXym8BLxqyzTPaVe",
+    bold_contrasting: "asst_9E3P4bLQ9EavYFjhuXBBpuzz"
   },
   AbandonedCart: {
     Default: "asst_IGjM9fcv8XZlf9z3l8nUM7l5"
@@ -101,23 +102,41 @@ export const BLOCK_DEFINITIONS = {
     }
   },
   Productgrid: {
-    Default: {
-      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+    minimal_clean: {
+      sections: ["intro", "content1", "cta"],
       blocks: {
         intro: [
+          "hero-overlay.txt",
           "hero-title.txt",
-          "HeroOVER.txt",
-          "BoldHeaderHero.txt"
+          "split-block.txt"
         ],
-        utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
         content1: [
           "alternating-grid.txt",
           "product-grid.txt",
           "single-product.txt",
           "Double-column.txt"
         ],
-        utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
         cta: ["body-cta.txt", "cta-only.txt", "image-cta.txt"]
+      }
+    },
+    bold_contrasting: {
+      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+      blocks: {
+        intro: [
+          "hero-headline.txt",
+          "hero-over-bold.txt",
+          "hero-padded-bold.txt",
+          "hero-title-bold.txt"
+        ],
+        utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        content1: [
+          "alternating-grid-bold.txt",
+          "asymmetric-product-listing.txt",
+          "featured-product-large.txt",
+          "product-grid-bold.txt"
+        ],
+        utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
+        cta: ["body-cta-contrast.txt", "cta-outro.txt", "full-bleed-cta-highlight.txt", "image-cta-bold.txt"]
       }
     }
   },
@@ -219,7 +238,7 @@ export const BLOCK_DEFINITIONS = {
       }
     },
     minimal_clean: {
-      sections: ["intro", "utility1", "content1", "utility2", "cta"],
+      sections: ["intro", "content1", "cta"],
       blocks: {
         intro: [
           "heroMinimal1.txt",
@@ -227,23 +246,11 @@ export const BLOCK_DEFINITIONS = {
           "heroMinimal3.txt",
           "heroMinimal4.txt"
         ],
-        utility1: [
-          "divider-accent.txt",
-          "divider-dotted.txt",
-          "divider-line.txt",
-          "labeled-divider.txt"
-        ],
         content1: [
           "contentMinimal1.txt",
           "contentMinimal2.txt",
           "contentMinimal3.txt",
           "contentMinimal4.txt"
-        ],
-        utility2: [
-          "divider-accent.txt",
-          "divider-dotted.txt",
-          "divider-line.txt",
-          "labeled-divider.txt"
         ],
         cta: [
           "ctaMinimal1.txt",

@@ -1,8 +1,12 @@
 <!-- Blockfile: contentBold_3.txt -->
 <mj-wrapper padding="0px" css-class="product-section">
-  <mj-section padding="0">
+
+  <!-- Tagline Section -->
+  <mj-section background-color="#000000" padding="40px 20px">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x300" alt="Featured Product Banner" padding="0px"></mj-image>
+      <mj-text align="center" font-size="22px" font-weight="bold" color="#ffffff" padding="0px">
+        Your Next Favorite Drop Is Here
+      </mj-text>
     </mj-column>
   </mj-section>
 
