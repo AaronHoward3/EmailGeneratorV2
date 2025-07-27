@@ -1,0 +1,14 @@
+<!-- Block: body-cta-contrast.txt -->
+  <mj-section background-color="#000000" padding="60px 20px">
+    <mj-column>
+      <mj-text align="center" font-size="24px" font-weight="bold" color="#ffffff" padding-bottom="10px">
+        [[cta_headline]]
+      </mj-text>
+      <mj-text align="center" font-size="16px" color="#cccccc" padding-bottom="20px">
+        [[cta_body_text]]
+      </mj-text>
+      <mj-button align="center" href="[[cta_url]]" background-color="#ffffff" color="#000000" font-size="16px" inner-padding="14px 28px" border-radius="6px">
+        [[cta_text]]
+      </mj-button>
+    </mj-column>
+  </mj-section>

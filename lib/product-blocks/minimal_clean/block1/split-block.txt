@@ -1,6 +1,6 @@
 <mj-section background-color="#ffffff" padding="40px 20px">
   <mj-column width="50%">
-    <mj-image src="[[logo_url]]" alt="[[brand_name]] Logo" width="150px" padding="0 0 20px 0" align="left" href="[[store_url]]"></mj-image>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[brand_name]] Logo" width="150px" padding="0 0 20px 0" align="left" href="[[store_url]]"></mj-image>
     <mj-text font-size="28px" font-weight="bold" padding-bottom="12px" line->
       Introducing Our New Spring Line
     </mj-text>

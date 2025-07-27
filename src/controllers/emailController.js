@@ -546,6 +546,10 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
                 /src="https:\/\/CUSTOMHEROIMAGE\.COM"/g,
                 `src="${finalBrandData.hero_image_url}"`
               );
+              updated = updated.replace(
+  /background-url="https:\/\/CUSTOMHEROIMAGE\.COM"/g,
+  `background-url="${finalBrandData.hero_image_url}"`
+);
               const afterReplacement = updated.includes("CUSTOMHEROIMAGE");
               
               console.log('Hero image replaced successfully:', { 
