@@ -6,8 +6,6 @@ function pickRandom(arr, exclude = []) {
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
 
-const layoutHistory = [];
-
 // ✅ designStyle now included and defaulted to "Default"
 export function getUniqueLayoutsBatch(emailType, designStyle = "Default", sessionId, count = 3, brandData = null) {
   // ✅ Pull layout definition based on type + style

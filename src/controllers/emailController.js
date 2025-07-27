@@ -143,9 +143,9 @@ export async function generateEmails(req, res) {
       // Generate unique layouts with error handling
       let layouts;
       try {
-        const { designStyle = "Default" } = req.body;
+        const { designAesthetic = "Default" } = req.body;
 
-        layouts = getUniqueLayoutsBatch(emailType, designStyle, sessionId, 1, brandData);
+        layouts = getUniqueLayoutsBatch(emailType, designAesthetic, sessionId, 1, brandData);
         console.log('Generated layout:', layouts[0]);
         
 
@@ -169,15 +169,15 @@ export async function generateEmails(req, res) {
       
       const threads = await Promise.all(threadPromises);
       
-      const { designStyle = "Default" } = req.body;
+      const { designAesthetic = "Default" } = req.body;
       
-      const assistantId = specializedAssistants[emailType]?.[designStyle] || specializedAssistants[emailType]?.["Default"];
+      const assistantId = specializedAssistants[emailType]?.[designAesthetic] || specializedAssistants[emailType]?.["Default"];
       
       if (!assistantId || typeof assistantId !== "string") {
-        console.error('No assistant configured:', { emailType, designStyle });
+        console.error('No assistant configured:', { emailType, designAesthetic });
         return res
           .status(400)
-          .json({ error: `No valid assistant found for emailType="${emailType}" and designStyle="${designStyle}"` });
+          .json({ error: `No valid assistant found for emailType="${emailType}" and designAesthetic="${designAesthetic}"` });
       }
 
       // Generate emails with optimized retry logic and timeouts
