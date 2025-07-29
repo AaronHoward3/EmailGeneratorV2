@@ -301,6 +301,14 @@ export async function generateEmails(req, res) {
             <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
           </mj-attributes>
           <mj-style inline="inline">
+            .header-image img {
+              max-height: 200px !important;
+              width: auto !important;
+              height: auto !important;
+              object-fit: contain !important;
+              display: block !important;
+              margin: 0 auto !important;
+            }
             @media only screen and (max-width:480px) {
               .hero-headline {
                 font-size: 28px !important;
@@ -308,6 +316,9 @@ export async function generateEmails(req, res) {
               }
               .hero-subhead {
                 font-size: 16px !important;
+              }
+              .header-image img {
+                max-height: 150px !important;
               }
             }
           </mj-style>
@@ -321,11 +332,25 @@ export async function generateEmails(req, res) {
 
           // Add header image at the very top if we have one
           if (finalBrandData.header_image_url && finalBrandData.header_image_url.trim() !== "") {
+            // Get primary brand color for background, fallback to white
+            const primaryColor = finalBrandData.colors && finalBrandData.colors.length > 0 
+              ? finalBrandData.colors[0] 
+              : "#ffffff";
+            
             const headerImageSection = `
             <!-- Header Image Section -->
-            <mj-section padding="0px" background-color="#ffffff">
+            <mj-section padding="0px" background-color="${primaryColor}">
               <mj-column>
-                <mj-image src="${finalBrandData.header_image_url}" href="[[store_url]]" alt="Header" padding="0px" />
+                <mj-image 
+                  src="${finalBrandData.header_image_url}" 
+                  href="[[store_url]]" 
+                  alt="Header" 
+                  padding="0px"
+                  width="600px"
+                  align="center"
+                  border-radius="0px"
+                  css-class="header-image"
+                />
               </mj-column>
             </mj-section>`;
             
