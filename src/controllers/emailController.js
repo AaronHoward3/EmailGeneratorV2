@@ -123,7 +123,13 @@ export async function generateEmails(req, res) {
       let layouts;
       try {
         layouts = getUniqueLayoutsBatch(emailType, designAesthetic || "Default", sessionId, 1, brandData);
-        console.log('Generated layout:', layouts[0]);
+        console.log('Generated layout:', {
+          emailType,
+          designAesthetic,
+          sessionId,
+          layout: layouts[0],
+          layoutId: layouts[0]?.layoutId
+        });
       } catch (err) {
         console.error('Layout generator failed:', err.message);
         cleanupSession(sessionId);

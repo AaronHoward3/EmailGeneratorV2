@@ -28,12 +28,15 @@ export function generateUserPrompt({
     ? `\n Design Aesthetic: ${designAesthetic}\n- Use this aesthetic to influence color scheme choices and block selection\n- Choose blocks that align with the ${designAesthetic} style\n- Adjust color combinations to match the ${designAesthetic} aesthetic\n`
     : "";
 
-  return `You are an expert marketing content designer building a ${emailType} email.
+    return `You are an expert marketing content designer building a ${emailType} email.
 
-    Your job:
-    Generate one MJML email using uploaded block templates.
-    Use userContext for info about content, and use userTone for the email tone.
-    ${designAestheticInstructions}
+Your job:
+Generate one MJML email using uploaded block templates.
+Use userContext for info about content, and use userTone for the email tone.
+${designAestheticInstructions}
+
+🚨 **CRITICAL LAYOUT REQUIREMENT - YOU MUST FOLLOW THIS EXACTLY:**
+${layoutInstruction}
 
     **RESPONSE FORMAT:**
     ${wantsMjml ? `Return ONLY the MJML email content without any subject line or markdown formatting.
@@ -176,8 +179,6 @@ export function generateUserPrompt({
 
     IMPORTANT: Above every content section, include a comment marker that must be embeded in an mj-raw block:
     <!-- Blockfile: block-name.txt -->
-
-    ${layoutInstruction}
 
     ${userInstructions}
     ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null, 2)}`.trim();
