@@ -1,8 +1,6 @@
 import { jest } from '@jest/globals';
 import { getStoreStats, manualCleanup } from '../../src/utils/inMemoryStore.js';
 import { getThreadPool } from '../../src/utils/threadPool.js';
-import { getCacheStats as getBlockCacheStats } from '../../src/utils/blockCache.js';
-import { getCacheStats as getResponseCacheStats } from '../../src/utils/responseCache.js';
 
 describe('Performance Optimizations', () => {
   beforeEach(() => {
@@ -41,48 +39,21 @@ describe('Performance Optimizations', () => {
     });
   });
 
-  describe('Block Cache', () => {
-    test('should provide cache statistics', () => {
-      const stats = getBlockCacheStats();
-      
-      expect(stats).toHaveProperty('blockCount');
-      expect(stats).toHaveProperty('totalSize');
-      expect(stats).toHaveProperty('cacheSizeMB');
-      expect(stats).toHaveProperty('ttlMinutes');
-      expect(stats).toHaveProperty('initialized');
-    });
-  });
 
-  describe('Response Cache', () => {
-    test('should provide cache statistics', () => {
-      const stats = getResponseCacheStats();
-      
-      expect(stats).toHaveProperty('totalEntries');
-      expect(stats).toHaveProperty('maxEntries');
-      expect(stats).toHaveProperty('ttlMinutes');
-      expect(stats.totalEntries).toBeLessThanOrEqual(stats.maxEntries);
-    });
-  });
 
   describe('Performance Metrics', () => {
     test('should track all performance metrics', () => {
       const storeStats = getStoreStats();
       const threadPool = getThreadPool();
       const threadStats = threadPool.getStats();
-      const blockCacheStats = getBlockCacheStats();
-      const responseCacheStats = getResponseCacheStats();
       
       // Verify all stats are available
       expect(storeStats).toBeDefined();
       expect(threadStats).toBeDefined();
-      expect(blockCacheStats).toBeDefined();
-      expect(responseCacheStats).toBeDefined();
       
       // Verify reasonable values
       expect(storeStats.totalEntries).toBeGreaterThanOrEqual(0);
       expect(threadStats.utilization).toBeGreaterThanOrEqual(0);
-      expect(blockCacheStats.blockCount).toBeGreaterThanOrEqual(0);
-      expect(responseCacheStats.totalEntries).toBeGreaterThanOrEqual(0);
     });
   });
 }); 

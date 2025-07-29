@@ -83,7 +83,8 @@ function buildSocialElements(brandData) {
 function replaceBasicPlaceholders(footerTemplate, brandData) {
   return footerTemplate
     .replace(/\[\[logo_url\]\]/g, brandData.logo_url || '')
-    .replace(/\[\[header_color\]\]/g, brandData.header_color || '#700')
+    .replace(/\[\[body_color\]\]/g, brandData.body_color || '#FFFFFF')
+    .replace(/\[\[text_color\]\]/g, brandData.text_color || '#4A4A4A')
     .replace(/\[\[store_url\]\]/g, brandData.store_url || '')
 }
 

@@ -7,7 +7,6 @@ import { specializedAssistants } from "../config/constants.js";
 import { getUniqueLayoutsBatch, cleanupSession } from "../utils/layoutGenerator.js";
 import { getThreadPool } from "../utils/threadPool.js";
 import { retryOpenAI } from "../utils/retryUtils.js";
-import { initializeBlockCache } from "../utils/blockCache.js";
 import { generateCustomHeroAndEnrich } from "../services/heroImageService.js";
 import {
   saveMJML,
@@ -24,10 +23,6 @@ const __dirname = path.dirname(__filename);
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-
-// Defer block cache initialization to first request for faster startup
-let blockCacheInitialized = false;
-
 export async function generateEmails(req, res) {
   const requestStartTime = performance.now();
   const requestId = req.headers['x-request-id'] || `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
@@ -35,18 +30,6 @@ export async function generateEmails(req, res) {
   console.log(`[${new Date().toISOString()}] Request started: ${req.method} ${req.url}`);
 
   try {
-    // Initialize block cache on first request instead of startup
-    if (!blockCacheInitialized) {
-      try {
-        await initializeBlockCache();
-        blockCacheInitialized = true;
-        console.log('Block cache initialized successfully');
-      } catch (error) {
-        console.error('Failed to initialize block cache:', error.message);
-        // Continue without cache - will load blocks on demand
-      }
-    }
-
     // Check if request body exists
     if (!req.body) {
       console.error('Request body missing');
@@ -103,6 +86,10 @@ export async function generateEmails(req, res) {
       brandData.hero_image_url = "https://CUSTOMHEROIMAGE.COM";
       console.log('Custom hero image requested:', { jobId });
     }
+
+    // Check if client wants MJML format early to adjust AI prompt
+    const acceptHeader = req.headers.accept || '';
+    const wantsMjml = acceptHeader.includes('text/mjml') || acceptHeader.includes('application/mjml');
 
     // Set header_image_url for hero/header blocks: use banner_url if present, else logo_url
     if (brandData.banner_url && brandData.banner_url.trim() !== "") {
@@ -215,7 +202,12 @@ Use userContext for info about content, and use userTone for the email tone.
 ${designAestheticInstructions}
 
 **RESPONSE FORMAT:**
-You must respond with exactly two parts:
+${wantsMjml ? `Return ONLY the MJML email content without any subject line or markdown formatting.
+
+Format your response exactly like this:
+\`\`\`mjml
+[Your MJML content here]
+\`\`\`` : `You must respond with exactly two parts:
 1. A compelling email subject line (max 60 characters)
 2. The MJML email content
 
@@ -224,7 +216,7 @@ Subject: [Your subject line here]
 
 \`\`\`mjml
 [Your MJML content here]
-\`\`\`
+\`\`\``}
 
 **MJML VALIDATION RULES - CRITICAL:**
 - Do NOT add font-family attributes to any MJML tags (mj-body, mj-section, mj-column, mj-text, mj-button, etc.)
@@ -417,23 +409,31 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
           const rawContent = messages.data[0].content[0].text.value;
           console.log('Raw AI response:', rawContent.substring(0, 1000) + '...');
           
-          // Parse subject line and MJML content
+          // Parse subject line and MJML content based on response format
           let subjectLine = '';
           let cleanedMjml = rawContent;
           
-          // Extract subject line if present
-          const subjectMatch = rawContent.match(/^Subject:\s*(.+)$/m);
-          if (subjectMatch) {
-            subjectLine = subjectMatch[1].trim();
-            // Remove the subject line from the content
-            cleanedMjml = rawContent.replace(/^Subject:\s*.+$/m, '').trim();
+          if (wantsMjml) {
+            // For MJML format, just clean up the markdown code block
+            cleanedMjml = rawContent
+              .replace(/^\s*```mjml/i, "")
+              .replace(/```[\s\n\r]*$/g, "")
+              .trim();
+          } else {
+            // For JSON format, extract subject line if present
+            const subjectMatch = rawContent.match(/^Subject:\s*(.+)$/m);
+            if (subjectMatch) {
+              subjectLine = subjectMatch[1].trim();
+              // Remove the subject line from the content
+              cleanedMjml = rawContent.replace(/^Subject:\s*.+$/m, '').trim();
+            }
+            
+            // Clean up MJML content
+            cleanedMjml = cleanedMjml
+              .replace(/^\s*```mjml/i, "")
+              .replace(/```[\s\n\r]*$/g, "")
+              .trim();
           }
-          
-          // Clean up MJML content
-          cleanedMjml = cleanedMjml
-            .replace(/^\s*```mjml/i, "")
-            .replace(/```[\s\n\r]*$/g, "")
-            .trim();
 
           // Only cache on success
           saveMJML(jobId, index, cleanedMjml);
@@ -643,10 +643,6 @@ ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null,
       const threadStats = threadPool.getStats();
 
 
-      // Check if client wants MJML format
-      const acceptHeader = req.headers.accept || '';
-      const wantsMjml = acceptHeader.includes('text/mjml') || acceptHeader.includes('application/mjml');
-      
       if (wantsMjml && finalResults.length > 0 && finalResults[0].content) {
         // Return the first email as MJML
         const mjmlContent = finalResults[0].content;

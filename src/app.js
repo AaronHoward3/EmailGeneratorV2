@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import emailRoutes from "./routes/emailRoutes.js";
 import brandRoutes from "./routes/brandRoutes.js";
-import { cacheMiddleware } from "./utils/responseCache.js";
 import { requestContext, createLogger } from "./utils/logger.js";
 
 const app = express();
