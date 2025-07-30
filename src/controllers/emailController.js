@@ -55,7 +55,10 @@ export async function generateEmails(req, res) {
       });
     }
 
-    let { brandData, emailType, userContext, imageContext, storeId, designAesthetic } = req.body;
+    let { brandData, emailType, userContext, imageContext, storeId, designAesthetic, tone } = req.body;
+
+// Normalize designStyle from designAesthetic if needed
+let designStyle = req.body.designStyle || designAesthetic || "Default";
 
     if (!brandData || !emailType) {
       console.error('Missing required fields:', { emailType, hasBrandData: !!brandData });
@@ -145,7 +148,7 @@ export async function generateEmails(req, res) {
       // Generate unique layouts with error handling
       let layouts;
       try {
-        const { designStyle = "Default" } = req.body;
+        
 
         layouts = getUniqueLayoutsBatch(emailType, designStyle, sessionId, 1, brandData);
         console.log('Generated layout:', layouts[0]);
@@ -171,7 +174,7 @@ export async function generateEmails(req, res) {
       
       const threads = await Promise.all(threadPromises);
       
-      const { designStyle = "Default" } = req.body;
+      
       
       const assistantId = specializedAssistants[emailType]?.[designStyle] || specializedAssistants[emailType]?.["Default"];
       
