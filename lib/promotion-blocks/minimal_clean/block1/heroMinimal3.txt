@@ -4,8 +4,8 @@
     <mj-column>
       <mj-divider border-width="2px" border-color="#E5E7EB" padding-bottom="20px" />
       <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" width="100%" padding="0px"></mj-image>
-      <mj-text align="center" font-size="30px" font-weight="bold" padding-top="30px" padding-bottom="10px">Simple, Clean Headline</mj-text>
-      <mj-text align="center" color="#666666">A short paragraph of text to support the main headline. Focused and easy to digest.</mj-text>
+      <mj-text align="center" font-size="30px" font-weight="bold" padding-top="30px" padding-bottom="10px">Title Text Here</mj-text>
+      <mj-text align="center" color="#666666">Subheader text here</mj-text>
       <mj-divider border-width="2px" border-color="#E5E7EB" padding-top="30px" />
     </mj-column>
   </mj-section>

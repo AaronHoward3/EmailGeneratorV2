@@ -1,8 +1,8 @@
 <!-- Footer Section -->
-<mj-section background-color="[[header_color]]" padding-bottom="2px" padding-top="20px" text-align="center">
+<mj-section background-color="[[body_color]]" padding-bottom="2px" padding-top="20px" text-align="center">
   <mj-column width="50%">
     <mj-image align="left" padding-bottom="5px" padding-left="10px" padding-right="0px" padding-top="3px" width="100px" src="[[logo_url]]" alt="[[store_name]]" href="[[store_url]]"></mj-image>
-    <mj-text color="#4A4A4A" padding-top="5px" padding-left="10px" line-height="1" css-class="mj-text-break">
+    <mj-text color="[[text_color]]" padding-top="5px" padding-left="10px" line-height="1" css-class="mj-text-break">
       <p style="line-height: 1;">
         <span style="font-size:12px;">Sent by:&nbsp;[[store_name]]</span>
       </p>
@@ -12,7 +12,7 @@
     </mj-text>
   </mj-column>
   <mj-column width="50%">
-    <mj-text color="#4A4A4A" padding-top="0px" padding-bottom="0px" padding-right="10px" padding-left="10px" line-height="1" css-class="mj-text-break" align="center">
+    <mj-text color="[[text_color]]" padding-top="0px" padding-bottom="0px" padding-right="10px" padding-left="10px" line-height="1" css-class="mj-text-break" align="center">
       <span style="font-size:18px;">FOLLOW US</span>
     </mj-text>
     <mj-social icon-size="27px" padding-top="5px" padding-left="10px" padding-right="10px" padding-bottom="5px" border-radius="4px" mode="horizontal">
@@ -20,9 +20,9 @@
     </mj-social>
   </mj-column>
 </mj-section>
-<mj-section background-color="[[header_color]]" padding-bottom="0" padding-top="5px" text-align="center">
+<mj-section background-color="[[body_color]]" padding-bottom="0" padding-top="5px" text-align="center">
   <mj-column>
-    <mj-text color="#4A4A4A" padding-bottom="1px" padding-left="0px" padding-right="0px" line-height="1.3" css-class="mj-text-break">
+    <mj-text color="[[text_color]]" padding-bottom="1px" padding-left="0px" padding-right="0px" line-height="1.3" css-class="mj-text-break">
       <p style="line-height: 1.3; text-align: center;">
         <span style="font-size:11px;">To unsubscribe from all future communications, click&nbsp;[[unsubscribe]]</span>
       </p>
@@ -31,4 +31,4 @@
       </p>
     </mj-text>
   </mj-column>
-</mj-section> 
+</mj-section>

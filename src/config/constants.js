@@ -200,8 +200,7 @@ export const BLOCK_DEFINITIONS = {
         content1: [
           "contentBold1.txt",
           "contentBold2.txt",
-          "contentBold3.txt",
-          "contentBold4.txt"
+          "contentBold3.txt"
         ],
         utility2: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
         cta: [
@@ -264,7 +263,7 @@ export const BLOCK_DEFINITIONS = {
 };
 
 export const TIMEOUTS = {
-  HERO_GENERATION: 60000,
+  HERO_GENERATION: 90000,
   EMAIL_GENERATION: 120000,
   ASSISTANT_RUN: 120000
 };
