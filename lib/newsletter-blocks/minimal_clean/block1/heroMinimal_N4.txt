@@ -1,14 +1,7 @@
 <!-- heroMinimal_N4 -->
 <mj-section background-color="#ffffff" padding="30px 20px 10px">
   <mj-column>
-    <mj-text
-      align="center"
-      font-size="24px"
-      font-weight="bold"
-      color="#111111"
-      class="headline"
-      padding-bottom="8px"
-    >
+    <mj-text align="center" font-size="24px" font-weight="bold" color="#111111" class="headline" padding-bottom="8px">
       Your Monthly Digest
     </mj-text>
     <mj-text align="center" font-size="15px" color="#777777">
@@ -20,18 +13,13 @@
 <!-- Divider Line -->
 <mj-section background-color="#ffffff" padding="0 20px">
   <mj-column>
-    <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0" />
+    <mj-divider border-color="#eeeeee" border-width="1px" padding="10px 0"></mj-divider>
   </mj-column>
 </mj-section>
 
 <!-- Hero Image -->
 <mj-section background-color="#ffffff" padding="0 20px 20px">
   <mj-column>
-    <mj-image
-      src="https://CUSTOMHEROIMAGE.COM"
-      alt="Hero Image"
-      border-radius="10px"
-      padding="0px"
-    />
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" border-radius="10px" padding="0px"></mj-image>
   </mj-column>
 </mj-section>
