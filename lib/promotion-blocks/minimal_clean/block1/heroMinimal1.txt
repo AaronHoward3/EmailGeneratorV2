@@ -1,9 +1,28 @@
 <!-- Blockfile: heroMinimal_1.txt -->
 <mj-wrapper padding="0px" css-class="hero-section">
-  <mj-section background-url="https://CUSTOMHEROIMAGE.COM" background-size="cover" background-repeat="no-repeat" padding="60px 0">
-    <mj-column background-color="rgba(255,255,255,0.85)" padding="40px" border-radius="8px">
-      <mj-text align="center" font-size="28px" font-weight="bold" padding-bottom="10px">Your Headline Goes Here</mj-text>
-      <mj-text align="center">Subheading or short supporting text can go here. Make it simple and clean.</mj-text>
+  <mj-section
+    background-url="https://CUSTOMHEROIMAGE.COM"
+    background-size="cover"
+    background-repeat="no-repeat"
+    background-position="center center"
+    padding-top="300px"
+    padding-bottom="300px"
+  >
+    <mj-column
+      background-color="rgba(255,255,255,0.8)"
+      padding="100px"
+    >
+      <mj-text
+        align="center"
+        font-size="40px"
+        font-weight="bold"
+        padding-bottom="10px"
+      >
+        Title Text Here
+      </mj-text>
+      <mj-text align="center">
+        Subheading text here
+      </mj-text>
     </mj-column>
   </mj-section>
 </mj-wrapper>

@@ -5,8 +5,8 @@
       <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" padding="0px"></mj-image>
     </mj-column>
     <mj-column width="50%" vertical-align="middle">
-      <mj-text font-size="26px" font-weight="bold" padding-bottom="10px">A Bold Statement</mj-text>
-      <mj-text>Clean layout. Sharp imagery. Drive attention with simplicity.</mj-text>
+      <mj-text font-size="26px" font-weight="bold" padding-bottom="10px">Title Text</mj-text>
+      <mj-text>Subheader Text</mj-text>
     </mj-column>
   </mj-section>
 </mj-wrapper>

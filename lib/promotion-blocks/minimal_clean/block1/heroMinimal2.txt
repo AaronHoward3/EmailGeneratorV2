@@ -1,10 +1,25 @@
 <!-- Blockfile: heroMinimal_2.txt -->
 <mj-wrapper padding="0px" background-color="#F3F4F6" css-class="hero-section">
-  <mj-section padding="60px 20px">
+  <mj-section padding="20px 20px">
     <mj-column>
-      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" width="100%" padding-bottom="20px"></mj-image>
-      <mj-text align="center" font-size="28px" font-weight="bold" padding-bottom="10px">Big Title Here</mj-text>
-      <mj-text align="center">This is a simple intro to the sale or collection. Keep it crisp.</mj-text>
+      <mj-image
+        src="https://CUSTOMHEROIMAGE.COM"
+        alt="Hero Image"
+        height="800px"
+        padding="0px"
+      />
+      <mj-text
+        align="center"
+        font-size="30px"
+        font-weight="bold"
+        padding-top="40px"
+        padding-bottom="10px"
+      >
+        TITLE TEXT HERE
+      </mj-text>
+      <mj-text align="center">
+        SUB TITLE HERE
+      </mj-text>
     </mj-column>
   </mj-section>
 </mj-wrapper>
