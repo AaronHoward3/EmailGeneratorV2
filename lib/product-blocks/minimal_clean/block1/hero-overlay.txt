@@ -1,14 +1,14 @@
-<mj-section padding="60px 20px" text-align="center">
+<mj-section background-color="#f0f0f0" padding="40px 0px">
   <mj-column>
-    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[brand_name]] Header" width="600px" padding="0 0 20px 0" align="center" href="[[store_url]]"></mj-image>
-    <mj-text font-size="32px" font-weight="bold" color="#ffffff" padding-bottom="12px" line->
-      The New Spring Lookbook Has Arrived
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[brand_name]] Header" width="600px" padding="20px 0px" align="center" href="[[store_url]]"></mj-image>
+    <mj-text align="center" font-size="32px" font-weight="bold" padding-top="10px">
+      Title text here
     </mj-text>
-    <mj-text font-size="18px" color="#f0f0f0" padding-bottom="20px" line->
-      Discover what's trending this season and explore pieces that elevate your everyday.
+    <mj-text align="center" font-size="18px" color="#555555" padding="5px 20px 20px">
+      Subtitle text here
     </mj-text>
-    <mj-button background-color="#ffffff" color="#000000" href="[[store_url]]" font-size="16px" font-weight="600" inner-padding="14px 28px" border-radius="6px">
-      Browse the Collection
+    <mj-button background-color="#111111" color="#ffffff" href="[[store_url]]" inner-padding="14px 28px" border-radius="6px">
+      Shop Now
     </mj-button>
   </mj-column>
 </mj-section>

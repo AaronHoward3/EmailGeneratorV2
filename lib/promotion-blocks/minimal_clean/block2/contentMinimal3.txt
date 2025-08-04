@@ -4,14 +4,14 @@
     <mj-group>
       <mj-column>
         <mj-image src="https://via.placeholder.com/300x300" alt="Product 1" padding="0px"></mj-image>
-        <mj-divider border-color="#E5E7EB" border-width="1px" padding="10px 0" />
+        <mj-divider border-color="#E5E7EB" border-width="1px" padding="10px 0"></mj-divider>
         <mj-text font-size="18px" font-weight="bold" padding-bottom="5px">Product Title</mj-text>
         <mj-text>$99.00</mj-text>
         <mj-button href="#">Shop Now</mj-button>
       </mj-column>
       <mj-column>
         <mj-image src="https://via.placeholder.com/300x300" alt="Product 2" padding="0px"></mj-image>
-        <mj-divider border-color="#E5E7EB" border-width="1px" padding="10px 0" />
+        <mj-divider border-color="#E5E7EB" border-width="1px" padding="10px 0"></mj-divider>
         <mj-text font-size="18px" font-weight="bold" padding-bottom="5px">Product Title</mj-text>
         <mj-text>$89.00</mj-text>
         <mj-button href="#">Shop Now</mj-button>

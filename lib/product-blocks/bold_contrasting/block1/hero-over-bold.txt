@@ -1,12 +1,11 @@
 <!-- Block: hero-over.txt -->
-  <mj-section background-url="https://CUSTOMHEROIMAGE.COM" background-size="cover" background-repeat="no-repeat" background-position="center center" padding="100px 20px">
-    <mj-column>
-      <mj-text align="center" font-size="36px" font-weight="bold" color="#ffffff" padding-bottom="10px">
-        [[hero_headline]]
-      </mj-text>
-      <mj-text align="center" font-size="18px" color="#ffffff">
-        [[hero_subhead]]
-      </mj-text>
-    </mj-column>
-  </mj-section>
-
+<mj-section background-url="https://CUSTOMHEROIMAGE.COM" background-size="cover" background-repeat="no-repeat" background-position="center center" padding="100px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="36px" font-weight="bold" color="#ffffff" padding-bottom="10px">
+      [[hero_headline]]
+    </mj-text>
+    <mj-text align="center" font-size="18px" color="#ffffff">
+      [[hero_subhead]]
+    </mj-text>
+  </mj-column>
+</mj-section>

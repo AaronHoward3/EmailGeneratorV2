@@ -15,6 +15,6 @@
 
 <mj-section padding="0px">
   <mj-column>
-    <mj-divider border-width="1px" border-style="solid" border-color="#241c23" />
+    <mj-divider border-width="1px" border-style="solid" border-color="#241c23"></mj-divider>
   </mj-column>
 </mj-section>

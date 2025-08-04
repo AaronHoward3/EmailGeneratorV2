@@ -2,10 +2,10 @@
 <mj-wrapper padding="0px" css-class="cta-section">
   <mj-section background-color="#000000" padding="60px 20px 40px">
     <mj-column>
-      <mj-divider border-width="2px" border-color="#ffffff" width="40px" padding-bottom="20px" />
-      <mj-text align="center" font-size="24px" font-weight="bold" color="#ffffff" padding-bottom="10px">GOING FAST</mj-text>
-      <mj-text align="center" color="#ffffff" padding-bottom="20px">Once it’s gone, it’s gone for good.</mj-text>
-      <mj-divider border-width="2px" border-color="#ffffff" width="40px" padding-top="20px" />
+      <mj-divider border-width="2px" border-color="#ffffff" width="40px" padding-bottom="20px"></mj-divider>
+      <mj-text align="center" font-size="24px" font-weight="bold" color="#ffffff" padding-bottom="10px">CTA TITLE</mj-text>
+      <mj-text align="center" color="#ffffff" padding-bottom="20px">CTA Sub title</mj-text>
+      <mj-divider border-width="2px" border-color="#ffffff" width="40px" padding-top="20px"></mj-divider>
       <mj-button href="#" background-color="#ffffff" color="#000000">Secure Yours</mj-button>
     </mj-column>
   </mj-section>

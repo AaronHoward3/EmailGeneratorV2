@@ -1,11 +1,11 @@
 <mj-section background-color="#ffffff" padding="40px 20px">
   <mj-column width="50%">
     <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[brand_name]] Logo" width="150px" padding="0 0 20px 0" align="left" href="[[store_url]]"></mj-image>
-    <mj-text font-size="28px" font-weight="bold" padding-bottom="12px" line->
-      Introducing Our New Spring Line
+    <mj-text font-size="28px" font-weight="bold" padding-bottom="12px">
+      Title Text Here
     </mj-text>
-    <mj-text font-size="16px" color="#555555" padding-bottom="20px" line->
-      Fresh looks, inspired by nature. Designed for your lifestyle.
+    <mj-text font-size="16px" color="#555555" padding-bottom="20px">
+      Subtitle text
     </mj-text>
     <mj-button background-color="#000000" color="#ffffff" href="[[store_url]]" inner-padding="14px 28px" border-radius="6px">
       Shop Now

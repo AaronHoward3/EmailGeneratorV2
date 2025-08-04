@@ -2,10 +2,10 @@
   <mj-column>
     <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[brand_name]] Header" width="600px" padding="20px 0px" align="center" href="[[store_url]]"></mj-image>
     <mj-text align="center" font-size="32px" font-weight="bold" padding-top="10px" line->
-      Introducing Our New Spring Line
+      Title text here
     </mj-text>
     <mj-text align="center" font-size="18px" color="#555555" padding="5px 20px 20px" line->
-      Fresh looks, inspired by nature. Designed for your lifestyle.
+      Subtitle text here
     </mj-text>
     <mj-button background-color="#111111" color="#ffffff" href="[[store_url]]" inner-padding="14px 28px" border-radius="6px">
       Shop Now
