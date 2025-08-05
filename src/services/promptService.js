@@ -1,7 +1,3 @@
-/**
- * Service for generating user prompts for email generation
- */
-
 export function generateUserPrompt({
   emailType,
   layout,
@@ -13,7 +9,7 @@ export function generateUserPrompt({
 }) {
   const sectionDescriptions = Object.entries(layout)
     .filter(([key]) => key !== "layoutId")
-    .filter(([key]) => wantsCustomHero || key !== "intro") // Exclude intro if no hero image
+    // ✅ DO NOT exclude intro block based on wantsCustomHero
     .map(([key, val]) => `- Block (${key}): ${val}`)
     .join("\n");
 
@@ -62,25 +58,20 @@ ${layoutInstruction}
     - Do NOT add height attributes to mj-section elements
     - All padding values must include units (e.g., "40px 0px" not "40px 0")
 
-    The structure of the email must be exactly these content blocks in order:${wantsCustomHero ? `
+    The structure of the email must be exactly these content blocks in order:
     1. intro
     2. utility1
     3. content
     4. utility2
     5. cta
-    6. footer` : `
-    1. utility1
-    2. content
-    3. utility2
-    4. cta
-    5. footer`}
+    6. footer
 
     "If the number of products exceeds the capacity of one product block (e.g., more than 2), add additional content1 sections with appropriate product blocks until all are included."
 
     **EMAIL STRUCTURE REQUIREMENTS:**
     - The email will have this structure (added automatically):
-    1. Header/Banner Image (banner_url if provided, otherwise logo_url)${wantsCustomHero ? `
-    2. Hero Content (your intro block - text only, no images)` : ''}
+    1. Header/Banner Image (banner_url if provided, otherwise logo_url)
+    2. Hero Content (your intro block - text only, no images)
     3. Main Content (your content blocks)
     4. Footer (added automatically)
 
@@ -90,27 +81,20 @@ ${layoutInstruction}
     - DO NOT include any header sections at all
     - Start your content directly with the hero text content
     - MUST NOT copy text, exact words, or exact phrases from template files. 
-    - MUST NOT copy text, exact words, or exact phrases from template files. 
     - MUST write new text content based off of Tone, and business summary.
-    -Must replace any and all text from blocks with fresh written content based off of context and summary.
+    - Must replace any and all text (Except https://CUSTOMHEROIMAGE.COM) from blocks with fresh written content based off of context and summary.
 
-    ${wantsCustomHero ? `**HERO SECTION REQUIREMENTS:**
-    - For the intro block, you may use hero templates that contain placeholder images (like "HeroOVER.txt")
-    - The placeholder images will be automatically replaced with the generated hero image
-    - The hero section should contain text content overlaid on the image
-    - DO NOT manually replace placeholder images - this will be handled automatically
-    - You may use templates with mj-raw blocks that contain placeholder images
-
-    **HERO TEMPLATE CHOICES:**
-    - Use "hero-with-text-cta" when you want a text-based primary section with headline, description, and CTA button
-    - Use "hero-with-featured-product" when you want to feature a specific product with large image, name, description, and buy button` : ''}
+    **HERO SECTION REQUIREMENTS:**
+    - Always include the intro block regardless of whether a customHeroImage is used
+    - If the intro block includes a placeholder image (like https://CUSTOMHEROIMAGE.COM), it will be automatically replaced
+    - You must still render the text content inside the intro section
+    - DO NOT skip the intro block — it is mandatory
 
     - Only use the correct product image for the corresponding product. Do not use any other images for products.
     - "Only return MJML inside a single markdown code block labeled 'mjml', no other text."
     - Do not include header or footer. Start with <mjml><mj-body> and end with </mj-body></mjml> and must not include text outside of those.
     - DO NOT use brandData.logo_url or brandData.banner_url in your content - these will be handled automatically
     - DO NOT create any header sections with logos or banners - these will be added automatically
-    - For product blocks, use the exact product data provided in brandData.
     - For product blocks, use the exact product data provided in brandData.
     - If brandData.products array is provided, map the fields as follows:
     * products[].name → product_title
@@ -129,7 +113,7 @@ ${layoutInstruction}
     - **Max width**: 600–640px
     - **Spacing**:
     - Between blocks: 40–60px
-    - - All text elements in hero or header sections must have left and right padding of at least 20px to prevent the text from running edge-to-edge.
+    - All text elements in hero or header sections must have left and right padding of at least 20px to prevent the text from running edge-to-edge.
     - Internal padding: 20–30px
     - Buttons: 14–16px vertical / 28–32px horizontal
     - **Typography**:
@@ -186,4 +170,4 @@ ${layoutInstruction}
 
     ${userInstructions}
     ${JSON.stringify({ ...brandData, email_type: emailType, designAesthetic }, null, 2)}`.trim();
-} 
+}

@@ -3,17 +3,17 @@
 <!-- Product 1 -->
 <mj-section background-color="#000000" padding="40px 0">
   <mj-column width="50%" padding="0 10px">
-    <mj-image src="[[product_image_url_1]]" alt="[[product_name_1]]" border-radius="12px"></mj-image>
+    <mj-image src="{{product_image_url_1}}" alt="{{product_name_1}}" border-radius="12px"></mj-image>
   </mj-column>
   <mj-column width="50%" padding="0 20px">
     <mj-text font-size="20px" font-weight="bold" color="#ffffff" padding-bottom="10px">
-      [[product_name_1]]
+      {{product_name_1}}
     </mj-text>
     <mj-text font-size="16px" color="#cccccc" padding-bottom="20px">
-      [[product_description_1]]
+      {{product_description_1}}
     </mj-text>
-    <mj-button href="[[product_url_1]]" background-color="#ffffff" color="#000000" border-radius="4px">
-      [[product_cta_1]]
+    <mj-button href="{{product_url_1}}" background-color="#ffffff" color="#000000" border-radius="4px">
+      {{product_cta_1}}
     </mj-button>
   </mj-column>
 </mj-section>
@@ -22,34 +22,34 @@
 <mj-section background-color="#ffffff" padding="40px 0">
   <mj-column width="50%" padding="0 20px">
     <mj-text font-size="20px" font-weight="bold" color="#241c23" padding-bottom="10px">
-      [[product_name_2]]
+      {{product_name_2}}
     </mj-text>
     <mj-text font-size="16px" color="#444444" padding-bottom="20px">
-      [[product_description_2]]
+      {{product_description_2}}
     </mj-text>
-    <mj-button href="[[product_url_2]]" background-color="#241c23" color="#ffffff" border-radius="4px">
-      [[product_cta_2]]
+    <mj-button href="{{product_url_2}}" background-color="#241c23" color="#ffffff" border-radius="4px">
+      {{product_cta_2}}
     </mj-button>
   </mj-column>
   <mj-column width="50%" padding="0 10px">
-    <mj-image src="[[product_image_url_2]]" alt="[[product_name_2]]" border-radius="12px"></mj-image>
+    <mj-image src="{{product_image_url_2}}" alt="{{product_name_2}}" border-radius="12px"></mj-image>
   </mj-column>
 </mj-section>
 
 <!-- Product 3 -->
 <mj-section background-color="#000000" padding="40px 0">
   <mj-column width="50%" padding="0 10px">
-    <mj-image src="[[product_image_url_3]]" alt="[[product_name_3]]" border-radius="12px"></mj-image>
+    <mj-image src="{{product_image_url_3}}" alt="{{product_name_3}}" border-radius="12px"></mj-image>
   </mj-column>
   <mj-column width="50%" padding="0 20px">
     <mj-text font-size="20px" font-weight="bold" color="#ffffff" padding-bottom="10px">
-      [[product_name_3]]
+      {{product_name_3}}
     </mj-text>
     <mj-text font-size="16px" color="#cccccc" padding-bottom="20px">
-      [[product_description_3]]
+      {{product_description_3}}
     </mj-text>
-    <mj-button href="[[product_url_3]]" background-color="#ffffff" color="#000000" border-radius="4px">
-      [[product_cta_3]]
+    <mj-button href="{{product_url_3}}" background-color="#ffffff" color="#000000" border-radius="4px">
+      {{product_cta_3}}
     </mj-button>
   </mj-column>
 </mj-section>

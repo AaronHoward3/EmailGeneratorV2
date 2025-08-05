@@ -7,16 +7,16 @@
 <mj-section background-color="#ffffff" padding="30px 20px 10px">
   <mj-column>
     <mj-text align="center" font-size="26px" font-weight="bold" color="#111111" class="headline" padding-bottom="10px">
-      July Newsletter
+      {{hero_title}}
     </mj-text>
     <mj-text align="center" font-size="16px" color="#666666" class="subtext">
-      A monthly roundup of updates, inspiration, and upcoming releases.
+      {{hero_subtitle}}
     </mj-text>
   </mj-column>
 </mj-section>
 
 <mj-section background-color="#ffffff" padding="0 20px">
   <mj-column>
-    <mj-divider border-width="1px" border-color="#e0e0e0" padding="10px 0" />
+    <mj-divider border-width="1px" border-color="#e0e0e0" padding="10px 0"></mj-divider>
   </mj-column>
 </mj-section>

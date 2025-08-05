@@ -2,10 +2,10 @@
   <mj-column>
     <mj-image src="https://CUSTOMHEROIMAGE.COM" border-radius="12px" alt="Hero Image" padding="0"></mj-image>
     <mj-text align="center" font-size="24px" font-weight="bold" color="#111111" padding-top="20px" class="headline">
-      The Highlights You Missed
+      {{hero_title}}
     </mj-text>
     <mj-text align="center" font-size="15px" color="#666666">
-      A curated look at the most impactful updates, ideas, and releases this month.
+      {{hero_subtitle}}
     </mj-text>
   </mj-column>
 </mj-section>

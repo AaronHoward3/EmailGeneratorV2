@@ -3,24 +3,24 @@
   <mj-column>
 
     <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      Subject title here
+      {{highlight_title_1}}
     </mj-text>
     <mj-text color="#555555" padding-bottom="20px">
-      Subject content paragraph
+      {{highlight_paragraph_1}}
     </mj-text>
 
     <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      Subject title here
+      {{highlight_title_2}}
     </mj-text>
     <mj-text color="#555555" padding-bottom="20px">
-      Subject content paragraph
+      {{highlight_paragraph_2}}
     </mj-text>
 
     <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      Subject title here
+      {{highlight_title_3}}
     </mj-text>
     <mj-text color="#555555">
-      Subject content paragraph
+      {{highlight_paragraph_3}}
     </mj-text>
 
   </mj-column>

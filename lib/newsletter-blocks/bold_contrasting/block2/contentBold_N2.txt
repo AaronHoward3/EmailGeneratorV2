@@ -4,10 +4,10 @@
     <!-- Left: Text -->
     <mj-column width="60%">
       <mj-text font-size="16px" font-weight="bold" padding-bottom="6px">
-        Subject title
+        {{title}}
       </mj-text>
       <mj-text color="#555555" line-height="1.6">
-        Subject content paragraph goes here for newsletter content.
+        {{paragraph}}
       </mj-text>
     </mj-column>
 

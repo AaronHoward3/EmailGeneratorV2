@@ -5,10 +5,10 @@
     </mj-column>
     <mj-column width="50%" padding="30px 20px">
       <mj-text font-size="24px" font-weight="bold" color="#111111" class="headline" padding-bottom="10px">
-        Inside This Issue
+        {{hero_title}}
       </mj-text>
       <mj-text font-size="15px" color="#555555" line-height="1.6">
-        Discover what’s new, what’s coming, and what we’re excited about — all packed into this month’s roundup.
+        {{hero_subtitle}}
       </mj-text>
     </mj-column>
   </mj-group>

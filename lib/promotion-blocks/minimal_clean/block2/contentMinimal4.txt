@@ -2,25 +2,39 @@
 <mj-wrapper padding="0px" css-class="product-section">
   <mj-section padding="40px 20px">
     <mj-column>
-      <mj-text align="center" font-size="22px" font-weight="bold" padding-bottom="20px">Featured Picks</mj-text>
+      <mj-text align="center" font-size="22px" font-weight="bold" padding-bottom="20px">
+        {{section_heading}}
+      </mj-text>
     </mj-column>
   </mj-section>
 
   <mj-section padding="0 20px">
     <mj-column background-color="#F9FAFB" padding="30px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" border-radius="4px" padding="0px"></mj-image>
-      <mj-text font-size="18px" font-weight="bold" padding-top="15px">Product Title</mj-text>
-      <mj-text>$119.00</mj-text>
-      <mj-button href="#" background-color="#111111" color="#ffffff" padding-top="15px">View Product</mj-button>
+      <mj-image src="{{product_1_image_url}}" alt="{{product_1_title}}" border-radius="4px" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="bold" padding-top="15px">
+        {{product_1_title}}
+      </mj-text>
+      <mj-text>
+        {{product_1_price}}
+      </mj-text>
+      <mj-button href="{{product_1_url}}" background-color="#111111" color="#ffffff" padding-top="15px">
+        {{product_1_button_label}}
+      </mj-button>
     </mj-column>
   </mj-section>
 
   <mj-section padding="20px 20px 0">
     <mj-column background-color="#F9FAFB" padding="30px" border-radius="6px">
-      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" border-radius="4px" padding="0px"></mj-image>
-      <mj-text font-size="18px" font-weight="bold" padding-top="15px">Product Title</mj-text>
-      <mj-text>$89.00</mj-text>
-      <mj-button href="#" background-color="#111111" color="#ffffff" padding-top="15px">View Product</mj-button>
+      <mj-image src="{{product_2_image_url}}" alt="{{product_2_title}}" border-radius="4px" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="bold" padding-top="15px">
+        {{product_2_title}}
+      </mj-text>
+      <mj-text>
+        {{product_2_price}}
+      </mj-text>
+      <mj-button href="{{product_2_url}}" background-color="#111111" color="#ffffff" padding-top="15px">
+        {{product_2_button_label}}
+      </mj-button>
     </mj-column>
   </mj-section>
 </mj-wrapper>

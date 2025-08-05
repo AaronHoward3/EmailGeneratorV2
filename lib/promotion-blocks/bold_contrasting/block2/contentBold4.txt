@@ -1,17 +1,18 @@
 <!-- Blockfile: contentBold_4.txt -->
 <mj-wrapper padding="0px" css-class="product-section">
+
   <!-- Section Title -->
   <mj-section background-color="#000000" padding="40px 20px 20px">
     <mj-column>
       <mj-text align="center" font-size="24px" font-weight="bold" color="#ffffff">
-        This Drop Won’t Wait
+        {{section_title}}
       </mj-text>
     </mj-column>
   </mj-section>
 
   <!-- Product 1 -->
   <mj-section
-    background-url="https://via.placeholder.com/600x600"
+    background-url="{{product1_image}}"
     background-size="cover"
     background-repeat="no-repeat"
     background-position="center center"
@@ -27,15 +28,17 @@
         padding="30px 20px"
         background-color="rgba(0,0,0,0.55)"
       >
-        Product One<br/><br/>
-        <a href="#" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Buy Now</a>
+        {{product1_name}}<br/><br/>
+        <a href="{{product1_url}}" style="color: #ffffff; text-decoration: underline; font-weight: bold;">
+          {{product1_cta}}
+        </a>
       </mj-text>
     </mj-column>
   </mj-section>
 
   <!-- Product 2 -->
   <mj-section
-    background-url="https://via.placeholder.com/600x600/111111/ffffff"
+    background-url="{{product2_image}}"
     background-size="cover"
     background-repeat="no-repeat"
     background-position="center center"
@@ -51,9 +54,12 @@
         padding="30px 20px"
         background-color="rgba(0,0,0,0.55)"
       >
-        Product Two<br/><br/>
-        <a href="#" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Buy Now</a>
+        {{product2_name}}<br/><br/>
+        <a href="{{product2_url}}" style="color: #ffffff; text-decoration: underline; font-weight: bold;">
+          {{product2_cta}}
+        </a>
       </mj-text>
     </mj-column>
   </mj-section>
+
 </mj-wrapper>

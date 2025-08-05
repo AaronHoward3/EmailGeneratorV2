@@ -18,7 +18,7 @@
         color="#ffffff"
         padding="0px"
       >
-        TITLE TEXT HERE
+        {{hero_title}}
       </mj-text>
     </mj-column>
   </mj-section>

@@ -4,21 +4,11 @@
   <!-- Text Section First -->
   <mj-section background-color="#000000" padding="40px 20px">
     <mj-column>
-      <mj-text
-        align="center"
-        font-size="34px"
-        font-weight="bold"
-        color="#ffffff"
-        padding-bottom="10px"
-      >
-        TITLE TEXT HERE
+      <mj-text align="center" font-size="34px" font-weight="bold" color="#ffffff" padding-bottom="10px">
+        {{hero_title}}
       </mj-text>
-      <mj-text
-        align="center"
-        font-size="16px"
-        color="#cccccc"
-      >
-        SUB TITLE HERE
+      <mj-text align="center" font-size="16px" color="#cccccc">
+        {{hero_subtitle}}
       </mj-text>
     </mj-column>
   </mj-section>
@@ -26,11 +16,7 @@
   <!-- Hero Image Section Second -->
   <mj-section padding="0">
     <mj-column>
-      <mj-image
-        src="https://CUSTOMHEROIMAGE.COM"
-        alt="Full Hero Image"
-        padding="0px"
-      />
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
 

@@ -15,14 +15,14 @@
         color="#ffffff"
         padding-bottom="10px"
       >
-        TITLE Text Here
+        {{hero_title}}
       </mj-text>
       <mj-text
         align="center"
         font-size="18px"
         color="#ffffff"
       >
-        Sub title text
+        {{hero_subtitle}}
       </mj-text>
     </mj-column>
   </mj-section>

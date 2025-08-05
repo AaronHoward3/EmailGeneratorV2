@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import ora from "ora";
-import { specializedAssistants } from "../config/constants.js";
+import { specializedAssistants, TIMEOUTS } from "../config/constants.js";
 import { getUniqueLayoutsBatch, cleanupSession } from "../utils/layoutGenerator.js";
 import { getThreadPool } from "../utils/threadPool.js";
 import { retryOpenAI } from "../utils/retryUtils.js";
@@ -111,7 +111,7 @@ export async function generateEmails(req, res) {
         ? Promise.race([
             generateCustomHeroAndEnrich(brandData, storeId, jobId),
             new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Hero generation timeout')), 90000)
+              setTimeout(() => reject(new Error('Hero generation timeout')), TIMEOUTS.HERO_GENERATION)
             )
           ]).catch((err) => {
             console.error("Failed to generate custom hero image:", err.message);
@@ -408,9 +408,9 @@ export async function generateEmails(req, res) {
             
             // If hero generation failed (timeout), remove hero image sections to avoid broken images
             if (wantsCustomHero && finalBrandData.hero_image_url?.includes("CUSTOMHEROIMAGE")) {
-              console.log('Removing hero image sections due to generation timeout');
-              // Remove entire mj-section blocks that contain CUSTOMHEROIMAGE
-              updated = updated.replace(/<mj-section[^>]*>[\s\S]*?<mj-image[^>]*src="https:\/\/CUSTOMHEROIMAGE\.COM"[^>]*>[\s\S]*?<\/mj-section>/g, '');
+              console.warn('Hero image missing or timed out — leaving placeholder in place to preserve layout');
+              // You can optionally add a default fallback image here:
+              // updated = updated.replace(/src="https:\/\/CUSTOMHEROIMAGE\.COM"/g, 'src="https://via.placeholder.com/600x300?text=Hero+Image"');
             }
           }
 

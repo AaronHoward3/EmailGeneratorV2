@@ -2,9 +2,15 @@
 <mj-wrapper padding="0px" css-class="cta-section">
   <mj-section padding="40px 20px">
     <mj-column>
-      <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px">Don’t Miss Out</mj-text>
-      <mj-text align="center" padding-bottom="20px">This is your chance to grab what you love at a great price.</mj-text>
-      <mj-button href="#" align="center">Shop the Sale</mj-button>
+      <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px">
+        {{cta_title}}
+      </mj-text>
+      <mj-text align="center" padding-bottom="20px">
+        {{cta_subtitle}}
+      </mj-text>
+      <mj-button href="{{cta_url}}" align="center">
+        {{cta_button_label}}
+      </mj-button>
     </mj-column>
   </mj-section>
 </mj-wrapper>

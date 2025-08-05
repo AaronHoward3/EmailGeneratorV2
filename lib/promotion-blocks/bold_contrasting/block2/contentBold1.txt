@@ -3,14 +3,22 @@
   <mj-section background-color="#000000" padding="40px 20px">
     <mj-group>
       <mj-column>
-        <mj-image src="https://via.placeholder.com/300x400" alt="Product" border-radius="0px" padding="0px"></mj-image>
-        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px" color="#ffffff">Item Name</mj-text>
-        <mj-button href="#">Shop Now</mj-button>
+        <mj-image src="{{product1_image}}" alt="{{product1_name}}" border-radius="0px" padding="0px"></mj-image>
+        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px" color="#ffffff">
+          {{product1_name}}
+        </mj-text>
+        <mj-button href="{{product1_url}}">
+          {{product1_cta}}
+        </mj-button>
       </mj-column>
       <mj-column>
-        <mj-image src="https://via.placeholder.com/300x400" alt="Product" border-radius="0px" padding="0px"></mj-image>
-        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px" color="#ffffff">Item Name</mj-text>
-        <mj-button href="#">Shop Now</mj-button>
+        <mj-image src="{{product2_image}}" alt="{{product2_name}}" border-radius="0px" padding="0px"></mj-image>
+        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px" color="#ffffff">
+          {{product2_name}}
+        </mj-text>
+        <mj-button href="{{product2_url}}">
+          {{product2_cta}}
+        </mj-button>
       </mj-column>
     </mj-group>
   </mj-section>

@@ -62,7 +62,7 @@ export const BLOCK_DEFINITIONS = {
         utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
         content1: [
           "contentMinimal_N1.txt",
-          "contentMinimal_N2",
+          "contentMinimal_N2.txt",
           "contentMinimal_N3.txt",
           "contentMinimal_N4.txt"
         ],
@@ -87,7 +87,7 @@ export const BLOCK_DEFINITIONS = {
         utility1: ["divider-accent.txt", "divider-dotted.txt", "divider-line.txt", "labeled-divider.txt"],
         content1: [
           "contentBold_N1.txt",
-          "contentBold_N2",
+          "contentBold_N2.txt",
           "contentBold_N3.txt",
           "contentBold_N4.txt"
         ],
@@ -263,7 +263,7 @@ export const BLOCK_DEFINITIONS = {
 };
 
 export const TIMEOUTS = {
-  HERO_GENERATION: 90000,
+  HERO_GENERATION: 120000,
   EMAIL_GENERATION: 120000,
   ASSISTANT_RUN: 120000
 };

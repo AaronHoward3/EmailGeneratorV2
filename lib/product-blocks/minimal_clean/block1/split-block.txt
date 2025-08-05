@@ -1,17 +1,17 @@
 <mj-section background-color="#ffffff" padding="40px 20px">
   <mj-column width="50%">
-    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="[[brand_name]] Logo" width="150px" padding="0 0 20px 0" align="left" href="[[store_url]]"></mj-image>
+    <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{brand_name}} Logo" width="150px" padding="0 0 20px 0" align="left" href="{{store_url}}"></mj-image>
     <mj-text font-size="28px" font-weight="bold" padding-bottom="12px">
-      Title Text Here
+      {{splitblock_title}}
     </mj-text>
     <mj-text font-size="16px" color="#555555" padding-bottom="20px">
-      Subtitle text
+      {{splitblock_subtitle}}
     </mj-text>
-    <mj-button background-color="#000000" color="#ffffff" href="[[store_url]]" inner-padding="14px 28px" border-radius="6px">
-      Shop Now
+    <mj-button background-color="#000000" color="#ffffff" href="{{store_url}}" inner-padding="14px 28px" border-radius="6px">
+      {{cta_text}}
     </mj-button>
   </mj-column>
   <mj-column width="50%" vertical-align="middle">
-    <mj-image src="[[banner_url]]" alt="[[brand_name]] Banner" width="100%" align="center" href="[[store_url]]"></mj-image>
+    <mj-image src="{{banner_url}}" alt="{{brand_name}} Banner" width="100%" align="center" href="{{store_url}}"></mj-image>
   </mj-column>
 </mj-section>

@@ -2,18 +2,30 @@
 <mj-wrapper padding="0px" background-color="#E5E7EB" css-class="product-section">
   <mj-section padding="40px 20px">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" padding="0px"></mj-image>
-      <mj-text font-size="18px" font-weight="bold" padding-top="10px">Product Name</mj-text>
-      <mj-text>$99.99</mj-text>
-      <mj-button href="#">Add to Cart</mj-button>
+      <mj-image src="{{product_1_image_url}}" alt="{{product_1_title}}" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="bold" padding-top="10px">
+        {{product_1_title}}
+      </mj-text>
+      <mj-text>
+        {{product_1_price}}
+      </mj-text>
+      <mj-button href="{{product_1_url}}">
+        {{product_1_button_label}}
+      </mj-button>
     </mj-column>
   </mj-section>
   <mj-section padding="40px 20px">
     <mj-column>
-      <mj-image src="https://via.placeholder.com/600x400" alt="Product Image" padding="0px"></mj-image>
-      <mj-text font-size="18px" font-weight="bold" padding-top="10px">Product Name</mj-text>
-      <mj-text>$79.99</mj-text>
-      <mj-button href="#">Add to Cart</mj-button>
+      <mj-image src="{{product_2_image_url}}" alt="{{product_2_title}}" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="bold" padding-top="10px">
+        {{product_2_title}}
+      </mj-text>
+      <mj-text>
+        {{product_2_price}}
+      </mj-text>
+      <mj-button href="{{product_2_url}}">
+        {{product_2_button_label}}
+      </mj-button>
     </mj-column>
   </mj-section>
 </mj-wrapper>

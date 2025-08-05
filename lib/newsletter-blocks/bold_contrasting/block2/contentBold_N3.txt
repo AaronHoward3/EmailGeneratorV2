@@ -2,10 +2,10 @@
 <mj-section background-color="#ffffff" padding="30px 20px">
   <mj-column>
     <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      Subject title
+      {{stack_title_1}}
     </mj-text>
     <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
-      Subject content paragraph
+      {{stack_paragraph_1}}
     </mj-text>
   </mj-column>
 </mj-section>
@@ -14,10 +14,10 @@
 <mj-section background-color="#eaeaea" padding="30px 20px">
   <mj-column>
     <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      Subject title
+      {{stack_title_2}}
     </mj-text>
     <mj-text align="center" font-size="15px" color="#555555" class="stack-sub">
-      Subject content paragraph
+      {{stack_paragraph_2}}
     </mj-text>
   </mj-column>
 </mj-section>
@@ -26,10 +26,10 @@
 <mj-section background-color="#ffffff" padding="30px 20px">
   <mj-column>
     <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      Subject title
+      {{stack_title_3}}
     </mj-text>
     <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
-      Subject content paragraph
+      {{stack_paragraph_3}}
     </mj-text>
   </mj-column>
 </mj-section>

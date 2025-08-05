@@ -1,10 +1,10 @@
 <mj-section background-color="#f8f8f8" padding="50px 20px">
   <mj-column>
-    <mj-text align="center" font-size="18px" color="#333333" line- padding-bottom="20px">
-      [[cta_body_text]]
+    <mj-text align="center" font-size="18px" color="#333333" padding-bottom="20px">
+      {{cta_body_text}}
     </mj-text>
-    <mj-button align="center" href="[[cta_url]]" background-color="#007BFF" color="#ffffff" font-size="16px" inner-padding="14px 28px" border-radius="6px" >
-      [[cta_text]]
+    <mj-button align="center" href="{{cta_url}}" background-color="#007BFF" color="#ffffff" font-size="16px" inner-padding="14px 28px" border-radius="6px">
+      {{cta_text}}
     </mj-button>
   </mj-column>
 </mj-section>

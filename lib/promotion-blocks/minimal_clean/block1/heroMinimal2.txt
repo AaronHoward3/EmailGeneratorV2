@@ -2,12 +2,12 @@
 <mj-wrapper padding="0px" background-color="#F3F4F6" css-class="hero-section">
   <mj-section padding="20px 20px">
     <mj-column>
-      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" height="800px" padding="0px"></mj-image>
+      <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" height="800px" padding="0px"></mj-image>
       <mj-text align="center" font-size="30px" font-weight="bold" padding-top="40px" padding-bottom="10px">
-        TITLE TEXT HERE
+        {{hero_title}}
       </mj-text>
       <mj-text align="center">
-        SUB TITLE HERE
+        {{hero_subtitle}}
       </mj-text>
     </mj-column>
   </mj-section>

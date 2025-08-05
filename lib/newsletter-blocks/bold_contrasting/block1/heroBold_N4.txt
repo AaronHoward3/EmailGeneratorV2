@@ -2,13 +2,13 @@
 <mj-section background-color="#ffffff" padding="30px 20px 10px">
   <mj-column>
     <mj-text align="center" color="#ff5e5e" font-size="13px" text-transform="uppercase" letter-spacing="1px" padding-bottom="8px">
-      Title here
+      {{hero_label}}
     </mj-text>
     <mj-text align="center" font-size="30px" font-weight="bold" color="#000000" class="headline">
-      Sub title here
+      {{hero_title}}
     </mj-text>
     <mj-text align="center" font-size="16px" color="#666666" class="subhead">
-     Sub sub title here
+      {{hero_subsubtitle}}
     </mj-text>
   </mj-column>
 </mj-section>

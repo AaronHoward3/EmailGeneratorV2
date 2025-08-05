@@ -3,9 +3,15 @@
   <mj-section padding="40px 20px">
     <mj-column>
       <mj-divider border-color="#E5E7EB" border-width="2px" padding-bottom="20px"></mj-divider>
-      <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px">Wrap It Up with Style</mj-text>
-      <mj-text align="center" padding-bottom="20px">One last nudge to grab your reader’s attention.</mj-text>
-      <mj-button href="#" align="center" background-color="#000000">Explore the Collection</mj-button>
+      <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px">
+        {{cta_title}}
+      </mj-text>
+      <mj-text align="center" padding-bottom="20px">
+        {{cta_subtitle}}
+      </mj-text>
+      <mj-button href="{{cta_url}}" align="center" background-color="#000000">
+        {{cta_button_label}}
+      </mj-button>
     </mj-column>
   </mj-section>
 </mj-wrapper>
