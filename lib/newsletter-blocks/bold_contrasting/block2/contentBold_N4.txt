@@ -3,24 +3,24 @@
   <mj-column>
 
     <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      Fast Mode Activated
+      Subject title here
     </mj-text>
     <mj-text color="#555555" padding-bottom="20px">
-      Load times are 40% faster — across devices and dashboards.
+      Subject content paragraph
     </mj-text>
 
     <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      Layout Engine Overhaul
+      Subject title here
     </mj-text>
     <mj-text color="#555555" padding-bottom="20px">
-      Every grid, card, and column restructured for perfect visual balance.
+      Subject content paragraph
     </mj-text>
 
     <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      Dark Mode. Delivered.
+      Subject title here
     </mj-text>
     <mj-text color="#555555">
-      Automatically adapts to your system — or toggle it anytime.
+      Subject content paragraph
     </mj-text>
 
   </mj-column>

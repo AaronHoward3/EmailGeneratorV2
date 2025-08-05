@@ -2,10 +2,10 @@
 <mj-section background-color="#ffffff" padding="30px 20px">
   <mj-column>
     <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      New Navigation
+      Subject title
     </mj-text>
     <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
-      Get where you're going faster, with fewer clicks.
+      Subject content paragraph
     </mj-text>
   </mj-column>
 </mj-section>
@@ -14,10 +14,10 @@
 <mj-section background-color="#eaeaea" padding="30px 20px">
   <mj-column>
     <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      Smart Stats
+      Subject title
     </mj-text>
     <mj-text align="center" font-size="15px" color="#555555" class="stack-sub">
-      Your dashboard now tells you what matters — instantly.
+      Subject content paragraph
     </mj-text>
   </mj-column>
 </mj-section>
@@ -26,10 +26,10 @@
 <mj-section background-color="#ffffff" padding="30px 20px">
   <mj-column>
     <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      Cleaner Layouts
+      Subject title
     </mj-text>
     <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
-      We tightened up spacing, alignment, and readability site-wide.
+      Subject content paragraph
     </mj-text>
   </mj-column>
 </mj-section>

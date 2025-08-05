@@ -2,10 +2,10 @@
 <mj-section background-color="#000000" padding="40px 20px">
   <mj-column>
     <mj-text align="center" font-size="32px" font-weight="bold" color="#ffffff" class="headline" padding-bottom="10px">
-      THIS MONTH. BIG MOVES.
+      Title Here.
     </mj-text>
     <mj-text align="center" font-size="16px" color="#dddddd">
-      Catch the pulse. Skip the fluff.
+      Sub title here
     </mj-text>
   </mj-column>
 </mj-section>

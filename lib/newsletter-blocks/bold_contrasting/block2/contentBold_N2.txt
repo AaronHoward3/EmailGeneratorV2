@@ -4,16 +4,10 @@
     <!-- Left: Text -->
     <mj-column width="60%">
       <mj-text font-size="16px" font-weight="bold" padding-bottom="6px">
-        Feature in Focus: Priority Feed
+        Subject title
       </mj-text>
       <mj-text color="#555555" line-height="1.6">
-        See what matters first. Our new feed algorithm surfaces updates based on relevance and urgency — not just recency.
-      </mj-text>
-      <mj-text font-size="16px" font-weight="bold" padding-top="20px" padding-bottom="6px">
-        Creator Tools Revamped
-      </mj-text>
-      <mj-text color="#555555" line-height="1.6">
-        New publishing tools help you move faster and create cleaner layouts with fewer clicks.
+        Subject content paragraph goes here for newsletter content.
       </mj-text>
     </mj-column>
 

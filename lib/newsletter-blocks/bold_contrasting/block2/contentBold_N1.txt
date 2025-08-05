@@ -2,28 +2,28 @@
   <mj-column>
 
     <mj-text align="center" font-size="22px" font-weight="bold" padding-bottom="10px" class="chunky">
-      One Tap. Total Sync.
+      Subject 1 title
     </mj-text>
     <mj-text align="center" font-size="16px" color="#555555" padding-bottom="30px">
-      Your data now updates in real time — everywhere.
+      Subject 1 content
     </mj-text>
 
     <mj-divider border-color="#000000" border-width="2px" padding="10px 0" />
 
     <mj-text align="center" font-size="22px" font-weight="bold" padding="20px 0 10px" class="chunky">
-      Numbers That Talk Back.
+      Subject 2 title
     </mj-text>
     <mj-text align="center" font-size="16px" color="#555555" padding-bottom="30px">
-      A redesigned dashboard with insights that hit.
+      Subject 2 content
     </mj-text>
 
     <mj-divider border-color="#000000" border-width="2px" padding="10px 0" />
 
     <mj-text align="center" font-size="22px" font-weight="bold" padding="20px 0 10px" class="chunky">
-      New Look. Same Power.
+      Subject 3 title
     </mj-text>
     <mj-text align="center" font-size="16px" color="#555555">
-      We've cleaned it up. Sharpened the edges. Made it yours.
+      Subject 3 content
     </mj-text>
 
   </mj-column>

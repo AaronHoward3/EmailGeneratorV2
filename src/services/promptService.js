@@ -90,7 +90,9 @@ ${layoutInstruction}
     - DO NOT include any header sections at all
     - Start your content directly with the hero text content
     - MUST NOT copy text, exact words, or exact phrases from template files. 
+    - MUST NOT copy text, exact words, or exact phrases from template files. 
     - MUST write new text content based off of Tone, and business summary.
+    -Must replace any and all text from blocks with fresh written content based off of context and summary.
 
     ${wantsCustomHero ? `**HERO SECTION REQUIREMENTS:**
     - For the intro block, you may use hero templates that contain placeholder images (like "HeroOVER.txt")
