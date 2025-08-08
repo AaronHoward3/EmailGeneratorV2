@@ -61,8 +61,19 @@ app.use(express.json({
 if (process.env.NODE_ENV === 'production') {
   try {
     const compression = await import('compression');
-    app.use(compression.default());
-    logger.info('Compression middleware enabled');
+    app.use(
+      compression.default({
+        // 🚫 Never compress SSE, or proxies will buffer it
+        filter: (req, res) => {
+          const isSse =
+            (req.headers.accept || "").includes("text/event-stream") ||
+            String(req.query.stream) === "1";
+          if (isSse) return false;
+          return compression.default.filter(req, res);
+        }
+      })
+    );
+    logger.info('Compression middleware enabled (SSE disabled)');
   } catch (error) {
     logger.warn('Compression not available, continuing without it', { error: error.message });
   }

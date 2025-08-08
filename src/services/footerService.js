@@ -97,7 +97,7 @@ function injectSocialElements(processedFooter, socialElements) {
 
 export async function processFooterTemplate(brandData) {
   try {
-    const footerPath = path.join(__dirname, '../../lib/promotion-blocks/design-elements/footer.txt');
+    const footerPath = path.join(__dirname, '../../lib/design-elements/footer.txt');
     const footerTemplate = await fs.readFile(footerPath, 'utf8');
     const cleanedBrandData = cleanSocialUrls({ ...brandData });
     let processedFooter = replaceBasicPlaceholders(footerTemplate, cleanedBrandData);
