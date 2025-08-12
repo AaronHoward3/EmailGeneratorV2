@@ -1,18 +1,19 @@
-// src/services/subjectService.js
 import OpenAI from "openai";
+import { countTokens } from "../utils/tokenizer.js";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 /**
  * Generate a single compelling subject line (<= 60 chars).
- * Returns a string. Falls back to a safe default on error.
+ * Adds official usage + local counts to metrics.
  */
 export async function generateSubjectLine({
   brandData = {},
   emailType = "Promotion",
   designAesthetic = "bold_contrasting",
   userContext = "",
-  refinedMjml = ""
+  refinedMjml = "",
+  metrics,
 }) {
   const sys = `
 You are a marketing copywriter. Write ONE compelling email subject line.
@@ -32,6 +33,13 @@ contentHint (optional, may be empty): ${refinedMjml ? refinedMjml.slice(0, 2000)
 `.trim();
 
   try {
+    // local count for prompt
+    try {
+      const inTokens = await countTokens(`${sys}\n\n${user}`);
+      metrics?.addLocalUsage?.({ input: inTokens });
+    } catch {}
+
+    metrics?.start?.("subjectLine");
     const resp = await openai.chat.completions.create({
       model: process.env.SUBJECTLINE_MODEL || "gpt-4o-mini",
       temperature: 0.8,
@@ -41,11 +49,24 @@ contentHint (optional, may be empty): ${refinedMjml ? refinedMjml.slice(0, 2000)
         { role: "user", content: user }
       ]
     });
+    metrics?.end?.("subjectLine");
+
+    // official usage
+    metrics?.addUsageFromResponse?.(resp);
+
     const text = resp.choices?.[0]?.message?.content?.trim();
-    return (text || "").replace(/^["'“”]+|["'“”]+$/g, "").slice(0, 120);
+    const subject = (text || "").replace(/^["'“”]+|["'“”]+$/g, "").slice(0, 120);
+
+    // local count for output
+    try {
+      const outTokens = await countTokens(subject);
+      metrics?.addLocalUsage?.({ output: outTokens });
+    } catch {}
+
+    metrics?.log?.("Subject line generated:", subject);
+    return subject;
   } catch (e) {
     console.warn("Subject line generation failed:", e.message);
-    // Not fatal; return a safe generic fallback
     const name = brandData?.store_name || brandData?.name || "Your brand";
     return `${name}: New picks inside`;
   }

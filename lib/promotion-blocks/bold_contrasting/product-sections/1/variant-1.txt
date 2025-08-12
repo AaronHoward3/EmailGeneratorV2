@@ -1,0 +1,16 @@
+<mj-wrapper padding="0px">
+  <mj-section background-color="#000000" padding="16px 16px 8px 16px">
+    <mj-column>
+      <mj-text align="left" font-size="20px" font-weight="700" color="#ffffff" padding="0px">{{SECTION_TITLE}}</mj-text>
+    </mj-column>
+  </mj-section>
+  <mj-section background-color="#000000" padding="0 16px 24px 16px">
+    <mj-column width="100%">
+      <mj-image src="{{P1_IMAGE_URL}}" alt="{{P1_TITLE}}" padding="0px"></mj-image>
+      <mj-text font-size="18px" font-weight="700" color="#ffffff" padding="10px 0 0 0">{{P1_TITLE}}</mj-text>
+      <mj-text font-size="14px" color="#cccccc" padding="4px 0 0 0">{{P1_SUBTITLE}}</mj-text>
+      <mj-text font-size="16px" font-weight="700" color="#FFD700" padding="6px 0 0 0">{{P1_PRICE}}</mj-text>
+      <mj-button href="{{P1_BUTTON_URL}}" align="left" padding="10px 0 0 0" background-color="#FFD700" color="#000000" font-weight="700">{{P1_BUTTON_TEXT}}</mj-button>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

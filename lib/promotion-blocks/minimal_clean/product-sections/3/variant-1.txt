@@ -1,0 +1,32 @@
+<mj-wrapper padding="0px">
+  <mj-section background-color="#ffffff" padding="16px 16px 8px 16px">
+    <mj-column>
+      <mj-text align="left" font-size="18px" font-weight="600" color="#111111" padding="0px">{{SECTION_TITLE}}</mj-text>
+    </mj-column>
+  </mj-section>
+  <mj-section background-color="#ffffff" padding="0 16px 8px 16px">
+    <mj-column width="50%">
+      <mj-image src="{{P1_IMAGE_URL}}" alt="{{P1_TITLE}}" padding="0px"></mj-image>
+      <mj-text font-size="16px" color="#111111" padding="10px 0 0 0">{{P1_TITLE}}</mj-text>
+      <mj-text font-size="13px" color="#666666" padding="4px 0 0 0">{{P1_SUBTITLE}}</mj-text>
+      <mj-text font-size="14px" font-weight="600" color="#111111" padding="6px 0 0 0">{{P1_PRICE}}</mj-text>
+      <mj-button href="{{P1_BUTTON_URL}}" align="left" padding="10px 0 0 0" background-color="#111111" color="#ffffff">{{P1_BUTTON_TEXT}}</mj-button>
+    </mj-column>
+    <mj-column width="50%">
+      <mj-image src="{{P2_IMAGE_URL}}" alt="{{P2_TITLE}}" padding="0px"></mj-image>
+      <mj-text font-size="16px" color="#111111" padding="10px 0 0 0">{{P2_TITLE}}</mj-text>
+      <mj-text font-size="13px" color="#666666" padding="4px 0 0 0">{{P2_SUBTITLE}}</mj-text>
+      <mj-text font-size="14px" font-weight="600" color="#111111" padding="6px 0 0 0">{{P2_PRICE}}</mj-text>
+      <mj-button href="{{P2_BUTTON_URL}}" align="left" padding="10px 0 0 0" background-color="#111111" color="#ffffff">{{P2_BUTTON_TEXT}}</mj-button>
+    </mj-column>
+  </mj-section>
+  <mj-section background-color="#ffffff" padding="8px 16px 24px 16px">
+    <mj-column width="100%">
+      <mj-image src="{{P3_IMAGE_URL}}" alt="{{P3_TITLE}}" padding="0px"></mj-image>
+      <mj-text font-size="16px" color="#111111" padding="10px 0 0 0">{{P3_TITLE}}</mj-text>
+      <mj-text font-size="13px" color="#666666" padding="4px 0 0 0">{{P3_SUBTITLE}}</mj-text>
+      <mj-text font-size="14px" font-weight="600" color="#111111" padding="6px 0 0 0">{{P3_PRICE}}</mj-text>
+      <mj-button href="{{P3_BUTTON_URL}}" align="left" padding="10px 0 0 0" background-color="#111111" color="#ffffff">{{P3_BUTTON_TEXT}}</mj-button>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

@@ -1,4 +1,3 @@
-// src/controllers/emailController.js
 import { TIMEOUTS } from "../config/constants.js";
 import { generateCustomHeroAndEnrich } from "../services/heroImageService.js";
 import { processFooterTemplate } from "../services/footerService.js";
@@ -10,6 +9,8 @@ import {
   deleteMJML,
 } from "../utils/inMemoryStore.js";
 import { runTwoPassGeneration } from "../pipeline/twoPassGenerator.js";
+import { newMetrics, setLastMetrics } from "../utils/metrics.js";
+import { computeTextCostUSD } from "../utils/pricing.js";
 
 function isSse(req) {
   return (req.headers.accept || "").includes("text/event-stream") || String(req.query.stream) === "1";
@@ -34,7 +35,6 @@ export async function generateEmails(req, res) {
   const streaming = isSse(req);
   if (streaming) sseInit(res);
 
-  // 🔐 keep-alive heartbeat for SSE (prevents proxy idle timeouts)
   let hb;
   if (streaming) {
     hb = setInterval(() => {
@@ -43,9 +43,7 @@ export async function generateEmails(req, res) {
     req.on("close", () => clearInterval(hb));
   }
 
-  const send = streaming
-    ? (e, d) => sseSend(res, e, d)
-    : () => {};
+  const send = streaming ? (e, d) => sseSend(res, e, d) : () => {};
 
   try {
     send("start", { at: Date.now() });
@@ -67,7 +65,15 @@ export async function generateEmails(req, res) {
       (req.headers.accept || "").includes("text/mjml") ||
       (req.headers.accept || "").includes("application/mjml");
 
-    // optional color override from userContext
+    // METRICS
+    const m = newMetrics({ emailType, designAesthetic: designAesthetic || "bold_contrasting" });
+    m.log("Request received.", {
+      emailType,
+      designAesthetic: designAesthetic || "bold_contrasting",
+      hasProducts: Array.isArray(brandData?.products) ? brandData.products.length : 0,
+      wantsCustomHero: brandData?.customHeroImage === true
+    });
+
     if (userContext && typeof userContext === "string") {
       const cssColors = userContext.match(/\b(black|white|red|blue|green|yellow|orange|pink|purple|gray|grey|teal|cyan|magenta|lime|maroon|navy|olive|silver|gold|beige|brown|coral|crimson|indigo|ivory|khaki|lavender|mint|peach|plum|salmon|tan|turquoise)\b/gi);
       const hexColors = userContext.match(/#(?:[0-9a-fA-F]{3}){1,2}/g);
@@ -78,55 +84,54 @@ export async function generateEmails(req, res) {
 
     const jobId = `${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
 
-    // hero placeholder for generation
     const wantsCustomHero = brandData.customHeroImage === true;
     if (wantsCustomHero) {
       brandData.primary_custom_hero_image_banner = "https://CUSTOMHEROIMAGE.COM";
       brandData.hero_image_url = "https://CUSTOMHEROIMAGE.COM";
     }
 
-    // header image (banner or logo)
     brandData.header_image_url =
       brandData.banner_url && brandData.banner_url.trim() !== ""
         ? brandData.banner_url
         : brandData.logo_url || "";
 
-    // Start hero generation in parallel
+    // Hero (parallel)
     if (wantsCustomHero) send("hero:start", {});
     const heroPromise = wantsCustomHero
       ? Promise.race([
-          generateCustomHeroAndEnrich(brandData, storeId, jobId),
+          generateCustomHeroAndEnrich(brandData, storeId, jobId, { metrics: m }),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Hero generation timeout")), TIMEOUTS.HERO_GENERATION)
           )
         ]).catch(err => {
-          console.warn("Hero generation failed:", err.message);
+          m.log("Hero generation failed:", err.message);
           return brandData;
         })
       : Promise.resolve(brandData);
 
-    // Two-pass with status callbacks
+    // Two-pass refine
     let refinedMjml;
     send("refine:start", {});
-    const { refinedMjml: mjml } = await runTwoPassGeneration({
+    const { layout, refinedMjml: mjml } = await runTwoPassGeneration({
       emailType,
       designAesthetic: designAesthetic || "bold_contrasting",
       brandData,
       userContext,
       wantsMjml,
       onStatus: (event, payload) => {
-        // Re-map internal events to public ones
         if (event === "layout:chosen") send("layout:chosen", payload);
         if (event === "assistant:refine:start") send("refine:writing", payload);
         if (event === "assistant:refine:done") send("refine:done", payload);
-      }
+        m.log(`status:${event}`, payload || {});
+      },
+      metrics: m
     });
     refinedMjml = mjml;
 
     // Cache for post-processing
     saveMJML(jobId, 0, refinedMjml);
 
-    // Post-processing: footer + header + hero swap
+    // Post-processing
     send("finalizing", {});
     const finalBrandData = await heroPromise;
     const storedMjmls = getMJML(jobId) || [];
@@ -139,14 +144,7 @@ export async function generateEmails(req, res) {
           <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
         </mj-attributes>
         <mj-style inline="inline">
-          .header-image img {
-            max-height: 200px !important;
-            width: auto !important;
-            height: auto !important;
-            object-fit: contain !important;
-            display: block !important;
-            margin: 0 auto !important;
-          }
+          .header-image img { max-height: 200px !important; width: auto !important; height: auto !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; }
           @media only screen and (max-width:480px) {
             .hero-headline { font-size: 28px !important; line-height: 1.2 !important; }
             .hero-subhead { font-size: 16px !important; }
@@ -160,7 +158,6 @@ export async function generateEmails(req, res) {
       if (!mjml) return;
       let updated = mjml;
 
-      // header image
       if (finalBrandData.header_image_url && finalBrandData.header_image_url.trim() !== "") {
         const primaryColor =
           finalBrandData.colors && finalBrandData.colors.length > 0
@@ -187,7 +184,6 @@ export async function generateEmails(req, res) {
         updated = updated.replace(/<mj-body[^>]*>/, (m) => `${m}${headerImageSection}`);
       }
 
-      // hero swap
       if (
         finalBrandData.customHeroImage === true &&
         finalBrandData.hero_image_url &&
@@ -198,12 +194,10 @@ export async function generateEmails(req, res) {
         updated = updated.replace(/background-url="https:\/\/CUSTOMHEROIMAGE\.COM"/g, `background-url="${finalBrandData.hero_image_url}"`);
       }
 
-      // ensure head
       if (!updated.includes("<mj-head>")) {
         updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
       }
 
-      // remove old footer; add new
       updated = updated.replace(/<!-- Footer Section -->[\s\S]*?<\/mj-body>/g, "</mj-body>");
       if (footerMjml && updated.includes("</mj-body>") && !updated.includes("mj-social")) {
         updated = updated.replace("</mj-body>", `${footerMjml}\n</mj-body>`);
@@ -223,22 +217,42 @@ export async function generateEmails(req, res) {
       emailType,
       designAesthetic: designAesthetic || "bold_contrasting",
       userContext,
-      refinedMjml: mjmlOut
+      refinedMjml: mjmlOut,
+      metrics: m
     });
 
-    // Cleanup cache shortly after
+    // ---- COSTS: text + image + total ----
+    const textCosts = computeTextCostUSD(m.apiCalls || []);
+    const imageCosts = m.costs?.image; // possibly undefined if no image used
+    const totalUSD =
+      (textCosts?.totalUSD || 0) + (imageCosts?.imageTotalCostUSD || 0);
+
+    const summary = m.summary({ layout: layout?.layoutId || null });
+    summary.costsUSD = {
+      text: textCosts,
+      image: imageCosts,
+      totalUSD: Math.round((totalUSD + Number.EPSILON) * 1e5) / 1e5
+    };
+
+    setLastMetrics(summary);
+    m.log("Summary:", summary);
+
     setTimeout(() => deleteMJML(jobId), 1000);
 
     if (streaming) {
-      // ✅ send final data in-stream so frontend doesn't need a second request
-      send("result", { subjectLine, mjml: mjmlOut });
-      send("done", {});
+      sseSend(res, "metrics", summary);
+      sseSend(res, "result", { subjectLine, mjml: mjmlOut });
+      sseSend(res, "done", {});
       if (hb) clearInterval(hb);
       sseClose(res);
       return;
     }
 
-    // Non-streaming response
+    res.setHeader("X-Gen-RequestId", summary.requestId);
+    res.setHeader("X-Gen-TotalMs", String(summary.totalMs));
+    res.setHeader("X-Gen-InputTokens", String(summary.usage.inputTokens));
+    res.setHeader("X-Gen-OutputTokens", String(summary.usage.outputTokens));
+
     if (wantsMjml && mjmlOut) {
       res.setHeader("Content-Type", "text/mjml");
       res.setHeader("X-Subject-Line", subjectLine);
@@ -248,7 +262,13 @@ export async function generateEmails(req, res) {
     return res.json({
       success: true,
       subjectLine,
-      emails: [{ index: 1, content: mjmlOut }]
+      emails: [{ index: 1, content: mjmlOut }],
+      layoutId: summary.layout,
+      timesMs: summary.timesMs,
+      totalMs: summary.totalMs,
+      usage: summary.usage,
+      costsUSD: summary.costsUSD,
+      requestId: summary.requestId
     });
   } catch (error) {
     if (streaming) {
@@ -260,8 +280,6 @@ export async function generateEmails(req, res) {
     return res.status(500).json({ error: error.message });
   } finally {
     const requestDuration = performance.now() - requestStartTime;
-    if (!streaming) {
-      console.log(`[${new Date().toISOString()}] Request completed: ${req.method} ${req.url} - ${res.statusCode}`);
-    }
+    console.log(`[${new Date().toISOString()}] Request completed: ${req.method} ${req.url} - ${res.statusCode} (${requestDuration.toFixed(0)}ms)`);
   }
 }

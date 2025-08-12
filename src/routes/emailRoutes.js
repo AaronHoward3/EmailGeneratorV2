@@ -2,6 +2,7 @@ import express from "express";
 import { generateEmails } from "../controllers/emailController.js";
 import { getStoreStats, manualCleanup as storeCleanup } from "../utils/inMemoryStore.js";
 import { getThreadPool } from "../utils/threadPool.js";
+import { getLastMetrics } from "../utils/metrics.js";
 
 const router = express.Router();
 
@@ -39,6 +40,15 @@ router.post("/store/cleanup", (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// Debug endpoint
+router.get("/last-metrics", (req, res) => {
+  const summary = getLastMetrics();
+  if (!summary) {
+    return res.status(404).json({ error: "No metrics available yet" });
+  }
+  res.json(summary);
 });
 
 export default router; 
