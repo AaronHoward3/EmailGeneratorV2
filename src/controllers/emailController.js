@@ -1,13 +1,11 @@
+// src/controllers/emailController.js
+// Explicit style selection only. No styleSeed. Back-compat with designAesthetic.
+
 import { TIMEOUTS } from "../config/constants.js";
 import { generateCustomHeroAndEnrich } from "../services/heroImageService.js";
 import { processFooterTemplate } from "../services/footerService.js";
 import { generateSubjectLine } from "../services/subjectService.js";
-import {
-  saveMJML,
-  updateMJML,
-  getMJML,
-  deleteMJML,
-} from "../utils/inMemoryStore.js";
+import { saveMJML, updateMJML, getMJML, deleteMJML } from "../utils/inMemoryStore.js";
 import { runTwoPassGeneration } from "../pipeline/twoPassGenerator.js";
 import { newMetrics, setLastMetrics } from "../utils/metrics.js";
 import { computeTextCostUSD } from "../utils/pricing.js";
@@ -30,6 +28,9 @@ function sseClose(res) {
   try { res.end(); } catch {}
 }
 
+const normalizeStyleId = (v) =>
+  String(v || "minimal_clean").trim().toLowerCase().replace(/\s+/g, "_");
+
 export async function generateEmails(req, res) {
   const requestStartTime = performance.now();
   const streaming = isSse(req);
@@ -37,12 +38,9 @@ export async function generateEmails(req, res) {
 
   let hb;
   if (streaming) {
-    hb = setInterval(() => {
-      try { res.write(":hb\n\n"); } catch {}
-    }, 15000);
+    hb = setInterval(() => { try { res.write(":hb\n\n"); } catch {} }, 15000);
     req.on("close", () => clearInterval(hb));
   }
-
   const send = streaming ? (e, d) => sseSend(res, e, d) : () => {};
 
   try {
@@ -54,31 +52,31 @@ export async function generateEmails(req, res) {
       return res.status(400).json(err);
     }
 
-    let { brandData, emailType, userContext, imageContext, storeId, designAesthetic } = req.body;
+    let { brandData, emailType, userContext, imageContext, storeId, designAesthetic, styleId } = req.body;
     if (!brandData || !emailType) {
       const err = { error: "Missing brandData or emailType in request body." };
       if (streaming) { sseSend(res, "error", err); if (hb) clearInterval(hb); sseClose(res); return; }
       return res.status(400).json(err);
     }
 
+    const resolvedStyleId = normalizeStyleId(styleId || designAesthetic || "minimal_clean");
+
     const wantsMjml =
       (req.headers.accept || "").includes("text/mjml") ||
       (req.headers.accept || "").includes("application/mjml");
 
     // METRICS
-    const m = newMetrics({ emailType, designAesthetic: designAesthetic || "bold_contrasting" });
+    const m = newMetrics({ emailType, designAesthetic: resolvedStyleId });
     m.log("Request received.", {
       emailType,
-      designAesthetic: designAesthetic || "bold_contrasting",
+      designAesthetic: resolvedStyleId,
       hasProducts: Array.isArray(brandData?.products) ? brandData.products.length : 0,
       wantsCustomHero: brandData?.customHeroImage === true
     });
 
+    // Optional: color hints from userContext (ignored for brand colors per policy)
     if (userContext && typeof userContext === "string") {
-      const cssColors = userContext.match(/\b(black|white|red|blue|green|yellow|orange|pink|purple|gray|grey|teal|cyan|magenta|lime|maroon|navy|olive|silver|gold|beige|brown|coral|crimson|indigo|ivory|khaki|lavender|mint|peach|plum|salmon|tan|turquoise)\b/gi);
-      const hexColors = userContext.match(/#(?:[0-9a-fA-F]{3}){1,2}/g);
-      const combined = [ ...(cssColors || []).map(c => c.toLowerCase()), ...(hexColors || []) ];
-      if (combined.length) brandData.colors = combined.slice(0, 3);
+      /* no-op: do not override brandData.colors from user text */
     }
     if (imageContext) brandData.imageContext = imageContext.trim().slice(0, 300);
 
@@ -90,12 +88,12 @@ export async function generateEmails(req, res) {
       brandData.hero_image_url = "https://CUSTOMHEROIMAGE.COM";
     }
 
+    // Fallback header image
     brandData.header_image_url =
       brandData.banner_url && brandData.banner_url.trim() !== ""
         ? brandData.banner_url
         : brandData.logo_url || "";
 
-    // Hero (parallel)
     if (wantsCustomHero) send("hero:start", {});
     const heroPromise = wantsCustomHero
       ? Promise.race([
@@ -109,12 +107,12 @@ export async function generateEmails(req, res) {
         })
       : Promise.resolve(brandData);
 
-    // Two-pass refine
-    let refinedMjml;
+    // Generate (style pass inside)
     send("refine:start", {});
-    const { layout, refinedMjml: mjml } = await runTwoPassGeneration({
+    const { layout, refinedMjml, styleUsed } = await runTwoPassGeneration({
       emailType,
-      designAesthetic: designAesthetic || "bold_contrasting",
+      designAesthetic: resolvedStyleId, // used for layout and as fallback style
+      styleId: resolvedStyleId,         // explicit style (preferred)
       brandData,
       userContext,
       wantsMjml,
@@ -126,63 +124,29 @@ export async function generateEmails(req, res) {
       },
       metrics: m
     });
-    refinedMjml = mjml;
 
-    // Cache for post-processing
+    console.log("STYLE PALETTE USED:", styleUsed?.palette);
+
     saveMJML(jobId, 0, refinedMjml);
 
-    // Post-processing
+    // Hero replacement / footer stitching
     send("finalizing", {});
     const finalBrandData = await heroPromise;
-    const storedMjmls = getMJML(jobId) || [];
+    const stored = getMJML(jobId) || [];
     const footerMjml = await processFooterTemplate(finalBrandData);
 
     const fontHead = `
       <mj-head>
         <mj-attributes>
-          <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
-          <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif" />
+          <mj-text font-family="Helvetica Neue, Helvetica, Arial, sans-serif"></mj-text>
+          <mj-button font-family="Helvetica Neue, Helvetica, Arial, sans-serif"></mj-button>
         </mj-attributes>
-        <mj-style inline="inline">
-          .header-image img { max-height: 200px !important; width: auto !important; height: auto !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; }
-          @media only screen and (max-width:480px) {
-            .hero-headline { font-size: 28px !important; line-height: 1.2 !important; }
-            .hero-subhead { font-size: 16px !important; }
-            .header-image img { max-height: 150px !important; }
-          }
-        </mj-style>
       </mj-head>
     `;
 
-    (storedMjmls || []).forEach((mjml, index) => {
-      if (!mjml) return;
-      let updated = mjml;
-
-      if (finalBrandData.header_image_url && finalBrandData.header_image_url.trim() !== "") {
-        const primaryColor =
-          finalBrandData.colors && finalBrandData.colors.length > 0
-            ? finalBrandData.colors[0]
-            : "#ffffff";
-
-        const headerImageSection = `
-        <!-- Header Image Section -->
-        <mj-section padding="0px" background-color="${primaryColor}">
-          <mj-column>
-            <mj-image 
-              src="${finalBrandData.header_image_url}" 
-              href="[[store_url]]" 
-              alt="Header" 
-              padding="0px"
-              width="600px"
-              align="center"
-              border-radius="0px"
-              css-class="header-image">
-            </mj-image>
-          </mj-column>
-        </mj-section>`;
-
-        updated = updated.replace(/<mj-body[^>]*>/, (m) => `${m}${headerImageSection}`);
-      }
+    (stored || []).forEach((mjmlStr, index) => {
+      if (!mjmlStr) return;
+      let updated = mjmlStr;
 
       if (
         finalBrandData.customHeroImage === true &&
@@ -198,6 +162,7 @@ export async function generateEmails(req, res) {
         updated = updated.replace("<mjml>", `<mjml>${fontHead}`);
       }
 
+      // Remove any previous footer and append the new one
       updated = updated.replace(/<!-- Footer Section -->[\s\S]*?<\/mj-body>/g, "</mj-body>");
       if (footerMjml && updated.includes("</mj-body>") && !updated.includes("mj-social")) {
         updated = updated.replace("</mj-body>", `${footerMjml}\n</mj-body>`);
@@ -208,24 +173,21 @@ export async function generateEmails(req, res) {
       updateMJML(jobId, index, updated);
     });
 
-    const patched = getMJML(jobId) || [];
-    const mjmlOut = patched[0] || refinedMjml;
+    const mjmlOut = (getMJML(jobId) || [])[0] || refinedMjml;
 
-    // SUBJECT LINE
     const subjectLine = await generateSubjectLine({
       brandData: finalBrandData,
       emailType,
-      designAesthetic: designAesthetic || "bold_contrasting",
+      designAesthetic: resolvedStyleId,
       userContext,
       refinedMjml: mjmlOut,
       metrics: m
     });
 
-    // ---- COSTS: text + image + total ----
+    // Costs/metrics
     const textCosts = computeTextCostUSD(m.apiCalls || []);
-    const imageCosts = m.costs?.image; // possibly undefined if no image used
-    const totalUSD =
-      (textCosts?.totalUSD || 0) + (imageCosts?.imageTotalCostUSD || 0);
+    const imageCosts = m.costs?.image;
+    const totalUSD = (textCosts?.totalUSD || 0) + (imageCosts?.imageTotalCostUSD || 0);
 
     const summary = m.summary({ layout: layout?.layoutId || null });
     summary.costsUSD = {
@@ -235,23 +197,18 @@ export async function generateEmails(req, res) {
     };
 
     setLastMetrics(summary);
-    m.log("Summary:", summary);
-
     setTimeout(() => deleteMJML(jobId), 1000);
 
     if (streaming) {
       sseSend(res, "metrics", summary);
-      sseSend(res, "result", { subjectLine, mjml: mjmlOut });
+      sseSend(res, "result", { subjectLine, mjml: mjmlOut, styleUsed });
       sseSend(res, "done", {});
       if (hb) clearInterval(hb);
       sseClose(res);
       return;
     }
 
-    res.setHeader("X-Gen-RequestId", summary.requestId);
-    res.setHeader("X-Gen-TotalMs", String(summary.totalMs));
-    res.setHeader("X-Gen-InputTokens", String(summary.usage.inputTokens));
-    res.setHeader("X-Gen-OutputTokens", String(summary.usage.outputTokens));
+    res.setHeader("X-Style-Used", styleUsed?.id || resolvedStyleId);
 
     if (wantsMjml && mjmlOut) {
       res.setHeader("Content-Type", "text/mjml");
@@ -263,6 +220,7 @@ export async function generateEmails(req, res) {
       success: true,
       subjectLine,
       emails: [{ index: 1, content: mjmlOut }],
+      styleUsed,
       layoutId: summary.layout,
       timesMs: summary.timesMs,
       totalMs: summary.totalMs,
@@ -280,6 +238,8 @@ export async function generateEmails(req, res) {
     return res.status(500).json({ error: error.message });
   } finally {
     const requestDuration = performance.now() - requestStartTime;
-    console.log(`[${new Date().toISOString()}] Request completed: ${req.method} ${req.url} - ${res.statusCode} (${requestDuration.toFixed(0)}ms)`);
+    console.log(
+      `[${new Date().toISOString()}] Request completed: ${req.method} ${req.url} - ${res.statusCode} (${requestDuration.toFixed(0)}ms)`
+    );
   }
 }

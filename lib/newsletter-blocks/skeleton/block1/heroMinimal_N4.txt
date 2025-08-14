@@ -1,0 +1,23 @@
+<!-- heroMinimal_N4 -->
+<mj-section padding="30px 20px 10px">
+  <mj-column>
+    <mj-text mj-class="h1" align="center" font-size="24px" class="headline" padding-bottom="8px">
+      {{hero_title}}
+    </mj-text>
+    <mj-text mj-class="h2" align="center" font-size="15px">
+      {{hero_subtitle}}
+    </mj-text>
+  </mj-column>
+</mj-section>
+<!-- Divider Line -->
+<mj-section padding="0 20px">
+  <mj-column>
+    <mj-divider padding="10px 0"></mj-divider>
+  </mj-column>
+</mj-section>
+<!-- Hero Image -->
+<mj-section padding="0 20px 20px">
+  <mj-column>
+    <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" padding="0px"></mj-image>
+  </mj-column>
+</mj-section>

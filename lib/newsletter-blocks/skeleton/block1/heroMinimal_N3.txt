@@ -1,0 +1,11 @@
+<mj-section padding="40px 20px 20px">
+  <mj-column>
+    <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="Hero Image" padding="0"></mj-image>
+    <mj-text mj-class="h1" align="center" font-size="24px" padding-top="20px" class="headline">
+      {{hero_title}}
+    </mj-text>
+    <mj-text mj-class="h2" align="center" font-size="15px">
+      {{hero_subtitle}}
+    </mj-text>
+  </mj-column>
+</mj-section>

@@ -1,4 +1,6 @@
 // src/pipeline/twoPassGenerator.js
+// Two-pass: (1) layout + LLM refine (content only), (2) deterministic theming.
+
 import OpenAI from "openai";
 import ora from "ora";
 
@@ -8,6 +10,11 @@ import { renderProductSection } from "../services/productSectionService.js";
 import { injectBrandLinks } from "../utils/injectBrandLinks.js";
 import { newMetrics } from "../utils/metrics.js";
 import { countTokens } from "../utils/tokenizer.js";
+import { formatMjml } from "../utils/formatMjml.js";
+
+import { applyTheme } from "../theme/applyTheme.js";
+import { resolveSkinId, makeSkin } from "../theme/skins.js";
+import { buildBrandTokens } from "../theme/tokens.js";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -17,8 +24,9 @@ function buildRefinerPrompt({ baseMjml, emailType, designAesthetic, brandData, u
 
 TASK:
 - You are given a complete MJML skeleton built from fixed template blocks.
-- Your job is to only refine content: replace text copy, adjust colors (max 3), set hrefs, and set image src values.
+- Your job is to only refine content: replace text copy, set hrefs, set image src values.
 - Do not change structure or add/remove blocks.
+- Do NOT attempt to change colors or add new styles. Styling is handled later.
 
 STRICT RULES:
 - Keep all MJML tags and block structure as-is.
@@ -30,7 +38,7 @@ STRICT RULES:
 
 INPUTS:
 Email Type: ${emailType}
-Design Aesthetic: ${designAesthetic || "bold_contrasting"}
+Design Aesthetic: ${designAesthetic || "minimal_clean"}
 User Context: ${safeCtx || "None"}
 Brand Data JSON:
 ${JSON.stringify(brandData || {}, null, 2)}
@@ -42,19 +50,53 @@ ${baseMjml}
 `;
 }
 
+async function buildProductSectionWithFallbacks({ emailType, products, designAesthetic, seed }) {
+  if (!Array.isArray(products) || products.length === 0) return "";
+
+  const attempts = [ designAesthetic, "skeleton", "minimal_clean", "bold_contrasting" ].filter(Boolean);
+
+  for (const aesthetic of attempts) {
+    try {
+      const html = await renderProductSection({ emailType, aesthetic, products, seed });
+      if (html && typeof html === "string" && html.trim().length > 0) return html;
+    } catch {}
+  }
+  return "";
+}
+
+function injectProductSectionIntoMjml(baseMjml, productHtml) {
+  if (!productHtml) return baseMjml;
+
+  const tokenRe = /\[\[\s*PRODUCT_SECTION\s*\]\]/i;
+  if (tokenRe.test(baseMjml)) return baseMjml.replace(tokenRe, productHtml);
+
+  const closeSectionRe = /<\/mj-section>/i;
+  const match = baseMjml.match(closeSectionRe);
+  if (match && match.index != null) {
+    const insertAt = match.index + match[0].length;
+    return baseMjml.slice(0, insertAt) + "\n" + productHtml + "\n" + baseMjml.slice(insertAt);
+  }
+
+  if (baseMjml.includes("</mj-body>")) {
+    return baseMjml.replace("</mj-body>", `${productHtml}\n</mj-body>`);
+  }
+  return baseMjml + "\n" + productHtml;
+}
+
 export async function runTwoPassGeneration({
   emailType,
-  designAesthetic = "bold_contrasting",
+  designAesthetic = "minimal_clean",
   brandData,
   userContext,
   wantsMjml,
   onStatus = () => {},
   metrics,
+  styleId
 }) {
   const m = metrics ?? newMetrics({ emailType, designAesthetic });
   m.log("Generation started.", { emailType, designAesthetic });
 
-  // 1) Layout selection & compose base MJML
+  // 1) Layout selection & base MJML
   m.start("layout");
   const layout = await chooseLayout(emailType, designAesthetic);
   let baseMjml = await composeBaseMjml(emailType, designAesthetic, layout);
@@ -63,31 +105,27 @@ export async function runTwoPassGeneration({
   onStatus("layout:chosen", { layoutId: layout.layoutId });
   m.log("Layout chosen:", layout.layoutId);
 
-  // 1.1) Insert product section if needed
-  m.start("productSection");
+  // 1.1) Product section
   if ((emailType === "Promotion" || emailType === "Productgrid") && Array.isArray(brandData?.products)) {
-    const section = renderProductSection({
-      emailType,
-      aesthetic: designAesthetic,
-      products: brandData.products || [],
-      seed: layout.layoutId
+    m.start("productSection");
+    const productHtml = await buildProductSectionWithFallbacks({
+      emailType, products: brandData.products, designAesthetic, seed: layout.layoutId
     });
-    baseMjml = baseMjml.replace("[[PRODUCT_SECTION]]", section || "");
+    baseMjml = injectProductSectionIntoMjml(baseMjml, productHtml);
+    m.end("productSection");
   } else {
-    baseMjml = baseMjml.replace("[[PRODUCT_SECTION]]", "");
+    baseMjml = baseMjml.replace(/\[\[\s*PRODUCT_SECTION\s*\]\]/gi, "");
   }
-  m.end("productSection");
 
-  // 1.2) Make hero images clickable to brand homepage
-  const brandUrl =
-    brandData?.website || brandData?.brandUrl || brandData?.url || brandData?.homepage || "";
+  // 1.2) Make hero clickable
+  const brandUrl = brandData?.website || brandData?.brandUrl || brandData?.url || brandData?.homepage || "";
   baseMjml = injectBrandLinks(baseMjml, brandUrl);
 
   if (process.env.EG_DEBUG === "1") {
     console.log("\n=== BASE MJML (pre-refine) ===\n", baseMjml.slice(0, 1500), "\n=== /BASE ===\n");
   }
 
-  // 2) Refine via Chat Completions (returns official `usage`)
+  // 2) Refine via model – copy only
   const spinner = ora("Refining MJML...").start();
   try {
     onStatus("assistant:refine:start", { model: process.env.REFINE_MODEL || "gpt-4o-mini" });
@@ -96,55 +134,52 @@ export async function runTwoPassGeneration({
     const sys = wantsMjml
       ? "You return ONLY MJML content wrapped in ```mjml fences. No commentary."
       : "You will primarily output MJML. Keep structure intact.";
-    const prompt = buildRefinerPrompt({
-      baseMjml,
-      emailType,
-      designAesthetic,
-      brandData,
-      userContext
-    });
+    const prompt = buildRefinerPrompt({ baseMjml, emailType, designAesthetic, brandData, userContext });
 
-    // optional local count
     try {
-      const pt = await countTokens(`${sys}\n\n${prompt}`);
-      m.addLocalUsage?.({ input: pt });
+      const pt = await countTokens(`${sys}\n\n${prompt}`); m.addLocalUsage?.({ input: pt });
     } catch {}
 
     const resp = await retryOpenAI(async () =>
       openai.chat.completions.create({
         model: process.env.REFINE_MODEL || "gpt-4o-mini",
         temperature: 0.3,
-        messages: [
-          { role: "system", content: sys },
-          { role: "user", content: prompt }
-        ]
+        messages: [{ role: "system", content: sys }, { role: "user", content: prompt }]
       })
     );
 
-    // Official usage + record call for pricing
     m.addUsageFromResponse?.(resp);
-    m.recordApiCall?.({
-      step: "refine",
-      model: resp.model || process.env.REFINE_MODEL || "gpt-4o-mini",
-      usage: resp.usage
-    });
+    m.recordApiCall?.({ step: "refine", model: resp.model || process.env.REFINE_MODEL || "gpt-4o-mini", usage: resp.usage });
 
     const raw = resp.choices?.[0]?.message?.content || "";
     const refinedMjml = raw.replace(/^\s*```mjml/i, "").replace(/```[\s\n\r]*$/g, "").trim();
 
-    // optional local count
-    try {
-      const ot = await countTokens(refinedMjml);
-      m.addLocalUsage?.({ output: ot });
-    } catch {}
+    try { const ot = await countTokens(refinedMjml); m.addLocalUsage?.({ output: ot }); } catch {}
 
     m.end("emailRefine");
     spinner.succeed("Refinement complete");
     onStatus("assistant:refine:done", { ok: true });
 
-    return { layout, refinedMjml, metrics: m };
+    // 3) Deterministic theming (NO LLM)
+    const skinId = resolveSkinId(styleId || designAesthetic || "minimal_clean");
+    // Compute the actual skin pack so we can return it for logging/metrics
+    const tokens = buildBrandTokens({ brandData });
+    const skin = makeSkin(tokens, skinId);
+
+    const themedMjml = applyTheme(refinedMjml, { brandData }, skinId);
+
+    // 4) Pretty format
+    const prettyMjml = await formatMjml(themedMjml, {
+      normalizeDataUris: true,
+      stripTrackingParams: false
+    });
+
+    // Return the full skin pack (has .palette) instead of just the ID
+    return { layout, refinedMjml: prettyMjml, styleUsed: skin, metrics: m };
   } catch (err) {
     spinner.stop();
     throw err;
   }
 }
+
+export default runTwoPassGeneration;

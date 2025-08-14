@@ -1,0 +1,12 @@
+<mj-section padding="30px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="16px" padding-bottom="6px"> {{section_title_1}} </mj-text>
+    <mj-text align="center" padding-bottom="20px" line-height="1.6"> {{section_body_1}} </mj-text>
+    <mj-divider padding="10px 0"></mj-divider>
+    <mj-text align="center" font-size="16px" padding-bottom="6px"> {{section_title_2}} </mj-text>
+    <mj-text align="center" padding-bottom="20px" line-height="1.6"> {{section_body_2}} </mj-text>
+    <mj-divider padding="10px 0"></mj-divider>
+    <mj-text align="center" font-size="16px" padding-bottom="6px"> {{section_title_3}} </mj-text>
+    <mj-text align="center" line-height="1.6"> {{section_body_3}} </mj-text>
+  </mj-column>
+</mj-section>

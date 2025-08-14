@@ -1,0 +1,10 @@
+<mj-section padding="30px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="18px" padding-bottom="10px">
+      {{cta_title}}
+    </mj-text>
+    <mj-button mj-class="btn" href="#">
+      {{cta_button_label}}
+    </mj-button>
+  </mj-column>
+</mj-section>

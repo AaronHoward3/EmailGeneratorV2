@@ -1,0 +1,20 @@
+<mj-section padding-top="15px" padding-bottom="15px">
+  <mj-column>
+    <mj-image mj-class="img" width="600px" src="{{product_image}}" container-background-color="#FFFFFF" href="{{product_url}}"></mj-image>
+    <mj-text>
+      <div product-id="{{product_id}}" style="display:none;">product_tag</div>
+    </mj-text>
+    <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+      <p style="text-align: center;"><strong>{{product_title}}</strong></p>
+    </mj-text>
+    <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+      <p style="text-align: center;">{{product_description}}</p>
+    </mj-text>
+    <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+      <p style="text-align: center;">{{product_price}}</p>
+    </mj-text>
+    <mj-button mj-class="btn" padding="3px 5px" width="100%" container-background-color="#FFFFFF" href="{{product_url}}">
+      {{product_cta}}
+    </mj-button>
+  </mj-column>
+</mj-section>

@@ -1,0 +1,20 @@
+<mj-section padding="0px">
+  <mj-column>
+    <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="Newsletter Hero" padding="0px"></mj-image>
+  </mj-column>
+</mj-section>
+<mj-section padding="30px 20px 10px">
+  <mj-column>
+    <mj-text mj-class="h1" align="center" font-size="26px" class="headline" padding-bottom="10px">
+      {{hero_title}}
+    </mj-text>
+    <mj-text mj-class="h2" align="center" font-size="16px" class="subtext">
+      {{hero_subtitle}}
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section padding="0 20px">
+  <mj-column>
+    <mj-divider padding="10px 0"></mj-divider>
+  </mj-column>
+</mj-section>

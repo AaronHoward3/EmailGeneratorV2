@@ -1,0 +1,16 @@
+<!-- Blockfile: heroMinimal_3.txt -->
+<mj-wrapper padding="0px" css-class="hero-section">
+  <mj-section padding="60px 20px">
+    <mj-column>
+      <mj-divider padding-bottom="20px"></mj-divider>
+      <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" width="100%" padding="0px"></mj-image>
+      <mj-text mj-class="h1" align="center" font-size="30px" padding-top="30px" padding-bottom="10px">
+        {{hero_title}}
+      </mj-text>
+      <mj-text mj-class="h2" align="center">
+        {{hero_subtitle}}
+      </mj-text>
+      <mj-divider padding-top="30px"></mj-divider>
+    </mj-column>
+  </mj-section>
+</mj-wrapper>

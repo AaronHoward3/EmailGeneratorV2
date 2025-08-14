@@ -1,0 +1,58 @@
+<mj-section padding="40px 20px">
+  <mj-column>
+    <mj-text align="center" font-size="30px">
+      {{section_title}}
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section padding-top="15px" padding-bottom="15px">
+  <mj-group width="100%">
+    <!-- Product 1 -->
+    <mj-column css-class="product-list-module-group-mobile-responsive">
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;">
+          <span style="font-size:100%;"><strong>{{product1_title}}</strong></span>
+        </p>
+      </mj-text>
+      <mj-image mj-class="img" width="600px" src="{{product1_image}}" container-background-color="#FFFFFF" href="{{product1_url}}"></mj-image>
+      <mj-text>
+        <div product-id="{{product1_id}}" style="display:none;">product_tag</div>
+      </mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;">{{product1_description}}</p>
+      </mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;">{{product1_price}}</p>
+      </mj-text>
+      <mj-button mj-class="btn" padding="3px 5px" width="100%" container-background-color="#FFFFFF" href="{{product1_url}}">
+        {{product1_cta}}
+      </mj-button>
+    </mj-column>
+    <!-- Product 2 -->
+    <mj-column css-class="product-list-module-group-mobile-responsive">
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;">
+          <span style="font-size:100%;"><strong>{{product2_title}}</strong></span>
+        </p>
+      </mj-text>
+      <mj-image mj-class="img" width="600px" src="{{product2_image}}" container-background-color="#FFFFFF" href="{{product2_url}}"></mj-image>
+      <mj-text>
+        <div product-id="{{product2_id}}" style="display:none;">product_tag</div>
+      </mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;">{{product2_description}}</p>
+      </mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
+        <p style="text-align: center;">{{product2_price}}</p>
+      </mj-text>
+      <mj-button mj-class="btn" padding="3px 5px" width="100%" container-background-color="#FFFFFF" href="{{product2_url}}">
+        {{product2_cta}}
+      </mj-button>
+    </mj-column>
+  </mj-group>
+  <mj-column width="0">
+    <mj-text>
+      <div style="display:none;">products_list_tag</div>
+    </mj-text>
+  </mj-column>
+</mj-section>
