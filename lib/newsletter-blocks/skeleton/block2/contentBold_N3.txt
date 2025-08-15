@@ -1,35 +1,21 @@
 <!-- Stack Block 1 -->
-<mj-section background-color="#ffffff" padding="30px 20px">
+<mj-section padding="30px 20px">
   <mj-column>
-    <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      {{stack_title_1}}
-    </mj-text>
-    <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
-      {{stack_paragraph_1}}
-    </mj-text>
+    <mj-text align="center" font-size="20px" padding-bottom="10px" class="stack-title">{{stack_title_1}}</mj-text>
+    <mj-text align="center" font-size="15px" class="stack-sub">{{stack_paragraph_1}}</mj-text>
   </mj-column>
 </mj-section>
-
 <!-- Stack Block 2 -->
-<mj-section background-color="#eaeaea" padding="30px 20px">
+<mj-section padding="30px 20px">
   <mj-column>
-    <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      {{stack_title_2}}
-    </mj-text>
-    <mj-text align="center" font-size="15px" color="#555555" class="stack-sub">
-      {{stack_paragraph_2}}
-    </mj-text>
+    <mj-text align="center" font-size="20px" padding-bottom="10px" class="stack-title">{{stack_title_2}}</mj-text>
+    <mj-text align="center" font-size="15px" class="stack-sub">{{stack_paragraph_2}}</mj-text>
   </mj-column>
 </mj-section>
-
 <!-- Stack Block 3 -->
-<mj-section background-color="#ffffff" padding="30px 20px">
+<mj-section padding="30px 20px">
   <mj-column>
-    <mj-text align="center" font-size="20px" font-weight="bold" padding-bottom="10px" class="stack-title">
-      {{stack_title_3}}
-    </mj-text>
-    <mj-text align="center" font-size="15px" color="#666666" class="stack-sub">
-      {{stack_paragraph_3}}
-    </mj-text>
+    <mj-text align="center" font-size="20px" padding-bottom="10px" class="stack-title">{{stack_title_3}}</mj-text>
+    <mj-text align="center" font-size="15px" class="stack-sub">{{stack_paragraph_3}}</mj-text>
   </mj-column>
 </mj-section>

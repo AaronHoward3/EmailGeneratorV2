@@ -1,12 +1,8 @@
 <mj-section padding="40px 20px">
   <mj-column width="50%">
     <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="{{brand_name}} Logo" width="150px" padding="0 0 20px 0" align="left" href="{{store_url}}"></mj-image>
-    <mj-text font-size="28px" padding-bottom="12px">
-      {{splitblock_title}}
-    </mj-text>
-    <mj-text font-size="16px" padding-bottom="20px">
-      {{splitblock_subtitle}}
-    </mj-text>
+    <mj-text font-size="28px" padding-bottom="12px">{{splitblock_title}}</mj-text>
+    <mj-text font-size="16px" padding-bottom="20px">{{splitblock_subtitle}}</mj-text>
     <mj-button mj-class="btn" href="{{store_url}}" inner-padding="14px 28px">
       {{cta_text}}
     </mj-button>

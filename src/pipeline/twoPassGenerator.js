@@ -57,7 +57,7 @@ async function buildProductSectionWithFallbacks({ emailType, products, designAes
 
   for (const aesthetic of attempts) {
     try {
-      const html = await renderProductSection({ emailType, aesthetic, products, seed });
+      const html = await renderProductSection( emailType, aesthetic, products, seed );
       if (html && typeof html === "string" && html.trim().length > 0) return html;
     } catch {}
   }

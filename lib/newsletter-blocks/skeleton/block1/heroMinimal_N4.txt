@@ -1,12 +1,8 @@
 <!-- heroMinimal_N4 -->
 <mj-section padding="30px 20px 10px">
   <mj-column>
-    <mj-text mj-class="h1" align="center" font-size="24px" class="headline" padding-bottom="8px">
-      {{hero_title}}
-    </mj-text>
-    <mj-text mj-class="h2" align="center" font-size="15px">
-      {{hero_subtitle}}
-    </mj-text>
+    <mj-text mj-class="h1" align="center" font-size="24px" class="headline" padding-bottom="8px">{{hero_title}}</mj-text>
+    <mj-text mj-class="h2" align="center" font-size="15px">{{hero_subtitle}}</mj-text>
   </mj-column>
 </mj-section>
 <!-- Divider Line -->

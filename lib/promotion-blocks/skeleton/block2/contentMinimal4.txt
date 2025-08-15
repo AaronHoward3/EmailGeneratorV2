@@ -2,20 +2,14 @@
 <mj-wrapper padding="0px" css-class="product-section">
   <mj-section padding="40px 20px">
     <mj-column>
-      <mj-text align="center" font-size="22px" padding-bottom="20px">
-        {{section_heading}}
-      </mj-text>
+      <mj-text align="center" font-size="22px" padding-bottom="20px">{{section_heading}}</mj-text>
     </mj-column>
   </mj-section>
   <mj-section padding="0 20px">
     <mj-column padding="30px">
       <mj-image mj-class="img" src="{{product_1_image_url}}" alt="{{product_1_title}}" padding="0px"></mj-image>
-      <mj-text font-size="18px" padding-top="15px">
-        {{product_1_title}}
-      </mj-text>
-      <mj-text>
-        {{product_1_price}}
-      </mj-text>
+      <mj-text font-size="18px" padding-top="15px">{{product_1_title}}</mj-text>
+      <mj-text>{{product_1_price}}</mj-text>
       <mj-button mj-class="btn" href="{{product_1_url}}" padding-top="15px">
         {{product_1_button_label}}
       </mj-button>
@@ -24,12 +18,8 @@
   <mj-section padding="20px 20px 0">
     <mj-column padding="30px">
       <mj-image mj-class="img" src="{{product_2_image_url}}" alt="{{product_2_title}}" padding="0px"></mj-image>
-      <mj-text font-size="18px" padding-top="15px">
-        {{product_2_title}}
-      </mj-text>
-      <mj-text>
-        {{product_2_price}}
-      </mj-text>
+      <mj-text font-size="18px" padding-top="15px">{{product_2_title}}</mj-text>
+      <mj-text>{{product_2_price}}</mj-text>
       <mj-button mj-class="btn" href="{{product_2_url}}" padding-top="15px">
         {{product_2_button_label}}
       </mj-button>

@@ -1,12 +1,8 @@
 <mj-section padding="40px 0px">
   <mj-column>
     <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="{{brand_name}} Header" width="600px" padding="20px 0px" align="center" href="{{store_url}}"></mj-image>
-    <mj-text mj-class="h1" align="center" font-size="32px" padding-top="10px">
-      {{hero_title}}
-    </mj-text>
-    <mj-text mj-class="h2" align="center" font-size="18px" padding="5px 20px 20px">
-      {{hero_subtitle}}
-    </mj-text>
+    <mj-text mj-class="h1" align="center" font-size="32px" padding-top="10px">{{hero_title}}</mj-text>
+    <mj-text mj-class="h2" align="center" font-size="18px" padding="5px 20px 20px">{{hero_subtitle}}</mj-text>
     <mj-button mj-class="btn" href="{{store_url}}" inner-padding="14px 28px">
       {{cta_text}}
     </mj-button>

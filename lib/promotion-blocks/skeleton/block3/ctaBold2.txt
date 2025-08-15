@@ -1,16 +1,12 @@
 <!-- Blockfile: ctaBold_2.txt -->
 <mj-wrapper padding="0px" css-class="cta-section">
-  <mj-section background-color="#000000" padding="60px 20px 40px">
+  <mj-section padding="60px 20px 40px">
     <mj-column>
       <mj-divider border-width="2px" border-color="#ffffff" width="40px" padding-bottom="20px"></mj-divider>
-      <mj-text align="center" font-size="24px" font-weight="bold" color="#ffffff" padding-bottom="10px">
-        {{cta_title}}
-      </mj-text>
-      <mj-text align="center" color="#ffffff" padding-bottom="20px">
-        {{cta_subtitle}}
-      </mj-text>
+      <mj-text align="center" font-size="24px" padding-bottom="10px">{{cta_title}}</mj-text>
+      <mj-text align="center" padding-bottom="20px">{{cta_subtitle}}</mj-text>
       <mj-divider border-width="2px" border-color="#ffffff" width="40px" padding-top="20px"></mj-divider>
-      <mj-button href="{{cta_url}}" background-color="#ffffff" color="#000000">
+      <mj-button mj-class="btn" href="{{cta_url}}">
         {{cta_button_label}}
       </mj-button>
     </mj-column>

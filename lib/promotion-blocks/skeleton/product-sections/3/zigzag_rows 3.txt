@@ -1,0 +1,35 @@
+<mj-section mj-class="prod">
+      <mj-column width="50%" vertical-align="middle">
+  <mj-image mj-class="img" src="{{P1_IMAGE_URL}}"
+            alt="{{P1_TITLE}}"
+            title="{{P1_TITLE}}"></mj-image>
+</mj-column>
+<mj-column width="50%" vertical-align="middle">
+  <mj-text mj-class="product-title" align="center">{{P1_TITLE}}</mj-text>
+  <mj-button mj-class="btn" href="{{P1_BUTTON_URL}}" align="center">{{P1_BUTTON_TEXT}}</mj-button>
+</mj-column>
+    </mj-section>
+
+<mj-section mj-class="prod">
+      <mj-column width="50%" vertical-align="middle">
+  <mj-text mj-class="product-title" align="center">{{P2_TITLE}}</mj-text>
+  <mj-button mj-class="btn" href="{{P2_BUTTON_URL}}" align="center">{{P2_BUTTON_TEXT}}</mj-button>
+</mj-column>
+<mj-column width="50%" vertical-align="middle">
+  <mj-image mj-class="img" src="{{P2_IMAGE_URL}}"
+            alt="{{P2_TITLE}}"
+            title="{{P2_TITLE}}"></mj-image>
+</mj-column>
+    </mj-section>
+
+<mj-section mj-class="prod">
+      <mj-column width="50%" vertical-align="middle">
+  <mj-image mj-class="img" src="{{P3_IMAGE_URL}}"
+            alt="{{P3_TITLE}}"
+            title="{{P3_TITLE}}"></mj-image>
+</mj-column>
+<mj-column width="50%" vertical-align="middle">
+  <mj-text mj-class="product-title" align="center">{{P3_TITLE}}</mj-text>
+  <mj-button mj-class="btn" href="{{P3_BUTTON_URL}}" align="center">{{P3_BUTTON_TEXT}}</mj-button>
+</mj-column>
+    </mj-section>

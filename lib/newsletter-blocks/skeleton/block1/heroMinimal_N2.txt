@@ -4,12 +4,8 @@
       <mj-image mj-class="img" src="https://CUSTOMHEROIMAGE.COM" alt="Hero Visual" padding="0px"></mj-image>
     </mj-column>
     <mj-column width="50%" padding="30px 20px">
-      <mj-text mj-class="h1" font-size="24px" class="headline" padding-bottom="10px">
-        {{hero_title}}
-      </mj-text>
-      <mj-text mj-class="h2" font-size="15px" line-height="1.6">
-        {{hero_subtitle}}
-      </mj-text>
+      <mj-text mj-class="h1" font-size="24px" class="headline" padding-bottom="10px">{{hero_title}}</mj-text>
+      <mj-text mj-class="h2" font-size="15px" line-height="1.6">{{hero_subtitle}}</mj-text>
     </mj-column>
   </mj-group>
 </mj-section>

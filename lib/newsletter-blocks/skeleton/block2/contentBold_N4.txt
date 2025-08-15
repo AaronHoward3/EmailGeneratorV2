@@ -1,27 +1,11 @@
 <!-- Vertical Highlights -->
-<mj-section background-color="#ffffff" padding="0 20px 30px">
+<mj-section padding="0 20px 30px">
   <mj-column>
-
-    <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      {{highlight_title_1}}
-    </mj-text>
-    <mj-text color="#555555" padding-bottom="20px">
-      {{highlight_paragraph_1}}
-    </mj-text>
-
-    <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      {{highlight_title_2}}
-    </mj-text>
-    <mj-text color="#555555" padding-bottom="20px">
-      {{highlight_paragraph_2}}
-    </mj-text>
-
-    <mj-text font-size="16px" font-weight="bold" padding="10px 0 6px" border-left="4px solid #000000" padding-left="12px" class="highlight-title">
-      {{highlight_title_3}}
-    </mj-text>
-    <mj-text color="#555555">
-      {{highlight_paragraph_3}}
-    </mj-text>
-
+    <mj-text font-size="16px" padding="10px 0 6px" padding-left="12px" class="highlight-title">{{highlight_title_1}}</mj-text>
+    <mj-text padding-bottom="20px">{{highlight_paragraph_1}}</mj-text>
+    <mj-text font-size="16px" padding="10px 0 6px" padding-left="12px" class="highlight-title">{{highlight_title_2}}</mj-text>
+    <mj-text padding-bottom="20px">{{highlight_paragraph_2}}</mj-text>
+    <mj-text font-size="16px" padding="10px 0 6px" padding-left="12px" class="highlight-title">{{highlight_title_3}}</mj-text>
+    <mj-text>{{highlight_paragraph_3}}</mj-text>
   </mj-column>
 </mj-section>

@@ -1,31 +1,25 @@
 <!-- Blockfile: contentBold_2.txt -->
 <mj-wrapper padding="0px" css-class="product-section">
-  <mj-section background-color="#F3F4F6" padding="60px 20px 0">
+  <mj-section padding="60px 20px 0">
     <mj-column>
       <mj-divider border-width="1px" border-color="#cccccc" padding-bottom="10px"></mj-divider>
-      <mj-text align="center" font-size="22px" font-weight="bold" color="#000000" padding-bottom="10px">
-        {{section_title}}
-      </mj-text>
+      <mj-text align="center" font-size="22px" padding-bottom="10px">{{section_title}}</mj-text>
       <mj-divider border-width="1px" border-color="#cccccc" padding-top="10px"></mj-divider>
     </mj-column>
   </mj-section>
-  <mj-section background-color="#F3F4F6" padding="40px 20px 60px">
+  <mj-section padding="40px 20px 60px">
     <mj-group>
       <mj-column>
-        <mj-image src="{{product1_image}}" alt="{{product1_name}}" padding="0px"></mj-image>
-        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">
-          {{product1_name}}
-        </mj-text>
-        <mj-button href="{{product1_url}}" background-color="#000000" color="#ffffff">
+        <mj-image mj-class="img" src="{{product1_image}}" alt="{{product1_name}}" padding="0px"></mj-image>
+        <mj-text align="center" font-size="18px" padding-top="15px">{{product1_name}}</mj-text>
+        <mj-button mj-class="btn" href="{{product1_url}}">
           {{product1_cta}}
         </mj-button>
       </mj-column>
       <mj-column>
-        <mj-image src="{{product2_image}}" alt="{{product2_name}}" padding="0px"></mj-image>
-        <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">
-          {{product2_name}}
-        </mj-text>
-        <mj-button href="{{product2_url}}" background-color="#000000" color="#ffffff">
+        <mj-image mj-class="img" src="{{product2_image}}" alt="{{product2_name}}" padding="0px"></mj-image>
+        <mj-text align="center" font-size="18px" padding-top="15px">{{product2_name}}</mj-text>
+        <mj-button mj-class="btn" href="{{product2_url}}">
           {{product2_cta}}
         </mj-button>
       </mj-column>

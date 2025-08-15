@@ -1,41 +1,27 @@
-<mj-section background-color="{{bg_1}}" padding="40px 20px">
+<mj-section padding="40px 20px">
   <mj-column width="40%">
-    <mj-image href="{{product1_url}}" src="{{product1_image}}" alt="{{product1_name}}" border-radius="12px"></mj-image>
+    <mj-image mj-class="img" href="{{product1_url}}" src="{{product1_image}}" alt="{{product1_name}}"></mj-image>
   </mj-column>
   <mj-column width="60%" padding-left="20px">
-    <mj-text font-size="20px" font-weight="bold" color="{{text_color}}" padding-bottom="8px">
-      {{product1_name}}
-    </mj-text>
-    <mj-text font-size="16px" color="{{text_body_color}}">
-      {{product1_description}}
-    </mj-text>
+    <mj-text font-size="20px" padding-bottom="8px">{{product1_name}}</mj-text>
+    <mj-text font-size="16px">{{product1_description}}</mj-text>
   </mj-column>
 </mj-section>
-
-<mj-section background-color="{{bg_2}}" padding="40px 20px">
+<mj-section padding="40px 20px">
   <mj-column width="40%">
-    <mj-image href="{{product2_url}}" src="{{product2_image}}" alt="{{product2_name}}" border-radius="12px"></mj-image>
+    <mj-image mj-class="img" href="{{product2_url}}" src="{{product2_image}}" alt="{{product2_name}}"></mj-image>
   </mj-column>
   <mj-column width="60%" padding-left="20px">
-    <mj-text font-size="20px" font-weight="bold" color="{{text_color}}" padding-bottom="8px">
-      {{product2_name}}
-    </mj-text>
-    <mj-text font-size="16px" color="{{text_body_color}}">
-      {{product2_description}}
-    </mj-text>
+    <mj-text font-size="20px" padding-bottom="8px">{{product2_name}}</mj-text>
+    <mj-text font-size="16px">{{product2_description}}</mj-text>
   </mj-column>
 </mj-section>
-
-<mj-section background-color="{{bg_3}}" padding="40px 20px">
+<mj-section padding="40px 20px">
   <mj-column width="40%">
-    <mj-image href="{{product3_url}}" src="{{product3_image}}" alt="{{product3_name}}" border-radius="12px"></mj-image>
+    <mj-image mj-class="img" href="{{product3_url}}" src="{{product3_image}}" alt="{{product3_name}}"></mj-image>
   </mj-column>
   <mj-column width="60%" padding-left="20px">
-    <mj-text font-size="20px" font-weight="bold" color="{{text_color}}" padding-bottom="8px">
-      {{product3_name}}
-    </mj-text>
-    <mj-text font-size="16px" color="{{text_body_color}}">
-      {{product3_description}}
-    </mj-text>
+    <mj-text font-size="20px" padding-bottom="8px">{{product3_name}}</mj-text>
+    <mj-text font-size="16px">{{product3_description}}</mj-text>
   </mj-column>
 </mj-section>

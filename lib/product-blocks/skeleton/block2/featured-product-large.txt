@@ -1,48 +1,35 @@
 <!-- Featured Product Large -->
-<mj-section background-color="#f8f8f8" padding="50px 20px">
+<mj-section padding="50px 20px">
   <mj-column>
-    <mj-image src="{{product_image_url1}}" alt="{{product_name1}}" width="100%" border-radius="12px"></mj-image>
-    <mj-text color="#241c23" font-size="22px" font-weight="bold" padding-top="20px" padding-bottom="10px" align="center">
-      {{product_name1}}
-    </mj-text>
-    <mj-text color="#241c23" font-size="16px" line-height="1.5" align="center" padding-bottom="20px">
-      {{product_description1}}
-    </mj-text>
-    <mj-button href="{{product_url1}}" background-color="#241c23" color="#ffffff" font-size="16px" border-radius="6px" inner-padding="12px 24px">
+    <mj-image mj-class="img" src="{{product_image_url1}}" alt="{{product_name1}}" width="100%"></mj-image>
+    <mj-text font-size="22px" padding-top="20px" padding-bottom="10px" align="center">{{product_name1}}</mj-text>
+    <mj-text font-size="16px" line-height="1.5" align="center" padding-bottom="20px">{{product_description1}}</mj-text>
+    <mj-button mj-class="btn" href="{{product_url1}}" font-size="16px" inner-padding="12px 24px">
       {{product_cta1}}
     </mj-button>
   </mj-column>
 </mj-section>
-
 <!-- Smaller Product Grid -->
-<mj-section background-color="#ffffff" padding="40px 20px">
+<mj-section padding="40px 20px">
   <mj-group>
     <mj-column width="33%">
-      <mj-image src="{{product_image_url2}}" alt="{{product_name2}}" border-radius="12px"></mj-image>
-      <mj-text align="center" color="#241c23" font-size="16px" font-weight="bold" padding-top="10px">
-        {{product_name2}}
-      </mj-text>
-      <mj-button href="{{product_url2}}" background-color="#241c23" color="#ffffff" font-size="14px" border-radius="4px" inner-padding="10px 20px">
+      <mj-image mj-class="img" src="{{product_image_url2}}" alt="{{product_name2}}"></mj-image>
+      <mj-text align="center" font-size="16px" padding-top="10px">{{product_name2}}</mj-text>
+      <mj-button mj-class="btn" href="{{product_url2}}" font-size="14px" inner-padding="10px 20px">
         {{product_cta2}}
       </mj-button>
     </mj-column>
-
     <mj-column width="33%">
-      <mj-image src="{{product_image_url3}}" alt="{{product_name3}}" border-radius="12px"></mj-image>
-      <mj-text align="center" color="#241c23" font-size="16px" font-weight="bold" padding-top="10px">
-        {{product_name3}}
-      </mj-text>
-      <mj-button href="{{product_url3}}" background-color="#241c23" color="#ffffff" font-size="14px" border-radius="4px" inner-padding="10px 20px">
+      <mj-image mj-class="img" src="{{product_image_url3}}" alt="{{product_name3}}"></mj-image>
+      <mj-text align="center" font-size="16px" padding-top="10px">{{product_name3}}</mj-text>
+      <mj-button mj-class="btn" href="{{product_url3}}" font-size="14px" inner-padding="10px 20px">
         {{product_cta3}}
       </mj-button>
     </mj-column>
-
     <mj-column width="33%">
-      <mj-image src="{{product_image_url4}}" alt="{{product_name4}}" border-radius="12px"></mj-image>
-      <mj-text align="center" color="#241c23" font-size="16px" font-weight="bold" padding-top="10px">
-        {{product_name4}}
-      </mj-text>
-      <mj-button href="{{product_url4}}" background-color="#241c23" color="#ffffff" font-size="14px" border-radius="4px" inner-padding="10px 20px">
+      <mj-image mj-class="img" src="{{product_image_url4}}" alt="{{product_name4}}"></mj-image>
+      <mj-text align="center" font-size="16px" padding-top="10px">{{product_name4}}</mj-text>
+      <mj-button mj-class="btn" href="{{product_url4}}" font-size="14px" inner-padding="10px 20px">
         {{product_cta4}}
       </mj-button>
     </mj-column>

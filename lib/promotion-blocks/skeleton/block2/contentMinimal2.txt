@@ -1,14 +1,10 @@
 <!-- Blockfile: contentMinimal_2.txt -->
-<mj-wrapper padding="0px" background-color="#E5E7EB" css-class="product-section">
+<mj-wrapper padding="0px" css-class="product-section">
   <mj-section padding="40px 20px">
     <mj-column>
       <mj-image mj-class="img" src="{{product_1_image_url}}" alt="{{product_1_title}}" padding="0px"></mj-image>
-      <mj-text font-size="18px" padding-top="10px">
-        {{product_1_title}}
-      </mj-text>
-      <mj-text>
-        {{product_1_price}}
-      </mj-text>
+      <mj-text font-size="18px" padding-top="10px">{{product_1_title}}</mj-text>
+      <mj-text>{{product_1_price}}</mj-text>
       <mj-button mj-class="btn" href="{{product_1_url}}">
         {{product_1_button_label}}
       </mj-button>
@@ -17,12 +13,8 @@
   <mj-section padding="40px 20px">
     <mj-column>
       <mj-image mj-class="img" src="{{product_2_image_url}}" alt="{{product_2_title}}" padding="0px"></mj-image>
-      <mj-text font-size="18px" padding-top="10px">
-        {{product_2_title}}
-      </mj-text>
-      <mj-text>
-        {{product_2_price}}
-      </mj-text>
+      <mj-text font-size="18px" padding-top="10px">{{product_2_title}}</mj-text>
+      <mj-text>{{product_2_price}}</mj-text>
       <mj-button mj-class="btn" href="{{product_2_url}}">
         {{product_2_button_label}}
       </mj-button>

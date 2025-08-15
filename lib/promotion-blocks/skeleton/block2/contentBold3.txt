@@ -1,39 +1,29 @@
 <!-- Blockfile: contentBold_3.txt -->
 <mj-wrapper padding="0px" css-class="product-section">
-
   <!-- Tagline Section -->
-  <mj-section background-color="#000000" padding="40px 20px">
+  <mj-section padding="40px 20px">
     <mj-column>
-      <mj-text align="center" font-size="22px" font-weight="bold" color="#ffffff" padding="0px">
-        {{tagline}}
-      </mj-text>
+      <mj-text align="center" font-size="22px" padding="0px">{{tagline}}</mj-text>
     </mj-column>
   </mj-section>
-
   <!-- Product 1 -->
-  <mj-section background-color="#ffffff" padding="40px 20px 20px">
+  <mj-section padding="40px 20px 20px">
     <mj-column>
-      <mj-image src="{{product1_image}}" alt="{{product1_name}}" padding="0px"></mj-image>
-      <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">
-        {{product1_name}}
-      </mj-text>
-      <mj-button href="{{product1_url}}" background-color="#000000" color="#ffffff">
+      <mj-image mj-class="img" src="{{product1_image}}" alt="{{product1_name}}" padding="0px"></mj-image>
+      <mj-text align="center" font-size="18px" padding-top="15px">{{product1_name}}</mj-text>
+      <mj-button mj-class="btn" href="{{product1_url}}">
         {{product1_cta}}
       </mj-button>
     </mj-column>
   </mj-section>
-
   <!-- Product 2 -->
-  <mj-section background-color="#ffffff" padding="20px 20px 60px">
+  <mj-section padding="20px 20px 60px">
     <mj-column>
-      <mj-image src="{{product2_image}}" alt="{{product2_name}}" padding="0px"></mj-image>
-      <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">
-        {{product2_name}}
-      </mj-text>
-      <mj-button href="{{product2_url}}" background-color="#000000" color="#ffffff">
+      <mj-image mj-class="img" src="{{product2_image}}" alt="{{product2_name}}" padding="0px"></mj-image>
+      <mj-text align="center" font-size="18px" padding-top="15px">{{product2_name}}</mj-text>
+      <mj-button mj-class="btn" href="{{product2_url}}">
         {{product2_cta}}
       </mj-button>
     </mj-column>
   </mj-section>
-
 </mj-wrapper>

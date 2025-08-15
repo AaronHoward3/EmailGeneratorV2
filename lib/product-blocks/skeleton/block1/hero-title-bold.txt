@@ -4,18 +4,12 @@
     <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" padding="0px"></mj-image>
   </mj-column>
 </mj-section>
-<mj-section background-color="#000000" padding="60px 20px">
+<mj-section padding="60px 20px">
   <mj-column>
-    <mj-text align="center" font-size="14px" font-weight="bold" color="#ffffff" text-transform="uppercase" padding-bottom="10px" letter-spacing="1.5px">
-      {{hero_kicker}}
-    </mj-text>
-    <mj-text align="center" font-size="40px" font-weight="bold" color="#ffffff" line-height="1.3" padding-bottom="20px">
-      {{hero_headline}}
-    </mj-text>
-    <mj-text align="center" font-size="18px" color="#cccccc" padding-bottom="20px">
-      {{hero_subhead}}
-    </mj-text>
-    <mj-button background-color="#ffffff" color="#000000" font-weight="bold" border-radius="4px" href="{{hero_cta_url}}">
+    <mj-text align="center" font-size="14px" padding-bottom="10px">{{hero_kicker}}</mj-text>
+    <mj-text align="center" font-size="40px" line-height="1.3" padding-bottom="20px">{{hero_headline}}</mj-text>
+    <mj-text align="center" font-size="18px" padding-bottom="20px">{{hero_subhead}}</mj-text>
+    <mj-button mj-class="btn" href="{{hero_cta_url}}">
       {{hero_cta_text}}
     </mj-button>
   </mj-column>

@@ -1,25 +1,21 @@
 <!-- Blockfile: heroBold_4.txt -->
 <mj-wrapper padding="0px">
   <mj-section
-    background-url="https://CUSTOMHEROIMAGE.COM"
-    background-size="cover"
-    background-repeat="no-repeat"
-    background-position="center center"
-    padding-top="400px"
-    padding-bottom="400px"
-    padding-left="20px"
-    padding-right="20px"
+  background-url="https://CUSTOMHEROIMAGE.COM"
+  background-size="cover"
+  background-repeat="no-repeat"
+  background-position="center center"
+  padding-top="400px"
+  padding-bottom="400px"
+  padding-left="20px"
+  padding-right="20px"
   >
-    <mj-column>
-      <mj-text
-        align="center"
-        font-size="42px"
-        font-weight="bold"
-        color="#ffffff"
-        padding="0px"
-      >
-        {{hero_title}}
-      </mj-text>
-    </mj-column>
-  </mj-section>
+  <mj-column>
+    <mj-text
+    align="center"
+    font-size="42px"
+    padding="0px"
+    >{{hero_title}}</mj-text>
+  </mj-column>
+</mj-section>
 </mj-wrapper>

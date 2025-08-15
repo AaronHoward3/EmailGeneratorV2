@@ -4,12 +4,8 @@
     <mj-column>
       <mj-divider border-width="2px" border-color="#E5E7EB" padding-bottom="20px"></mj-divider>
       <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" width="100%" padding="0px"></mj-image>
-      <mj-text align="center" font-size="30px" font-weight="bold" padding-top="30px" padding-bottom="10px">
-        {{hero_title}}
-      </mj-text>
-      <mj-text align="center" color="#666666">
-        {{hero_subtitle}}
-      </mj-text>
+      <mj-text align="center" font-size="30px" padding-top="30px" padding-bottom="10px">{{hero_title}}</mj-text>
+      <mj-text align="center">{{hero_subtitle}}</mj-text>
       <mj-divider border-width="2px" border-color="#E5E7EB" padding-top="30px"></mj-divider>
     </mj-column>
   </mj-section>

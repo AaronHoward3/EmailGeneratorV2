@@ -1,23 +1,16 @@
 <!-- Blockfile: heroBold_3.txt -->
 <mj-wrapper padding="0px" css-class="hero-section">
-
   <!-- Text Section First -->
-  <mj-section background-color="#000000" padding="40px 20px">
+  <mj-section padding="40px 20px">
     <mj-column>
-      <mj-text align="center" font-size="34px" font-weight="bold" color="#ffffff" padding-bottom="10px">
-        {{hero_title}}
-      </mj-text>
-      <mj-text align="center" font-size="16px" color="#cccccc">
-        {{hero_subtitle}}
-      </mj-text>
+      <mj-text align="center" font-size="34px" padding-bottom="10px">{{hero_title}}</mj-text>
+      <mj-text align="center" font-size="16px">{{hero_subtitle}}</mj-text>
     </mj-column>
   </mj-section>
-
   <!-- Hero Image Section Second -->
   <mj-section padding="0">
     <mj-column>
       <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" padding="0px"></mj-image>
     </mj-column>
   </mj-section>
-
 </mj-wrapper>

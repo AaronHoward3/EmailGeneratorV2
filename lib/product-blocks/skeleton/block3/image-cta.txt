@@ -1,8 +1,6 @@
 <mj-section padding="60px 20px">
   <mj-column>
-    <mj-text align="center" font-size="35px" padding-top="20px">
-      {{cta_heading}}
-    </mj-text>
+    <mj-text align="center" font-size="35px" padding-top="20px">{{cta_heading}}</mj-text>
     <mj-button mj-class="btn" align="center" href="{{cta_url}}" font-size="16px" inner-padding="14px 28px" padding-top="10px">
       {{cta_text}}
     </mj-button>

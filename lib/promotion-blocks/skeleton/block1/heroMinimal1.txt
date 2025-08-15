@@ -1,20 +1,16 @@
 <!-- Blockfile: heroMinimal_1.txt -->
 <mj-wrapper padding="0px" css-class="hero-section">
   <mj-section
-    background-url="https://CUSTOMHEROIMAGE.COM"
-    background-size="cover"
-    background-repeat="no-repeat"
-    background-position="center center"
-    padding-top="300px"
-    padding-bottom="300px"
+  background-url="https://CUSTOMHEROIMAGE.COM"
+  background-size="cover"
+  background-repeat="no-repeat"
+  background-position="center center"
+  padding-top="300px"
+  padding-bottom="300px"
   >
-    <mj-column background-color="rgba(255,255,255,0.8)" padding="100px">
-      <mj-text align="center" font-size="40px" font-weight="bold" padding-bottom="10px">
-        {{hero_title}}
-      </mj-text>
-      <mj-text align="center">
-        {{hero_subtitle}}
-      </mj-text>
-    </mj-column>
-  </mj-section>
+  <mj-column padding="100px">
+    <mj-text align="center" font-size="40px" padding-bottom="10px">{{hero_title}}</mj-text>
+    <mj-text align="center">{{hero_subtitle}}</mj-text>
+  </mj-column>
+</mj-section>
 </mj-wrapper>

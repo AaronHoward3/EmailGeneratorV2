@@ -1,18 +1,14 @@
 <!-- Block: image-cta-bold.txt -->
 <mj-section padding="0">
   <mj-column>
-    <mj-image src="{{cta_image_url}}" alt="{{cta_image_alt}}" padding="0"></mj-image>
+    <mj-image mj-class="img" src="{{cta_image_url}}" alt="{{cta_image_alt}}" padding="0"></mj-image>
   </mj-column>
 </mj-section>
-<mj-section background-color="#000000" padding="40px 20px">
+<mj-section padding="40px 20px">
   <mj-column>
-    <mj-text align="center" font-size="22px" font-weight="bold" color="#ffffff" padding-bottom="10px">
-      {{cta_headline}}
-    </mj-text>
-    <mj-text align="center" font-size="16px" color="#cccccc" padding-bottom="20px">
-      {{cta_body_text}}
-    </mj-text>
-    <mj-button align="center" href="{{cta_url}}" background-color="#ffffff" color="#000000" font-size="16px" inner-padding="14px 28px" border-radius="6px">
+    <mj-text align="center" font-size="22px" padding-bottom="10px">{{cta_headline}}</mj-text>
+    <mj-text align="center" font-size="16px" padding-bottom="20px">{{cta_body_text}}</mj-text>
+    <mj-button mj-class="btn" align="center" href="{{cta_url}}" font-size="16px" inner-padding="14px 28px">
       {{cta_text}}
     </mj-button>
   </mj-column>

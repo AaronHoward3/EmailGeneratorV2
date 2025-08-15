@@ -5,12 +5,8 @@
       <mj-image src="https://CUSTOMHEROIMAGE.COM" alt="{{hero_image_alt}}" padding="0px"></mj-image>
     </mj-column>
     <mj-column width="50%" vertical-align="middle">
-      <mj-text font-size="26px" font-weight="bold" padding-bottom="10px">
-        {{hero_title}}
-      </mj-text>
-      <mj-text>
-        {{hero_subtitle}}
-      </mj-text>
+      <mj-text font-size="26px" padding-bottom="10px">{{hero_title}}</mj-text>
+      <mj-text>{{hero_subtitle}}</mj-text>
     </mj-column>
   </mj-section>
 </mj-wrapper>

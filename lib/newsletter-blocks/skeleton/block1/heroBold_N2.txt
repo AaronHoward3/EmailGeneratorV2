@@ -1,14 +1,11 @@
 <!-- Title Box -->
-<mj-section background-color="#ffffff" padding="30px 20px 10px">
+<mj-section padding="30px 20px 10px">
   <mj-column>
-    <mj-text align="center" font-size="30px" font-weight="bold" color="#000000" padding="10px 20px" border="2px solid #000000" border-radius="8px" class="headline">
-      {{hero_title}}
-    </mj-text>
+    <mj-text align="center" font-size="30px" padding="10px 20px" class="headline">{{hero_title}}</mj-text>
   </mj-column>
 </mj-section>
-
 <!-- Hero Image -->
-<mj-section background-color="#ffffff" padding="20px 20px 0">
+<mj-section padding="20px 20px 0">
   <mj-column>
     <mj-image src="https://CUSTOMHEROIMAGE.COM" border-radius="8px" alt="Newsletter Hero" padding="0px"></mj-image>
   </mj-column>

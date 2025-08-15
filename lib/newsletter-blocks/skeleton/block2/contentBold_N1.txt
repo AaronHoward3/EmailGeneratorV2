@@ -1,30 +1,12 @@
-<mj-section background-color="#ffffff" padding="40px 20px">
+<mj-section padding="40px 20px">
   <mj-column>
-
-    <mj-text align="center" font-size="22px" font-weight="bold" padding-bottom="10px" class="chunky">
-      {{title_1}}
-    </mj-text>
-    <mj-text align="center" font-size="16px" color="#555555" padding-bottom="30px">
-      {{paragraph_1}}
-    </mj-text>
-
+    <mj-text align="center" font-size="22px" padding-bottom="10px" class="chunky">{{title_1}}</mj-text>
+    <mj-text align="center" font-size="16px" padding-bottom="30px">{{paragraph_1}}</mj-text>
     <mj-divider border-color="#000000" border-width="2px" padding="10px 0"></mj-divider>
-
-    <mj-text align="center" font-size="22px" font-weight="bold" padding="20px 0 10px" class="chunky">
-      {{title_2}}
-    </mj-text>
-    <mj-text align="center" font-size="16px" color="#555555" padding-bottom="30px">
-      {{paragraph_2}}
-    </mj-text>
-
+    <mj-text align="center" font-size="22px" padding="20px 0 10px" class="chunky">{{title_2}}</mj-text>
+    <mj-text align="center" font-size="16px" padding-bottom="30px">{{paragraph_2}}</mj-text>
     <mj-divider border-color="#000000" border-width="2px" padding="10px 0"></mj-divider>
-
-    <mj-text align="center" font-size="22px" font-weight="bold" padding="20px 0 10px" class="chunky">
-      {{title_3}}
-    </mj-text>
-    <mj-text align="center" font-size="16px" color="#555555">
-      {{paragraph_3}}
-    </mj-text>
-
+    <mj-text align="center" font-size="22px" padding="20px 0 10px" class="chunky">{{title_3}}</mj-text>
+    <mj-text align="center" font-size="16px">{{paragraph_3}}</mj-text>
   </mj-column>
 </mj-section>

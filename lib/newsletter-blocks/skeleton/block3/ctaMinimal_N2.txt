@@ -1,15 +1,11 @@
 <mj-section padding="20px 30px 40px">
   <mj-group>
     <mj-column width="66%">
-      <mj-text font-size="16px" padding-bottom="4px">
-        {{cta_title}}
-      </mj-text>
-      <mj-text>
-        {{cta_description}}
-      </mj-text>
+      <mj-text font-size="16px" padding-bottom="4px">{{cta_title}}</mj-text>
+      <mj-text>{{cta_description}}</mj-text>
     </mj-column>
     <mj-column width="33%" vertical-align="middle">
-      <mj-button mj-class="btn" href="#" padding="10px 0">
+      <mj-button mj-class="btn" href="{{ cta_url }}" padding="10px 0">
         {{cta_button_label}}
       </mj-button>
     </mj-column>

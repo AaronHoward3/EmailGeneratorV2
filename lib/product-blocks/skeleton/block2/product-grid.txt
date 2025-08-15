@@ -2,57 +2,33 @@
   <mj-group width="100%">
     <!-- Product 1 -->
     <mj-column css-class="product-list-module-group-mobile-responsive">
-      <mj-image mj-class="img" padding="0" width="600px" src="{{product_image1}}" container-background-color="#FFFFFF" href="{{product_url1}}"></mj-image>
-      <mj-text padding="0">
-        <div product-id="{{product_id1}}" style="display:none;">product_tag</div>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;"><span style="font-size:100%;"><strong>{{product_title1}}</strong></span></p>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;">{{product_description1}}</p>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;">{{product_price1}}</p>
-      </mj-text>
+      <mj-image mj-class="img" padding="0" width="600px" src="{{product_image1}}" container-background-color="#FFFFFF" href="{{product_url1}}" alt="{{ image_alt }}"></mj-image>
+      <mj-text padding="0"><div product-id="{{product_id1}}" style="display:none;">product_tag</div></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;"><span style="font-size:100%;"><strong>{{product_title1}}</strong></span></p></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;">{{product_description1}}</p></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;">{{product_price1}}</p></mj-text>
       <mj-button mj-class="btn" padding="3px 5px" width="100%" container-background-color="#FFFFFF" href="{{product_url1}}">
         {{product_cta1}}
       </mj-button>
     </mj-column>
     <!-- Product 2 -->
     <mj-column css-class="product-list-module-group-mobile-responsive">
-      <mj-image mj-class="img" padding="0" width="600px" src="{{product_image2}}" container-background-color="#FFFFFF" href="{{product_url2}}"></mj-image>
-      <mj-text padding="0">
-        <div product-id="{{product_id2}}" style="display:none;">product_tag</div>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;"><span style="font-size:100%;"><strong>{{product_title2}}</strong></span></p>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;">{{product_description2}}</p>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;">{{product_price2}}</p>
-      </mj-text>
+      <mj-image mj-class="img" padding="0" width="600px" src="{{product_image2}}" container-background-color="#FFFFFF" href="{{product_url2}}" alt="{{ image_alt }}"></mj-image>
+      <mj-text padding="0"><div product-id="{{product_id2}}" style="display:none;">product_tag</div></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;"><span style="font-size:100%;"><strong>{{product_title2}}</strong></span></p></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;">{{product_description2}}</p></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;">{{product_price2}}</p></mj-text>
       <mj-button mj-class="btn" padding="3px 5px" width="100%" container-background-color="#FFFFFF" href="{{product_url2}}">
         {{product_cta2}}
       </mj-button>
     </mj-column>
     <!-- Product 3 -->
     <mj-column css-class="product-list-module-group-mobile-responsive">
-      <mj-image mj-class="img" padding="0" width="600px" src="{{product_image3}}" container-background-color="#FFFFFF" href="{{product_url3}}"></mj-image>
-      <mj-text padding="0">
-        <div product-id="{{product_id3}}" style="display:none;">product_tag</div>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;"><span style="font-size:100%;"><strong>{{product_title3}}</strong></span></p>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;">{{product_description3}}</p>
-      </mj-text>
-      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF">
-        <p style="text-align: center;">{{product_price3}}</p>
-      </mj-text>
+      <mj-image mj-class="img" padding="0" width="600px" src="{{product_image3}}" container-background-color="#FFFFFF" href="{{product_url3}}" alt="{{ image_alt }}"></mj-image>
+      <mj-text padding="0"><div product-id="{{product_id3}}" style="display:none;">product_tag</div></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;"><span style="font-size:100%;"><strong>{{product_title3}}</strong></span></p></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;">{{product_description3}}</p></mj-text>
+      <mj-text css-class="mj-text-break" container-background-color="#FFFFFF"><p style="text-align: center;">{{product_price3}}</p></mj-text>
       <mj-button mj-class="btn" padding="3px 5px" width="100%" container-background-color="#FFFFFF" href="{{product_url3}}">
         {{product_cta3}}
       </mj-button>
@@ -60,8 +36,6 @@
   </mj-group>
   <!-- Hidden Tag Column -->
   <mj-column width="0">
-    <mj-text padding="0">
-      <div style="display:none;">products_list_tag</div>
-    </mj-text>
+    <mj-text padding="0">{{ body_text }}</mj-text>
   </mj-column>
 </mj-section>
